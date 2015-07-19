@@ -15,6 +15,11 @@
 		ACAF976F1B5C04A300CB53B1 /* PetrMazepaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAF976E1B5C04A300CB53B1 /* PetrMazepaTests.swift */; };
 		ACAF977A1B5C0A3C00CB53B1 /* SimpleArticle.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAF97791B5C0A3C00CB53B1 /* SimpleArticle.swift */; };
 		ACAF977C1B5C0B3B00CB53B1 /* MetaImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAF977B1B5C0B3B00CB53B1 /* MetaImage.swift */; };
+		ACAF97801B5C31B900CB53B1 /* SimpleArticlesParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAF977F1B5C31B900CB53B1 /* SimpleArticlesParser.swift */; };
+		ACAF97821B5C321500CB53B1 /* SimpleArticlesParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAF97811B5C321500CB53B1 /* SimpleArticlesParserTests.swift */; };
+		ACAF97831B5C330D00CB53B1 /* SimpleArticlesParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAF977F1B5C31B900CB53B1 /* SimpleArticlesParser.swift */; };
+		ACAF97841B5C339300CB53B1 /* SimpleArticle.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAF97791B5C0A3C00CB53B1 /* SimpleArticle.swift */; };
+		ACAF97851B5C339500CB53B1 /* MetaImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAF977B1B5C0B3B00CB53B1 /* MetaImage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +45,8 @@
 		ACAF976E1B5C04A300CB53B1 /* PetrMazepaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetrMazepaTests.swift; sourceTree = "<group>"; };
 		ACAF97791B5C0A3C00CB53B1 /* SimpleArticle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleArticle.swift; sourceTree = "<group>"; };
 		ACAF977B1B5C0B3B00CB53B1 /* MetaImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetaImage.swift; sourceTree = "<group>"; };
+		ACAF977F1B5C31B900CB53B1 /* SimpleArticlesParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleArticlesParser.swift; sourceTree = "<group>"; };
+		ACAF97811B5C321500CB53B1 /* SimpleArticlesParserTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleArticlesParserTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +111,7 @@
 			isa = PBXGroup;
 			children = (
 				ACAF976E1B5C04A300CB53B1 /* PetrMazepaTests.swift */,
+				ACAF97811B5C321500CB53B1 /* SimpleArticlesParserTests.swift */,
 				ACAF976C1B5C04A300CB53B1 /* Supporting Files */,
 			);
 			path = PetrMazepaTests;
@@ -120,10 +128,27 @@
 		ACAF97781B5C0A1B00CB53B1 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				ACAF977E1B5C319A00CB53B1 /* Parser */,
+				ACAF977D1B5C313300CB53B1 /* DO */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		ACAF977D1B5C313300CB53B1 /* DO */ = {
+			isa = PBXGroup;
+			children = (
 				ACAF97791B5C0A3C00CB53B1 /* SimpleArticle.swift */,
 				ACAF977B1B5C0B3B00CB53B1 /* MetaImage.swift */,
 			);
-			name = Model;
+			name = DO;
+			sourceTree = "<group>";
+		};
+		ACAF977E1B5C319A00CB53B1 /* Parser */ = {
+			isa = PBXGroup;
+			children = (
+				ACAF977F1B5C31B900CB53B1 /* SimpleArticlesParser.swift */,
+			);
+			name = Parser;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -228,6 +253,7 @@
 			files = (
 				ACAF975B1B5C04A200CB53B1 /* ViewController.swift in Sources */,
 				ACAF977C1B5C0B3B00CB53B1 /* MetaImage.swift in Sources */,
+				ACAF97801B5C31B900CB53B1 /* SimpleArticlesParser.swift in Sources */,
 				ACAF97591B5C04A200CB53B1 /* AppDelegate.swift in Sources */,
 				ACAF977A1B5C0A3C00CB53B1 /* SimpleArticle.swift in Sources */,
 			);
@@ -237,7 +263,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ACAF97841B5C339300CB53B1 /* SimpleArticle.swift in Sources */,
+				ACAF97831B5C330D00CB53B1 /* SimpleArticlesParser.swift in Sources */,
+				ACAF97851B5C339500CB53B1 /* MetaImage.swift in Sources */,
 				ACAF976F1B5C04A300CB53B1 /* PetrMazepaTests.swift in Sources */,
+				ACAF97821B5C321500CB53B1 /* SimpleArticlesParserTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
