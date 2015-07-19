@@ -13,6 +13,8 @@
 		ACAF97601B5C04A200CB53B1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACAF975F1B5C04A200CB53B1 /* Images.xcassets */; };
 		ACAF97631B5C04A200CB53B1 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = ACAF97611B5C04A200CB53B1 /* LaunchScreen.xib */; };
 		ACAF976F1B5C04A300CB53B1 /* PetrMazepaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAF976E1B5C04A300CB53B1 /* PetrMazepaTests.swift */; };
+		ACAF977A1B5C0A3C00CB53B1 /* SimpleArticle.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAF97791B5C0A3C00CB53B1 /* SimpleArticle.swift */; };
+		ACAF977C1B5C0B3B00CB53B1 /* MetaImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAF977B1B5C0B3B00CB53B1 /* MetaImage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +38,8 @@
 		ACAF97681B5C04A300CB53B1 /* PetrMazepaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PetrMazepaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACAF976D1B5C04A300CB53B1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ACAF976E1B5C04A300CB53B1 /* PetrMazepaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetrMazepaTests.swift; sourceTree = "<group>"; };
+		ACAF97791B5C0A3C00CB53B1 /* SimpleArticle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleArticle.swift; sourceTree = "<group>"; };
+		ACAF977B1B5C0B3B00CB53B1 /* MetaImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetaImage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +81,7 @@
 		ACAF97551B5C04A200CB53B1 /* PetrMazepa */ = {
 			isa = PBXGroup;
 			children = (
+				ACAF97781B5C0A1B00CB53B1 /* Model */,
 				ACAF97581B5C04A200CB53B1 /* AppDelegate.swift */,
 				ACAF975A1B5C04A200CB53B1 /* ViewController.swift */,
 				ACAF975C1B5C04A200CB53B1 /* Main.storyboard */,
@@ -110,6 +115,15 @@
 				ACAF976D1B5C04A300CB53B1 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		ACAF97781B5C0A1B00CB53B1 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				ACAF97791B5C0A3C00CB53B1 /* SimpleArticle.swift */,
+				ACAF977B1B5C0B3B00CB53B1 /* MetaImage.swift */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -213,7 +227,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				ACAF975B1B5C04A200CB53B1 /* ViewController.swift in Sources */,
+				ACAF977C1B5C0B3B00CB53B1 /* MetaImage.swift in Sources */,
 				ACAF97591B5C04A200CB53B1 /* AppDelegate.swift in Sources */,
+				ACAF977A1B5C0A3C00CB53B1 /* SimpleArticle.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -405,6 +421,7 @@
 				ACAF97741B5C04A300CB53B1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		ACAF97751B5C04A300CB53B1 /* Build configuration list for PBXNativeTarget "PetrMazepaTests" */ = {
 			isa = XCConfigurationList;
@@ -413,6 +430,7 @@
 				ACAF97771B5C04A300CB53B1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
