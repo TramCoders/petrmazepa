@@ -11,15 +11,16 @@ import XCTest
 
 class SimpleArticlesParserTests: XCTestCase {
 
-    var parser: SimpleArticlesParser = SimpleArticlesParser()
+    var parser = SimpleArticlesParser()
     
     override func setUp() {
+        
         super.setUp()
-        parser = SimpleArticlesParser()
+        //
     }
     
     override func tearDown() {
-        // Put teardown code here.
+        //
         super.tearDown()
     }
 
@@ -27,7 +28,26 @@ class SimpleArticlesParserTests: XCTestCase {
     
     func testThatReturnsEmptyArrayIfInputIsNil() {
         
-        var articles = parser.parse(nil)
-        XCTAssert(articles.count == 0, "Amount of articles must be 0")
+        let articles = parser.parse(nil)
+        XCTAssertTrue(articles.count == 0, "An amount of articles must be 0")
+    }
+    
+    func testThatReturnsCorrectArticles() {
+        
+        let html = loadHtml("articles")
+        let articles = parser.parse(html)
+        XCTAssertTrue(articles.count == 0, "An amount of articles must be 0")
+    }
+    
+    private func loadHtml(fileName: String) -> NSData? {
+        
+        let bundle = NSBundle(forClass: self.dynamicType)
+        let path = bundle.pathForResource(fileName, ofType: "html")
+        
+        if let content = NSData(contentsOfFile: path!) {
+            return content
+        }
+        
+        return nil
     }
 }

@@ -8,9 +8,15 @@
 
 import Foundation
 
-class SimpleArticlesParser {
+class SimpleArticlesParser : NSObject, NSXMLParserDelegate {
     
-    func parse(data: NSData?) -> Array<SimpleArticle> {
+    func parse(html: NSData?) -> Array<SimpleArticle> {
+        
+        if html == nil {
+            return []
+        }
+        
+        // TODO
         
         return []
     }
