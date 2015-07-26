@@ -8,14 +8,14 @@
 
 import UIKit
 
-class MetaImage {
+class MetaImage : NSObject {
     
     let size: CGSize
     let url: NSURL
     
-    init(size aSize: CGSize, url aURL: NSURL) {
+    init(size: CGSize, url: NSURL) {
         
-        size = aSize
-        url = aURL
+        self.size = size
+        self.url = url
     }
 }

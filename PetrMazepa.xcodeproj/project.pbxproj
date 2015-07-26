@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AC68D9581B6518FD0041F389 /* TFHpple.m in Sources */ = {isa = PBXBuildFile; fileRef = AC68D9531B6518FD0041F389 /* TFHpple.m */; };
+		AC68D9591B6518FD0041F389 /* TFHppleElement.m in Sources */ = {isa = PBXBuildFile; fileRef = AC68D9551B6518FD0041F389 /* TFHppleElement.m */; };
+		AC68D95A1B6518FD0041F389 /* XPathQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = AC68D9571B6518FD0041F389 /* XPathQuery.m */; };
+		AC68D95C1B6519180041F389 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AC68D95B1B6519180041F389 /* libxml2.dylib */; };
+		AC68D95E1B65191F0041F389 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AC68D95D1B65191F0041F389 /* libz.dylib */; };
+		AC68D9611B65195B0041F389 /* SimpleArticlesParser.m in Sources */ = {isa = PBXBuildFile; fileRef = AC68D9601B65195B0041F389 /* SimpleArticlesParser.m */; };
+		AC68D9621B6519C30041F389 /* SimpleArticlesParser.m in Sources */ = {isa = PBXBuildFile; fileRef = AC68D9601B65195B0041F389 /* SimpleArticlesParser.m */; };
 		ACAF97591B5C04A200CB53B1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAF97581B5C04A200CB53B1 /* AppDelegate.swift */; };
 		ACAF975B1B5C04A200CB53B1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAF975A1B5C04A200CB53B1 /* ViewController.swift */; };
 		ACAF975E1B5C04A200CB53B1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ACAF975C1B5C04A200CB53B1 /* Main.storyboard */; };
@@ -15,9 +22,7 @@
 		ACAF976F1B5C04A300CB53B1 /* PetrMazepaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAF976E1B5C04A300CB53B1 /* PetrMazepaTests.swift */; };
 		ACAF977A1B5C0A3C00CB53B1 /* SimpleArticle.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAF97791B5C0A3C00CB53B1 /* SimpleArticle.swift */; };
 		ACAF977C1B5C0B3B00CB53B1 /* MetaImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAF977B1B5C0B3B00CB53B1 /* MetaImage.swift */; };
-		ACAF97801B5C31B900CB53B1 /* SimpleArticlesParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAF977F1B5C31B900CB53B1 /* SimpleArticlesParser.swift */; };
 		ACAF97821B5C321500CB53B1 /* SimpleArticlesParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAF97811B5C321500CB53B1 /* SimpleArticlesParserTests.swift */; };
-		ACAF97831B5C330D00CB53B1 /* SimpleArticlesParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAF977F1B5C31B900CB53B1 /* SimpleArticlesParser.swift */; };
 		ACAF97841B5C339300CB53B1 /* SimpleArticle.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAF97791B5C0A3C00CB53B1 /* SimpleArticle.swift */; };
 		ACAF97851B5C339500CB53B1 /* MetaImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAF977B1B5C0B3B00CB53B1 /* MetaImage.swift */; };
 		ACCDE7F11B63B02C002FDECA /* articles.html in Resources */ = {isa = PBXBuildFile; fileRef = ACCDE7F01B63B02C002FDECA /* articles.html */; };
@@ -34,6 +39,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AC68D9521B6518FD0041F389 /* TFHpple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHpple.h; sourceTree = "<group>"; };
+		AC68D9531B6518FD0041F389 /* TFHpple.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFHpple.m; sourceTree = "<group>"; };
+		AC68D9541B6518FD0041F389 /* TFHppleElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHppleElement.h; sourceTree = "<group>"; };
+		AC68D9551B6518FD0041F389 /* TFHppleElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFHppleElement.m; sourceTree = "<group>"; };
+		AC68D9561B6518FD0041F389 /* XPathQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XPathQuery.h; sourceTree = "<group>"; };
+		AC68D9571B6518FD0041F389 /* XPathQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XPathQuery.m; sourceTree = "<group>"; };
+		AC68D95B1B6519180041F389 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+		AC68D95D1B65191F0041F389 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		AC68D95F1B65195B0041F389 /* SimpleArticlesParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleArticlesParser.h; sourceTree = "<group>"; };
+		AC68D9601B65195B0041F389 /* SimpleArticlesParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleArticlesParser.m; sourceTree = "<group>"; };
+		AC6E0F4B1B63F9D700C8299E /* PetrMazepa-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PetrMazepa-Bridging-Header.h"; sourceTree = "<group>"; };
 		ACAF97531B5C04A200CB53B1 /* PetrMazepa.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PetrMazepa.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACAF97571B5C04A200CB53B1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ACAF97581B5C04A200CB53B1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -46,10 +62,8 @@
 		ACAF976E1B5C04A300CB53B1 /* PetrMazepaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetrMazepaTests.swift; sourceTree = "<group>"; };
 		ACAF97791B5C0A3C00CB53B1 /* SimpleArticle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleArticle.swift; sourceTree = "<group>"; };
 		ACAF977B1B5C0B3B00CB53B1 /* MetaImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetaImage.swift; sourceTree = "<group>"; };
-		ACAF977F1B5C31B900CB53B1 /* SimpleArticlesParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleArticlesParser.swift; sourceTree = "<group>"; };
 		ACAF97811B5C321500CB53B1 /* SimpleArticlesParserTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleArticlesParserTests.swift; sourceTree = "<group>"; };
 		ACCDE7F01B63B02C002FDECA /* articles.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = articles.html; sourceTree = "<group>"; };
-		ACCDE8061B63D33B002FDECA /* PetrMazepa-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PetrMazepa-Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +71,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AC68D95E1B65191F0041F389 /* libz.dylib in Frameworks */,
+				AC68D95C1B6519180041F389 /* libxml2.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,6 +86,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AC68D9501B6518F10041F389 /* Libs */ = {
+			isa = PBXGroup;
+			children = (
+				AC68D95D1B65191F0041F389 /* libz.dylib */,
+				AC68D95B1B6519180041F389 /* libxml2.dylib */,
+				AC68D9511B6518FD0041F389 /* hpple */,
+			);
+			name = Libs;
+			sourceTree = "<group>";
+		};
+		AC68D9511B6518FD0041F389 /* hpple */ = {
+			isa = PBXGroup;
+			children = (
+				AC68D9521B6518FD0041F389 /* TFHpple.h */,
+				AC68D9531B6518FD0041F389 /* TFHpple.m */,
+				AC68D9541B6518FD0041F389 /* TFHppleElement.h */,
+				AC68D9551B6518FD0041F389 /* TFHppleElement.m */,
+				AC68D9561B6518FD0041F389 /* XPathQuery.h */,
+				AC68D9571B6518FD0041F389 /* XPathQuery.m */,
+			);
+			path = hpple;
+			sourceTree = "<group>";
+		};
 		ACAF974A1B5C04A200CB53B1 = {
 			isa = PBXGroup;
 			children = (
@@ -91,7 +130,7 @@
 		ACAF97551B5C04A200CB53B1 /* PetrMazepa */ = {
 			isa = PBXGroup;
 			children = (
-				ACCDE7F21B63D1DE002FDECA /* Libs */,
+				AC68D9501B6518F10041F389 /* Libs */,
 				ACAF97781B5C0A1B00CB53B1 /* Model */,
 				ACAF97581B5C04A200CB53B1 /* AppDelegate.swift */,
 				ACAF975A1B5C04A200CB53B1 /* ViewController.swift */,
@@ -107,7 +146,7 @@
 			isa = PBXGroup;
 			children = (
 				ACAF97571B5C04A200CB53B1 /* Info.plist */,
-				ACCDE8061B63D33B002FDECA /* PetrMazepa-Bridging-Header.h */,
+				AC6E0F4B1B63F9D700C8299E /* PetrMazepa-Bridging-Header.h */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -152,16 +191,10 @@
 		ACAF977E1B5C319A00CB53B1 /* Parser */ = {
 			isa = PBXGroup;
 			children = (
-				ACAF977F1B5C31B900CB53B1 /* SimpleArticlesParser.swift */,
+				AC68D95F1B65195B0041F389 /* SimpleArticlesParser.h */,
+				AC68D9601B65195B0041F389 /* SimpleArticlesParser.m */,
 			);
 			name = Parser;
-			sourceTree = "<group>";
-		};
-		ACCDE7F21B63D1DE002FDECA /* Libs */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Libs;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -266,10 +299,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				ACAF975B1B5C04A200CB53B1 /* ViewController.swift in Sources */,
+				AC68D9591B6518FD0041F389 /* TFHppleElement.m in Sources */,
+				AC68D95A1B6518FD0041F389 /* XPathQuery.m in Sources */,
+				AC68D9581B6518FD0041F389 /* TFHpple.m in Sources */,
 				ACAF977C1B5C0B3B00CB53B1 /* MetaImage.swift in Sources */,
-				ACAF97801B5C31B900CB53B1 /* SimpleArticlesParser.swift in Sources */,
 				ACAF97591B5C04A200CB53B1 /* AppDelegate.swift in Sources */,
 				ACAF977A1B5C0A3C00CB53B1 /* SimpleArticle.swift in Sources */,
+				AC68D9611B65195B0041F389 /* SimpleArticlesParser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -277,8 +313,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AC68D9621B6519C30041F389 /* SimpleArticlesParser.m in Sources */,
 				ACAF97841B5C339300CB53B1 /* SimpleArticle.swift in Sources */,
-				ACAF97831B5C330D00CB53B1 /* SimpleArticlesParser.swift in Sources */,
 				ACAF97851B5C339500CB53B1 /* MetaImage.swift in Sources */,
 				ACAF976F1B5C04A300CB53B1 /* PetrMazepaTests.swift in Sources */,
 				ACAF97821B5C321500CB53B1 /* SimpleArticlesParserTests.swift in Sources */,
@@ -334,6 +370,8 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				DEFINES_MODULE = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -349,11 +387,17 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SDKROOT)/usr/include/libxml2",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_MODULE_NAME = PetrMazepa;
 				SDKROOT = iphoneos;
-				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "PetrMazepa/PetrMazepa-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -377,6 +421,8 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
+				DEFINES_MODULE = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -386,10 +432,16 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SDKROOT)/usr/include/libxml2",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_MODULE_NAME = PetrMazepa;
 				SDKROOT = iphoneos;
-				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "PetrMazepa/PetrMazepa-Bridging-Header.h";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -398,10 +450,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEFINES_MODULE = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SDKROOT)/usr/include/libxml2",
+				);
 				INFOPLIST_FILE = PetrMazepa/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_MODULE_NAME = PetrMazepa;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "PetrMazepa/PetrMazepa-Bridging-Header.h";
 			};
 			name = Debug;
 		};
@@ -409,10 +469,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEFINES_MODULE = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SDKROOT)/usr/include/libxml2",
+				);
 				INFOPLIST_FILE = PetrMazepa/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_MODULE_NAME = PetrMazepa;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "PetrMazepa/PetrMazepa-Bridging-Header.h";
 			};
 			name = Release;
 		};
