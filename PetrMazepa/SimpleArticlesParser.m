@@ -19,7 +19,7 @@
     }
     
     TFHpple *hpple = [[TFHpple alloc] initWithData:html isXML:NO];
-    NSArray *elements = [hpple searchWithXPathQuery:@"//div[@id='content']/*"];
+    NSArray *elements = [hpple searchWithXPathQuery:@"//div[@class='cell']/*"];
     NSMutableArray *articles = [NSMutableArray new];
     
     for (TFHppleElement *element in elements) {
@@ -38,104 +38,58 @@
 
 - (SimpleArticle *)convertElement:(TFHppleElement *)element {
     
-    // Identifier
-    NSString *identifier = element.attributes[@"id"];
+    TFHppleElement *articleContainer = [element firstChildWithClassName:@"article-container"];
     
-    //
-    TFHppleElement *itemInner = [element firstChildWithClassName:@"item-inner"];
-    
-    if (!itemInner) {
+    if (!articleContainer) {
         return nil;
     }
     
-    // Image
-    TFHppleElement *itemThumbnail = [itemInner firstChildWithClassName:@"item-thumbnail"];
+    // identifier
+    NSString *href = articleContainer.attributes[@"href"];
+    NSString *identifier = [self identifierFromHref:href];
     
-    if (!itemThumbnail) {
+    if (!identifier) {
         return nil;
     }
     
-    TFHppleElement *img = [itemThumbnail firstChildWithTagName:@"img"];
+    // title
+    TFHppleElement *articleImage = [articleContainer firstChildWithClassName:@"article-image"];
     
-    if (!img) {
+    if (!articleImage) {
         return nil;
     }
     
-    // - width
-    NSObject *widthObject = img.attributes[@"width"];
+    TFHppleElement *articleTile = [articleContainer firstChildWithClassName:@"article-tile"];
     
-    if (!widthObject) {
+    if (!articleTile) {
         return nil;
     }
     
-    NSString *widthString = [NSString stringWithFormat:@"%@", widthObject];
-    CGFloat width = widthString.floatValue;
+    TFHppleElement *articleTitle = [articleTile firstChildWithClassName:@"article-title"];
     
-    // - height
-    NSObject *heightObject = img.attributes[@"height"];
-    
-    if (!heightObject) {
+    if (!articleTitle) {
         return nil;
     }
     
-    NSString *heightString = [NSString stringWithFormat:@"%@", heightObject];
-    CGFloat height = heightString.floatValue;
+    NSString *title = articleTitle.content;
     
-    // - url
-    NSString *src = img.attributes[@"src"];
+    return [[SimpleArticle alloc] initWithId:identifier title:title];
+}
+
+- (NSString *)identifierFromHref:(NSString *)href {
     
-    if (!src) {
+    if (href.length == 0) {
         return nil;
     }
     
-    NSURL *imageUrl = [NSURL URLWithString:src];
+    NSString *temp = [href substringFromIndex:1];
+    NSArray *components = [temp componentsSeparatedByString:@"."];
     
-    MetaImage *image = [[MetaImage alloc] initWithSize:CGSizeMake(width, height) url:imageUrl];
-    
-    //
-    TFHppleElement *itemMain = [itemInner firstChildWithClassName:@"item-main"];
-    
-    if (!itemMain) {
+    if (components.count != 2) {
         return nil;
     }
     
-    TFHppleElement *itemHeader = [itemMain firstChildWithClassName:@"item-header"];
-    
-    if (!itemHeader) {
-        return nil;
-    }
-    
-    // Title
-    TFHppleElement *itemTitle = [itemHeader firstChildWithClassName:@"item-title"];
-    
-    if (!itemTitle) {
-        return nil;
-    }
-    
-    TFHppleElement *a = [itemTitle firstChildWithTagName:@"a"];
-    
-    if (!a) {
-        return nil;
-    }
-   
-    // Article URL
-    NSString *href = a.attributes[@"href"];
-    
-    if (!href) {
-        return nil;
-    }
-    
-    NSURL *articleUrl = [NSURL URLWithString:href];
-    
-    // Title
-    NSString *title = a.content;
-    
-    SimpleArticle *article = [[SimpleArticle alloc] initWithId:identifier
-                                                         title:title
-                                                    smallImage:image
-                                                    articleUrl:articleUrl];
-    
-    return article;
+    return components[0];
 }
 
 @end

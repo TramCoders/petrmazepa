@@ -12,15 +12,11 @@ class SimpleArticle : NSObject {
     
     let id: String
     let title: String
-    let smallImage: MetaImage
-    let articleUrl: NSURL
     
-    init(id: String, title: String, smallImage: MetaImage, articleUrl: NSURL) {
+    init(id: String, title: String) {
         
         self.id = id
         self.title = title
-        self.smallImage = smallImage
-        self.articleUrl = articleUrl
     }
     
 }

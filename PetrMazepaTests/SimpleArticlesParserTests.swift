@@ -26,17 +26,32 @@ class SimpleArticlesParserTests: XCTestCase {
 
 //    func test
     
+    /**
+    http://petrimazepa.com/ajax/articles/0/2 -> returns 2 articles starting from the most recent
+    */
+    
+    
     func testThatReturnsEmptyArrayIfInputIsNil() {
         
         let articles = parser.parse(nil)
         XCTAssertTrue(articles.count == 0, "An amount of articles must be 0")
     }
     
-    func testThatReturnsCorrectArticles() {
+    func testThatReturnsCorrectArticlesCount() {
         
         let html = loadHtml("articles")
         let articles = parser.parse(html)
-        XCTAssertTrue(articles.count == 0, "An amount of articles must be 0")
+        XCTAssertTrue(articles.count == 2, "An amount of articles must be 2")
+    }
+    
+    func testThatReturnCorrectArticles() {
+        
+        let html = loadHtml("articles")
+        let articles = parser.parse(html)
+        
+        let article1 = articles[1] as SimpleArticle;
+        
+        XCTAssertTrue(article1.id == "remember", "Id of article #1 must be 'remember'")
     }
     
     private func loadHtml(fileName: String) -> NSData? {
