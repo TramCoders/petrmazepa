@@ -23,6 +23,7 @@
 		ACAF977A1B5C0A3C00CB53B1 /* SimpleArticle.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAF97791B5C0A3C00CB53B1 /* SimpleArticle.swift */; };
 		ACAF97821B5C321500CB53B1 /* SimpleArticlesParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAF97811B5C321500CB53B1 /* SimpleArticlesParserTests.swift */; };
 		ACAF97841B5C339300CB53B1 /* SimpleArticle.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAF97791B5C0A3C00CB53B1 /* SimpleArticle.swift */; };
+		ACC6D6631B73EF310099131D /* random_page.html in Resources */ = {isa = PBXBuildFile; fileRef = ACC6D6621B73EF310099131D /* random_page.html */; };
 		ACCDE7F11B63B02C002FDECA /* articles.html in Resources */ = {isa = PBXBuildFile; fileRef = ACCDE7F01B63B02C002FDECA /* articles.html */; };
 /* End PBXBuildFile section */
 
@@ -60,6 +61,7 @@
 		ACAF976E1B5C04A300CB53B1 /* PetrMazepaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetrMazepaTests.swift; sourceTree = "<group>"; };
 		ACAF97791B5C0A3C00CB53B1 /* SimpleArticle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleArticle.swift; sourceTree = "<group>"; };
 		ACAF97811B5C321500CB53B1 /* SimpleArticlesParserTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleArticlesParserTests.swift; sourceTree = "<group>"; };
+		ACC6D6621B73EF310099131D /* random_page.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = random_page.html; sourceTree = "<group>"; };
 		ACCDE7F01B63B02C002FDECA /* articles.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = articles.html; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -151,7 +153,7 @@
 		ACAF976B1B5C04A300CB53B1 /* PetrMazepaTests */ = {
 			isa = PBXGroup;
 			children = (
-				ACCDE7F01B63B02C002FDECA /* articles.html */,
+				ACC6D6641B73EF510099131D /* HTML */,
 				ACAF976E1B5C04A300CB53B1 /* PetrMazepaTests.swift */,
 				ACAF97811B5C321500CB53B1 /* SimpleArticlesParserTests.swift */,
 				ACAF976C1B5C04A300CB53B1 /* Supporting Files */,
@@ -191,6 +193,15 @@
 				AC68D9601B65195B0041F389 /* SimpleArticlesParser.m */,
 			);
 			name = Parser;
+			sourceTree = "<group>";
+		};
+		ACC6D6641B73EF510099131D /* HTML */ = {
+			isa = PBXGroup;
+			children = (
+				ACC6D6621B73EF310099131D /* random_page.html */,
+				ACCDE7F01B63B02C002FDECA /* articles.html */,
+			);
+			name = HTML;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -283,6 +294,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ACC6D6631B73EF310099131D /* random_page.html in Resources */,
 				ACCDE7F11B63B02C002FDECA /* articles.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -12,46 +12,42 @@ import XCTest
 class SimpleArticlesParserTests: XCTestCase {
 
     var parser = SimpleArticlesParser()
-    
-    override func setUp() {
-        
-        super.setUp()
-        //
-    }
-    
-    override func tearDown() {
-        //
-        super.tearDown()
-    }
 
-//    func test
-    
-    /**
-    http://petrimazepa.com/ajax/articles/0/2 -> returns 2 articles starting from the most recent
-    */
-    
-    
     func testThatReturnsEmptyArrayIfInputIsNil() {
         
         let articles = parser.parse(nil)
-        XCTAssertTrue(articles.count == 0, "An amount of articles must be 0")
+        XCTAssertTrue(articles.count == 0)
     }
     
     func testThatReturnsCorrectArticlesCount() {
         
         let html = loadHtml("articles")
         let articles = parser.parse(html)
-        XCTAssertTrue(articles.count == 2, "An amount of articles must be 2")
+        
+        XCTAssertTrue(articles.count == 2)
     }
     
-    func testThatReturnCorrectArticles() {
+    func testThatReturnsZeroArticlesForRandomHtml() {
+        
+        let html = loadHtml("random_page")
+        let articles = parser.parse(html)
+        
+        XCTAssertTrue(articles.count == 0)
+    }
+    
+    func testThatReturnsCorrectArticles() {
         
         let html = loadHtml("articles")
         let articles = parser.parse(html)
         
-        let article1 = articles[1] as SimpleArticle;
+        let article0 = articles[0] as SimpleArticle
+        let article1 = articles[1] as SimpleArticle
         
-        XCTAssertTrue(article1.id == "remember", "Id of article #1 must be 'remember'")
+        XCTAssertTrue(article0.id == "shadowdragon")
+        XCTAssertTrue(article0.title == "Тень Поднебесной или что бывает, когда у дракона пустеет казна")
+        
+        XCTAssertTrue(article1.id == "freeman")
+        XCTAssertTrue(article1.title == "Свободу Пивоварову!")
     }
     
     private func loadHtml(fileName: String) -> NSData? {
