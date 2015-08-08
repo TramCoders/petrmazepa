@@ -34,11 +34,13 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
 
         super.viewDidLoad()
         
+        // register an article cell
         let cellNib = UINib(nibName: "ArticleCell", bundle: nil)
         self.collectionView.registerNib(cellNib, forCellWithReuseIdentifier: cellReuseIdentifier)
         
-//        let collectionViewLayout = self.collectionView.collectionViewLayout as ArticlesViewLayout
-//        collectionViewLayout.dataSource = self
+        // a collection view layout data source
+        let collectionViewLayout = self.collectionView.collectionViewLayout as ArticlesViewLayout
+        collectionViewLayout.dataSource = self
     }
     
     func articlesInArticlesViewLayout() -> Array<UIImage> {
