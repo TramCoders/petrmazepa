@@ -10,21 +10,35 @@ import UIKit
 
 class ArticlesViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, ArticlesDataSource {
     
+    var model: ArticlesViewModel? {
+        
+        didSet {
+            
+            if let notNilModel = self.model {
+                
+                notNilModel.articlesChanged = { (fromIndex: Int) in
+                 
+                    let articlesCount = notNilModel.articles.count
+                    var newIndexPaths = [NSIndexPath]()
+                    
+                    for index in fromIndex...(articlesCount - 1) {
+                        newIndexPaths.append(NSIndexPath(forRow: index, inSection: 0))
+                    }
+                    
+                    self.collectionView.insertItemsAtIndexPaths(newIndexPaths)
+                }
+            }
+            
+            if self.isViewLoaded() {
+                self.collectionView.reloadData()
+            }
+        }
+    }
+    
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var searchTextField: UITextField!
     
     let cellReuseIdentifier = "ArticleCell"
-    
-    let dummyArticles = [ UIImage(named: "chersonesus")!,
-                          UIImage(named: "freeman")!,
-                          UIImage(named: "hiroshima")!,
-                          UIImage(named: "intermarium")!,
-                          UIImage(named: "noyou")!,
-                          UIImage(named: "pm-daily374")!,
-                          UIImage(named: "pm-daily375")!,
-                          UIImage(named: "putinkim")!,
-                          UIImage(named: "shadowdragon")!,
-                          UIImage(named: "vesti")! ]
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return .LightContent
@@ -39,26 +53,48 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
         self.collectionView.registerNib(cellNib, forCellWithReuseIdentifier: cellReuseIdentifier)
         
         // a collection view layout data source
-        let collectionViewLayout = self.collectionView.collectionViewLayout as ArticlesViewLayout
+        let collectionViewLayout = self.collectionView.collectionViewLayout as! ArticlesViewLayout
         collectionViewLayout.dataSource = self
     }
     
     func articlesInArticlesViewLayout() -> Array<UIImage> {
-        return self.dummyArticles
+        return self.model!.articles
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.dummyArticles.count
+        return self.model!.articles.count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(cellReuseIdentifier, forIndexPath: indexPath) as ArticleCell
-        let image = self.dummyArticles[indexPath.row]
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(cellReuseIdentifier, forIndexPath: indexPath) as! ArticleCell
+        let image = self.model!.articles[indexPath.row]
         cell.update(image)
         
         return cell
     }
     
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        
+        if let notNilModel = self.model  {
+            if notNilModel.loading {
+                return
+            }
+        }
+        
+        let beyondBottom = scrollView.contentOffset.y + scrollView.frame.height - scrollView.contentSize.height
+        
+        if beyondBottom >= 0 {
+            if let notNilModel = self.model {
+                
+                // TODO: show activity indicator
+                
+                notNilModel.loadMore({ () -> Void in
+                    
+                    // TODO: hide activity indicator
+                })
+            }
+        }
+    }
 }
 

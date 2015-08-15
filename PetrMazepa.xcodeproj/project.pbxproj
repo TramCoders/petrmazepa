@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AC8C7B161B7D2A30004B9F59 /* ArticlesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8C7B151B7D2A30004B9F59 /* ArticlesViewModel.swift */; };
 		ACAF97591B5C04A200CB53B1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAF97581B5C04A200CB53B1 /* AppDelegate.swift */; };
 		ACAF975B1B5C04A200CB53B1 /* ArticlesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAF975A1B5C04A200CB53B1 /* ArticlesViewController.swift */; };
 		ACAF975E1B5C04A200CB53B1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ACAF975C1B5C04A200CB53B1 /* Main.storyboard */; };
@@ -32,6 +33,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AC8C7B151B7D2A30004B9F59 /* ArticlesViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArticlesViewModel.swift; sourceTree = "<group>"; };
 		ACAF97531B5C04A200CB53B1 /* PetrMazepa.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PetrMazepa.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACAF97571B5C04A200CB53B1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ACAF97581B5C04A200CB53B1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -68,6 +70,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AC8C7B171B7D2A50004B9F59 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				AC8C7B151B7D2A30004B9F59 /* ArticlesViewModel.swift */,
+			);
+			name = ViewModel;
+			sourceTree = "<group>";
+		};
 		ACAF974A1B5C04A200CB53B1 = {
 			isa = PBXGroup;
 			children = (
@@ -90,6 +100,7 @@
 			isa = PBXGroup;
 			children = (
 				ACD5A34D1B7404C9005C6F59 /* View */,
+				AC8C7B171B7D2A50004B9F59 /* ViewModel */,
 				ACAF97781B5C0A1B00CB53B1 /* Model */,
 				ACD5A34F1B740596005C6F59 /* ScreenFlow.swift */,
 				ACAF97581B5C04A200CB53B1 /* AppDelegate.swift */,
@@ -261,6 +272,7 @@
 				ACD5A3571B768261005C6F59 /* MetaImage.swift in Sources */,
 				ACD5A3501B740596005C6F59 /* ScreenFlow.swift in Sources */,
 				ACD5A3551B768174005C6F59 /* ArticleCell.swift in Sources */,
+				AC8C7B161B7D2A30004B9F59 /* ArticlesViewModel.swift in Sources */,
 				ACAF977A1B5C0A3C00CB53B1 /* SimpleArticle.swift in Sources */,
 				ACD5A3521B753167005C6F59 /* ArticlesViewLayout.swift in Sources */,
 			);
@@ -387,6 +399,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/PetrMazepa",
+				);
 				INFOPLIST_FILE = PetrMazepa/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -397,6 +413,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/PetrMazepa",
+				);
 				INFOPLIST_FILE = PetrMazepa/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
