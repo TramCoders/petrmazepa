@@ -8,14 +8,15 @@
 
 import Foundation
 
-class SimpleArticle {
+class SimpleArticle : NSObject {
     
+    let id: String
     let title: String
-    let smallImage: MetaImage
     
-    init(title aTitle: String, smallImage aSmallImage: MetaImage) {
+    init(id: String, title: String) {
         
-        smallImage = aSmallImage
-        title = aTitle
+        self.id = id
+        self.title = title
     }
+    
 }
