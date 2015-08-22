@@ -17,7 +17,7 @@ class ArticlesViewLayout: UICollectionViewLayout  {
     weak var dataSource: ArticlesDataSource?
     
     var attributes = Array<UICollectionViewLayoutAttributes>()
-    let topMargin: CGFloat = 65.0
+    let topMargin: CGFloat = 55.0
     let margin: CGFloat = 1.0
     let internalMargin: CGFloat = 1.0
     
@@ -67,11 +67,11 @@ class ArticlesViewLayout: UICollectionViewLayout  {
         return size
     }
     
-    override func layoutAttributesForElementsInRect(rect: CGRect) -> [AnyObject]? {
+    override func layoutAttributesForElementsInRect(rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         return self.attributes
     }
     
-    override func layoutAttributesForItemAtIndexPath(indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes! {
+    override func layoutAttributesForItemAtIndexPath(indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes? {
         return attributes[indexPath.row]
     }
     
