@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AC3D78371B80E74E006BE446 /* ArticlesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3D78361B80E74E006BE446 /* ArticlesViewModel.swift */; };
+		AC3D783C1B80E75E006BE446 /* ArticlesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3D78381B80E75E006BE446 /* ArticlesViewController.swift */; };
+		AC3D783D1B80E75E006BE446 /* ArticleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3D78391B80E75E006BE446 /* ArticleCell.swift */; };
+		AC3D783E1B80E75E006BE446 /* ArticleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC3D783A1B80E75E006BE446 /* ArticleCell.xib */; };
+		AC3D783F1B80E75E006BE446 /* ArticlesViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3D783B1B80E75E006BE446 /* ArticlesViewLayout.swift */; };
+		AC3D78421B80E77F006BE446 /* ScreenFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3D78411B80E77F006BE446 /* ScreenFlow.swift */; };
 		AC68D9581B6518FD0041F389 /* TFHpple.m in Sources */ = {isa = PBXBuildFile; fileRef = AC68D9531B6518FD0041F389 /* TFHpple.m */; };
 		AC68D9591B6518FD0041F389 /* TFHppleElement.m in Sources */ = {isa = PBXBuildFile; fileRef = AC68D9551B6518FD0041F389 /* TFHppleElement.m */; };
 		AC68D95A1B6518FD0041F389 /* XPathQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = AC68D9571B6518FD0041F389 /* XPathQuery.m */; };
@@ -15,7 +21,6 @@
 		AC68D9611B65195B0041F389 /* SimpleArticlesParser.m in Sources */ = {isa = PBXBuildFile; fileRef = AC68D9601B65195B0041F389 /* SimpleArticlesParser.m */; };
 		AC68D9621B6519C30041F389 /* SimpleArticlesParser.m in Sources */ = {isa = PBXBuildFile; fileRef = AC68D9601B65195B0041F389 /* SimpleArticlesParser.m */; };
 		ACAF97591B5C04A200CB53B1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAF97581B5C04A200CB53B1 /* AppDelegate.swift */; };
-		ACAF975B1B5C04A200CB53B1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAF975A1B5C04A200CB53B1 /* ViewController.swift */; };
 		ACAF975E1B5C04A200CB53B1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ACAF975C1B5C04A200CB53B1 /* Main.storyboard */; };
 		ACAF97601B5C04A200CB53B1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACAF975F1B5C04A200CB53B1 /* Images.xcassets */; };
 		ACAF97631B5C04A200CB53B1 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = ACAF97611B5C04A200CB53B1 /* LaunchScreen.xib */; };
@@ -38,6 +43,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AC3D78361B80E74E006BE446 /* ArticlesViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArticlesViewModel.swift; sourceTree = "<group>"; };
+		AC3D78381B80E75E006BE446 /* ArticlesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArticlesViewController.swift; sourceTree = "<group>"; };
+		AC3D78391B80E75E006BE446 /* ArticleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArticleCell.swift; sourceTree = "<group>"; };
+		AC3D783A1B80E75E006BE446 /* ArticleCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ArticleCell.xib; sourceTree = "<group>"; };
+		AC3D783B1B80E75E006BE446 /* ArticlesViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArticlesViewLayout.swift; sourceTree = "<group>"; };
+		AC3D78411B80E77F006BE446 /* ScreenFlow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScreenFlow.swift; sourceTree = "<group>"; };
 		AC68D9521B6518FD0041F389 /* TFHpple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHpple.h; sourceTree = "<group>"; };
 		AC68D9531B6518FD0041F389 /* TFHpple.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFHpple.m; sourceTree = "<group>"; };
 		AC68D9541B6518FD0041F389 /* TFHppleElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHppleElement.h; sourceTree = "<group>"; };
@@ -52,7 +63,6 @@
 		ACAF97531B5C04A200CB53B1 /* PetrMazepa.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PetrMazepa.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACAF97571B5C04A200CB53B1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ACAF97581B5C04A200CB53B1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		ACAF975A1B5C04A200CB53B1 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		ACAF975D1B5C04A200CB53B1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		ACAF975F1B5C04A200CB53B1 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		ACAF97621B5C04A200CB53B1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -85,6 +95,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AC3D78341B80E733006BE446 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				ACAF975C1B5C04A200CB53B1 /* Main.storyboard */,
+				ACAF97611B5C04A200CB53B1 /* LaunchScreen.xib */,
+				AC3D78401B80E770006BE446 /* Articles */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		AC3D78351B80E73A006BE446 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				AC3D78361B80E74E006BE446 /* ArticlesViewModel.swift */,
+			);
+			name = ViewModel;
+			sourceTree = "<group>";
+		};
+		AC3D78401B80E770006BE446 /* Articles */ = {
+			isa = PBXGroup;
+			children = (
+				AC3D78381B80E75E006BE446 /* ArticlesViewController.swift */,
+				AC3D78391B80E75E006BE446 /* ArticleCell.swift */,
+				AC3D783A1B80E75E006BE446 /* ArticleCell.xib */,
+				AC3D783B1B80E75E006BE446 /* ArticlesViewLayout.swift */,
+			);
+			name = Articles;
+			sourceTree = "<group>";
+		};
 		AC68D9501B6518F10041F389 /* Libs */ = {
 			isa = PBXGroup;
 			children = (
@@ -129,13 +168,13 @@
 		ACAF97551B5C04A200CB53B1 /* PetrMazepa */ = {
 			isa = PBXGroup;
 			children = (
+				AC3D78351B80E73A006BE446 /* ViewModel */,
+				AC3D78341B80E733006BE446 /* View */,
 				AC68D9501B6518F10041F389 /* Libs */,
 				ACAF97781B5C0A1B00CB53B1 /* Model */,
 				ACAF97581B5C04A200CB53B1 /* AppDelegate.swift */,
-				ACAF975A1B5C04A200CB53B1 /* ViewController.swift */,
-				ACAF975C1B5C04A200CB53B1 /* Main.storyboard */,
 				ACAF975F1B5C04A200CB53B1 /* Images.xcassets */,
-				ACAF97611B5C04A200CB53B1 /* LaunchScreen.xib */,
+				AC3D78411B80E77F006BE446 /* ScreenFlow.swift */,
 				ACAF97561B5C04A200CB53B1 /* Supporting Files */,
 			);
 			path = PetrMazepa;
@@ -248,7 +287,8 @@
 		ACAF974B1B5C04A200CB53B1 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0610;
+				LastSwiftUpdateCheck = 0700;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = TramCoders;
 				TargetAttributes = {
 					ACAF97521B5C04A200CB53B1 = {
@@ -284,6 +324,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AC3D783E1B80E75E006BE446 /* ArticleCell.xib in Resources */,
 				ACAF975E1B5C04A200CB53B1 /* Main.storyboard in Resources */,
 				ACAF97631B5C04A200CB53B1 /* LaunchScreen.xib in Resources */,
 				ACAF97601B5C04A200CB53B1 /* Images.xcassets in Resources */,
@@ -306,13 +347,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ACAF975B1B5C04A200CB53B1 /* ViewController.swift in Sources */,
 				AC68D9591B6518FD0041F389 /* TFHppleElement.m in Sources */,
+				AC3D783F1B80E75E006BE446 /* ArticlesViewLayout.swift in Sources */,
 				AC68D95A1B6518FD0041F389 /* XPathQuery.m in Sources */,
 				AC68D9581B6518FD0041F389 /* TFHpple.m in Sources */,
+				AC3D78421B80E77F006BE446 /* ScreenFlow.swift in Sources */,
 				ACAF97591B5C04A200CB53B1 /* AppDelegate.swift in Sources */,
 				ACAF977A1B5C0A3C00CB53B1 /* SimpleArticle.swift in Sources */,
+				AC3D783D1B80E75E006BE446 /* ArticleCell.swift in Sources */,
+				AC3D783C1B80E75E006BE446 /* ArticlesViewController.swift in Sources */,
 				AC68D9611B65195B0041F389 /* SimpleArticlesParser.m in Sources */,
+				AC3D78371B80E74E006BE446 /* ArticlesViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -379,6 +424,7 @@
 				DEFINES_MODULE = YES;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -464,7 +510,9 @@
 					"$(SDKROOT)/usr/include/libxml2",
 				);
 				INFOPLIST_FILE = PetrMazepa/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.tramcoders.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_MODULE_NAME = PetrMazepa;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "PetrMazepa/PetrMazepa-Bridging-Header.h";
@@ -483,7 +531,9 @@
 					"$(SDKROOT)/usr/include/libxml2",
 				);
 				INFOPLIST_FILE = PetrMazepa/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.tramcoders.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_MODULE_NAME = PetrMazepa;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "PetrMazepa/PetrMazepa-Bridging-Header.h";
@@ -504,6 +554,7 @@
 				);
 				INFOPLIST_FILE = PetrMazepaTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.tramcoders.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PetrMazepa.app/PetrMazepa";
 			};
@@ -519,6 +570,7 @@
 				);
 				INFOPLIST_FILE = PetrMazepaTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.tramcoders.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PetrMazepa.app/PetrMazepa";
 			};

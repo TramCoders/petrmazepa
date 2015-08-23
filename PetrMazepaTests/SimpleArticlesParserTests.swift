@@ -40,8 +40,8 @@ class SimpleArticlesParserTests: XCTestCase {
         let html = loadHtml("articles")
         let articles = parser.parse(html)
         
-        let article0 = articles[0] as SimpleArticle
-        let article1 = articles[1] as SimpleArticle
+        let article0 = articles[0] as! SimpleArticle
+        let article1 = articles[1] as! SimpleArticle
         
         XCTAssertTrue(article0.id == "shadowdragon")
         XCTAssertTrue(article0.title == "Тень Поднебесной или что бывает, когда у дракона пустеет казна")
