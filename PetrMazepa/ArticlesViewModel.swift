@@ -11,46 +11,68 @@ import UIKit
 class ArticlesViewModel: NSObject {
    
     var loading = false
+    private(set) var articles = Array<UIImage>()
+    var articlesInserted: ((range: Range<Int>) -> Void)?
     
-    private(set) var articles = [ UIImage(named: "chersonesus")!,
-                                  UIImage(named: "freeman")!,
-                                  UIImage(named: "hiroshima")!,
-                                  UIImage(named: "intermarium")!,
-                                  UIImage(named: "noyou")!,
-                                  UIImage(named: "pm-daily374")!,
-                                  UIImage(named: "pm-daily375")!,
-                                  UIImage(named: "putinkim")!,
-                                  UIImage(named: "shadowdragon")!,
-                                  UIImage(named: "vesti")! ]
-    
-    var articlesChanged: ((fromIndex: Int) -> Void)?
-    
-    func loadMore(completion: (() -> Void)?) {
+    func loadIfNeeded() {
         
-        if self.loading {
+        guard self.articles.count == 0 else {
+            return
+        }
+        
+        guard self.loading == false else {
             return
         }
         
         self.loading = true
         
-        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(2 * Double(NSEC_PER_SEC)))
+        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
         dispatch_after(delayTime, dispatch_get_main_queue()) {
             
-            let prevCount = self.articles.count
+            self.articles.append(UIImage(named: "chersonesus")!)
+            self.articles.append(UIImage(named: "hiroshima")!)
+            self.articles.append(UIImage(named: "intermarium")!)
+            self.articles.append(UIImage(named: "noyou")!)
+            self.articles.append(UIImage(named: "pm-daily374")!)
+            self.articles.append(UIImage(named: "pm-daily375")!)
+            self.articles.append(UIImage(named: "putinkim")!)
+            self.articles.append(UIImage(named: "shadowdragon")!)
+            self.articles.append(UIImage(named: "vesti")!)
+            
+            self.loading = false
+            
+            let newCount = self.articles.count
+            
+            if let notNilArticlesInserted = self.articlesInserted {
+                notNilArticlesInserted(range: 0..<newCount)
+            }
+        }
+    }
+    
+    func loadMore() {
+        
+        guard self.loading == false else {
+            return
+        }
+        
+        self.loading = true
+        
+        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
+        dispatch_after(delayTime, dispatch_get_main_queue()) {
+            
+            let oldCount = self.articles.count
             
             self.articles.append(UIImage(named: "chersonesus")!)
             self.articles.append(UIImage(named: "freeman")!)
             self.articles.append(UIImage(named: "hiroshima")!)
             
-            if let notNilArticlesChanged = self.articlesChanged {
-                notNilArticlesChanged(fromIndex: prevCount)
-            }
-            
-            if let notNilCompletion = completion {
-                notNilCompletion()
-            }
-            
             self.loading = false
+            
+            let newCount = self.articles.count
+            
+            if let notNilArticlesInserted = self.articlesInserted {
+                notNilArticlesInserted(range: oldCount..<newCount)
+            }
         }
     }
 }

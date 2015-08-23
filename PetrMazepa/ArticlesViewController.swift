@@ -8,7 +8,12 @@
 
 import UIKit
 
-class ArticlesViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, ArticlesDataSource {
+class ArticlesViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    @IBOutlet weak var collectionView: UICollectionView?
+    weak var layout: ArticlesViewLayout?
+    @IBOutlet weak var searchTextField: UITextField!
+    let cellReuseIdentifier = "ArticleCell"
     
     var model: ArticlesViewModel? {
         
@@ -16,30 +21,20 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
             
             if let notNilModel = self.model {
                 
-                notNilModel.articlesChanged = { (fromIndex: Int) in
-                 
-                    let articlesCount = notNilModel.articles.count
-                    var newIndexPaths = [NSIndexPath]()
+                notNilModel.articlesInserted = { (range: Range<Int>) in
                     
-                    for index in fromIndex...(articlesCount - 1) {
-                        newIndexPaths.append(NSIndexPath(forRow: index, inSection: 0))
+                    let insertedIndexPaths = self.layout!.insertArticles(range.count)
+                    
+                    if range.startIndex == 0 {
+                        self.collectionView!.reloadData()
+                    } else {
+                        self.collectionView!.insertItemsAtIndexPaths(insertedIndexPaths)
                     }
-                    
-                    self.collectionView.insertItemsAtIndexPaths(newIndexPaths)
                 }
-            }
-            
-            if self.isViewLoaded() {
-                self.collectionView.reloadData()
             }
         }
     }
-    
-    @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var searchTextField: UITextField!
-    
-    let cellReuseIdentifier = "ArticleCell"
-    
+
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return .LightContent
     }
@@ -50,15 +45,11 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
         
         // register an article cell
         let cellNib = UINib(nibName: "ArticleCell", bundle: nil)
-        self.collectionView.registerNib(cellNib, forCellWithReuseIdentifier: cellReuseIdentifier)
+        self.collectionView!.registerNib(cellNib, forCellWithReuseIdentifier: self.cellReuseIdentifier)
         
         // a collection view layout data source
-        let collectionViewLayout = self.collectionView.collectionViewLayout as! ArticlesViewLayout
-        collectionViewLayout.dataSource = self
-    }
-    
-    func articlesInArticlesViewLayout() -> Array<UIImage> {
-        return self.model!.articles
+        self.layout = self.collectionView!.collectionViewLayout as? ArticlesViewLayout
+        self.model!.loadIfNeeded()
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -76,24 +67,18 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
         
-        if let notNilModel = self.model  {
-            if notNilModel.loading {
-                return
-            }
+        guard let notNilModel = self.model else {
+            return
+        }
+        
+        guard notNilModel.loading == false else {
+            return
         }
         
         let beyondBottom = scrollView.contentOffset.y + scrollView.frame.height - scrollView.contentSize.height
         
         if beyondBottom >= 0 {
-            if let notNilModel = self.model {
-                
-                // TODO: show activity indicator
-                
-                notNilModel.loadMore({ () -> Void in
-                    
-                    // TODO: hide activity indicator
-                })
-            }
+            notNilModel.loadMore()
         }
     }
 }

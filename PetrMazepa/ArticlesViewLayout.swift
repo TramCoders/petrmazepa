@@ -8,47 +8,45 @@
 
 import UIKit
 
-@objc protocol ArticlesDataSource {
-    func articlesInArticlesViewLayout() -> Array<UIImage>
-}
-
 class ArticlesViewLayout: UICollectionViewLayout  {
     
-    weak var dataSource: ArticlesDataSource?
-    
-    var attributes = Array<UICollectionViewLayoutAttributes>()
+    var attributes = [UICollectionViewLayoutAttributes]()
     let topMargin: CGFloat = 55.0
     let margin: CGFloat = 1.0
     let internalMargin: CGFloat = 1.0
     
-    override func prepareLayout() {
+    func insertArticles(count: Int) -> [NSIndexPath] {
         
-        attributes.removeAll(keepCapacity: false)
-        
-        if let dataSource = self.dataSource {
-            
-            let screenWidth = UIScreen.mainScreen().bounds.size.width
-            let cellWidth = (screenWidth - 2 * self.margin - self.internalMargin) / 2
-            
-            let articles = dataSource.articlesInArticlesViewLayout()
-            var top = self.topMargin
-            
-            for var index = 0; index < articles.count; ++index {
-                
-                let indexPath = NSIndexPath(forItem: index, inSection: 0)
-                let attrs = UICollectionViewLayoutAttributes(forCellWithIndexPath: indexPath)
-                
-                let even = index % 2 == 0
-                let left = (even ? self.margin : self.margin + cellWidth + self.internalMargin)
-                attrs.frame = CGRectMake(left, top, cellWidth, cellWidth)
-                
-                if !even {
-                    top += cellWidth + self.internalMargin
-                }
-                
-                attributes.append(attrs)
-            }
+        guard count > 0 else {
+            return []
         }
+
+        let screenWidth = UIScreen.mainScreen().bounds.size.width
+        let cellWidth = (screenWidth - 2 * self.margin - self.internalMargin) / 2
+
+        let oldCount = self.attributes.count
+        let insertedIndices = oldCount..<(oldCount + count)
+        var insertedIndexPaths = [NSIndexPath]()
+
+        self.attributes.extend(Array(insertedIndices.map({ (index: Int) -> UICollectionViewLayoutAttributes in
+
+            let indexPath = NSIndexPath(forItem: index, inSection: 0)
+            insertedIndexPaths.append(indexPath)
+            let attrs = UICollectionViewLayoutAttributes(forCellWithIndexPath: indexPath)
+
+            let even = index % 2 == 0
+            let left = (even ? self.margin : self.margin + cellWidth + self.internalMargin)
+            let top = self.topMargin + (cellWidth + self.internalMargin) * CGFloat(index / 2)
+            attrs.frame = CGRectMake(left, top, cellWidth, cellWidth)
+            
+            return attrs
+        })))
+        
+        return insertedIndexPaths
+    }
+    
+    override func prepareLayout() {
+        // do nothing
     }
     
     override func collectionViewContentSize() -> CGSize {
@@ -68,11 +66,14 @@ class ArticlesViewLayout: UICollectionViewLayout  {
     }
     
     override func layoutAttributesForElementsInRect(rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
-        return self.attributes
+        return self.attributes.filter({ (attrs: UICollectionViewLayoutAttributes) -> Bool in
+            return CGRectIntersectsRect(attrs.frame, rect)
+        })
+        
     }
     
     override func layoutAttributesForItemAtIndexPath(indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes? {
-        return attributes[indexPath.row]
+        return self.attributes[indexPath.row]
     }
     
 }
