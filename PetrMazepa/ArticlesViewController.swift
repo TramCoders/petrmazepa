@@ -31,6 +31,15 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
                         self.collectionView!.insertItemsAtIndexPaths(insertedIndexPaths)
                     }
                 }
+                
+                notNilModel.errorOccurred = { (error: NSError) in
+
+                    UIAlertView(title: "", message: error.localizedDescription, delegate: nil, cancelButtonTitle: nil, otherButtonTitles: "Ok").show()
+                }
+                
+                notNilModel.loadingStateChanged = { (loading: Bool) in
+                    UIApplication.sharedApplication().networkActivityIndicatorVisible = loading
+                }
             }
         }
     }

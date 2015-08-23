@@ -10,9 +10,20 @@ import UIKit
 
 class ArticlesViewModel: NSObject {
    
-    var loading = false
+    var loading = false {
+
+        didSet {
+            if let notNilLoadingStateChanged = self.loadingStateChanged {
+                notNilLoadingStateChanged(loading: self.loading)
+            }
+        }
+    }
+    
     private(set) var articles = Array<UIImage>()
+
     var articlesInserted: ((range: Range<Int>) -> Void)?
+    var errorOccurred: ((error: NSError) -> Void)?
+    var loadingStateChanged: ((loading: Bool) -> Void)?
     
     func loadIfNeeded() {
         
