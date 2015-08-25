@@ -28,7 +28,7 @@ class ArticlesViewLayout: UICollectionViewLayout  {
         let insertedIndices = oldCount..<(oldCount + count)
         var insertedIndexPaths = [NSIndexPath]()
 
-        self.attributes.extend(Array(insertedIndices.map({ (index: Int) -> UICollectionViewLayoutAttributes in
+        self.attributes.appendContentsOf(Array(insertedIndices.map({ (index: Int) -> UICollectionViewLayoutAttributes in
 
             let indexPath = NSIndexPath(forItem: index, inSection: 0)
             insertedIndexPaths.append(indexPath)
