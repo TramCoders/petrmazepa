@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8173.3" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8187.4" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8142"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8151.3"/>
     </dependencies>
     <scenes>
         <!--Articles View Controller-->
@@ -119,13 +119,13 @@
                                 <exclude reference="1xO-6a-HMF"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="KMi-tK-q0g"/>
                                 <exclude reference="Dew-kp-XPw"/>
                                 <exclude reference="OWG-La-Tgo"/>
                                 <exclude reference="V8r-9W-URb"/>
                                 <exclude reference="E7b-tL-azp"/>
                                 <exclude reference="SNH-M9-5r7"/>
                                 <exclude reference="Zv4-yD-WGu"/>
-                                <exclude reference="KMi-tK-q0g"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -134,13 +134,13 @@
                                 <include reference="1xO-6a-HMF"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="KMi-tK-q0g"/>
                                 <include reference="Dew-kp-XPw"/>
                                 <include reference="OWG-La-Tgo"/>
                                 <include reference="V8r-9W-URb"/>
                                 <include reference="E7b-tL-azp"/>
                                 <include reference="SNH-M9-5r7"/>
                                 <include reference="Zv4-yD-WGu"/>
-                                <include reference="KMi-tK-q0g"/>
                             </mask>
                         </variation>
                     </view>
