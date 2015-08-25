@@ -19,8 +19,6 @@
 		5EC712121B8CD3B000C84AE7 /* TFHppleElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC7120E1B8CD3B000C84AE7 /* TFHppleElement.m */; settings = {ASSET_TAGS = (); }; };
 		5EC712131B8CD3B000C84AE7 /* XPathQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC712101B8CD3B000C84AE7 /* XPathQuery.m */; settings = {ASSET_TAGS = (); }; };
 		5EC712161B8CD42000C84AE7 /* ArticleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5EC712141B8CD42000C84AE7 /* ArticleCell.xib */; settings = {ASSET_TAGS = (); }; };
-		AC68D95C1B6519180041F389 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AC68D95B1B6519180041F389 /* libxml2.dylib */; };
-		AC68D95E1B65191F0041F389 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AC68D95D1B65191F0041F389 /* libz.dylib */; };
 		ACAF975E1B5C04A200CB53B1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ACAF975C1B5C04A200CB53B1 /* Main.storyboard */; };
 		ACAF97601B5C04A200CB53B1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACAF975F1B5C04A200CB53B1 /* Images.xcassets */; };
 		ACAF97631B5C04A200CB53B1 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = ACAF97611B5C04A200CB53B1 /* LaunchScreen.xib */; };
@@ -57,8 +55,6 @@
 		5EC7120F1B8CD3B000C84AE7 /* XPathQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XPathQuery.h; sourceTree = "<group>"; };
 		5EC712101B8CD3B000C84AE7 /* XPathQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XPathQuery.m; sourceTree = "<group>"; };
 		5EC712151B8CD42000C84AE7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ArticleCell.xib; sourceTree = "<group>"; };
-		AC68D95B1B6519180041F389 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
-		AC68D95D1B65191F0041F389 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		AC6E0F4B1B63F9D700C8299E /* PetrMazepa-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PetrMazepa-Bridging-Header.h"; sourceTree = "<group>"; };
 		ACAF97531B5C04A200CB53B1 /* PetrMazepa.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PetrMazepa.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACAF97571B5C04A200CB53B1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -78,8 +74,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AC68D95E1B65191F0041F389 /* libz.dylib in Frameworks */,
-				AC68D95C1B6519180041F389 /* libxml2.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -144,15 +138,6 @@
 			name = Articles;
 			sourceTree = "<group>";
 		};
-		AC68D9501B6518F10041F389 /* Libs */ = {
-			isa = PBXGroup;
-			children = (
-				AC68D95D1B65191F0041F389 /* libz.dylib */,
-				AC68D95B1B6519180041F389 /* libxml2.dylib */,
-			);
-			name = Libs;
-			sourceTree = "<group>";
-		};
 		ACAF974A1B5C04A200CB53B1 = {
 			isa = PBXGroup;
 			children = (
@@ -179,7 +164,6 @@
 				5EC711EB1B8CD2B200C84AE7 /* ScreenFlow.swift */,
 				AC3D78351B80E73A006BE446 /* ViewModel */,
 				AC3D78341B80E733006BE446 /* View */,
-				AC68D9501B6518F10041F389 /* Libs */,
 				ACAF97781B5C0A1B00CB53B1 /* Model */,
 				ACAF975F1B5C04A200CB53B1 /* Images.xcassets */,
 				ACAF97561B5C04A200CB53B1 /* Supporting Files */,
