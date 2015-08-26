@@ -21,28 +21,10 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
             
             if let notNilModel = self.model {
                 
-                notNilModel.articlesInserted = { (range: Range<Int>) in
-                    
-                    let insertedIndexPaths = self.layout!.insertArticles(range.count)
-                    
-                    if range.startIndex == 0 {
-                        self.collectionView!.reloadData()
-                    } else {
-                        self.collectionView!.insertItemsAtIndexPaths(insertedIndexPaths)
-                    }
-                }
-                
-                notNilModel.thumbImageLoaded = { (index: Int) in
-                    self.collectionView!.reloadItemsAtIndexPaths([NSIndexPath(forItem: index, inSection: 0)])
-                }
-                
-                notNilModel.errorOccurred = { (error: NSError) in
-                    UIAlertView(title: "", message: error.localizedDescription, delegate: nil, cancelButtonTitle: nil, otherButtonTitles: "Ok").show()
-                }
-                
-                notNilModel.loadingStateChanged = { (loading: Bool) in
-                    UIApplication.sharedApplication().networkActivityIndicatorVisible = loading
-                }
+                notNilModel.articlesInserted = self.articlesInsertedHandler()
+                notNilModel.thumbImageLoaded = self.thumbImageLoadedHandler()
+                notNilModel.errorOccurred = self.errorOccurredHandler()
+                notNilModel.loadingStateChanged = self.loadingStateChangedHandler()
             }
         }
     }
@@ -91,6 +73,38 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
         
         if beyondBottom >= 0 {
             notNilModel.loadMore()
+        }
+    }
+    
+    private func articlesInsertedHandler() -> ((range: Range<Int>) -> Void) {
+
+        return { (range: Range<Int>) in
+            
+            let insertedIndexPaths = self.layout!.insertArticles(range.count)
+            
+            if range.startIndex == 0 {
+                self.collectionView!.reloadData()
+            } else {
+                self.collectionView!.insertItemsAtIndexPaths(insertedIndexPaths)
+            }
+        }
+    }
+    
+    private func thumbImageLoadedHandler() -> ((index: Int) -> Void) {
+        return { (index: Int) in
+            self.collectionView!.reloadItemsAtIndexPaths([NSIndexPath(forItem: index, inSection: 0)])
+        }
+    }
+    
+    private func errorOccurredHandler() -> ((error: NSError) -> Void) {
+        return { (error: NSError) in
+            UIAlertView(title: "", message: error.localizedDescription, delegate: nil, cancelButtonTitle: nil, otherButtonTitles: "Ok").show()
+        }
+    }
+    
+    private func loadingStateChangedHandler() -> ((loading: Bool) -> Void) {
+        return { (loading: Bool) in
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = loading
         }
     }
 }
