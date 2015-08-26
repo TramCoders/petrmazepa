@@ -11,7 +11,6 @@ import UIKit
 class ArticlesViewModel: NSObject {
    
     var loading = false {
-
         didSet {
             if let notNilLoadingStateChanged = self.loadingStateChanged {
                 notNilLoadingStateChanged(loading: self.loading)
@@ -19,11 +18,40 @@ class ArticlesViewModel: NSObject {
         }
     }
     
-    private(set) var articles = Array<UIImage>()
+    private var articles = [SimpleArticle]()
+    private var thumbImages = [Int: UIImage]()  // TODO: images will be stored in images cache object
 
     var articlesInserted: ((range: Range<Int>) -> Void)?
+    var thumbImageLoaded: ((index: Int) -> Void)?
     var errorOccurred: ((error: NSError) -> Void)?
     var loadingStateChanged: ((loading: Bool) -> Void)?
+    
+    var articlesCount: Int {
+        get {
+            return self.articles.count
+        }
+    }
+    
+    func getOrLoadThumb(index: Int) -> UIImage? {
+        
+        if let thumbImage = self.thumbImages[index] {
+            return thumbImage
+        }
+        
+        let duration = Double(arc4random_uniform(20)) / 10
+        
+        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(duration * Double(NSEC_PER_SEC)))
+        dispatch_after(delayTime, dispatch_get_main_queue()) {
+            
+            self.thumbImages[index] = UIImage(named: "chersonesus")!
+            
+            if let notNilThumbImageLoaded = self.thumbImageLoaded {
+                notNilThumbImageLoaded(index: index)
+            }
+        }
+        
+        return nil
+    }
     
     func loadIfNeeded() {
         
@@ -40,15 +68,15 @@ class ArticlesViewModel: NSObject {
         let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
         dispatch_after(delayTime, dispatch_get_main_queue()) {
             
-            self.articles.append(UIImage(named: "chersonesus")!)
-            self.articles.append(UIImage(named: "hiroshima")!)
-            self.articles.append(UIImage(named: "intermarium")!)
-            self.articles.append(UIImage(named: "noyou")!)
-            self.articles.append(UIImage(named: "pm-daily374")!)
-            self.articles.append(UIImage(named: "pm-daily375")!)
-            self.articles.append(UIImage(named: "putinkim")!)
-            self.articles.append(UIImage(named: "shadowdragon")!)
-            self.articles.append(UIImage(named: "vesti")!)
+            self.articles.append(SimpleArticle(id: "chersonesus", title: "chersonesus title"))
+            self.articles.append(SimpleArticle(id: "hiroshima", title: "hiroshima title"))
+            self.articles.append(SimpleArticle(id: "intermarium", title: "intermarium title"))
+            self.articles.append(SimpleArticle(id: "noyou", title: "noyou title"))
+            self.articles.append(SimpleArticle(id: "pm-daily374", title: "pm-daily374 title"))
+            self.articles.append(SimpleArticle(id: "pm-daily375", title: "pm-daily375 title"))
+            self.articles.append(SimpleArticle(id: "putinkim", title: "putinkim title"))
+            self.articles.append(SimpleArticle(id: "shadowdragon", title: "shadowdragon title"))
+            self.articles.append(SimpleArticle(id: "vesti", title: "shadowdragon title"))
             
             self.loading = false
             
@@ -73,9 +101,9 @@ class ArticlesViewModel: NSObject {
             
             let oldCount = self.articles.count
             
-            self.articles.append(UIImage(named: "chersonesus")!)
-            self.articles.append(UIImage(named: "freeman")!)
-            self.articles.append(UIImage(named: "hiroshima")!)
+            self.articles.append(SimpleArticle(id: "chersonesus", title: "chersonesus title"))
+            self.articles.append(SimpleArticle(id: "hiroshima", title: "hiroshima title"))
+            self.articles.append(SimpleArticle(id: "intermarium", title: "intermarium title"))
             
             self.loading = false
             

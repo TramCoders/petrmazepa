@@ -10,8 +10,8 @@ import UIKit
 
 class ArticlesViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
-    @IBOutlet weak var collectionView: UICollectionView?
-    weak var layout: ArticlesViewLayout?
+    @IBOutlet weak var collectionView: UICollectionView!
+    weak var layout: ArticlesViewLayout!
     @IBOutlet weak var searchTextField: UITextField!
     let cellReuseIdentifier = "ArticleCell"
     
@@ -32,8 +32,11 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
                     }
                 }
                 
+                notNilModel.thumbImageLoaded = { (index: Int) in
+                    self.collectionView!.reloadItemsAtIndexPaths([NSIndexPath(forItem: index, inSection: 0)])
+                }
+                
                 notNilModel.errorOccurred = { (error: NSError) in
-
                     UIAlertView(title: "", message: error.localizedDescription, delegate: nil, cancelButtonTitle: nil, otherButtonTitles: "Ok").show()
                 }
                 
@@ -62,13 +65,13 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.model!.articles.count
+        return self.model!.articlesCount
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(cellReuseIdentifier, forIndexPath: indexPath) as! ArticleCell
-        let image = self.model!.articles[indexPath.row]
+        let image = self.model?.getOrLoadThumb(indexPath.item)
         cell.update(image)
         
         return cell

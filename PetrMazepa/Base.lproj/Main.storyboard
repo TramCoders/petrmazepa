@@ -105,12 +105,16 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="1xO-6a-HMF" secondAttribute="trailing" id="Dew-kp-XPw"/>
+                            <constraint firstAttribute="trailing" secondItem="1xO-6a-HMF" secondAttribute="trailing" id="Dew-kp-XPw">
+                                <variation key="heightClass=regular-widthClass=compact" constant="1"/>
+                            </constraint>
                             <constraint firstItem="YoU-1M-ywq" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" id="E7b-tL-azp"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="YoU-1M-ywq" secondAttribute="bottom" id="KMi-tK-q0g"/>
                             <constraint firstItem="1xO-6a-HMF" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" id="OWG-La-Tgo"/>
                             <constraint firstAttribute="trailing" secondItem="YoU-1M-ywq" secondAttribute="trailing" id="SNH-M9-5r7"/>
-                            <constraint firstItem="1xO-6a-HMF" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="V8r-9W-URb"/>
+                            <constraint firstItem="1xO-6a-HMF" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="V8r-9W-URb">
+                                <variation key="heightClass=regular-widthClass=compact" constant="1"/>
+                            </constraint>
                             <constraint firstItem="YoU-1M-ywq" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="Zv4-yD-WGu"/>
                         </constraints>
                         <variation key="default">
