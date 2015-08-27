@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ArticlesViewModel: NSObject {
+class ArticlesViewModel: ViewModel {
    
     var loading = false {
 
@@ -19,11 +19,21 @@ class ArticlesViewModel: NSObject {
         }
     }
     
+    var searchStateExpanded = false {
+        
+        didSet {
+            if let notNilSearchStateChanged = self.searchStateChanged {
+                notNilSearchStateChanged(expand: self.searchStateExpanded)
+            }
+        }
+    }
+    
     private(set) var articles = Array<UIImage>()
 
     var articlesInserted: ((range: Range<Int>) -> Void)?
     var errorOccurred: ((error: NSError) -> Void)?
     var loadingStateChanged: ((loading: Bool) -> Void)?
+    var searchStateChanged: ((expand: Bool) -> Void)?
     
     func loadIfNeeded() {
         
