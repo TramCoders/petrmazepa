@@ -25,7 +25,10 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITextField
         
         self.showKeyboardHandler = NSNotificationCenter.defaultCenter().addObserverForName(UIKeyboardWillShowNotification, object: nil, queue: nil) { (note: NSNotification) -> Void in
             
-            self.model!.keyboardWillAppear()
+            let keyboardScreenEndFrame = (note.userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+            let keyboardHeight = keyboardScreenEndFrame.height
+            
+            self.model!.keyboardWillAppear(height: keyboardHeight)
         }
         
         self.hideKeyboardHandler = NSNotificationCenter.defaultCenter().addObserverForName(UIKeyboardWillHideNotification, object: nil, queue: nil) { (note: NSNotification) -> Void in

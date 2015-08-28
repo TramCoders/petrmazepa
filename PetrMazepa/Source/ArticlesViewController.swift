@@ -49,9 +49,9 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
                     UIApplication.sharedApplication().networkActivityIndicatorVisible = loading
                 }
                 
-                notNilModel.searchStateChanged = { (expand: Bool) in
+                notNilModel.searchStateChanged = { (expanded: Bool, keyboardHeight: CGFloat) in
                     
-                    self.heightSearchConstraint.constant = expand ? 300.0 : 74.0
+                    self.heightSearchConstraint.constant = expanded ? (self.view.frame.height - keyboardHeight) : 74.0
                     self.view.layoutIfNeeded()
                 }
             }

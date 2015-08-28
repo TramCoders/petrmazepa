@@ -27,17 +27,17 @@ class ScreenFlow {
         self.window.makeKeyAndVisible()
     }
     
-    func expandSearch() {
+    func expandSearch(keyboardHeight height: CGFloat) {
         
         if let notNilArticlesViewModel = self.articlesViewModel {
-            notNilArticlesViewModel.searchStateExpanded = true
+            notNilArticlesViewModel.updateSearchExpanded(true, keyboardHeight: height)
         }
     }
     
     func collapseSearch() {
         
         if let notNilArticlesViewModel = self.articlesViewModel {
-            notNilArticlesViewModel.searchStateExpanded = false
+            notNilArticlesViewModel.updateSearchExpanded(false, keyboardHeight: 0.0)
         }
     }
     

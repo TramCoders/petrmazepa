@@ -6,12 +6,12 @@
 //  Copyright © 2015 TramCoders. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 class SearchViewModel: ViewModel {
     
-    func keyboardWillAppear() {
-        self.screenFlow.expandSearch()
+    func keyboardWillAppear(height height: CGFloat) {
+        self.screenFlow.expandSearch(keyboardHeight: height)
     }
     
     func keyboardWillDisappear() {

@@ -19,21 +19,12 @@ class ArticlesViewModel: ViewModel {
         }
     }
     
-    var searchStateExpanded = false {
-        
-        didSet {
-            if let notNilSearchStateChanged = self.searchStateChanged {
-                notNilSearchStateChanged(expand: self.searchStateExpanded)
-            }
-        }
-    }
-    
     private(set) var articles = Array<UIImage>()
 
     var articlesInserted: ((range: Range<Int>) -> Void)?
     var errorOccurred: ((error: NSError) -> Void)?
     var loadingStateChanged: ((loading: Bool) -> Void)?
-    var searchStateChanged: ((expand: Bool) -> Void)?
+    var searchStateChanged: ((expanded: Bool, keyboardHeight: CGFloat) -> Void)?
     
     func loadIfNeeded() {
         
@@ -94,6 +85,13 @@ class ArticlesViewModel: ViewModel {
             if let notNilArticlesInserted = self.articlesInserted {
                 notNilArticlesInserted(range: oldCount..<newCount)
             }
+        }
+    }
+    
+    func updateSearchExpanded(expanded: Bool, keyboardHeight: CGFloat) {
+        
+        if let notNilSearchStateChanged = self.searchStateChanged {
+            notNilSearchStateChanged(expanded: expanded, keyboardHeight: keyboardHeight)
         }
     }
 }
