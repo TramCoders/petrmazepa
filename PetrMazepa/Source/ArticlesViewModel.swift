@@ -32,7 +32,7 @@ class ArticlesViewModel: NSObject {
         }
     }
     
-    func getOrLoadThumb(index: Int) -> UIImage? {
+    func requestThumb(index: Int) -> UIImage? {
         
         if let thumbImage = self.thumbImages[index] {
             return thumbImage
@@ -53,15 +53,52 @@ class ArticlesViewModel: NSObject {
         return nil
     }
     
-    func loadIfNeeded() {
+    func viewDidLoad() {
+        
+        guard self.loading == false else {
+            return
+        }
         
         guard self.articles.count == 0 else {
             return
         }
         
+        self.load()
+    }
+    
+    func didScrollToBottom() {
+        
         guard self.loading == false else {
             return
         }
+        
+        self.loadMore()
+    }
+    
+    private func loadMore() {
+        
+        self.loading = true
+        
+        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
+        dispatch_after(delayTime, dispatch_get_main_queue()) {
+            
+            let oldCount = self.articles.count
+            
+            self.articles.append(SimpleArticle(id: "chersonesus", title: "chersonesus title"))
+            self.articles.append(SimpleArticle(id: "hiroshima", title: "hiroshima title"))
+            self.articles.append(SimpleArticle(id: "intermarium", title: "intermarium title"))
+            
+            self.loading = false
+            
+            let newCount = self.articles.count
+            
+            if let notNilArticlesInserted = self.articlesInserted {
+                notNilArticlesInserted(range: oldCount..<newCount)
+            }
+        }
+    }
+    
+    private func load() {
         
         self.loading = true
         
@@ -84,33 +121,6 @@ class ArticlesViewModel: NSObject {
             
             if let notNilArticlesInserted = self.articlesInserted {
                 notNilArticlesInserted(range: 0..<newCount)
-            }
-        }
-    }
-    
-    func loadMore() {
-        
-        guard self.loading == false else {
-            return
-        }
-        
-        self.loading = true
-        
-        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
-        dispatch_after(delayTime, dispatch_get_main_queue()) {
-            
-            let oldCount = self.articles.count
-            
-            self.articles.append(SimpleArticle(id: "chersonesus", title: "chersonesus title"))
-            self.articles.append(SimpleArticle(id: "hiroshima", title: "hiroshima title"))
-            self.articles.append(SimpleArticle(id: "intermarium", title: "intermarium title"))
-            
-            self.loading = false
-            
-            let newCount = self.articles.count
-            
-            if let notNilArticlesInserted = self.articlesInserted {
-                notNilArticlesInserted(range: oldCount..<newCount)
             }
         }
     }

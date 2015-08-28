@@ -43,7 +43,9 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
         
         // a collection view layout data source
         self.layout = self.collectionView!.collectionViewLayout as? ArticlesViewLayout
-        self.model!.loadIfNeeded()
+        
+        // notify model
+        self.model!.viewDidLoad()
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -53,26 +55,18 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(self.cellReuseIdentifier, forIndexPath: indexPath) as! ArticleCell
-        let image = self.model!.getOrLoadThumb(indexPath.item)
-        cell.update(image)
+        let thumb = self.model!.requestThumb(indexPath.item)
+        cell.update(thumb)
         
         return cell
     }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
         
-        guard let notNilModel = self.model else {
-            return
-        }
-        
-        guard notNilModel.loading == false else {
-            return
-        }
-        
         let beyondBottom = scrollView.contentOffset.y + scrollView.frame.height - scrollView.contentSize.height
         
         if beyondBottom >= 0 {
-            notNilModel.loadMore()
+            self.model!.didScrollToBottom()
         }
     }
     
