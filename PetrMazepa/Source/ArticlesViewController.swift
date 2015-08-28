@@ -52,8 +52,8 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(cellReuseIdentifier, forIndexPath: indexPath) as! ArticleCell
-        let image = self.model?.getOrLoadThumb(indexPath.item)
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(self.cellReuseIdentifier, forIndexPath: indexPath) as! ArticleCell
+        let image = self.model!.getOrLoadThumb(indexPath.item)
         cell.update(image)
         
         return cell
@@ -98,7 +98,9 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
     
     private func errorOccurredHandler() -> ((error: NSError) -> Void) {
         return { (error: NSError) in
-            UIAlertView(title: "", message: error.localizedDescription, delegate: nil, cancelButtonTitle: nil, otherButtonTitles: "Ok").show()
+            
+            let alert = UIAlertController(title: "", message: error.localizedDescription, preferredStyle: .Alert)
+            self.presentViewController(alert, animated: true, completion: nil)
         }
     }
     
