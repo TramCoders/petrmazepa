@@ -13,6 +13,14 @@ class SimpleArticle : NSObject {
     let id: String
     let title: String
     
+    var thumbUrl: NSURL? {
+        
+        get {
+            let urlString = "http://petrimazepa.com/bundles/pim/images/thumbs/\(self.id).jpeg"
+            return NSURL(string: urlString)
+        }
+    }
+    
     init(id: String, title: String) {
         
         self.id = id

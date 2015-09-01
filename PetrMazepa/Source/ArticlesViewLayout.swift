@@ -28,7 +28,7 @@ class ArticlesViewLayout: UICollectionViewLayout  {
         let insertedIndices = oldCount..<(oldCount + count)
         var insertedIndexPaths = [NSIndexPath]()
 
-        self.attributes.appendContentsOf(Array(insertedIndices.map({ (index: Int) -> UICollectionViewLayoutAttributes in
+        self.attributes.appendContentsOf(insertedIndices.map({ (index: Int) -> UICollectionViewLayoutAttributes in
 
             let indexPath = NSIndexPath(forItem: index, inSection: 0)
             insertedIndexPaths.append(indexPath)
@@ -40,7 +40,7 @@ class ArticlesViewLayout: UICollectionViewLayout  {
             attrs.frame = CGRectMake(left, top, cellWidth, cellWidth)
             
             return attrs
-        })))
+        }))
         
         return insertedIndexPaths
     }

@@ -10,8 +10,8 @@ import UIKit
 
 class ArticlesViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
-    @IBOutlet weak var collectionView: UICollectionView?
-    weak var layout: ArticlesViewLayout?
+    @IBOutlet weak var collectionView: UICollectionView!
+    weak var layout: ArticlesViewLayout!
     @IBOutlet weak var searchTextField: UITextField!
     let cellReuseIdentifier = "ArticleCell"
     
@@ -21,25 +21,10 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
             
             if let notNilModel = self.model {
                 
-                notNilModel.articlesInserted = { (range: Range<Int>) in
-                    
-                    let insertedIndexPaths = self.layout!.insertArticles(range.count)
-                    
-                    if range.startIndex == 0 {
-                        self.collectionView!.reloadData()
-                    } else {
-                        self.collectionView!.insertItemsAtIndexPaths(insertedIndexPaths)
-                    }
-                }
-                
-                notNilModel.errorOccurred = { (error: NSError) in
-
-                    UIAlertView(title: "", message: error.localizedDescription, delegate: nil, cancelButtonTitle: nil, otherButtonTitles: "Ok").show()
-                }
-                
-                notNilModel.loadingStateChanged = { (loading: Bool) in
-                    UIApplication.sharedApplication().networkActivityIndicatorVisible = loading
-                }
+                notNilModel.articlesInserted = self.articlesInsertedHandler()
+                notNilModel.thumbImageLoaded = self.thumbImageLoadedHandler()
+                notNilModel.errorOccurred = self.errorOccurredHandler()
+                notNilModel.loadingStateChanged = self.loadingStateChangedHandler()
             }
         }
     }
@@ -58,36 +43,64 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
         
         // a collection view layout data source
         self.layout = self.collectionView!.collectionViewLayout as? ArticlesViewLayout
-        self.model!.loadIfNeeded()
+        
+        // notify model
+        self.model!.viewDidLoad()
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.model!.articles.count
+        return self.model!.articlesCount
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(cellReuseIdentifier, forIndexPath: indexPath) as! ArticleCell
-        let image = self.model!.articles[indexPath.row]
-        cell.update(image)
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(self.cellReuseIdentifier, forIndexPath: indexPath) as! ArticleCell
+        let thumb = self.model!.requestThumb(indexPath.item)
+        cell.update(thumb)
         
         return cell
     }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
         
-        guard let notNilModel = self.model else {
-            return
-        }
-        
-        guard notNilModel.loading == false else {
-            return
-        }
-        
         let beyondBottom = scrollView.contentOffset.y + scrollView.frame.height - scrollView.contentSize.height
         
         if beyondBottom >= 0 {
-            notNilModel.loadMore()
+            self.model!.didScrollToBottom()
+        }
+    }
+    
+    private func articlesInsertedHandler() -> ((range: Range<Int>) -> Void) {
+
+        return { (range: Range<Int>) in
+            
+            let insertedIndexPaths = self.layout!.insertArticles(range.count)
+            
+            if range.startIndex == 0 {
+                self.collectionView!.reloadData()
+            } else {
+                self.collectionView!.insertItemsAtIndexPaths(insertedIndexPaths)
+            }
+        }
+    }
+    
+    private func thumbImageLoadedHandler() -> ((index: Int) -> Void) {
+        return { (index: Int) in
+            self.collectionView!.reloadItemsAtIndexPaths([NSIndexPath(forItem: index, inSection: 0)])
+        }
+    }
+    
+    private func errorOccurredHandler() -> ((error: NSError) -> Void) {
+        return { (error: NSError) in
+            
+            let alert = UIAlertController(title: "", message: error.localizedDescription, preferredStyle: .Alert)
+            self.presentViewController(alert, animated: true, completion: nil)
+        }
+    }
+    
+    private func loadingStateChangedHandler() -> ((loading: Bool) -> Void) {
+        return { (loading: Bool) in
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = loading
         }
     }
 }
