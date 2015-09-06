@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SearchViewModel: ViewModel {
+class SearchViewModel {
     
     private var articles: [SimpleArticle]?
     private var query: String?

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate {
+class SearchViewController: BaseViewController, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
@@ -45,7 +45,7 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
     }
     
     @IBAction func doneTapped(sender: AnyObject) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.screenFlow!.hideSearch()
     }
     
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {

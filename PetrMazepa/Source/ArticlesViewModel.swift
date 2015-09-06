@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ArticlesViewModel: ViewModel {
+class ArticlesViewModel {
    
     var loading = false {
         didSet {
@@ -46,10 +46,6 @@ class ArticlesViewModel: ViewModel {
         }
         
         return nil
-    }
-    
-    func searchTapped() {
-        self.screenFlow.showSearch()
     }
     
     func viewDidLoad() {

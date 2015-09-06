@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ArticlesViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+class ArticlesViewController: BaseViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
     @IBOutlet weak var searchContainerView: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
@@ -48,7 +48,7 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
     }
     
     @IBAction func searchTapped(sender: AnyObject) {
-        self.model!.searchTapped()
+        self.screenFlow!.showSearch()
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

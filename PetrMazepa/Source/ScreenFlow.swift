@@ -23,7 +23,8 @@ class ScreenFlow {
         
         let navigationController = storyboard.instantiateInitialViewController() as! UINavigationController
         self.articlesViewController = navigationController.topViewController as? ArticlesViewController
-        self.articlesViewController!.model = ArticlesViewModel(screenFlow: self)
+        self.articlesViewController!.model = ArticlesViewModel()
+        self.articlesViewController!.screenFlow = self
         self.window.rootViewController = navigationController
         self.window.makeKeyAndVisible()
     }
@@ -33,8 +34,13 @@ class ScreenFlow {
         let searchNavigationController = self.storyboard.instantiateViewControllerWithIdentifier("SearchNav") as! UINavigationController
         
         let searchViewController = searchNavigationController.topViewController as! SearchViewController
-        searchViewController.model = SearchViewModel(screenFlow: self)
+        searchViewController.model = SearchViewModel()
+        searchViewController.screenFlow = self
         self.articlesViewController!.presentViewController(searchNavigationController, animated: true, completion: nil)
+    }
+    
+    func hideSearch() {
+        self.articlesViewController?.dismissViewControllerAnimated(true, completion: nil)
     }
     
 }
