@@ -12,6 +12,7 @@ class SimpleArticle : NSObject {
     
     let id: String
     let title: String
+    let author: String
     
     var thumbUrl: NSURL? {
         
@@ -21,10 +22,11 @@ class SimpleArticle : NSObject {
         }
     }
     
-    init(id: String, title: String) {
+    init(id: String, title: String, author: String) {
         
         self.id = id
         self.title = title
+        self.author = author
     }
     
 }

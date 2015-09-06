@@ -73,7 +73,16 @@
     
     NSString *title = articleTitle.content;
     
-    return [[SimpleArticle alloc] initWithId:identifier title:title];
+    // author
+    TFHppleElement *articleAuthor = [articleTile firstChildWithClassName:@"article-author"];
+    
+    if (!articleAuthor) {
+        return nil;
+    }
+    
+    NSString *author = articleAuthor.content;
+    
+    return [[SimpleArticle alloc] initWithId:identifier title:title author:author];
 }
 
 - (NSString *)identifierFromHref:(NSString *)href {

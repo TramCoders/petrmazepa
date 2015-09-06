@@ -83,10 +83,10 @@ class ArticlesViewModel: ViewModel {
             
             let oldCount = self.articles.count
             
-            self.articles.append(SimpleArticle(id: "chersonesus", title: "chersonesus title"))
-            self.articles.append(SimpleArticle(id: "hiroshima", title: "hiroshima title"))
-            self.articles.append(SimpleArticle(id: "intermarium", title: "intermarium title"))
-            self.articles.append(SimpleArticle(id: "hiroshima", title: "hiroshima title"))
+            self.articles.append(SimpleArticle(id: "chersonesus", title: "chersonesus title", author: "chersonesus author"))
+            self.articles.append(SimpleArticle(id: "hiroshima", title: "hiroshima title", author: "chersonesus author"))
+            self.articles.append(SimpleArticle(id: "intermarium", title: "intermarium title", author: "chersonesus author"))
+            self.articles.append(SimpleArticle(id: "hiroshima", title: "hiroshima title", author: "chersonesus author"))
             
             self.loading = false
             
@@ -102,16 +102,16 @@ class ArticlesViewModel: ViewModel {
         let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
         dispatch_after(delayTime, dispatch_get_main_queue()) {
             
-            self.articles.append(SimpleArticle(id: "chersonesus", title: "chersonesus title"))
-            self.articles.append(SimpleArticle(id: "hiroshima", title: "hiroshima title"))
-            self.articles.append(SimpleArticle(id: "intermarium", title: "intermarium title"))
-            self.articles.append(SimpleArticle(id: "noyou", title: "noyou title"))
-            self.articles.append(SimpleArticle(id: "pm-daily374", title: "pm-daily374 title"))
-            self.articles.append(SimpleArticle(id: "pm-daily375", title: "pm-daily375 title"))
-            self.articles.append(SimpleArticle(id: "putinkim", title: "putinkim title"))
-            self.articles.append(SimpleArticle(id: "shadowdragon", title: "shadowdragon title"))
-            self.articles.append(SimpleArticle(id: "vesti", title: "shadowdragon title"))
-            self.articles.append(SimpleArticle(id: "vesti", title: "shadowdragon title"))
+            self.articles.append(SimpleArticle(id: "chersonesus", title: "chersonesus title", author: "chersonesus author"))
+            self.articles.append(SimpleArticle(id: "hiroshima", title: "hiroshima title", author: "chersonesus author"))
+            self.articles.append(SimpleArticle(id: "intermarium", title: "intermarium title", author: "chersonesus author"))
+            self.articles.append(SimpleArticle(id: "noyou", title: "noyou title", author: "chersonesus author"))
+            self.articles.append(SimpleArticle(id: "pm-daily374", title: "pm-daily374 title", author: "chersonesus author"))
+            self.articles.append(SimpleArticle(id: "pm-daily375", title: "pm-daily375 title", author: "chersonesus author"))
+            self.articles.append(SimpleArticle(id: "putinkim", title: "putinkim title", author: "chersonesus author"))
+            self.articles.append(SimpleArticle(id: "shadowdragon", title: "shadowdragon title", author: "chersonesus author"))
+            self.articles.append(SimpleArticle(id: "vesti", title: "shadowdragon title", author: "chersonesus author"))
+            self.articles.append(SimpleArticle(id: "vesti", title: "shadowdragon title", author: "chersonesus author"))
             
             self.loading = false
             
