@@ -218,8 +218,8 @@
 				ACC6D6641B73EF510099131D /* HTML */,
 				ACAF976E1B5C04A300CB53B1 /* PetrMazepaTests.swift */,
 				ACAF97811B5C321500CB53B1 /* SimpleArticlesParserTests.swift */,
-				ACAF976C1B5C04A300CB53B1 /* Supporting Files */,
 				AC5FA43C1B9C58F10013E1C5 /* ArticlesViewModelTests.swift */,
+				ACAF976C1B5C04A300CB53B1 /* Supporting Files */,
 			);
 			path = PetrMazepaTests;
 			sourceTree = "<group>";
