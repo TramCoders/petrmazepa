@@ -13,7 +13,7 @@ class ScreenFlow {
     let window = UIWindow(frame: UIScreen.mainScreen().bounds)
     let storyboard = UIStoryboard(name: "Main", bundle: nil)
 
-    var articlesViewModel: ArticlesViewModel?
+    var articlesViewController: ArticlesViewController?
     
     func start() {
         showArticles()
@@ -21,39 +21,20 @@ class ScreenFlow {
     
     func showArticles() {
         
-        let viewController = self.createArticlesViewController()
-        self.articlesViewModel = viewController.model
-        self.window.rootViewController = viewController
+        let navigationController = storyboard.instantiateInitialViewController() as! UINavigationController
+        self.articlesViewController = navigationController.topViewController as? ArticlesViewController
+        self.articlesViewController!.model = ArticlesViewModel(screenFlow: self)
+        self.window.rootViewController = navigationController
         self.window.makeKeyAndVisible()
     }
     
-    func expandSearch(keyboardHeight height: CGFloat) {
+    func showSearch() {
         
-        if let notNilArticlesViewModel = self.articlesViewModel {
-            notNilArticlesViewModel.updateSearchExpanded(true, keyboardHeight: height)
-        }
-    }
-    
-    func collapseSearch() {
+        let searchNavigationController = self.storyboard.instantiateViewControllerWithIdentifier("SearchNav") as! UINavigationController
         
-        if let notNilArticlesViewModel = self.articlesViewModel {
-            notNilArticlesViewModel.updateSearchExpanded(false, keyboardHeight: 0.0)
-        }
-    }
-    
-    private func createArticlesViewController() -> ArticlesViewController {
-        
-        let viewController = storyboard.instantiateInitialViewController() as! ArticlesViewController
-        viewController.model = ArticlesViewModel(screenFlow: self)
-        viewController.searchViewController = self.createSearchViewController()
-        return viewController
-    }
-    
-    private func createSearchViewController() -> SearchViewController {
-        
-        let viewController = storyboard.instantiateViewControllerWithIdentifier("Search") as! SearchViewController
-        viewController.model = SearchViewModel(screenFlow: self)
-        return viewController
+        let searchViewController = searchNavigationController.topViewController as! SearchViewController
+        searchViewController.model = SearchViewModel(screenFlow: self)
+        self.articlesViewController!.presentViewController(searchNavigationController, animated: true, completion: nil)
     }
     
 }

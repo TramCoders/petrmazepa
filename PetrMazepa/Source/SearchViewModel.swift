@@ -10,11 +10,26 @@ import UIKit
 
 class SearchViewModel: ViewModel {
     
-    func keyboardWillAppear(height height: CGFloat) {
-        self.screenFlow.expandSearch(keyboardHeight: height)
+    private var articles: [SimpleArticle]?
+    private var query: String?
+    
+    var articlesChanged: (() -> Void)?
+    
+    var articlesCount: Int {
+        get {
+            return 10
+        }
     }
     
-    func keyboardWillDisappear() {
-        self.screenFlow.collapseSearch()
+    func requestArticle(index: Int) -> (thumb: UIImage?, title: String, author: String) {
+        return (UIImage(named: "chersonesus"), "TitleTitle", "AuthorAuthor")
+    }
+    
+    func didChangeQuery(query: String) {
+
+        self.query = query
+        // TODO: apply query
+        
+        self.articlesChanged!()
     }
 }

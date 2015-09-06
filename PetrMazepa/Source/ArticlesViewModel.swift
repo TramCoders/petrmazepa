@@ -12,9 +12,7 @@ class ArticlesViewModel: ViewModel {
    
     var loading = false {
         didSet {
-            if let notNilLoadingStateChanged = self.loadingStateChanged {
-                notNilLoadingStateChanged(loading: self.loading)
-            }
+            self.loadingStateChanged!(loading: self.loading)
         }
     }
     
@@ -25,7 +23,6 @@ class ArticlesViewModel: ViewModel {
     var thumbImageLoaded: ((index: Int) -> Void)?
     var errorOccurred: ((error: NSError) -> Void)?
     var loadingStateChanged: ((loading: Bool) -> Void)?
-    var searchStateChanged: ((expanded: Bool, keyboardHeight: CGFloat) -> Void)?
     
     var articlesCount: Int {
         get {
@@ -45,13 +42,14 @@ class ArticlesViewModel: ViewModel {
         dispatch_after(delayTime, dispatch_get_main_queue()) {
             
             self.thumbImages[index] = UIImage(named: "chersonesus")!
-            
-            if let notNilThumbImageLoaded = self.thumbImageLoaded {
-                notNilThumbImageLoaded(index: index)
-            }
+            self.thumbImageLoaded!(index: index)
         }
         
         return nil
+    }
+    
+    func searchTapped() {
+        self.screenFlow.showSearch()
     }
     
     func viewDidLoad() {
@@ -88,14 +86,12 @@ class ArticlesViewModel: ViewModel {
             self.articles.append(SimpleArticle(id: "chersonesus", title: "chersonesus title"))
             self.articles.append(SimpleArticle(id: "hiroshima", title: "hiroshima title"))
             self.articles.append(SimpleArticle(id: "intermarium", title: "intermarium title"))
+            self.articles.append(SimpleArticle(id: "hiroshima", title: "hiroshima title"))
             
             self.loading = false
             
             let newCount = self.articles.count
-            
-            if let notNilArticlesInserted = self.articlesInserted {
-                notNilArticlesInserted(range: oldCount..<newCount)
-            }
+            self.articlesInserted!(range: oldCount..<newCount)
         }
     }
     
@@ -115,21 +111,13 @@ class ArticlesViewModel: ViewModel {
             self.articles.append(SimpleArticle(id: "putinkim", title: "putinkim title"))
             self.articles.append(SimpleArticle(id: "shadowdragon", title: "shadowdragon title"))
             self.articles.append(SimpleArticle(id: "vesti", title: "shadowdragon title"))
+            self.articles.append(SimpleArticle(id: "vesti", title: "shadowdragon title"))
             
             self.loading = false
             
             let newCount = self.articles.count
-            
-            if let notNilArticlesInserted = self.articlesInserted {
-                notNilArticlesInserted(range: 0..<newCount)
-            }
+            self.articlesInserted!(range: 0..<newCount)
         }
     }
     
-    func updateSearchExpanded(expanded: Bool, keyboardHeight: CGFloat) {
-        
-        if let notNilSearchStateChanged = self.searchStateChanged {
-            notNilSearchStateChanged(expanded: expanded, keyboardHeight: keyboardHeight)
-        }
-    }
 }
