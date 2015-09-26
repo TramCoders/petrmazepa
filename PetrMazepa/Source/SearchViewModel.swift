@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SearchViewModel {
+class SearchViewModel: ViewModel {
     
     private var articles: [SimpleArticle]?
     private var query: String?
@@ -17,12 +17,14 @@ class SearchViewModel {
     
     var articlesCount: Int {
         get {
-            return 10
+            return self.contentProvider.articles.count
         }
     }
     
     func requestArticle(index: Int) -> (thumb: UIImage?, title: String, author: String) {
-        return (UIImage(named: "chersonesus"), "TitleTitle", "AuthorAuthor")
+        
+        let articles = self.contentProvider.articles[index]
+        return (UIImage(named: "chersonesus"), articles.title, articles.author)
     }
     
     func didChangeQuery(query: String) {

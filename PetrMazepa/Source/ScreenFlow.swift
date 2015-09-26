@@ -12,8 +12,9 @@ class ScreenFlow {
     
     let window = UIWindow(frame: UIScreen.mainScreen().bounds)
     let storyboard = UIStoryboard(name: "Main", bundle: nil)
-
     var articlesViewController: ArticlesViewController?
+    
+    let contentProvider = ContentProvider()
     
     func start() {
         showArticles()
@@ -23,7 +24,7 @@ class ScreenFlow {
         
         let navigationController = storyboard.instantiateInitialViewController() as! UINavigationController
         self.articlesViewController = navigationController.topViewController as? ArticlesViewController
-        self.articlesViewController!.model = ArticlesViewModel()
+        self.articlesViewController!.model = ArticlesViewModel(contentProvider: self.contentProvider)
         self.articlesViewController!.screenFlow = self
         self.window.rootViewController = navigationController
         self.window.makeKeyAndVisible()
@@ -34,7 +35,7 @@ class ScreenFlow {
         let searchNavigationController = self.storyboard.instantiateViewControllerWithIdentifier("SearchNav") as! UINavigationController
         
         let searchViewController = searchNavigationController.topViewController as! SearchViewController
-        searchViewController.model = SearchViewModel()
+        searchViewController.model = SearchViewModel(contentProvider: self.contentProvider)
         searchViewController.screenFlow = self
         self.articlesViewController!.presentViewController(searchNavigationController, animated: true, completion: nil)
     }

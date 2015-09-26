@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ArticlesViewModel {
+class ArticlesViewModel: ViewModel {
    
     var loading = false {
         didSet {
@@ -16,7 +16,6 @@ class ArticlesViewModel {
         }
     }
     
-    private var articles = [SimpleArticle]()
     private var thumbImages = [Int: UIImage]()  // TODO: images will be stored in images cache object
 
     var articlesInserted: ((range: Range<Int>) -> Void)?
@@ -26,7 +25,7 @@ class ArticlesViewModel {
     
     var articlesCount: Int {
         get {
-            return self.articles.count
+            return self.contentProvider.articles.count
         }
     }
     
@@ -54,7 +53,7 @@ class ArticlesViewModel {
             return
         }
         
-        guard self.articles.count == 0 else {
+        guard self.contentProvider.articles.count == 0 else {
             return
         }
         
@@ -73,20 +72,12 @@ class ArticlesViewModel {
     private func loadMore() {
         
         self.loading = true
+        let oldCount = self.contentProvider.articles.count
         
-        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
-        dispatch_after(delayTime, dispatch_get_main_queue()) {
-            
-            let oldCount = self.articles.count
-            
-            self.articles.append(SimpleArticle(id: "chersonesus", title: "chersonesus title", author: "chersonesus author"))
-            self.articles.append(SimpleArticle(id: "hiroshima", title: "hiroshima title", author: "chersonesus author"))
-            self.articles.append(SimpleArticle(id: "intermarium", title: "intermarium title", author: "chersonesus author"))
-            self.articles.append(SimpleArticle(id: "hiroshima", title: "hiroshima title", author: "chersonesus author"))
+        self.contentProvider.loadSimpleArticles(4) { (articles: [SimpleArticle]?, error: NSError?) -> () in
             
             self.loading = false
-            
-            let newCount = self.articles.count
+            let newCount = self.contentProvider.articles.count
             self.articlesInserted!(range: oldCount..<newCount)
         }
     }
@@ -95,23 +86,10 @@ class ArticlesViewModel {
         
         self.loading = true
         
-        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
-        dispatch_after(delayTime, dispatch_get_main_queue()) {
-            
-            self.articles.append(SimpleArticle(id: "chersonesus", title: "chersonesus title", author: "chersonesus author"))
-            self.articles.append(SimpleArticle(id: "hiroshima", title: "hiroshima title", author: "chersonesus author"))
-            self.articles.append(SimpleArticle(id: "intermarium", title: "intermarium title", author: "chersonesus author"))
-            self.articles.append(SimpleArticle(id: "noyou", title: "noyou title", author: "chersonesus author"))
-            self.articles.append(SimpleArticle(id: "pm-daily374", title: "pm-daily374 title", author: "chersonesus author"))
-            self.articles.append(SimpleArticle(id: "pm-daily375", title: "pm-daily375 title", author: "chersonesus author"))
-            self.articles.append(SimpleArticle(id: "putinkim", title: "putinkim title", author: "chersonesus author"))
-            self.articles.append(SimpleArticle(id: "shadowdragon", title: "shadowdragon title", author: "chersonesus author"))
-            self.articles.append(SimpleArticle(id: "vesti", title: "shadowdragon title", author: "chersonesus author"))
-            self.articles.append(SimpleArticle(id: "vesti", title: "shadowdragon title", author: "chersonesus author"))
+        self.contentProvider.loadSimpleArticles(8) { (articles: [SimpleArticle]?, error: NSError?) -> () in
             
             self.loading = false
-            
-            let newCount = self.articles.count
+            let newCount = self.contentProvider.articles.count
             self.articlesInserted!(range: 0..<newCount)
         }
     }
