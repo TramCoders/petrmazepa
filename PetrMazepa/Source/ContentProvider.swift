@@ -11,6 +11,7 @@ import UIKit
 class ContentProvider {
     
     var articles = [SimpleArticle]()
+    private var images = [NSURL: UIImage]()  // TODO: images will be stored in images cache object
     
     private let fakeArticles = [ SimpleArticle(id: "chersonesus", title: "chersonesus title", author: "chersonesus author"),
                                  SimpleArticle(id: "hiroshima", title: "hiroshima title", author: "chersonesus author"),
@@ -35,7 +36,24 @@ class ContentProvider {
         }
     }
     
-    func loadImage(url: NSURL, completion: (NSData?, NSError?) -> ()) {
+    func loadImage(index index: Int, completion: (UIImage?, NSError?) -> ()) -> UIImage? {
+        
+        if index >= self.articles.count {
+            return nil
+        }
+        
+        guard let url = self.articles[index].thumbUrl else {
+            return nil
+        }
+        
+        return self.loadImage(url: url, completion: completion)
+    }
+    
+    func loadImage(url url: NSURL, completion: (UIImage?, NSError?) -> ()) -> UIImage? {
+        
+        if let image = self.images[url] {
+            return image
+        }
         
         let duration = Double(arc4random_uniform(20)) / 10
         
@@ -43,9 +61,11 @@ class ContentProvider {
         dispatch_after(delayTime, dispatch_get_main_queue()) {
             
             let image = UIImage(named: "chersonesus")!
-            let imageData = UIImagePNGRepresentation(image)
-            completion(imageData, nil)
+            self.images[url] = UIImage(named: "chersonesus")!
+            completion(image, nil)
         }
+        
+        return nil
     }
     
     private func fakeArticles(count: Int) -> [SimpleArticle] {

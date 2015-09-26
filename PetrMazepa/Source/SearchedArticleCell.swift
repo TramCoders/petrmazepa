@@ -11,6 +11,7 @@ import UIKit
 class SearchedArticleCell: UITableViewCell {
     
     @IBOutlet weak var thumbImageView: UIImageView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var authorLabel: UILabel!
     
@@ -20,10 +21,24 @@ class SearchedArticleCell: UITableViewCell {
         self.accessoryType = .DisclosureIndicator
     }
 
-    func update(thumbnail thumb: UIImage?, title: String?, author: String?) {
+    func update(title title: String?, author: String?) {
         
-        self.thumbImageView.image = thumb
         self.titleLabel.text = title
         self.authorLabel.text = author
+    }
+    
+    func updateThumb(image: UIImage?) {
+        
+        self.thumbImageView.image = image
+        self.updateActivityIndicator(show: image == nil)
+    }
+    
+    private func updateActivityIndicator(show show: Bool) {
+        
+        if show {
+            self.activityIndicator.startAnimating()
+        } else {
+            self.activityIndicator.stopAnimating()
+        }
     }
 }

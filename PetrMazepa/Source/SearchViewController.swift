@@ -20,6 +20,7 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
     var model: SearchViewModel? {
         didSet {
             self.model!.articlesChanged = self.articlesChangedHandler()
+            self.model!.thumbImageLoaded = self.thumbImageLoadedHandler()
         }
     }
     
@@ -59,8 +60,12 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("SearchedArticle", forIndexPath: indexPath) as! SearchedArticleCell
         
-        let searchedArticle = self.model!.requestArticle(indexPath.row)
-        cell.update(thumbnail: searchedArticle.thumb, title: searchedArticle.title, author: searchedArticle.author)
+        let index = indexPath.row
+        let searchedArticle = self.model!.requestArticle(index)
+        cell.update(title: searchedArticle.title, author: searchedArticle.author)
+        
+        let image = self.model!.requestThumb(index)
+        cell.updateThumb(image)
         
         return cell
     }
@@ -125,6 +130,12 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
     private func articlesChangedHandler() -> (() -> Void) {
         return {
             self.tableView.reloadData()
+        }
+    }
+    
+    private func thumbImageLoadedHandler() -> ((index: Int) -> Void) {
+        return { (index: Int) in
+            self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forItem: index, inSection: 0)], withRowAnimation: .Automatic)
         }
     }
 }
