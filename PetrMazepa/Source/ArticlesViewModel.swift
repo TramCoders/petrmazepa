@@ -48,6 +48,19 @@ class ArticlesViewModel: ViewModel {
         self.loadMore()
     }
     
+    func requestThumb(index index: Int) -> UIImage? {
+        
+        let completion = { (image: UIImage?, error: NSError?) in
+            self.thumbImageLoaded!(index: index)
+        }
+        
+        if let image = self.contentProvider.loadImage(index: index, completion: completion) {
+            return image
+        }
+        
+        return nil
+    }
+    
     private func loadMore() {
         
         let oldCount = self.contentProvider.articles.count

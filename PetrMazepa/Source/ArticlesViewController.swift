@@ -58,7 +58,7 @@ class ArticlesViewController: BaseViewController, UICollectionViewDelegate, UICo
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(self.cellReuseIdentifier, forIndexPath: indexPath) as! ArticleCell
-        let thumb = self.model!.requestThumb(indexPath.item)
+        let thumb = self.model!.requestThumb(index: indexPath.item)
         cell.update(thumb)
         
         return cell

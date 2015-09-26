@@ -16,17 +16,4 @@ class ViewModel {
     init(contentProvider: ContentProvider) {
         self.contentProvider = contentProvider
     }
-    
-    func requestThumb(index: Int) -> UIImage? {
-        
-        let completion = { (image: UIImage?, error: NSError?) in
-            self.thumbImageLoaded!(index: index)
-        }
-        
-        if let image = self.contentProvider.loadImage(index: index, completion: completion) {
-            return image
-        }
-        
-        return nil
-    }
 }

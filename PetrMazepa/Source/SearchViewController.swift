@@ -64,7 +64,7 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
         let searchedArticle = self.model!.requestArticle(index)
         cell.update(title: searchedArticle.title, author: searchedArticle.author)
         
-        let image = self.model!.requestThumb(index)
+        let image = self.model!.requestThumb(url: searchedArticle.thumbUrl)
         cell.updateThumb(image)
         
         return cell
