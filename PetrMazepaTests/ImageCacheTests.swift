@@ -10,13 +10,24 @@ import XCTest
 
 class ImageCacheTests: XCTestCase {
 
-    func testThatReturnsFalseIfDoesntContainUrl() {
+    // FIXME: it shouldn't go to the network
+    func testThatReturnsFalseAndDownloadsImageIfDoesntContainUrl() {
         
         let imageCache = ImageCache(images: [NSURL : NSData]())
         let url = NSURL.init(string: "http://petrimazepa.com/bundles/pim/images/thumbs/8c8d524c7d2adb60297aa511e03d7485.jpeg")!
-        let exists = imageCache.requestImage(url: url) { (_, _) -> () in /* do nothing*/ }
+        let expectation = expectationWithDescription("Image has been downloaded")
+        
+        let exists = imageCache.requestImage(url: url) { (imageData: NSData?, _) -> () in
+            
+            XCTAssert(imageData != nil, "'imageData' mustn't be 'nil'")
+            expectation.fulfill()
+        }
         
         XCTAssert(exists == false, "A return value must be 'false' for a nonexistent URL")
+        
+        waitForExpectationsWithTimeout(3) { (error: NSError?) -> Void in
+            XCTAssert(error == nil, "An image must be downloaded")
+        }
     }
     
     func testThatReturnsTrueAndCorrectImageIfContainsUrl() {
