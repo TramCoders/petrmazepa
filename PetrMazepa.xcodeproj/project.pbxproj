@@ -29,6 +29,9 @@
 		ACBA475A1B8D14910088616D /* SimpleArticlesParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC711EE1B8CD2B200C84AE7 /* SimpleArticlesParser.m */; };
 		ACC6D6631B73EF310099131D /* random_page.html in Resources */ = {isa = PBXBuildFile; fileRef = ACC6D6621B73EF310099131D /* random_page.html */; };
 		ACCDE7F11B63B02C002FDECA /* articles.html in Resources */ = {isa = PBXBuildFile; fileRef = ACCDE7F01B63B02C002FDECA /* articles.html */; };
+		ACEE36891BB801A900E7F63D /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACEE36881BB801A900E7F63D /* ImageCache.swift */; settings = {ASSET_TAGS = (); }; };
+		ACEE368A1BB8043900E7F63D /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACEE36881BB801A900E7F63D /* ImageCache.swift */; settings = {ASSET_TAGS = (); }; };
+		ACEE368C1BB8045900E7F63D /* ImageCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACEE368B1BB8045900E7F63D /* ImageCacheTests.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +74,8 @@
 		ACAF97811B5C321500CB53B1 /* SimpleArticlesParserTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleArticlesParserTests.swift; sourceTree = "<group>"; };
 		ACC6D6621B73EF310099131D /* random_page.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = random_page.html; sourceTree = "<group>"; };
 		ACCDE7F01B63B02C002FDECA /* articles.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = articles.html; sourceTree = "<group>"; };
+		ACEE36881BB801A900E7F63D /* ImageCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageCache.swift; path = Source/ImageCache.swift; sourceTree = "<group>"; };
+		ACEE368B1BB8045900E7F63D /* ImageCacheTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCacheTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -192,6 +197,7 @@
 				ACC6D6641B73EF510099131D /* HTML */,
 				ACAF976E1B5C04A300CB53B1 /* PetrMazepaTests.swift */,
 				ACAF97811B5C321500CB53B1 /* SimpleArticlesParserTests.swift */,
+				ACEE368B1BB8045900E7F63D /* ImageCacheTests.swift */,
 				ACAF976C1B5C04A300CB53B1 /* Supporting Files */,
 			);
 			path = PetrMazepaTests;
@@ -208,6 +214,7 @@
 		ACAF97781B5C0A1B00CB53B1 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				ACEE36871BB8018400E7F63D /* ImageCache */,
 				ACAF977E1B5C319A00CB53B1 /* Parser */,
 				ACAF977D1B5C313300CB53B1 /* DO */,
 			);
@@ -238,6 +245,14 @@
 				ACCDE7F01B63B02C002FDECA /* articles.html */,
 			);
 			name = HTML;
+			sourceTree = "<group>";
+		};
+		ACEE36871BB8018400E7F63D /* ImageCache */ = {
+			isa = PBXGroup;
+			children = (
+				ACEE36881BB801A900E7F63D /* ImageCache.swift */,
+			);
+			name = ImageCache;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -350,6 +365,7 @@
 				5EC711F41B8CD2B200C84AE7 /* ScreenFlow.swift in Sources */,
 				5EC712131B8CD3B000C84AE7 /* XPathQuery.m in Sources */,
 				5EC712121B8CD3B000C84AE7 /* TFHppleElement.m in Sources */,
+				ACEE36891BB801A900E7F63D /* ImageCache.swift in Sources */,
 				5EC712111B8CD3B000C84AE7 /* TFHpple.m in Sources */,
 				5EC711F11B8CD2B200C84AE7 /* ArticlesViewController.swift in Sources */,
 				5EC711F61B8CD2B200C84AE7 /* SimpleArticlesParser.m in Sources */,
@@ -362,9 +378,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ACEE368A1BB8043900E7F63D /* ImageCache.swift in Sources */,
 				ACAF976F1B5C04A300CB53B1 /* PetrMazepaTests.swift in Sources */,
 				ACAF97821B5C321500CB53B1 /* SimpleArticlesParserTests.swift in Sources */,
 				AC1373CB1B8D13D20034F9CB /* SimpleArticle.swift in Sources */,
+				ACEE368C1BB8045900E7F63D /* ImageCacheTests.swift in Sources */,
 				ACBA475A1B8D14910088616D /* SimpleArticlesParser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
