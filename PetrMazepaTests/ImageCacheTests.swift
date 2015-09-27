@@ -13,7 +13,8 @@ class ImageCacheTests: XCTestCase {
     // FIXME: it shouldn't go to the network
     func testThatReturnsFalseAndDownloadsImageIfDoesntContainUrl() {
         
-        let imageCache = ImageCache(images: [NSURL : NSData]())
+        let storage = InMemoryImageStorage()
+        let imageCache = ImageCache(storages: [storage])
         let url = NSURL.init(string: "http://petrimazepa.com/bundles/pim/images/thumbs/8c8d524c7d2adb60297aa511e03d7485.jpeg")!
         let expectation = expectationWithDescription("Image has been downloaded")
         
@@ -35,7 +36,9 @@ class ImageCacheTests: XCTestCase {
         let url = NSURL.init(string: "http://petrimazepa.com/bundles/pim/images/thumbs/8c8d524c7d2adb60297aa511e03d7485.jpeg")!
         let image = UIImage(named: "chersonesus")!
         let imageData = UIImagePNGRepresentation(image)!
-        let imageCache = ImageCache(images: [url : imageData])
+        let storage = InMemoryImageStorage()
+        storage.saveImage(url: url, data: imageData)
+        let imageCache = ImageCache(storages: [storage])
         
         var resultImageData: NSData?
 

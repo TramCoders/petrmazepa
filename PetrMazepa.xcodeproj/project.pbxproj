@@ -21,6 +21,12 @@
 		5EC712161B8CD42000C84AE7 /* ArticleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5EC712141B8CD42000C84AE7 /* ArticleCell.xib */; settings = {ASSET_TAGS = (); }; };
 		AC1373CA1B8D13A50034F9CB /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = AC1373C91B8D13A50034F9CB /* libxml2.tbd */; };
 		AC1373CB1B8D13D20034F9CB /* SimpleArticle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC711EC1B8CD2B200C84AE7 /* SimpleArticle.swift */; };
+		ACA41A531BB8489B00550857 /* InMemoryImageStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA41A521BB8489B00550857 /* InMemoryImageStorage.swift */; settings = {ASSET_TAGS = (); }; };
+		ACA41A551BB849AF00550857 /* PersistentImageStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA41A541BB849AF00550857 /* PersistentImageStorage.swift */; settings = {ASSET_TAGS = (); }; };
+		ACA41A571BB84AFD00550857 /* ImageStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA41A561BB84AFD00550857 /* ImageStorage.swift */; settings = {ASSET_TAGS = (); }; };
+		ACA41A581BB84E5800550857 /* ImageStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA41A561BB84AFD00550857 /* ImageStorage.swift */; settings = {ASSET_TAGS = (); }; };
+		ACA41A591BB84E5A00550857 /* InMemoryImageStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA41A521BB8489B00550857 /* InMemoryImageStorage.swift */; settings = {ASSET_TAGS = (); }; };
+		ACA41A5A1BB84E5D00550857 /* PersistentImageStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA41A541BB849AF00550857 /* PersistentImageStorage.swift */; settings = {ASSET_TAGS = (); }; };
 		ACAF975E1B5C04A200CB53B1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ACAF975C1B5C04A200CB53B1 /* Main.storyboard */; };
 		ACAF97601B5C04A200CB53B1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACAF975F1B5C04A200CB53B1 /* Images.xcassets */; };
 		ACAF97631B5C04A200CB53B1 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = ACAF97611B5C04A200CB53B1 /* LaunchScreen.xib */; };
@@ -63,6 +69,9 @@
 		5EC712151B8CD42000C84AE7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ArticleCell.xib; sourceTree = "<group>"; };
 		AC1373C91B8D13A50034F9CB /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
 		AC6E0F4B1B63F9D700C8299E /* PetrMazepa-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PetrMazepa-Bridging-Header.h"; sourceTree = "<group>"; };
+		ACA41A521BB8489B00550857 /* InMemoryImageStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InMemoryImageStorage.swift; path = Source/InMemoryImageStorage.swift; sourceTree = "<group>"; };
+		ACA41A541BB849AF00550857 /* PersistentImageStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PersistentImageStorage.swift; path = Source/PersistentImageStorage.swift; sourceTree = "<group>"; };
+		ACA41A561BB84AFD00550857 /* ImageStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageStorage.swift; path = Source/ImageStorage.swift; sourceTree = "<group>"; };
 		ACAF97531B5C04A200CB53B1 /* PetrMazepa.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PetrMazepa.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACAF97571B5C04A200CB53B1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ACAF975D1B5C04A200CB53B1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -251,6 +260,9 @@
 			isa = PBXGroup;
 			children = (
 				ACEE36881BB801A900E7F63D /* ImageCache.swift */,
+				ACA41A561BB84AFD00550857 /* ImageStorage.swift */,
+				ACA41A521BB8489B00550857 /* InMemoryImageStorage.swift */,
+				ACA41A541BB849AF00550857 /* PersistentImageStorage.swift */,
 			);
 			name = ImageCache;
 			sourceTree = "<group>";
@@ -362,8 +374,11 @@
 				5EC711EF1B8CD2B200C84AE7 /* AppDelegate.swift in Sources */,
 				5EC711F21B8CD2B200C84AE7 /* ArticlesViewLayout.swift in Sources */,
 				5EC711F51B8CD2B200C84AE7 /* SimpleArticle.swift in Sources */,
+				ACA41A551BB849AF00550857 /* PersistentImageStorage.swift in Sources */,
 				5EC711F41B8CD2B200C84AE7 /* ScreenFlow.swift in Sources */,
 				5EC712131B8CD3B000C84AE7 /* XPathQuery.m in Sources */,
+				ACA41A531BB8489B00550857 /* InMemoryImageStorage.swift in Sources */,
+				ACA41A571BB84AFD00550857 /* ImageStorage.swift in Sources */,
 				5EC712121B8CD3B000C84AE7 /* TFHppleElement.m in Sources */,
 				ACEE36891BB801A900E7F63D /* ImageCache.swift in Sources */,
 				5EC712111B8CD3B000C84AE7 /* TFHpple.m in Sources */,
@@ -379,9 +394,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				ACEE368A1BB8043900E7F63D /* ImageCache.swift in Sources */,
+				ACA41A581BB84E5800550857 /* ImageStorage.swift in Sources */,
 				ACAF976F1B5C04A300CB53B1 /* PetrMazepaTests.swift in Sources */,
 				ACAF97821B5C321500CB53B1 /* SimpleArticlesParserTests.swift in Sources */,
 				AC1373CB1B8D13D20034F9CB /* SimpleArticle.swift in Sources */,
+				ACA41A5A1BB84E5D00550857 /* PersistentImageStorage.swift in Sources */,
+				ACA41A591BB84E5A00550857 /* InMemoryImageStorage.swift in Sources */,
 				ACEE368C1BB8045900E7F63D /* ImageCacheTests.swift in Sources */,
 				ACBA475A1B8D14910088616D /* SimpleArticlesParser.m in Sources */,
 			);

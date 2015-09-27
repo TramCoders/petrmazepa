@@ -6,37 +6,31 @@
 //  Copyright © 2015 TramCoders. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
 class ImageCache {
     
-    var images: [NSURL: NSData]
-    
-    private var session: NSURLSession {
-        get {
-            return NSURLSession.sharedSession()
-        }
-    }
-    
+    private let session = NSURLSession.sharedSession()
+    private let storages: [ImageStorage]
+
     init() {
-        self.images = [NSURL: NSData]()
+        self.storages = [ InMemoryImageStorage(), PersistentImageStorage()]
     }
     
-    init(images: [NSURL: NSData]) {
-        self.images = images
+    init(storages: [ImageStorage]) {
+        self.storages = storages
     }
     
     func requestImage(url url: NSURL, completion: (NSData?, NSError?) -> ()) -> Bool? {
         
-        if let imageData = self.images[url] {
+        if let imageData = self.loadImage(url: url) {
 
             completion(imageData, nil)
             return true
         }
         
         let request = NSURLRequest(URL: url)
-        
-        self.session.downloadTaskWithRequest(request) { (fileUrl: NSURL?, _, error: NSError?) -> Void in
+        self.session.downloadTaskWithRequest(request) { (fileUrl: NSURL?, _, error: NSError?) -> () in
             
             if error != nil {
                 
@@ -52,7 +46,7 @@ class ImageCache {
             
             if let imageData = NSData(contentsOfURL: notNilFileUrl) {
 
-                self.images[url] = imageData
+                self.saveImage(url: url, data: imageData)
                 completion(imageData, nil)
 
             } else {
@@ -62,5 +56,24 @@ class ImageCache {
         }.resume()
         
         return false
+    }
+    
+    private func saveImage(url url: NSURL, data: NSData) {
+
+        for storage in self.storages {
+            storage.saveImage(url: url, data: data)
+        }
+    }
+    
+    private func loadImage(url url: NSURL) -> NSData? {
+
+        for storage in self.storages {
+            
+            if let imageData = storage.loadImage(url: url) {
+                return imageData
+            }
+        }
+        
+        return nil
     }
 }
