@@ -15,20 +15,13 @@ class Networking {
     
     func fetchArticles(fromIndex fromIndex: Int, count: Int, completion: ([SimpleArticle]?, NSError?) -> ()) {
         
-        if count <= 0 || fromIndex < 0 {
-            
+        guard let url = self.fetchArticlesUrl(fromIndex: fromIndex, count: count) else {
+
             completion(nil, nil)
             return
         }
         
-        let urlString = "http://petrimazepa.com/ajax/articles/\(fromIndex)/\(count)"
-        let url = NSURL(string: urlString)
-        
-        guard let notNilUrl = url else {
-            return
-        }
-        
-        self.session.dataTaskWithURL(notNilUrl) { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
+        self.session.dataTaskWithURL(url) { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
             
             guard let notNilData = data else {
 
@@ -46,5 +39,15 @@ class Networking {
             completion(articles, nil)
             
         }.resume()
+    }
+    
+    private func fetchArticlesUrl(fromIndex fromIndex: Int, count: Int) -> NSURL? {
+
+        if count <= 0 || fromIndex < 0 {
+            return nil
+        }
+        
+        let urlString = "http://petrimazepa.com/ajax/articles/\(fromIndex)/\(count)"
+        return NSURL(string: urlString)
     }
 }
