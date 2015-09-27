@@ -10,15 +10,19 @@ import Foundation
 
 class ImageCache {
     
-    private let session = NSURLSession.sharedSession()
+    private let downloader: ImageDownloader
     private let storages: [ImageStorage]
 
     init() {
+        
         self.storages = [ InMemoryImageStorage(), PersistentImageStorage()]
+        self.downloader = RealImageDownloader()
     }
     
-    init(storages: [ImageStorage]) {
+    init(storages: [ImageStorage], downloader: ImageDownloader) {
+        
         self.storages = storages
+        self.downloader = downloader
     }
     
     func requestImage(url url: NSURL, completion: (NSData?, NSError?) -> ()) -> Bool? {
@@ -29,31 +33,14 @@ class ImageCache {
             return true
         }
         
-        let request = NSURLRequest(URL: url)
-        self.session.downloadTaskWithRequest(request) { (fileUrl: NSURL?, _, error: NSError?) -> () in
-            
-            if error != nil {
-                
-                completion(nil, error)
-                return
+        self.downloader.downloadImage(url) { (data, error) -> () in
+
+            if let notNilData = data {
+                self.saveImage(url: url, data: notNilData)
             }
             
-            guard let notNilFileUrl = fileUrl else {
-                
-                completion(nil, nil)
-                return
-            }
-            
-            if let imageData = NSData(contentsOfURL: notNilFileUrl) {
-
-                self.saveImage(url: url, data: imageData)
-                completion(imageData, nil)
-
-            } else {
-                completion(nil, nil)
-            }
-
-        }.resume()
+            completion(data, error)
+        }
         
         return false
     }

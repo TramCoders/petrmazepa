@@ -8,13 +8,28 @@
 
 import XCTest
 
+class TestImageDownloader: ImageDownloader {
+    
+    private let success: Bool
+    
+    init(success: Bool) {
+        self.success = success
+    }
+    
+    func downloadImage(url: NSURL, completion: (NSData?, NSError?) -> ()) {
+        
+        let image = UIImage(named: "chersonesus")!
+        let imageData = UIImagePNGRepresentation(image)!
+        completion(imageData, nil)
+    }
+}
+
 class ImageCacheTests: XCTestCase {
 
-    // FIXME: it shouldn't go to the network
     func testThatReturnsFalseAndDownloadsImageIfDoesntContainUrl() {
         
         let storage = InMemoryImageStorage()
-        let imageCache = ImageCache(storages: [storage])
+        let imageCache = ImageCache(storages: [storage], downloader: TestImageDownloader(success: true))
         let url = NSURL.init(string: "http://petrimazepa.com/bundles/pim/images/thumbs/8c8d524c7d2adb60297aa511e03d7485.jpeg")!
         let expectation = expectationWithDescription("Image has been downloaded")
         
@@ -38,7 +53,7 @@ class ImageCacheTests: XCTestCase {
         let imageData = UIImagePNGRepresentation(image)!
         let storage = InMemoryImageStorage()
         storage.saveImage(url: url, data: imageData)
-        let imageCache = ImageCache(storages: [storage])
+        let imageCache = ImageCache(storages: [storage], downloader: TestImageDownloader(success: true))
         
         var resultImageData: NSData?
 
