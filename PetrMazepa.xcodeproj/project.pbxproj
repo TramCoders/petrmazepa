@@ -25,12 +25,10 @@
 		ACA41A551BB849AF00550857 /* PersistentImageStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA41A541BB849AF00550857 /* PersistentImageStorage.swift */; settings = {ASSET_TAGS = (); }; };
 		ACA41A571BB84AFD00550857 /* ImageStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA41A561BB84AFD00550857 /* ImageStorage.swift */; settings = {ASSET_TAGS = (); }; };
 		ACA41A581BB84E5800550857 /* ImageStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA41A561BB84AFD00550857 /* ImageStorage.swift */; settings = {ASSET_TAGS = (); }; };
-		ACA41A591BB84E5A00550857 /* InMemoryImageStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA41A521BB8489B00550857 /* InMemoryImageStorage.swift */; settings = {ASSET_TAGS = (); }; };
-		ACA41A5A1BB84E5D00550857 /* PersistentImageStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA41A541BB849AF00550857 /* PersistentImageStorage.swift */; settings = {ASSET_TAGS = (); }; };
 		ACA41A5C1BB8526600550857 /* RealImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA41A5B1BB8526600550857 /* RealImageDownloader.swift */; settings = {ASSET_TAGS = (); }; };
-		ACA41A5D1BB8526600550857 /* RealImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA41A5B1BB8526600550857 /* RealImageDownloader.swift */; settings = {ASSET_TAGS = (); }; };
 		ACA41A611BB8558500550857 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA41A601BB8558500550857 /* ImageDownloader.swift */; settings = {ASSET_TAGS = (); }; };
 		ACA41A621BB8558500550857 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA41A601BB8558500550857 /* ImageDownloader.swift */; settings = {ASSET_TAGS = (); }; };
+		ACA41A641BB8620300550857 /* DefaultImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA41A631BB8620300550857 /* DefaultImageCache.swift */; settings = {ASSET_TAGS = (); }; };
 		ACAF975E1B5C04A200CB53B1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ACAF975C1B5C04A200CB53B1 /* Main.storyboard */; };
 		ACAF97601B5C04A200CB53B1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACAF975F1B5C04A200CB53B1 /* Images.xcassets */; };
 		ACAF97631B5C04A200CB53B1 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = ACAF97611B5C04A200CB53B1 /* LaunchScreen.xib */; };
@@ -78,6 +76,7 @@
 		ACA41A561BB84AFD00550857 /* ImageStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageStorage.swift; path = Source/ImageStorage.swift; sourceTree = "<group>"; };
 		ACA41A5B1BB8526600550857 /* RealImageDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RealImageDownloader.swift; path = Source/RealImageDownloader.swift; sourceTree = "<group>"; };
 		ACA41A601BB8558500550857 /* ImageDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageDownloader.swift; path = Source/ImageDownloader.swift; sourceTree = "<group>"; };
+		ACA41A631BB8620300550857 /* DefaultImageCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DefaultImageCache.swift; path = Source/DefaultImageCache.swift; sourceTree = "<group>"; };
 		ACAF97531B5C04A200CB53B1 /* PetrMazepa.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PetrMazepa.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACAF97571B5C04A200CB53B1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ACAF975D1B5C04A200CB53B1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -284,9 +283,10 @@
 		ACEE36871BB8018400E7F63D /* ImageCache */ = {
 			isa = PBXGroup;
 			children = (
-				ACEE36881BB801A900E7F63D /* ImageCache.swift */,
 				ACA41A5E1BB8555D00550857 /* Storage */,
 				ACA41A5F1BB8556C00550857 /* Downloader */,
+				ACEE36881BB801A900E7F63D /* ImageCache.swift */,
+				ACA41A631BB8620300550857 /* DefaultImageCache.swift */,
 			);
 			name = ImageCache;
 			sourceTree = "<group>";
@@ -407,6 +407,7 @@
 				5EC712121B8CD3B000C84AE7 /* TFHppleElement.m in Sources */,
 				ACA41A611BB8558500550857 /* ImageDownloader.swift in Sources */,
 				ACEE36891BB801A900E7F63D /* ImageCache.swift in Sources */,
+				ACA41A641BB8620300550857 /* DefaultImageCache.swift in Sources */,
 				5EC712111B8CD3B000C84AE7 /* TFHpple.m in Sources */,
 				5EC711F11B8CD2B200C84AE7 /* ArticlesViewController.swift in Sources */,
 				5EC711F61B8CD2B200C84AE7 /* SimpleArticlesParser.m in Sources */,
@@ -424,10 +425,7 @@
 				ACAF976F1B5C04A300CB53B1 /* PetrMazepaTests.swift in Sources */,
 				ACAF97821B5C321500CB53B1 /* SimpleArticlesParserTests.swift in Sources */,
 				AC1373CB1B8D13D20034F9CB /* SimpleArticle.swift in Sources */,
-				ACA41A5A1BB84E5D00550857 /* PersistentImageStorage.swift in Sources */,
 				ACA41A621BB8558500550857 /* ImageDownloader.swift in Sources */,
-				ACA41A5D1BB8526600550857 /* RealImageDownloader.swift in Sources */,
-				ACA41A591BB84E5A00550857 /* InMemoryImageStorage.swift in Sources */,
 				ACEE368C1BB8045900E7F63D /* ImageCacheTests.swift in Sources */,
 				ACBA475A1B8D14910088616D /* SimpleArticlesParser.m in Sources */,
 			);

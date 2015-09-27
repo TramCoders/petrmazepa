@@ -13,13 +13,7 @@ class ImageCache {
     private let downloader: ImageDownloader
     private let storages: [ImageStorage]
 
-    init() {
-        
-        self.storages = [ InMemoryImageStorage(), PersistentImageStorage()]
-        self.downloader = RealImageDownloader()
-    }
-    
-    init(storages: [ImageStorage], downloader: ImageDownloader) {
+    required init(storages: [ImageStorage], downloader: ImageDownloader) {
         
         self.storages = storages
         self.downloader = downloader
@@ -27,12 +21,14 @@ class ImageCache {
     
     func requestImage(url url: NSURL, completion: (NSData?, NSError?) -> ()) -> Bool? {
         
+        // search for the image in the storages
         if let imageData = self.loadImage(url: url) {
 
             completion(imageData, nil)
             return true
         }
         
+        // download the image from the network
         self.downloader.downloadImage(url) { (data, error) -> () in
 
             if let notNilData = data {
