@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Networking {
+class Networking: ImageDownloader {
     
     private let session = NSURLSession.sharedSession()
     private let articlesParser = SimpleArticlesParser()
@@ -38,6 +38,26 @@ class Networking {
             let articles = self.articlesParser.parse(notNilData) as! [SimpleArticle]
             completion(articles, nil)
             
+        }.resume()
+    }
+    
+    func downloadImage(url: NSURL, completion: (NSData?, NSError?) -> ()) {
+        
+        let request = NSURLRequest(URL: url)
+        self.session.downloadTaskWithRequest(request) { (fileUrl: NSURL?, _, error: NSError?) -> () in
+            
+            guard let notNilFileUrl = fileUrl else {
+                
+                completion(nil, error)
+                return
+            }
+            
+            if let imageData = NSData(contentsOfURL: notNilFileUrl) {
+                completion(imageData, error)
+            } else {
+                completion(nil, error)
+            }
+
         }.resume()
     }
     
