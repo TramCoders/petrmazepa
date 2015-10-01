@@ -8,6 +8,8 @@
 
 import Foundation
 
+typealias ArticlesFetchHandler = ([SimpleArticle]?, NSError?) -> ()
+
 protocol ArticlesFetcher {
-    func fetchArticles(fromIndex fromIndex: Int, count: Int, completion: ([SimpleArticle]?, NSError?) -> ())
+    func fetchArticles(fromIndex fromIndex: Int, count: Int, completion: ArticlesFetchHandler)
 }

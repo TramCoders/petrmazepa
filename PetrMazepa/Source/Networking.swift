@@ -13,7 +13,7 @@ class Networking: ImageDownloader, ArticlesFetcher {
     private let session = NSURLSession.sharedSession()
     private let articlesParser = SimpleArticlesParser()
     
-    func fetchArticles(fromIndex fromIndex: Int, count: Int, completion: ([SimpleArticle]?, NSError?) -> ()) {
+    func fetchArticles(fromIndex fromIndex: Int, count: Int, completion: ArticlesFetchHandler) {
         
         guard let url = self.fetchArticlesUrl(fromIndex: fromIndex, count: count) else {
 
@@ -41,7 +41,7 @@ class Networking: ImageDownloader, ArticlesFetcher {
         }.resume()
     }
     
-    func downloadImage(url: NSURL, completion: (NSData?, NSError?) -> ()) {
+    func downloadImage(url: NSURL, completion: ImageDownloadHandler) {
         
         let request = NSURLRequest(URL: url)
         self.session.downloadTaskWithRequest(request) { (fileUrl: NSURL?, _, error: NSError?) -> () in

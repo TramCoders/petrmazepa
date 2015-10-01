@@ -8,6 +8,8 @@
 
 import Foundation
 
+typealias ImageDownloadHandler = (NSData?, NSError?) -> ()
+
 protocol ImageDownloader {
-    func downloadImage(url: NSURL, completion: (NSData?, NSError?) -> ())
+    func downloadImage(url: NSURL, completion: ImageDownloadHandler)
 }
