@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Networking: ImageDownloader {
+class Networking: ImageDownloader, ArticlesFetcher {
     
     private let session = NSURLSession.sharedSession()
     private let articlesParser = SimpleArticlesParser()

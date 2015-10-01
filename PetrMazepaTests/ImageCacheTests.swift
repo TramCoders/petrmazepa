@@ -18,6 +18,12 @@ func testImageData() -> NSData {
     return UIImagePNGRepresentation(image)!
 }
 
+func testImageData1() -> NSData {
+    
+    let image = UIImage(named: "hiroshima")!
+    return UIImagePNGRepresentation(image)!
+}
+
 class TestImageStorage: ImageStorage {
     
     private var images = [NSURL: NSData]()
@@ -52,7 +58,7 @@ class TestImageDownloader: ImageDownloader {
 
 class ImageCacheTests: XCTestCase {
 
-    func testThatReturnsFalseAndDownloadsImageIfDoesntContainUrl() {
+    func testThatReturnsFalseAndDownloadsImageIfItIsNotStored() {
         
         let storage = TestImageStorage()
         let imageCache = ImageCache(storages: [storage], downloader: TestImageDownloader(success: true))
@@ -60,18 +66,18 @@ class ImageCacheTests: XCTestCase {
         
         let exists = imageCache.requestImage(url: testImageUrl()) { (imageData: NSData?, _) -> () in
             
-            XCTAssert(imageData != nil, "'imageData' mustn't be 'nil'")
+            XCTAssert(imageData != nil, "'imageData' must not be 'nil'")
             expectation.fulfill()
         }
         
-        XCTAssert(exists == false, "A return value must be 'false' for a nonexistent URL")
+        XCTAssert(exists == false, "A return value must be 'false' for the unstored image")
         
         waitForExpectationsWithTimeout(1) { (error: NSError?) -> Void in
             XCTAssert(error == nil, "An image must be downloaded")
         }
     }
     
-    func testThatReturnsTrueAndCorrectImageIfContainsUrl() {
+    func testThatReturnsTrueAndCorrectImageIfItIsStored() {
         
         let image = UIImage(named: "chersonesus")!
         let imageData = UIImagePNGRepresentation(image)!
@@ -85,11 +91,11 @@ class ImageCacheTests: XCTestCase {
             resultImageData = imageData
         }
         
-        XCTAssert(exists == true, "A return value must be 'true' for an existent URL")
+        XCTAssert(exists == true, "A return value must be 'true', because the image is stored")
         XCTAssert(resultImageData == imageData, "A return value must be equal to the saved image data")
     }
     
-    func testThatReturnsNilImageIfDoesntContainUrlAndNetworkingFails() {
+    func testThatReturnsNilImageIfItIsNotStoredAndNetworkingFails() {
 
         let storage = TestImageStorage()
         let downloader = TestImageDownloader(success: false)
@@ -107,7 +113,7 @@ class ImageCacheTests: XCTestCase {
         }
     }
     
-    func testThatReturnsImageIfDoesntContainUrlAndNetworkingSucceeds() {
+    func testThatReturnsImageIfItIsNotStoredAndNetworkingSucceeds() {
         
         let storage = TestImageStorage()
         let downloader = TestImageDownloader(success: true)
@@ -125,7 +131,7 @@ class ImageCacheTests: XCTestCase {
         }
     }
     
-    func testThatReturnsCorrectImageIfContainsUrlRegardlessNetworkState() {
+    func testThatReturnsCorrectImageIfItIsStoredRegardlessNetworkState() {
         
         let storage = TestImageStorage()
         let url = testImageUrl()
@@ -144,6 +150,62 @@ class ImageCacheTests: XCTestCase {
         }
         
         waitForExpectationsWithTimeout(1) { (error) -> () in
+            XCTAssert(error == nil, "The callback must be called")
+        }
+    }
+    
+    func testThatIfStorageContainsImageThenNextSorageIsIgnored() {
+        
+        let imageUrl = testImageUrl()
+        let imageData = testImageData()
+        let nextImageData = testImageData1()
+        
+        // previous image storage
+        let storage = TestImageStorage()
+        storage.saveImage(url: imageUrl, data: imageData)
+        
+        // image storage
+        let nextStorage = TestImageStorage()
+        nextStorage.saveImage(url: imageUrl, data: nextImageData)
+        
+        let imageCache = ImageCache(storages: [storage, nextStorage], downloader: TestImageDownloader(success: false))
+        let expectation = expectationWithDescription("A callback is called")
+        
+        imageCache.requestImage(url: imageUrl) { (data, url) -> () in
+            
+            XCTAssert(data != nil, "'data' must not be 'nil'")
+            XCTAssert(data == imageData, "'data' must be equal to the image data from the first image storage")
+            expectation.fulfill()
+        }
+        
+        waitForExpectationsWithTimeout(1) { (error) -> Void in
+            XCTAssert(error == nil, "The callback must be called")
+        }
+    }
+    
+    func testThatIfStorageDoesNotContainImageThenNextStorageIsUsed() {
+        
+        let imageUrl = testImageUrl()
+        let nextImageData = testImageData1()
+        
+        // previous image storage
+        let storage = TestImageStorage()
+        
+        // image storage
+        let nextStorage = TestImageStorage()
+        nextStorage.saveImage(url: imageUrl, data: nextImageData)
+        
+        let imageCache = ImageCache(storages: [storage, nextStorage], downloader: TestImageDownloader(success: false))
+        let expectation = expectationWithDescription("A callback is called")
+        
+        imageCache.requestImage(url: imageUrl) { (data, url) -> () in
+            
+            XCTAssert(data != nil, "'data' must not be 'nil'")
+            XCTAssert(data == nextImageData, "'data' must be equal to the image data from the second image storage")
+            expectation.fulfill()
+        }
+        
+        waitForExpectationsWithTimeout(1) { (error) -> Void in
             XCTAssert(error == nil, "The callback must be called")
         }
     }

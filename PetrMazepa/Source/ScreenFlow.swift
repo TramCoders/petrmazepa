@@ -20,9 +20,17 @@ class ScreenFlow {
     func showArticles() {
         
         let viewController = storyboard.instantiateInitialViewController() as! ArticlesViewController
-        viewController.model = ArticlesViewModel()
+        
+        let networking = Networking()
+        let inMemoryImageStorage = InMemoryImageStorage()
+        let persistentImageStorage = PersistentImageStorage()
+        let imageCache = ImageCache(storages: [inMemoryImageStorage, persistentImageStorage], downloader: networking)
+        
+        viewController.model = ArticlesViewModel(imageCache: imageCache, articlesFetcher: networking)
+        
         self.window.rootViewController = viewController
         self.window.makeKeyAndVisible()
     }
+    
     
 }
