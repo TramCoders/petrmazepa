@@ -14,6 +14,7 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
     weak var layout: ArticlesViewLayout!
     @IBOutlet weak var searchTextField: UITextField!
     let cellReuseIdentifier = "ArticleCell"
+    var screenFlow: ScreenFlow?
     
     var model: ArticlesViewModel? {
         
@@ -59,6 +60,10 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
         cell.update(thumb)
         
         return cell
+    }
+    
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        self.screenFlow?.showArticleDetails(index: indexPath.row)
     }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {

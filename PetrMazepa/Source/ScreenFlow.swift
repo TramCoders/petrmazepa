@@ -15,14 +15,21 @@ class ScreenFlow {
     
     func start() {
         showArticles()
+        showArticleDetails(index: 0)
     }
     
     func showArticles() {
         
         let viewController = storyboard.instantiateInitialViewController() as! ArticlesViewController
+        viewController.screenFlow = self
         viewController.model = ArticlesViewModel()
         self.window.rootViewController = viewController
         self.window.makeKeyAndVisible()
     }
     
+    func showArticleDetails(index index: Int) {
+        
+        let viewController = self.storyboard.instantiateViewControllerWithIdentifier("article_details")
+        self.window.rootViewController?.showViewController(viewController, sender: nil)
+    }
 }
