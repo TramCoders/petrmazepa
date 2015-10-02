@@ -26,7 +26,7 @@ class ArticleTextComponent: ArticleComponent {
         let attributes = [ NSFontAttributeName: UIFont.systemFontOfSize(17) ]
         let width = UIScreen.mainScreen().bounds.width
         let size = string.boundingRectWithSize(CGSizeMake(width - 8, CGFloat.max), options: .UsesLineFragmentOrigin, attributes: attributes, context: nil)
-        return size.height + 8
+        return size.height
     }
     
     func cellIdentifier() -> String {

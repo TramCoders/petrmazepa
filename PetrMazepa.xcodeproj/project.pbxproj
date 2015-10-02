@@ -21,6 +21,7 @@
 		5EC712161B8CD42000C84AE7 /* ArticleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5EC712141B8CD42000C84AE7 /* ArticleCell.xib */; settings = {ASSET_TAGS = (); }; };
 		AC1373CA1B8D13A50034F9CB /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = AC1373C91B8D13A50034F9CB /* libxml2.tbd */; };
 		AC1373CB1B8D13D20034F9CB /* SimpleArticle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC711EC1B8CD2B200C84AE7 /* SimpleArticle.swift */; };
+		AC8F42341BBF24E200E3CAF7 /* ArticleDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8F42331BBF24E200E3CAF7 /* ArticleDetailsViewModel.swift */; settings = {ASSET_TAGS = (); }; };
 		ACA41A531BB8489B00550857 /* InMemoryImageStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA41A521BB8489B00550857 /* InMemoryImageStorage.swift */; settings = {ASSET_TAGS = (); }; };
 		ACA41A551BB849AF00550857 /* PersistentImageStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA41A541BB849AF00550857 /* PersistentImageStorage.swift */; settings = {ASSET_TAGS = (); }; };
 		ACA41A571BB84AFD00550857 /* ImageStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA41A561BB84AFD00550857 /* ImageStorage.swift */; settings = {ASSET_TAGS = (); }; };
@@ -82,6 +83,7 @@
 		5EC712151B8CD42000C84AE7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ArticleCell.xib; sourceTree = "<group>"; };
 		AC1373C91B8D13A50034F9CB /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
 		AC6E0F4B1B63F9D700C8299E /* PetrMazepa-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PetrMazepa-Bridging-Header.h"; sourceTree = "<group>"; };
+		AC8F42331BBF24E200E3CAF7 /* ArticleDetailsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ArticleDetailsViewModel.swift; path = Source/ArticleDetailsViewModel.swift; sourceTree = "<group>"; };
 		ACA41A521BB8489B00550857 /* InMemoryImageStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InMemoryImageStorage.swift; path = Source/InMemoryImageStorage.swift; sourceTree = "<group>"; };
 		ACA41A541BB849AF00550857 /* PersistentImageStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PersistentImageStorage.swift; path = Source/PersistentImageStorage.swift; sourceTree = "<group>"; };
 		ACA41A561BB84AFD00550857 /* ImageStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageStorage.swift; path = Source/ImageStorage.swift; sourceTree = "<group>"; };
@@ -171,6 +173,7 @@
 			isa = PBXGroup;
 			children = (
 				5EC711EA1B8CD2B200C84AE7 /* ArticlesViewModel.swift */,
+				AC8F42331BBF24E200E3CAF7 /* ArticleDetailsViewModel.swift */,
 			);
 			name = ViewModel;
 			sourceTree = "<group>";
@@ -482,6 +485,7 @@
 				ACA41A641BB8620300550857 /* DefaultImageCache.swift in Sources */,
 				5EC712111B8CD3B000C84AE7 /* TFHpple.m in Sources */,
 				ACA41A861BBECEB800550857 /* ArticleTextComponent.swift in Sources */,
+				AC8F42341BBF24E200E3CAF7 /* ArticleDetailsViewModel.swift in Sources */,
 				ACA41A731BBEBC6C00550857 /* ArticleInfoCell.swift in Sources */,
 				5EC711F11B8CD2B200C84AE7 /* ArticlesViewController.swift in Sources */,
 				ACA41A6F1BBD921000550857 /* ArticleImageCell.swift in Sources */,

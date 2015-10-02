@@ -29,7 +29,8 @@ class ScreenFlow {
     
     func showArticleDetails(index index: Int) {
         
-        let viewController = self.storyboard.instantiateViewControllerWithIdentifier("article_details")
+        let viewController = self.storyboard.instantiateViewControllerWithIdentifier("article_details") as! ArticleDetailsViewController
+        viewController.model = ArticleDetailsViewModel()
         self.window.rootViewController?.showViewController(viewController, sender: nil)
     }
 }
