@@ -10,7 +10,17 @@ import UIKit
 
 class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     
-    var model: ArticleDetailsViewModel?
+    var model: ArticleDetailsViewModel? {
+        didSet {
+            if let notNilModel = self.model {
+                
+                notNilModel.loadingStateChanged = self.loadingStateChangedHandler()
+                notNilModel.imageLoaded = self.imageLoadedHandler()
+                notNilModel.articleDetailsLoaded = self.articleDetailsLoadedHandler()
+                notNilModel.errorOccurred = self.errorOccurredHandler()
+            }
+        }
+    }
     
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var imageView: UIImageView!
@@ -18,7 +28,7 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
     @IBOutlet weak var authorLabel: UILabel!
     @IBOutlet weak var textLabel: UILabel!
     
-    private let components: [ArticleComponent] = [ ArticleImageComponent(image: UIImage(named: "freeman")!), ArticleInfoComponent(info: ArticleInfo(dateString: "02.02.2020", author: "П. Мазепа")), ArticleTextComponent(text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed efficitur rhoncus blandit. Curabitur blandit a mauris at volutpat. Morbi tristique posuere sapien sed viverra. Morbi volutpat urna risus, sed ultrices est rutrum ac. Quisque dapibus massa nisl, a placerat ipsum lacinia a. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quisque sem elit, posuere et maximus at, bibendum vel nisl. Aliquam eu justo facilisis, faucibus arcu vitae, blandit arcu.\n\nFusce ut nunc rhoncus, consectetur turpis a, viverra lectus. Proin posuere faucibus arcu, a condimentum massa volutpat ut. Donec ut odio non mi ultricies vulputate. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. In congue sapien at pretium gravida. Sed ut erat dignissim, eleifend mauris at, tincidunt lacus. Proin in sapien eu quam tincidunt fermentum. Quisque sodales viverra turpis, at gravida nulla pulvinar eu. Maecenas aliquam ipsum eget tellus luctus scelerisque. Quisque hendrerit risus felis, eget congue tellus eleifend at. Sed tristique, massa eget viverra auctor, purus diam rhoncus ex, at placerat libero est a lacus. Proin id ex urna. Maecenas dapibus ultrices nibh, a vehicula risus egestas non. Sed euismod, purus a sollicitudin rhoncus, odio quam vulputate metus, eu vulputate magna nulla eget ligula.") ]
+    private let components: [ArticleComponent] = [ ArticleImageComponent(), ArticleInfoComponent(), ArticleTextComponent() ]
     
     override func viewDidLoad() {
         
@@ -32,6 +42,8 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
         for component in self.components {
             self.collectionView.registerNib(component.cellNib(), forCellWithReuseIdentifier: component.cellIdentifier())
         }
+        
+        self.model!.viewDidLoad()
     }
     
     @IBAction func backTapped(sender: AnyObject) {
@@ -59,5 +71,39 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
         let height = component.requiredHeight()
         let width = self.view.frame.width
         return CGSizeMake(width, height)
+    }
+    
+    private func loadingStateChangedHandler() -> ((loading: Bool) -> Void) {
+        return { loading in
+            // TODO:
+        }
+    }
+    
+    private func imageLoadedHandler() -> ((image: UIImage?) -> Void) {
+        return { image in
+            
+            let imageComponent = self.components[0] as! ArticleImageComponent
+            imageComponent.image = image
+            self.collectionView.reloadItemsAtIndexPaths([ NSIndexPath(forItem: 0, inSection: 0) ])
+        }
+    }
+    
+    private func articleDetailsLoadedHandler() -> ((dateString: String, author: String, text: String) -> Void) {
+        return { dateString, author, text in
+            
+            let infoComponent = self.components[1] as! ArticleInfoComponent
+            let textComponent = self.components[2] as! ArticleTextComponent
+            
+            infoComponent.info = ArticleInfo(dateString: dateString, author: author)
+            textComponent.text = text
+            
+            self.collectionView.reloadItemsAtIndexPaths([ NSIndexPath(forItem: 1, inSection: 0), NSIndexPath(forItem: 2, inSection: 0) ])
+        }
+    }
+    
+    private func errorOccurredHandler() -> ((error: NSError) -> Void) {
+        return { error in
+            // TODO:
+        }
     }
 }

@@ -22,11 +22,7 @@ class ArticleInfo {
 
 class ArticleInfoComponent: ArticleComponent {
     
-    private let info: ArticleInfo
-    
-    init(info: ArticleInfo) {
-        self.info = info
-    }
+    var info: ArticleInfo?
     
     func value() -> AnyObject? {
         return self.info
@@ -41,6 +37,6 @@ class ArticleInfoComponent: ArticleComponent {
     }
     
     func requiredHeight() -> CGFloat {
-        return 50
+        return 40
     }
 }

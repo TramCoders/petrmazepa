@@ -10,11 +10,7 @@ import UIKit
 
 class ArticleTextComponent: ArticleComponent {
     
-    private let text: String
-    
-    init(text: String) {
-        self.text = text
-    }
+    var text: String?
     
     func value() -> AnyObject? {
         return self.text
@@ -22,11 +18,17 @@ class ArticleTextComponent: ArticleComponent {
     
     func requiredHeight() -> CGFloat {
 
-        let string = self.text as NSString
-        let attributes = [ NSFontAttributeName: UIFont.systemFontOfSize(17) ]
-        let width = UIScreen.mainScreen().bounds.width
-        let size = string.boundingRectWithSize(CGSizeMake(width - 8, CGFloat.max), options: .UsesLineFragmentOrigin, attributes: attributes, context: nil)
-        return size.height
+        if let notNilText = self.text {
+
+            let string = notNilText as NSString
+            let attributes = [ NSFontAttributeName: UIFont.systemFontOfSize(17) ]
+            let width = UIScreen.mainScreen().bounds.width
+            let size = string.boundingRectWithSize(CGSizeMake(width - 8, CGFloat.max), options: .UsesLineFragmentOrigin, attributes: attributes, context: nil)
+            return size.height
+
+        } else {
+            return 0
+        }
     }
     
     func cellIdentifier() -> String {

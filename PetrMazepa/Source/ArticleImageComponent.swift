@@ -10,11 +10,7 @@ import UIKit
 
 class ArticleImageComponent: ArticleComponent {
 
-    let image: UIImage
-    
-    init(image: UIImage) {
-        self.image = image
-    }
+    var image: UIImage?
     
     func value() -> AnyObject? {
         return self.image
@@ -37,7 +33,7 @@ class ArticleImageComponent: ArticleComponent {
             return imageSize.height * screenWidth / imageSize.width
             
         } else {
-            return 200
+            return 100
         }
     }
 }
