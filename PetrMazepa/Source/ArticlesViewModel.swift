@@ -26,6 +26,15 @@ class ArticlesViewModel: NSObject {
     var errorOccurred: ((error: NSError) -> Void)?
     var loadingStateChanged: ((loading: Bool) -> Void)?
     
+    private let imageCache: ImageCache
+    private let articlesFetcher: ArticlesFetcher
+    
+    required init(imageCache: ImageCache, articlesFetcher: ArticlesFetcher) {
+
+        self.imageCache = imageCache
+        self.articlesFetcher = articlesFetcher
+    }
+    
     var articlesCount: Int {
         get {
             return self.articles.count
