@@ -105,7 +105,7 @@ class ScreenFlow: SearchPresenter, SearchDismisser, ArticleDetailsPresenter, Art
         }
         
         let viewController = self.storyboard.instantiateViewControllerWithIdentifier("Details") as! ArticleDetailsViewController
-        viewController.model = ArticleDetailsViewModel(articleDetailsDismisser: self)
+        viewController.model = ArticleDetailsViewModel(article: article, imageCache: self.imageCache, articleDetailsFetcher: self.contentProvider, articleDetailsDismisser: self)
         
         if self.currentScreen() == .Articles {
             self.navigationController.pushViewController(viewController, animated: true)

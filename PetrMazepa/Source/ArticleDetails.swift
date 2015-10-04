@@ -10,11 +10,13 @@ import Foundation
 
 class ArticleDetails: Article {
     
-    let text: String
+    let htmlText: String
+    let date: NSDate
     
-    init(id: String, title: String, author: String, thumbPath: String, text: String) {
+    init(id: String, title: String, author: String, thumbPath: String, htmlText: String, date: NSDate) {
         
-        self.text = text
+        self.htmlText = htmlText
+        self.date = date
         super.init(id: id, title: title, author: author, thumbPath: thumbPath)
     }
 }

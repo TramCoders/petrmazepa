@@ -47,9 +47,15 @@ class Networking: ImageDownloader, ArticlesFetcher, ArticleDetailsFetcher {
     func fetchArticleDetails(id id: String, completion: ArticleDetailsFetchHandler) {
         
         let urlString = "\(self.baseUrl)/\(id).html"
-        let url = NSURL(string: urlString)!
+        let url = NSURL(string: urlString)
         
-        self.session.dataTaskWithURL(url) { (data: NSData?, response: NSURLResponse?, error: NSError?) -> () in
+        guard let notNilUrl = url else {
+
+            completion(nil, nil)
+            return
+        }
+        
+        self.session.dataTaskWithURL(notNilUrl) { (data: NSData?, response: NSURLResponse?, error: NSError?) -> () in
             
             guard let notNilData = data else {
                 

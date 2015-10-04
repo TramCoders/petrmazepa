@@ -13,11 +13,26 @@ class ArticleInfoCell: UICollectionViewCell, ArticleComponentCell {
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var authorLabel: UILabel!
     
+    private let dateFormatter: NSDateFormatter
+    
+    required init?(coder aDecoder: NSCoder) {
+        
+        self.dateFormatter = NSDateFormatter()
+        self.dateFormatter.dateFormat = "dd.MM.yyyy"    // TODO: check
+        
+        super.init(coder: aDecoder)
+    }
+    
     func update(value: AnyObject?) {
         
         if let info = value as? ArticleInfo {
 
-            self.dateLabel.text = info.dateString
+            if let notNilDate = info.date {
+                self.dateLabel.text = self.dateFormatter.stringFromDate(notNilDate)
+            } else {
+                self.dateLabel.text = ""
+            }
+            
             self.authorLabel.text = info.author
 
         } else {
