@@ -11,5 +11,5 @@ import UIKit
 typealias ArticleDetailsFetchHandler = (ArticleDetails?, NSError?) -> ()
 
 protocol ArticleDetailsFetcher {
-    func fetchArticleDetails(id id: String, completion: ArticleDetailsFetchHandler)
+    func fetchArticleDetails(article article: Article, completion: ArticleDetailsFetchHandler)
 }

@@ -33,12 +33,18 @@ class ContentProvider: ArticleStorage, ArticlesFetcher, ArticleDetailsFetcher {
         }
     }
     
-    func fetchArticleDetails(id id: String, completion: ArticleDetailsFetchHandler) {
+    func fetchArticleDetails(article article: Article, completion: ArticleDetailsFetchHandler) {
         
-        self.networking.fetchArticleDetails(id: id) { details, error in
+        self.networking.fetchArticleDetails(article: article) { details, error in
             
-            // TODO: cache article details
-            completion(details, error)
+            if let notNilDetails = details {
+            
+                let updatedDetails = ArticleDetails(id: article.id, title: notNilDetails.title, author: article.author, thumbPath: article.thumbPath, htmlText: notNilDetails.htmlText, dateString: notNilDetails.dateString)
+                completion(updatedDetails, error)
+
+            } else {
+                completion(details, error)
+            }
         }
     }
 }

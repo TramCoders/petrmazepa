@@ -44,9 +44,9 @@ class Networking: ImageDownloader, ArticlesFetcher, ArticleDetailsFetcher {
         }.resume()
     }
     
-    func fetchArticleDetails(id id: String, completion: ArticleDetailsFetchHandler) {
+    func fetchArticleDetails(article article: Article, completion: ArticleDetailsFetchHandler) {
         
-        let urlString = "\(self.baseUrl)/\(id).html"
+        let urlString = "\(self.baseUrl)/\(article.id).html"
         let url = NSURL(string: urlString)
         
         guard let notNilUrl = url else {

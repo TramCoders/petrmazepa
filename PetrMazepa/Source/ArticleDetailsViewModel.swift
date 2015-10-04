@@ -12,7 +12,7 @@ class ArticleDetailsViewModel {
     
     var loadingStateChanged: ((loading: Bool) -> Void)?
     var imageLoaded: ((image: UIImage?) -> Void)?
-    var articleDetailsLoaded: ((date: NSDate?, author: String?, htmlText: String?) -> ())?
+    var articleDetailsLoaded: ((dateString: String?, author: String?, htmlText: String?) -> ())?
     var errorOccurred: ((error: NSError) -> Void)?
     
     private let articleDetailsDismisser: ArticleDetailsDismisser
@@ -32,14 +32,14 @@ class ArticleDetailsViewModel {
     func viewDidLoad() {
         
         self.imageLoaded!(image: nil)
-        self.articleDetailsLoaded!(date: nil, author: self.article.author, htmlText: nil)
+        self.articleDetailsLoaded!(dateString: nil, author: self.article.author, htmlText: nil)
         
-        self.articleDetailsFetcher.fetchArticleDetails(id: self.article.id) { details, error in
+        self.articleDetailsFetcher.fetchArticleDetails(article: self.article) { details, error in
             
             if let notNilDetails = details {
                 
                 dispatch_async(dispatch_get_main_queue(), {
-                    self.articleDetailsLoaded!(date: notNilDetails.date, author: notNilDetails.author, htmlText: notNilDetails.htmlText)
+                    self.articleDetailsLoaded!(dateString: notNilDetails.dateString, author: notNilDetails.author, htmlText: notNilDetails.htmlText)
                 })
             }
         }

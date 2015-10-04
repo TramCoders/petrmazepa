@@ -19,19 +19,26 @@
     }
     
     TFHpple *hpple = [[TFHpple alloc] initWithData:html isXML:NO];
+    return [self convertElement:hpple];
+}
+
+#pragma mark - Private
+
+- (ArticleDetails *)convertElement:(TFHpple *)hpple {
     
     // html text
     TFHppleElement *htmlTextElement = [hpple searchWithXPathQuery:@"//div[@class='article-content']"].firstObject;
     NSString *htmlText = htmlTextElement.content;
     
-    return [[ArticleDetails alloc] initWithId:@"123" title:@"123" author:@"123" thumbPath:@"" htmlText:htmlText date:[NSDate date]];
+    // date string
+    TFHppleElement *dateElement = [hpple searchWithXPathQuery:@"//p[@class='article-metadata']"].firstObject;
+    NSString *dateString = dateElement.content;
+    
+    // title
+    TFHppleElement *titleElement = [hpple searchWithXPathQuery:@"//meta[@class='og:title']"].firstObject;
+    NSString *title = titleElement.attributes[@"content"];
+    
+    return [[ArticleDetails alloc] initWithId:@"" title:title author:@"" thumbPath:@"" htmlText:htmlText dateString:dateString];
 }
-
-#pragma mark - Private
-
-//- (ArticleDetails *)convertElement:(TFHppleElement *)element {
-//    
-//    
-//}
 
 @end
