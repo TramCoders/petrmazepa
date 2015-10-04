@@ -98,7 +98,7 @@ class ScreenFlow: SearchPresenter, SearchDismisser, ArticleDetailsPresenter, Art
         self.popScreen()
     }
     
-    func presentArticleDetails(article: SimpleArticle) {
+    func presentArticleDetails(article: Article) {
         
         guard self.currentScreen() == .Articles || self.currentScreen() == .Search else {
             return

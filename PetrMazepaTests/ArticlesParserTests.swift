@@ -1,5 +1,5 @@
 //
-//  SimpleArticlesParserTests.swift
+//  ArticlesParserTests.swift
 //  PetrMazepa
 //
 //  Created by Artem Stepanenko on 7/19/15.
@@ -9,9 +9,9 @@
 import UIKit
 import XCTest
 
-class SimpleArticlesParserTests: XCTestCase {
+class ArticlesParserTests: XCTestCase {
 
-    var parser = SimpleArticlesParser()
+    var parser = ArticlesParser()
 
     func testThatReturnsEmptyArrayIfInputIsNil() {
         
@@ -40,8 +40,8 @@ class SimpleArticlesParserTests: XCTestCase {
         let html = loadHtml("articles")
         let articles = parser.parse(html)
         
-        let article0 = articles[0] as! SimpleArticle
-        let article1 = articles[1] as! SimpleArticle
+        let article0 = articles[0] as! Article
+        let article1 = articles[1] as! Article
         
         XCTAssertTrue(article0.id == "diggit")
         XCTAssertTrue(article0.title == "Исповедь шахтёра из «ДНР»: «Не проходит и недели, чтобы кто-то из нас не погиб»")

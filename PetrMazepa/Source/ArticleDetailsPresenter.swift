@@ -9,5 +9,5 @@
 import Foundation
 
 protocol ArticleDetailsPresenter {
-    func presentArticleDetails(article: SimpleArticle)
+    func presentArticleDetails(article: Article)
 }

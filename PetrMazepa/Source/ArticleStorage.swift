@@ -9,5 +9,5 @@
 import Foundation
 
 protocol ArticleStorage {
-    func allArticles() -> [SimpleArticle]
+    func allArticles() -> [Article]
 }

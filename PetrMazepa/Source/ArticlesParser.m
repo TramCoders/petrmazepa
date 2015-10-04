@@ -1,16 +1,16 @@
 //
-//  SimpleArticlesParser.m
+//  ArticlesParser.m
 //  PetrMazepa
 //
 //  Created by Artem Stepanenko on 7/26/15.
 //  Copyright (c) 2015 TramCoders. All rights reserved.
 //
 
-#import "SimpleArticlesParser.h"
+#import "ArticlesParser.h"
 #import "PetrMazepa-Swift.h"
 #import "TFHpple.h"
 
-@implementation SimpleArticlesParser
+@implementation ArticlesParser
 
 - (NSArray *)parse:(NSData *)html {
     
@@ -24,7 +24,7 @@
     
     for (TFHppleElement *element in elements) {
         
-        SimpleArticle *article = [self convertElement:element];
+        Article *article = [self convertElement:element];
         
         if (article) {
             [articles addObject:article];
@@ -36,7 +36,7 @@
 
 #pragma mark - Private
 
-- (SimpleArticle *)convertElement:(TFHppleElement *)element {
+- (Article *)convertElement:(TFHppleElement *)element {
     
     TFHppleElement *articleContainer = [element firstChildWithClassName:@"article-container"];
     
@@ -86,7 +86,7 @@
     NSString *imagePath = articleImage.attributes[@"src"];
     
     // result
-    return [[SimpleArticle alloc] initWithId:identifier title:title author:author thumbPath:imagePath];
+    return [[Article alloc] initWithId:identifier title:title author:author thumbPath:imagePath];
 }
 
 - (NSString *)identifierFromHref:(NSString *)href {

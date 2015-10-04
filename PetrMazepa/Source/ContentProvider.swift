@@ -8,16 +8,16 @@
 
 import UIKit
 
-class ContentProvider: ArticleStorage, ArticlesFetcher {
+class ContentProvider: ArticleStorage, ArticlesFetcher, ArticleDetailsFetcher {
     
-    private var articles = [SimpleArticle]()
+    private var articles = [Article]()
     private let networking: Networking
     
     required init(networking: Networking) {
         self.networking = networking
     }
     
-    func allArticles() -> [SimpleArticle] {
+    func allArticles() -> [Article] {
         return self.articles
     }
     
@@ -30,6 +30,15 @@ class ContentProvider: ArticleStorage, ArticlesFetcher {
             }
             
             completion(articles, error)
+        }
+    }
+    
+    func fetchArticleDetails(id id: String, completion: ArticleDetailsFetchHandler) {
+        
+        self.networking.fetchArticleDetails(id: id) { details, error in
+            
+            // TODO: cache article details
+            completion(details, error)
         }
     }
 }

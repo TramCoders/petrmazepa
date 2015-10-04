@@ -14,7 +14,7 @@ class SearchViewModel {
     var articlesChanged: (() -> Void)?
     
     private var query = ""
-    private var filteredArticles: [SimpleArticle]
+    private var filteredArticles: [Article]
     
     private let imageCache: ImageCache
     private let articleStorage: ArticleStorage
@@ -74,7 +74,7 @@ class SearchViewModel {
         return image
     }
     
-    func requestArticle(index: Int) -> SimpleArticle {
+    func requestArticle(index: Int) -> Article {
         return self.filteredArticles[index]
     }
     
