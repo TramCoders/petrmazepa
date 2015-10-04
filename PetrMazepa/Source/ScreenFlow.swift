@@ -8,16 +8,37 @@
 
 import UIKit
 
-class ScreenFlow {
+class ScreenFlow: SearchPresenter, SearchDismisser, ArticleDetailsPresenter, ArticleDetailsDismisser {
     
-    let window = UIWindow(frame: UIScreen.mainScreen().bounds)
-    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-    var articlesViewController: ArticlesViewController?
+    private enum Screen {
+        
+        case None, Articles, Search, ArticleDetails
+        
+        var description: String {
+            
+            switch self {
+            case .None: return "None"
+            case .Articles: return "Articles"
+            case .Search: return "Search"
+            case .ArticleDetails: return "ArticleDetails"
+            }
+        }
+    }
     
-    let imageCache: ImageCache
-    let contentProvider: ContentProvider
+    private let window: UIWindow
+    private let storyboard: UIStoryboard
+    private let navigationController: UINavigationController
+    
+    private let imageCache: ImageCache
+    private let contentProvider: ContentProvider
+    
+    private var screenStack: [Screen]
     
     init() {
+        
+        self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        self.storyboard = UIStoryboard(name: "Main", bundle: nil)
+        self.navigationController = self.storyboard.instantiateInitialViewController() as! UINavigationController
         
         let networking = Networking()
         self.contentProvider = ContentProvider(networking: networking)
@@ -25,35 +46,123 @@ class ScreenFlow {
         let inMemoryImageStorage = InMemoryImageStorage()
         let persistentImageStorage = PersistentImageStorage()
         self.imageCache = ImageCache(storages: [inMemoryImageStorage, persistentImageStorage], downloader: networking)
+        
+        self.screenStack = [Screen]()
     }
     
     func start() {
-        showArticles()
+        self.presentArticles()
     }
     
-    func showArticles() {
+    func presentArticles() {
         
-        let navigationController = storyboard.instantiateInitialViewController() as! UINavigationController
-        self.articlesViewController = navigationController.topViewController as? ArticlesViewController
+        guard self.currentScreen() == .None else {
+            return
+        }
         
-        self.articlesViewController!.model = ArticlesViewModel(imageCache: self.imageCache, articleStorage: self.contentProvider, articlesFetcher: self.contentProvider)
+        let articlesViewController = self.navigationController.topViewController as! ArticlesViewController
+        
+        articlesViewController.model = ArticlesViewModel(imageCache: self.imageCache, articleStorage: self.contentProvider, articlesFetcher: self.contentProvider, searchPresenter: self, articleDetailsPresenter: self)
 
-        self.articlesViewController!.screenFlow = self
-        self.window.rootViewController = navigationController
+        self.window.rootViewController = self.navigationController
         self.window.makeKeyAndVisible()
+        
+        self.pushScreen(.Articles)
     }
-    
-    func showSearch() {
+
+    func presentSearch() {
+        
+        guard self.currentScreen() == .Articles else {
+            return
+        }
         
         let searchNavigationController = self.storyboard.instantiateViewControllerWithIdentifier("SearchNav") as! UINavigationController
-        
         let searchViewController = searchNavigationController.topViewController as! SearchViewController
-        searchViewController.model = SearchViewModel(imageCache: self.imageCache, articleStorage: self.contentProvider)
-        searchViewController.screenFlow = self
-        self.articlesViewController!.presentViewController(searchNavigationController, animated: true, completion: nil)
+        searchViewController.model = SearchViewModel(imageCache: self.imageCache, articleStorage: self.contentProvider, searchDismisser: self, articleDetailsPresenter: self)
+        
+        let articlesViewController = self.navigationController.topViewController as! ArticlesViewController
+        articlesViewController.presentViewController(searchNavigationController, animated: true, completion: nil)
+        
+        self.pushScreen(.Search)
     }
     
-    func hideSearch() {
-        self.articlesViewController?.dismissViewControllerAnimated(true, completion: nil)
+    func dismissSearch() {
+
+        guard self.currentScreen() == .Search else {
+            return
+        }
+        
+        let articlesViewController = self.navigationController.topViewController as! ArticlesViewController
+        articlesViewController.dismissViewControllerAnimated(true, completion: nil)
+        
+        self.popScreen()
+    }
+    
+    func presentArticleDetails(article: SimpleArticle) {
+        
+        guard self.currentScreen() == .Articles || self.currentScreen() == .Search else {
+            return
+        }
+        
+        let viewController = self.storyboard.instantiateViewControllerWithIdentifier("Details") as! ArticleDetailsViewController
+        viewController.model = ArticleDetailsViewModel(articleDetailsDismisser: self)
+        
+        if self.currentScreen() == .Articles {
+            self.navigationController.pushViewController(viewController, animated: true)
+            
+        } else if self.currentScreen() == .Search {
+            
+            let articlesViewController = self.navigationController.topViewController as! ArticlesViewController
+            let searchNavigationController = articlesViewController.presentedViewController as! UINavigationController
+            searchNavigationController.pushViewController(viewController, animated: true)
+        }
+        
+        self.pushScreen(.ArticleDetails)
+    }
+    
+    func dismissArticleDetails() {
+
+        guard self.currentScreen() == .ArticleDetails else {
+            return
+        }
+        
+        self.popScreen()
+        
+        if self.currentScreen() == .Articles {
+            self.navigationController.popViewControllerAnimated(true)
+            
+        } else if self.currentScreen() == .Search {
+            
+            let articlesViewController = self.navigationController.topViewController as! ArticlesViewController
+            let searchNavigationController = articlesViewController.presentedViewController as! UINavigationController
+            searchNavigationController.popViewControllerAnimated(true)
+        }
+    }
+    
+    private func currentScreen() -> Screen {
+        
+        if let currentScreen = self.screenStack.last {
+            return currentScreen
+        } else {
+            return .None
+        }
+    }
+    
+    private func pushScreen(screen: Screen) {
+        
+        guard screen != .None else {
+            return
+        }
+        
+        self.screenStack.append(screen)
+    }
+    
+    private func popScreen() {
+        
+        guard self.screenStack.count > 1 else {
+            return
+        }
+        
+        self.screenStack.removeLast()
     }
 }

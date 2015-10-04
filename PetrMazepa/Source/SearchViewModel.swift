@@ -8,20 +8,37 @@
 
 import UIKit
 
-class SearchViewModel: ViewModel {
+class SearchViewModel {
+    
+    var thumbImageLoaded: ((index: Int) -> Void)?
+    var articlesChanged: (() -> Void)?
     
     private var query = ""
-    var articlesChanged: (() -> Void)?
-    private let imageCache: ImageCache
-    private let articleStorage: ArticleStorage
-    
     private var filteredArticles: [SimpleArticle]
     
-    required init(imageCache: ImageCache, articleStorage: ArticleStorage) {
+    private let imageCache: ImageCache
+    private let articleStorage: ArticleStorage
+    private let articleDetailsPresenter: ArticleDetailsPresenter
+    private let searchDismisser: SearchDismisser
+    
+    required init(imageCache: ImageCache, articleStorage: ArticleStorage, searchDismisser: SearchDismisser, articleDetailsPresenter: ArticleDetailsPresenter) {
         
         self.imageCache = imageCache
         self.articleStorage = articleStorage
+        self.articleDetailsPresenter = articleDetailsPresenter
+        self.searchDismisser = searchDismisser
+        
         self.filteredArticles = articleStorage.allArticles()
+    }
+    
+    func doneTapped() {
+        self.searchDismisser.dismissSearch()
+    }
+    
+    func articleTapped(index index: Int) {
+        
+        let article = self.filteredArticles[index]
+        self.articleDetailsPresenter.presentArticleDetails(article)
     }
     
     var articlesCount: Int {
@@ -47,7 +64,10 @@ class SearchViewModel: ViewModel {
             }
             
             if let index = self.findArticle(thumbUrl: url) {
-                self.thumbImageLoaded!(index: index)
+                
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.thumbImageLoaded!(index: index)
+                })
             }
         })
         
