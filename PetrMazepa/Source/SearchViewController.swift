@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SearchViewController: BaseViewController, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate {
+class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
@@ -33,6 +33,12 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
     override func viewWillAppear(animated: Bool) {
         
         super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        
+        super.viewDidAppear(animated)
         self.startHandlingKeyboardAppearance()
         self.view.layoutIfNeeded()
         self.searchBar.becomeFirstResponder()
@@ -46,7 +52,7 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
     }
     
     @IBAction func doneTapped(sender: AnyObject) {
-        self.screenFlow!.hideSearch()
+        self.model!.doneTapped()
     }
     
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
@@ -68,6 +74,12 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
         cell.updateThumb(image)
         
         return cell
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        self.model!.articleTapped(index: indexPath.item)
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {

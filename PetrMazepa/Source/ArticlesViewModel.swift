@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ArticlesViewModel: ViewModel {
+class ArticlesViewModel {
    
     var loading = false {
         didSet {
@@ -16,6 +16,7 @@ class ArticlesViewModel: ViewModel {
         }
     }
     
+    var thumbImageLoaded: ((index: Int) -> Void)?
     var articlesInserted: ((range: Range<Int>) -> Void)?
     var errorOccurred: ((error: NSError) -> Void)?
     var loadingStateChanged: ((loading: Bool) -> Void)?
@@ -23,18 +24,32 @@ class ArticlesViewModel: ViewModel {
     private let imageCache: ImageCache
     private let articlesFetcher: ArticlesFetcher
     private let articleSrorage: ArticleStorage
+    private let searchPresenter: SearchPresenter
+    private let articleDetailsPresenter: ArticleDetailsPresenter
     
-    required init(imageCache: ImageCache, articleStorage: ArticleStorage, articlesFetcher: ArticlesFetcher) {
+    required init(imageCache: ImageCache, articleStorage: ArticleStorage, articlesFetcher: ArticlesFetcher, searchPresenter: SearchPresenter, articleDetailsPresenter: ArticleDetailsPresenter) {
 
         self.imageCache = imageCache
         self.articleSrorage = articleStorage
         self.articlesFetcher = articlesFetcher
+        self.searchPresenter = searchPresenter
+        self.articleDetailsPresenter = articleDetailsPresenter
     }
     
     var articlesCount: Int {
         get {
             return self.articleSrorage.allArticles().count
         }
+    }
+    
+    func searchTapped() {
+        self.searchPresenter.presentSearch()
+    }
+    
+    func articleTapped(index index: Int) {
+        
+        let article = self.articleSrorage.allArticles()[index]
+        self.articleDetailsPresenter.presentArticleDetails(article)
     }
     
     func viewDidLoad() {

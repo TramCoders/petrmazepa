@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ArticlesViewController: BaseViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+class ArticlesViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
     @IBOutlet weak var searchContainerView: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
@@ -48,7 +48,7 @@ class ArticlesViewController: BaseViewController, UICollectionViewDelegate, UICo
     }
     
     @IBAction func searchTapped(sender: AnyObject) {
-        self.screenFlow!.showSearch()
+        self.model!.searchTapped()
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -59,14 +59,13 @@ class ArticlesViewController: BaseViewController, UICollectionViewDelegate, UICo
 
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(self.cellReuseIdentifier, forIndexPath: indexPath) as! ArticleCell
         let thumb = self.model!.requestThumb(index: indexPath.item)
-        print("thumb for \(indexPath.row): \(thumb)")
         cell.update(thumb)
         
         return cell
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        self.screenFlow?.showArticleDetails(index: indexPath.row)
+        self.model?.articleTapped(index: indexPath.row)
     }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {

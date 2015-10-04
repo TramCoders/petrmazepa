@@ -42,9 +42,14 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
         self.model!.viewDidLoad()
     }
     
+    override func viewWillAppear(animated: Bool) {
+        
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    
     @IBAction func backTapped(sender: AnyObject) {
-        // TODO:
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.model!.backTapped()
     }
     
     @IBAction func shareTapped(sender: AnyObject) {

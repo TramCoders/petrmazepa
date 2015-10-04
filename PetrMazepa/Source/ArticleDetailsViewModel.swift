@@ -15,6 +15,12 @@ class ArticleDetailsViewModel {
     var articleDetailsLoaded: ((dateString: String, author: String, text: String) -> Void)?
     var errorOccurred: ((error: NSError) -> Void)?
     
+    private let articleDetailsDismisser: ArticleDetailsDismisser
+    
+    init(articleDetailsDismisser: ArticleDetailsDismisser) {
+        self.articleDetailsDismisser = articleDetailsDismisser
+    }
+    
     func viewDidLoad() {
         
         self.imageLoaded!(image: nil)
@@ -31,5 +37,9 @@ class ArticleDetailsViewModel {
             
             self.imageLoaded!(image: UIImage(named: "freeman"))
         }
+    }
+    
+    func backTapped() {
+        self.articleDetailsDismisser.dismissArticleDetails()
     }
 }
