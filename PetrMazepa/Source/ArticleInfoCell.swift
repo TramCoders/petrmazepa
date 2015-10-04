@@ -12,7 +12,7 @@ class ArticleInfoCell: UICollectionViewCell, ArticleComponentCell {
     
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var authorLabel: UILabel!
-    
+        
     func update(value: AnyObject?) {
         
         if let info = value as? ArticleInfo {

@@ -10,10 +10,10 @@ import UIKit
 
 class ArticleInfo {
     
-    let dateString: String
-    let author: String
+    let dateString: String?
+    let author: String?
     
-    init(dateString: String, author: String) {
+    init(dateString: String?, author: String?) {
         
         self.dateString = dateString
         self.author = author

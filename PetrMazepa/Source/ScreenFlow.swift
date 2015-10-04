@@ -98,14 +98,14 @@ class ScreenFlow: SearchPresenter, SearchDismisser, ArticleDetailsPresenter, Art
         self.popScreen()
     }
     
-    func presentArticleDetails(article: SimpleArticle) {
+    func presentArticleDetails(article: Article) {
         
         guard self.currentScreen() == .Articles || self.currentScreen() == .Search else {
             return
         }
         
         let viewController = self.storyboard.instantiateViewControllerWithIdentifier("Details") as! ArticleDetailsViewController
-        viewController.model = ArticleDetailsViewModel(articleDetailsDismisser: self)
+        viewController.model = ArticleDetailsViewModel(article: article, imageCache: self.imageCache, articleDetailsFetcher: self.contentProvider, articleDetailsDismisser: self)
         
         if self.currentScreen() == .Articles {
             self.navigationController.pushViewController(viewController, animated: true)

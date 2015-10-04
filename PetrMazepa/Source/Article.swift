@@ -1,5 +1,5 @@
 //
-//  SimpleArticle.swift
+//  Article.swift
 //  PetrMazepa
 //
 //  Created by Artem Stepanenko on 7/19/15.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-class SimpleArticle : NSObject {
+class Article : NSObject {
     
     let id: String
     let title: String
@@ -30,5 +30,4 @@ class SimpleArticle : NSObject {
         self.author = author
         self.thumbPath = thumbPath
     }
-    
 }

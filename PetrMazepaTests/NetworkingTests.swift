@@ -16,7 +16,7 @@ class NetworkingTests: XCTestCase {
         
         let expectation = expectationWithDescription("Callback is fired")
         
-        self.networking.fetchArticles(fromIndex: 5, count: 0) { (articles: [SimpleArticle]?, error: NSError?) -> () in
+        self.networking.fetchArticles(fromIndex: 5, count: 0) { (articles: [Article]?, error: NSError?) -> () in
             
             XCTAssert(articles == nil, "'articles' must be nil")
             XCTAssert(error == nil, "'error' must be nil")
@@ -32,7 +32,7 @@ class NetworkingTests: XCTestCase {
         
         let expectation = expectationWithDescription("Callback is fired")
         
-        self.networking.fetchArticles(fromIndex: -3, count: 1) { (articles: [SimpleArticle]?, error: NSError?) -> () in
+        self.networking.fetchArticles(fromIndex: -3, count: 1) { (articles: [Article]?, error: NSError?) -> () in
             
             XCTAssert(articles == nil, "'articles' must be nil")
             XCTAssert(error == nil, "'error' must be nil")

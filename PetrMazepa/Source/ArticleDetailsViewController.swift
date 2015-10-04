@@ -89,14 +89,14 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
         }
     }
     
-    private func articleDetailsLoadedHandler() -> ((dateString: String, author: String, text: String) -> Void) {
-        return { dateString, author, text in
+    private func articleDetailsLoadedHandler() -> ((dateString: String?, author: String?, htmlText: String?) -> Void) {
+        return { dateString, author, htmlText in
             
             let infoComponent = self.components[1] as! ArticleInfoComponent
             let textComponent = self.components[2] as! ArticleTextComponent
             
             infoComponent.info = ArticleInfo(dateString: dateString, author: author)
-            textComponent.text = text
+            textComponent.text = htmlText
             
             self.collectionView.reloadItemsAtIndexPaths([ NSIndexPath(forItem: 1, inSection: 0), NSIndexPath(forItem: 2, inSection: 0) ])
         }

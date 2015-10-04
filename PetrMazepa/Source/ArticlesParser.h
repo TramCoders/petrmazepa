@@ -1,5 +1,5 @@
 //
-//  SimpleArticlesParser.h
+//  ArticlesParser.h
 //  PetrMazepa
 //
 //  Created by Artem Stepanenko on 7/26/15.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface SimpleArticlesParser : NSObject
+@interface ArticlesParser : NSObject
 
 - (NSArray *)parse:(NSData *)html;
 

@@ -8,10 +8,13 @@
 
 import Foundation
 
-class Networking: ImageDownloader, ArticlesFetcher {
+class Networking: ImageDownloader, ArticlesFetcher, ArticleDetailsFetcher {
     
     private let session = NSURLSession.sharedSession()
-    private let articlesParser = SimpleArticlesParser()
+    private let baseUrl = "http://petrimazepa.com"
+    
+    private let articlesParser = ArticlesParser()
+    private let articleDetailsParser = ArticleDetailsParser()
     
     func fetchArticles(fromIndex fromIndex: Int, count: Int, completion: ArticlesFetchHandler) {
         
@@ -21,7 +24,7 @@ class Networking: ImageDownloader, ArticlesFetcher {
             return
         }
         
-        self.session.dataTaskWithURL(url) { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
+        self.session.dataTaskWithURL(url) { (data: NSData?, response: NSURLResponse?, error: NSError?) -> () in
             
             guard let notNilData = data else {
 
@@ -35,8 +38,39 @@ class Networking: ImageDownloader, ArticlesFetcher {
                 return
             }
             
-            let articles = self.articlesParser.parse(notNilData) as! [SimpleArticle]
+            let articles = self.articlesParser.parse(notNilData) as! [Article]
             completion(articles, nil)
+            
+        }.resume()
+    }
+    
+    func fetchArticleDetails(article article: Article, completion: ArticleDetailsFetchHandler) {
+        
+        let urlString = "\(self.baseUrl)/\(article.id).html"
+        let url = NSURL(string: urlString)
+        
+        guard let notNilUrl = url else {
+
+            completion(nil, nil)
+            return
+        }
+        
+        self.session.dataTaskWithURL(notNilUrl) { (data: NSData?, response: NSURLResponse?, error: NSError?) -> () in
+            
+            guard let notNilData = data else {
+                
+                completion(nil, error)
+                return
+            }
+            
+            if error != nil {
+                
+                completion(nil, error)
+                return
+            }
+            
+            let details = self.articleDetailsParser.parse(notNilData)
+            completion(details, nil)
             
         }.resume()
     }
@@ -67,7 +101,7 @@ class Networking: ImageDownloader, ArticlesFetcher {
             return nil
         }
         
-        let urlString = "http://petrimazepa.com/ajax/articles/\(fromIndex)/\(count)"
+        let urlString = "\(self.baseUrl)/ajax/articles/\(fromIndex)/\(count)"
         return NSURL(string: urlString)
     }
 }
