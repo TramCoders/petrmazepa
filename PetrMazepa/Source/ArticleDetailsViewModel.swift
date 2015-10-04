@@ -18,15 +18,18 @@ class ArticleDetailsViewModel {
     private let articleDetailsDismisser: ArticleDetailsDismisser
     private let articleDetailsFetcher: ArticleDetailsFetcher
     private let imageCache: ImageCache
+    private let articleSharer: ArticleSharer
     
     private let article: Article
+    private var articleDetails: ArticleDetails?
     
-    init(article: Article, imageCache: ImageCache, articleDetailsFetcher: ArticleDetailsFetcher, articleDetailsDismisser: ArticleDetailsDismisser) {
+    init(article: Article, imageCache: ImageCache, articleDetailsFetcher: ArticleDetailsFetcher, articleDetailsDismisser: ArticleDetailsDismisser, articleSharer: ArticleSharer) {
 
         self.article = article
         self.imageCache = imageCache
         self.articleDetailsFetcher = articleDetailsFetcher
         self.articleDetailsDismisser = articleDetailsDismisser
+        self.articleSharer = articleSharer
     }
     
     func viewDidLoad() {
@@ -35,6 +38,8 @@ class ArticleDetailsViewModel {
         self.articleDetailsLoaded!(dateString: nil, author: self.article.author, htmlText: nil)
         
         self.articleDetailsFetcher.fetchArticleDetails(article: self.article) { details, error in
+            
+            self.articleDetails = details
             
             if let notNilDetails = details {
                 
@@ -60,5 +65,9 @@ class ArticleDetailsViewModel {
     
     func backTapped() {
         self.articleDetailsDismisser.dismissArticleDetails()
+    }
+    
+    func shareTapped() {
+        self.articleSharer.shareArticle(self.article)
     }
 }

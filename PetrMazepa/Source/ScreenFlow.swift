@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ScreenFlow: SearchPresenter, SearchDismisser, ArticleDetailsPresenter, ArticleDetailsDismisser {
+class ScreenFlow: SearchPresenter, SearchDismisser, ArticleDetailsPresenter, ArticleDetailsDismisser, ArticleSharer {
     
     private enum Screen {
         
@@ -28,6 +28,7 @@ class ScreenFlow: SearchPresenter, SearchDismisser, ArticleDetailsPresenter, Art
     private let window: UIWindow
     private let storyboard: UIStoryboard
     private let navigationController: UINavigationController
+    private var currentViewController: UIViewController!
     
     private let imageCache: ImageCache
     private let contentProvider: ContentProvider
@@ -39,6 +40,7 @@ class ScreenFlow: SearchPresenter, SearchDismisser, ArticleDetailsPresenter, Art
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
         self.storyboard = UIStoryboard(name: "Main", bundle: nil)
         self.navigationController = self.storyboard.instantiateInitialViewController() as! UINavigationController
+        self.currentViewController = self.navigationController
         
         let networking = Networking()
         self.contentProvider = ContentProvider(networking: networking)
@@ -67,6 +69,7 @@ class ScreenFlow: SearchPresenter, SearchDismisser, ArticleDetailsPresenter, Art
         self.window.rootViewController = self.navigationController
         self.window.makeKeyAndVisible()
         
+        self.currentViewController = articlesViewController
         self.pushScreen(.Articles)
     }
 
@@ -83,6 +86,7 @@ class ScreenFlow: SearchPresenter, SearchDismisser, ArticleDetailsPresenter, Art
         let articlesViewController = self.navigationController.topViewController as! ArticlesViewController
         articlesViewController.presentViewController(searchNavigationController, animated: true, completion: nil)
         
+        self.currentViewController = searchViewController
         self.pushScreen(.Search)
     }
     
@@ -95,6 +99,7 @@ class ScreenFlow: SearchPresenter, SearchDismisser, ArticleDetailsPresenter, Art
         let articlesViewController = self.navigationController.topViewController as! ArticlesViewController
         articlesViewController.dismissViewControllerAnimated(true, completion: nil)
         
+        self.currentViewController = articlesViewController
         self.popScreen()
     }
     
@@ -105,7 +110,7 @@ class ScreenFlow: SearchPresenter, SearchDismisser, ArticleDetailsPresenter, Art
         }
         
         let viewController = self.storyboard.instantiateViewControllerWithIdentifier("Details") as! ArticleDetailsViewController
-        viewController.model = ArticleDetailsViewModel(article: article, imageCache: self.imageCache, articleDetailsFetcher: self.contentProvider, articleDetailsDismisser: self)
+        viewController.model = ArticleDetailsViewModel(article: article, imageCache: self.imageCache, articleDetailsFetcher: self.contentProvider, articleDetailsDismisser: self, articleSharer: self)
         
         if self.currentScreen() == .Articles {
             self.navigationController.pushViewController(viewController, animated: true)
@@ -117,6 +122,7 @@ class ScreenFlow: SearchPresenter, SearchDismisser, ArticleDetailsPresenter, Art
             searchNavigationController.pushViewController(viewController, animated: true)
         }
         
+        self.currentViewController = viewController
         self.pushScreen(.ArticleDetails)
     }
     
@@ -129,14 +135,23 @@ class ScreenFlow: SearchPresenter, SearchDismisser, ArticleDetailsPresenter, Art
         self.popScreen()
         
         if self.currentScreen() == .Articles {
+            
             self.navigationController.popViewControllerAnimated(true)
+            self.currentViewController = self.navigationController.topViewController
             
         } else if self.currentScreen() == .Search {
             
             let articlesViewController = self.navigationController.topViewController as! ArticlesViewController
             let searchNavigationController = articlesViewController.presentedViewController as! UINavigationController
             searchNavigationController.popViewControllerAnimated(true)
+            self.currentViewController = searchNavigationController.topViewController
         }
+    }
+    
+    func shareArticle(article: Article) {
+
+        let activityViewController = UIActivityViewController(activityItems: [article.title], applicationActivities: nil)
+        self.currentViewController.presentViewController(activityViewController, animated: true, completion: nil)
     }
     
     private func currentScreen() -> Screen {
