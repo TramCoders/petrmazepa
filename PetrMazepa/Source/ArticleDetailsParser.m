@@ -13,7 +13,25 @@
 @implementation ArticleDetailsParser
 
 - (ArticleDetails *)parse:(NSData *)html {
-    return nil;
+
+    if (!html) {
+        return nil;
+    }
+    
+    TFHpple *hpple = [[TFHpple alloc] initWithData:html isXML:NO];
+    
+    // html text
+    TFHppleElement *htmlTextElement = [hpple searchWithXPathQuery:@"//div[@class='article-content']"].firstObject;
+    NSString *htmlText = htmlTextElement.content;
+    
+    return [[ArticleDetails alloc] initWithId:@"123" title:@"123" author:@"123" thumbPath:@"" htmlText:htmlText date:[NSDate date]];
 }
+
+#pragma mark - Private
+
+//- (ArticleDetails *)convertElement:(TFHppleElement *)element {
+//    
+//    
+//}
 
 @end

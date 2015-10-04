@@ -37,7 +37,10 @@ class ArticleDetailsViewModel {
         self.articleDetailsFetcher.fetchArticleDetails(id: self.article.id) { details, error in
             
             if let notNilDetails = details {
-                self.articleDetailsLoaded!(date: notNilDetails.date, author: notNilDetails.author, htmlText: notNilDetails.htmlText)
+                
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.articleDetailsLoaded!(date: notNilDetails.date, author: notNilDetails.author, htmlText: notNilDetails.htmlText)
+                })
             }
         }
         
