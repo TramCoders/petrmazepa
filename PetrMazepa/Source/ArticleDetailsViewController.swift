@@ -23,10 +23,6 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
     }
     
     @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var dateLabel: UILabel!
-    @IBOutlet weak var authorLabel: UILabel!
-    @IBOutlet weak var textLabel: UILabel!
     
     private let components: [ArticleComponent] = [ ArticleImageComponent(), ArticleInfoComponent(), ArticleTextComponent() ]
     
