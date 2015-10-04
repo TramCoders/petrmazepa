@@ -12,19 +12,23 @@ class SimpleArticle : NSObject {
     
     let id: String
     let title: String
+    let author: String
+    let thumbPath: String
     
     var thumbUrl: NSURL? {
         
         get {
-            let urlString = "http://petrimazepa.com/bundles/pim/images/thumbs/\(self.id).jpeg"
+            let urlString = "http://petrimazepa.com\(self.thumbPath)"
             return NSURL(string: urlString)
         }
     }
     
-    init(id: String, title: String) {
+    init(id: String, title: String, author: String, thumbPath: String) {
         
         self.id = id
         self.title = title
+        self.author = author
+        self.thumbPath = thumbPath
     }
     
 }

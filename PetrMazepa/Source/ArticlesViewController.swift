@@ -8,24 +8,23 @@
 
 import UIKit
 
-class ArticlesViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+class ArticlesViewController: BaseViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
+    @IBOutlet weak var searchContainerView: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
     weak var layout: ArticlesViewLayout!
-    @IBOutlet weak var searchTextField: UITextField!
     let cellReuseIdentifier = "ArticleCell"
     
+    @IBOutlet weak var heightSearchConstraint: NSLayoutConstraint!
+    
     var model: ArticlesViewModel? {
-        
+
         didSet {
             
-            if let notNilModel = self.model {
-                
-                notNilModel.articlesInserted = self.articlesInsertedHandler()
-                notNilModel.thumbImageLoaded = self.thumbImageLoadedHandler()
-                notNilModel.errorOccurred = self.errorOccurredHandler()
-                notNilModel.loadingStateChanged = self.loadingStateChangedHandler()
-            }
+            self.model!.articlesInserted = self.articlesInsertedHandler()
+            self.model!.thumbImageLoaded = self.thumbImageLoadedHandler()
+            self.model!.errorOccurred = self.errorOccurredHandler()
+            self.model!.loadingStateChanged = self.loadingStateChangedHandler()
         }
     }
 
@@ -48,6 +47,10 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
         self.model!.viewDidLoad()
     }
     
+    @IBAction func searchTapped(sender: AnyObject) {
+        self.screenFlow!.showSearch()
+    }
+    
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.model!.articlesCount
     }
@@ -55,7 +58,8 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(self.cellReuseIdentifier, forIndexPath: indexPath) as! ArticleCell
-        let thumb = self.model!.requestThumb(indexPath.item)
+        let thumb = self.model!.requestThumb(index: indexPath.item)
+        print("thumb for \(indexPath.row): \(thumb)")
         cell.update(thumb)
         
         return cell
@@ -91,6 +95,7 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
     }
     
     private func errorOccurredHandler() -> ((error: NSError) -> Void) {
+
         return { (error: NSError) in
             
             let alert = UIAlertController(title: "", message: error.localizedDescription, preferredStyle: .Alert)
@@ -103,5 +108,6 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
             UIApplication.sharedApplication().networkActivityIndicatorVisible = loading
         }
     }
+    
 }
 

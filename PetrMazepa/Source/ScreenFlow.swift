@@ -12,6 +12,20 @@ class ScreenFlow {
     
     let window = UIWindow(frame: UIScreen.mainScreen().bounds)
     let storyboard = UIStoryboard(name: "Main", bundle: nil)
+    var articlesViewController: ArticlesViewController?
+    
+    let imageCache: ImageCache
+    let contentProvider: ContentProvider
+    
+    init() {
+        
+        let networking = Networking()
+        self.contentProvider = ContentProvider(networking: networking)
+        
+        let inMemoryImageStorage = InMemoryImageStorage()
+        let persistentImageStorage = PersistentImageStorage()
+        self.imageCache = ImageCache(storages: [inMemoryImageStorage, persistentImageStorage], downloader: networking)
+    }
     
     func start() {
         showArticles()
@@ -19,18 +33,27 @@ class ScreenFlow {
     
     func showArticles() {
         
-        let viewController = storyboard.instantiateInitialViewController() as! ArticlesViewController
+        let navigationController = storyboard.instantiateInitialViewController() as! UINavigationController
+        self.articlesViewController = navigationController.topViewController as? ArticlesViewController
         
-        let networking = Networking()
-        let inMemoryImageStorage = InMemoryImageStorage()
-        let persistentImageStorage = PersistentImageStorage()
-        let imageCache = ImageCache(storages: [inMemoryImageStorage, persistentImageStorage], downloader: networking)
-        
-        viewController.model = ArticlesViewModel(imageCache: imageCache, articlesFetcher: networking)
-        
-        self.window.rootViewController = viewController
+        self.articlesViewController!.model = ArticlesViewModel(imageCache: self.imageCache, articleStorage: self.contentProvider, articlesFetcher: self.contentProvider)
+
+        self.articlesViewController!.screenFlow = self
+        self.window.rootViewController = navigationController
         self.window.makeKeyAndVisible()
     }
     
+    func showSearch() {
+        
+        let searchNavigationController = self.storyboard.instantiateViewControllerWithIdentifier("SearchNav") as! UINavigationController
+        
+        let searchViewController = searchNavigationController.topViewController as! SearchViewController
+        searchViewController.model = SearchViewModel(imageCache: self.imageCache, articleStorage: self.contentProvider)
+        searchViewController.screenFlow = self
+        self.articlesViewController!.presentViewController(searchNavigationController, animated: true, completion: nil)
+    }
     
+    func hideSearch() {
+        self.articlesViewController?.dismissViewControllerAnimated(true, completion: nil)
+    }
 }

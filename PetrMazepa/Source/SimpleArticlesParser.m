@@ -53,12 +53,6 @@
     }
     
     // title
-    TFHppleElement *articleImage = [articleContainer firstChildWithClassName:@"article-image"];
-    
-    if (!articleImage) {
-        return nil;
-    }
-    
     TFHppleElement *articleTile = [articleContainer firstChildWithClassName:@"article-tile"];
     
     if (!articleTile) {
@@ -73,7 +67,26 @@
     
     NSString *title = articleTitle.content;
     
-    return [[SimpleArticle alloc] initWithId:identifier title:title];
+    // author
+    TFHppleElement *articleAuthor = [articleTile firstChildWithClassName:@"article-author"];
+    
+    if (!articleAuthor) {
+        return nil;
+    }
+    
+    NSString *author = articleAuthor.content;
+    
+    // image
+    TFHppleElement *articleImage = [articleContainer firstChildWithClassName:@"article-image"];
+    
+    if (!articleImage) {
+        return nil;
+    }
+    
+    NSString *imagePath = articleImage.attributes[@"src"];
+    
+    // result
+    return [[SimpleArticle alloc] initWithId:identifier title:title author:author thumbPath:imagePath];
 }
 
 - (NSString *)identifierFromHref:(NSString *)href {

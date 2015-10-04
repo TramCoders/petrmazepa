@@ -64,13 +64,12 @@ class ImageCacheTests: XCTestCase {
         let imageCache = ImageCache(storages: [storage], downloader: TestImageDownloader(success: true))
         let expectation = expectationWithDescription("Image has been downloaded")
         
-        let exists = imageCache.requestImage(url: testImageUrl()) { (imageData: NSData?, _) -> () in
+        imageCache.requestImage(url: testImageUrl()) { imageData, error, fromCache in
             
+            XCTAssert(fromCache == false, "A return value must be 'false' for the unstored image")
             XCTAssert(imageData != nil, "'imageData' must not be 'nil'")
             expectation.fulfill()
         }
-        
-        XCTAssert(exists == false, "A return value must be 'false' for the unstored image")
         
         waitForExpectationsWithTimeout(1) { (error: NSError?) -> Void in
             XCTAssert(error == nil, "An image must be downloaded")
@@ -87,11 +86,13 @@ class ImageCacheTests: XCTestCase {
         
         var resultImageData: NSData?
 
-        let exists = imageCache.requestImage(url: testImageUrl()) { (imageData: NSData?, _) -> () in
+        imageCache.requestImage(url: testImageUrl()) { imageData, _, fromCache in
+            
+            XCTAssert(fromCache, "A return value must be 'true', because the image is stored")
             resultImageData = imageData
         }
         
-        XCTAssert(exists == true, "A return value must be 'true', because the image is stored")
+        
         XCTAssert(resultImageData == imageData, "A return value must be equal to the saved image data")
     }
     
@@ -102,7 +103,7 @@ class ImageCacheTests: XCTestCase {
         let imageCache = ImageCache(storages: [storage], downloader: downloader)
         let expectation = expectationWithDescription("A callback is called")
         
-        imageCache.requestImage(url: testImageUrl()) { (data, error) -> () in
+        imageCache.requestImage(url: testImageUrl()) { data, _, _ in
             
             XCTAssert(data == nil, "'data' must be 'nil'")
             expectation.fulfill()
@@ -120,7 +121,7 @@ class ImageCacheTests: XCTestCase {
         let imageCache = ImageCache(storages: [storage], downloader: downloader)
         let expectation = expectationWithDescription("A callback is called")
         
-        imageCache.requestImage(url: testImageUrl()) { (data, error) -> () in
+        imageCache.requestImage(url: testImageUrl()) { data, _, _ in
             
             XCTAssert(data != nil, "'data' mustn't be 'nil'")
             expectation.fulfill()
@@ -142,7 +143,7 @@ class ImageCacheTests: XCTestCase {
         let imageCache = ImageCache(storages: [storage], downloader: downloader)
         let expectation = expectationWithDescription("A callback is called")
         
-        imageCache.requestImage(url: testImageUrl()) { (resultData, error) -> () in
+        imageCache.requestImage(url: testImageUrl()) { resultData, _, _ in
             
             XCTAssert(resultData != nil, "'data' mustn't be 'nil'")
             XCTAssert(resultData == data, "'data' must be equal to the saved data")
@@ -171,7 +172,7 @@ class ImageCacheTests: XCTestCase {
         let imageCache = ImageCache(storages: [storage, nextStorage], downloader: TestImageDownloader(success: false))
         let expectation = expectationWithDescription("A callback is called")
         
-        imageCache.requestImage(url: imageUrl) { (data, url) -> () in
+        imageCache.requestImage(url: imageUrl) { data, _, _ in
             
             XCTAssert(data != nil, "'data' must not be 'nil'")
             XCTAssert(data == imageData, "'data' must be equal to the image data from the first image storage")
@@ -198,7 +199,7 @@ class ImageCacheTests: XCTestCase {
         let imageCache = ImageCache(storages: [storage, nextStorage], downloader: TestImageDownloader(success: false))
         let expectation = expectationWithDescription("A callback is called")
         
-        imageCache.requestImage(url: imageUrl) { (data, url) -> () in
+        imageCache.requestImage(url: imageUrl) { data, _, _ in
             
             XCTAssert(data != nil, "'data' must not be 'nil'")
             XCTAssert(data == nextImageData, "'data' must be equal to the image data from the second image storage")

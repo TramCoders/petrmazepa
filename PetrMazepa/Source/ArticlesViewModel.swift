@@ -8,58 +8,33 @@
 
 import UIKit
 
-class ArticlesViewModel: NSObject {
+class ArticlesViewModel: ViewModel {
    
     var loading = false {
         didSet {
-            if let notNilLoadingStateChanged = self.loadingStateChanged {
-                notNilLoadingStateChanged(loading: self.loading)
-            }
+            self.loadingStateChanged!(loading: self.loading)
         }
     }
     
-    private var articles = [SimpleArticle]()
-    private var thumbImages = [Int: UIImage]()  // TODO: images will be stored in images cache object
-
     var articlesInserted: ((range: Range<Int>) -> Void)?
-    var thumbImageLoaded: ((index: Int) -> Void)?
     var errorOccurred: ((error: NSError) -> Void)?
     var loadingStateChanged: ((loading: Bool) -> Void)?
     
     private let imageCache: ImageCache
     private let articlesFetcher: ArticlesFetcher
+    private let articleSrorage: ArticleStorage
     
-    required init(imageCache: ImageCache, articlesFetcher: ArticlesFetcher) {
+    required init(imageCache: ImageCache, articleStorage: ArticleStorage, articlesFetcher: ArticlesFetcher) {
 
         self.imageCache = imageCache
+        self.articleSrorage = articleStorage
         self.articlesFetcher = articlesFetcher
     }
     
     var articlesCount: Int {
         get {
-            return self.articles.count
+            return self.articleSrorage.allArticles().count
         }
-    }
-    
-    func requestThumb(index: Int) -> UIImage? {
-        
-        if let thumbImage = self.thumbImages[index] {
-            return thumbImage
-        }
-        
-        let duration = Double(arc4random_uniform(20)) / 10
-        
-        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(duration * Double(NSEC_PER_SEC)))
-        dispatch_after(delayTime, dispatch_get_main_queue()) {
-            
-            self.thumbImages[index] = UIImage(named: "chersonesus")!
-            
-            if let notNilThumbImageLoaded = self.thumbImageLoaded {
-                notNilThumbImageLoaded(index: index)
-            }
-        }
-        
-        return nil
     }
     
     func viewDidLoad() {
@@ -68,7 +43,7 @@ class ArticlesViewModel: NSObject {
             return
         }
         
-        guard self.articles.count == 0 else {
+        guard self.articlesCount == 0 else {
             return
         }
         
@@ -84,53 +59,53 @@ class ArticlesViewModel: NSObject {
         self.loadMore()
     }
     
-    private func loadMore() {
+    func requestThumb(index index: Int) -> UIImage? {
         
-        self.loading = true
+        let article = self.articleSrorage.allArticles()[index]
+        let url = article.thumbUrl
         
-        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
-        dispatch_after(delayTime, dispatch_get_main_queue()) {
-            
-            let oldCount = self.articles.count
-            
-            self.articles.append(SimpleArticle(id: "chersonesus", title: "chersonesus title"))
-            self.articles.append(SimpleArticle(id: "hiroshima", title: "hiroshima title"))
-            self.articles.append(SimpleArticle(id: "intermarium", title: "intermarium title"))
-            
-            self.loading = false
-            
-            let newCount = self.articles.count
-            
-            if let notNilArticlesInserted = self.articlesInserted {
-                notNilArticlesInserted(range: oldCount..<newCount)
+        guard let notNilUrl = url else {
+            return nil
+        }
+        
+        var image: UIImage?
+        
+        self.imageCache.requestImage(url: notNilUrl) { imageData, error, fromCache in
+
+            if fromCache {
+                image = UIImage(data: imageData!)
+                
+            } else  {
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.thumbImageLoaded!(index: index)
+                })
             }
         }
+        
+        return image
+    }
+    
+    private func loadMore() {
+        
+        let oldCount = self.articlesCount
+        self.load(fromIndex: oldCount, count: 4)
     }
     
     private func load() {
+        self.load(fromIndex: 0, count: 8)
+    }
+    
+    private func load(fromIndex fromIndex: Int, count: Int) {
         
         self.loading = true
         
-        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
-        dispatch_after(delayTime, dispatch_get_main_queue()) {
-            
-            self.articles.append(SimpleArticle(id: "chersonesus", title: "chersonesus title"))
-            self.articles.append(SimpleArticle(id: "hiroshima", title: "hiroshima title"))
-            self.articles.append(SimpleArticle(id: "intermarium", title: "intermarium title"))
-            self.articles.append(SimpleArticle(id: "noyou", title: "noyou title"))
-            self.articles.append(SimpleArticle(id: "pm-daily374", title: "pm-daily374 title"))
-            self.articles.append(SimpleArticle(id: "pm-daily375", title: "pm-daily375 title"))
-            self.articles.append(SimpleArticle(id: "putinkim", title: "putinkim title"))
-            self.articles.append(SimpleArticle(id: "shadowdragon", title: "shadowdragon title"))
-            self.articles.append(SimpleArticle(id: "vesti", title: "shadowdragon title"))
-            
-            self.loading = false
-            
-            let newCount = self.articles.count
-            
-            if let notNilArticlesInserted = self.articlesInserted {
-                notNilArticlesInserted(range: 0..<newCount)
-            }
+        self.articlesFetcher.fetchArticles(fromIndex: fromIndex, count: count) { articles, error in
+            dispatch_async(dispatch_get_main_queue(), {
+
+                self.loading = false
+                let newCount = self.articlesCount
+                self.articlesInserted!(range: fromIndex..<newCount)
+            })
         }
     }
 }
