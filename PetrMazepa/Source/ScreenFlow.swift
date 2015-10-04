@@ -14,7 +14,18 @@ class ScreenFlow {
     let storyboard = UIStoryboard(name: "Main", bundle: nil)
     var articlesViewController: ArticlesViewController?
     
-    let contentProvider = ContentProvider()
+    let imageCache: ImageCache
+    let contentProvider: ContentProvider
+    
+    init() {
+        
+        let networking = Networking()
+        self.contentProvider = ContentProvider(networking: networking)
+        
+        let inMemoryImageStorage = InMemoryImageStorage()
+        let persistentImageStorage = PersistentImageStorage()
+        self.imageCache = ImageCache(storages: [inMemoryImageStorage, persistentImageStorage], downloader: networking)
+    }
     
     func start() {
         showArticles()
@@ -24,7 +35,9 @@ class ScreenFlow {
         
         let navigationController = storyboard.instantiateInitialViewController() as! UINavigationController
         self.articlesViewController = navigationController.topViewController as? ArticlesViewController
-        self.articlesViewController!.model = ArticlesViewModel(contentProvider: self.contentProvider)
+        
+        self.articlesViewController!.model = ArticlesViewModel(imageCache: self.imageCache, articleStorage: self.contentProvider, articlesFetcher: self.contentProvider)
+
         self.articlesViewController!.screenFlow = self
         self.window.rootViewController = navigationController
         self.window.makeKeyAndVisible()
@@ -35,7 +48,7 @@ class ScreenFlow {
         let searchNavigationController = self.storyboard.instantiateViewControllerWithIdentifier("SearchNav") as! UINavigationController
         
         let searchViewController = searchNavigationController.topViewController as! SearchViewController
-        searchViewController.model = SearchViewModel(contentProvider: self.contentProvider)
+        searchViewController.model = SearchViewModel(imageCache: self.imageCache, articleStorage: self.contentProvider)
         searchViewController.screenFlow = self
         self.articlesViewController!.presentViewController(searchNavigationController, animated: true, completion: nil)
     }
@@ -43,5 +56,4 @@ class ScreenFlow {
     func hideSearch() {
         self.articlesViewController?.dismissViewControllerAnimated(true, completion: nil)
     }
-    
 }

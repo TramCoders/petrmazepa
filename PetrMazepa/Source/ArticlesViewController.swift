@@ -59,6 +59,7 @@ class ArticlesViewController: BaseViewController, UICollectionViewDelegate, UICo
 
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(self.cellReuseIdentifier, forIndexPath: indexPath) as! ArticleCell
         let thumb = self.model!.requestThumb(index: indexPath.item)
+        print("thumb for \(indexPath.row): \(thumb)")
         cell.update(thumb)
         
         return cell

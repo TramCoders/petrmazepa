@@ -12,18 +12,16 @@ class SearchViewModel: ViewModel {
     
     private var query = ""
     var articlesChanged: (() -> Void)?
+    private let imageCache: ImageCache
+    private let articleStorage: ArticleStorage
+    
     private var filteredArticles: [SimpleArticle]
     
-    private var allArticles: [SimpleArticle] {
-        get {
-            return self.contentProvider.articles
-        }
-    }
-    
-    override init(contentProvider: ContentProvider) {
+    required init(imageCache: ImageCache, articleStorage: ArticleStorage) {
         
-        self.filteredArticles = contentProvider.articles
-        super.init(contentProvider: contentProvider)
+        self.imageCache = imageCache
+        self.articleStorage = articleStorage
+        self.filteredArticles = articleStorage.allArticles()
     }
     
     var articlesCount: Int {
@@ -38,18 +36,22 @@ class SearchViewModel: ViewModel {
             return nil
         }
         
-        let completion = { (image: UIImage?, error: NSError?) in
+        var image: UIImage? = nil
+        
+        self.imageCache.requestImage(url: url, completion: { data, error, fromCache in
+            
+            if fromCache {
+
+                image = UIImage(data: data!)
+                return
+            }
             
             if let index = self.findArticle(thumbUrl: url) {
                 self.thumbImageLoaded!(index: index)
             }
-        }
+        })
         
-        if let image = self.contentProvider.loadImage(url: url, completion: completion) {
-            return image
-        }
-        
-        return nil
+        return image
     }
     
     func requestArticle(index: Int) -> SimpleArticle {
@@ -67,11 +69,11 @@ class SearchViewModel: ViewModel {
         
         if self.query == "" {
 
-            self.filteredArticles = self.allArticles
+            self.filteredArticles = self.articleStorage.allArticles()
             return
         }
         
-        self.filteredArticles = self.allArticles.filter({ (article: SimpleArticle) -> Bool in
+        self.filteredArticles = self.articleStorage.allArticles().filter({ article in
             return article.title.containsString(self.query) || article.author.containsString(self.query)
         })
     }

@@ -43,13 +43,13 @@ class SimpleArticlesParserTests: XCTestCase {
         let article0 = articles[0] as! SimpleArticle
         let article1 = articles[1] as! SimpleArticle
         
-        XCTAssertTrue(article0.id == "shadowdragon")
-        XCTAssertTrue(article0.title == "Тень Поднебесной или что бывает, когда у дракона пустеет казна")
-        XCTAssertTrue(article0.author == "Дмитрий Кривошеев")
+        XCTAssertTrue(article0.id == "diggit")
+        XCTAssertTrue(article0.title == "Исповедь шахтёра из «ДНР»: «Не проходит и недели, чтобы кто-то из нас не погиб»")
+        XCTAssertTrue(article0.author == "Shkvarki.org .")
         
-        XCTAssertTrue(article1.id == "freeman")
-        XCTAssertTrue(article1.title == "Свободу Пивоварову!")
-        XCTAssertTrue(article1.author == "Полина Немировская")
+        XCTAssertTrue(article1.id == "novitsalite")
+        XCTAssertTrue(article1.title == "Слепота Европы")
+        XCTAssertTrue(article1.author == "Антон Швец")
     }
     
     private func loadHtml(fileName: String) -> NSData? {

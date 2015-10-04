@@ -20,9 +20,20 @@ class ArticlesViewModel: ViewModel {
     var errorOccurred: ((error: NSError) -> Void)?
     var loadingStateChanged: ((loading: Bool) -> Void)?
     
+    private let imageCache: ImageCache
+    private let articlesFetcher: ArticlesFetcher
+    private let articleSrorage: ArticleStorage
+    
+    required init(imageCache: ImageCache, articleStorage: ArticleStorage, articlesFetcher: ArticlesFetcher) {
+
+        self.imageCache = imageCache
+        self.articleSrorage = articleStorage
+        self.articlesFetcher = articlesFetcher
+    }
+    
     var articlesCount: Int {
         get {
-            return self.contentProvider.articles.count
+            return self.articleSrorage.allArticles().count
         }
     }
     
@@ -32,7 +43,7 @@ class ArticlesViewModel: ViewModel {
             return
         }
         
-        guard self.contentProvider.articles.count == 0 else {
+        guard self.articlesCount == 0 else {
             return
         }
         
@@ -50,20 +61,33 @@ class ArticlesViewModel: ViewModel {
     
     func requestThumb(index index: Int) -> UIImage? {
         
-        let completion = { (image: UIImage?, error: NSError?) in
-            self.thumbImageLoaded!(index: index)
+        let article = self.articleSrorage.allArticles()[index]
+        let url = article.thumbUrl
+        
+        guard let notNilUrl = url else {
+            return nil
         }
         
-        if let image = self.contentProvider.loadImage(index: index, completion: completion) {
-            return image
+        var image: UIImage?
+        
+        self.imageCache.requestImage(url: notNilUrl) { imageData, error, fromCache in
+
+            if fromCache {
+                image = UIImage(data: imageData!)
+                
+            } else  {
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.thumbImageLoaded!(index: index)
+                })
+            }
         }
         
-        return nil
+        return image
     }
     
     private func loadMore() {
         
-        let oldCount = self.contentProvider.articles.count
+        let oldCount = self.articlesCount
         self.load(fromIndex: oldCount, count: 4)
     }
     
@@ -75,11 +99,13 @@ class ArticlesViewModel: ViewModel {
         
         self.loading = true
         
-        self.contentProvider.loadSimpleArticles(8) { (articles: [SimpleArticle]?, error: NSError?) -> () in
-            
-            self.loading = false
-            let newCount = self.contentProvider.articles.count
-            self.articlesInserted!(range: fromIndex..<newCount)
+        self.articlesFetcher.fetchArticles(fromIndex: fromIndex, count: count) { articles, error in
+            dispatch_async(dispatch_get_main_queue(), {
+
+                self.loading = false
+                let newCount = self.articlesCount
+                self.articlesInserted!(range: fromIndex..<newCount)
+            })
         }
     }
 }

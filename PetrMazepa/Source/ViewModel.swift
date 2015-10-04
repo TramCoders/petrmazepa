@@ -9,11 +9,5 @@
 import UIKit
 
 class ViewModel {
-    
     var thumbImageLoaded: ((index: Int) -> Void)?
-    let contentProvider: ContentProvider
-    
-    init(contentProvider: ContentProvider) {
-        self.contentProvider = contentProvider
-    }
 }
