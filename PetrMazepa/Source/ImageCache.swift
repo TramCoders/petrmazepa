@@ -6,9 +6,11 @@
 //  Copyright © 2015 TramCoders. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 class ImageCache {
+    
+    typealias ImageHandler = (imageData: NSData?, error: NSError?, fromCache: Bool) -> ()
     
     private let downloader: ImageDownloader
     private let storages: [ImageStorage]
@@ -19,13 +21,13 @@ class ImageCache {
         self.downloader = downloader
     }
     
-    func requestImage(url url: NSURL, completion: (NSData?, NSError?) -> ()) -> Bool? {
+    func requestImage(url url: NSURL, completion: ImageHandler) {
         
         // search for the image in the storages
         if let imageData = self.loadImage(url: url) {
 
-            completion(imageData, nil)
-            return true
+            completion(imageData: imageData, error: nil, fromCache: true)
+            return
         }
         
         // download the image from the network
@@ -35,10 +37,8 @@ class ImageCache {
                 self.saveImage(url: url, data: notNilData)
             }
             
-            completion(data, error)
+            completion(imageData: data, error: error, fromCache: false)
         }
-        
-        return false
     }
     
     private func saveImage(url url: NSURL, data: NSData) {
