@@ -44,7 +44,7 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
         self.layout = self.collectionView!.collectionViewLayout as? ArticlesViewLayout
         
         // notify model
-        self.model!.viewDidLoad()
+        self.model!.viewDidLoad(screenSize: UIScreen.mainScreen().bounds.size)
     }
     
     @IBAction func searchTapped(sender: AnyObject) {

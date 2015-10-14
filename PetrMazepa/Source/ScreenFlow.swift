@@ -45,7 +45,7 @@ class ScreenFlow: SearchPresenter, SearchDismisser, ArticleDetailsPresenter, Art
         
         let inMemoryImageStorage = InMemoryImageStorage()
         let persistentImageStorage = PersistentImageStorage()
-        self.imageCache = ImageCache(storages: [inMemoryImageStorage, persistentImageStorage], downloader: networking)
+        self.imageCache = ImageCache(inMemoryImageStorage: inMemoryImageStorage, persistentImageStorage: persistentImageStorage, downloader: networking)
         
         self.screenStack = [Screen]()
     }

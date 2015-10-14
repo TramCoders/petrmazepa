@@ -53,13 +53,13 @@ class SearchViewModel {
             return nil
         }
         
-        var image: UIImage? = nil
+        var cachedImage: UIImage? = nil
         
-        self.imageCache.requestImage(url: url, completion: { data, error, fromCache in
+        self.imageCache.requestImage(spec: ImageSpec(url: url, size: CGSizeMake(60, 60)), completion: { image, error, fromCache in
             
             if fromCache {
 
-                image = UIImage(data: data!)
+                cachedImage = image
                 return
             }
             
@@ -71,7 +71,7 @@ class SearchViewModel {
             }
         })
         
-        return image
+        return cachedImage
     }
     
     func requestArticle(index: Int) -> Article {
