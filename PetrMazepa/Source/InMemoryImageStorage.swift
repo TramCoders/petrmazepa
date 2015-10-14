@@ -6,17 +6,28 @@
 //  Copyright © 2015 TramCoders. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 class InMemoryImageStorage: ImageStorage {
     
+    typealias ImageObject = UIImage
     private var images = NSCache()
     
-    func saveImage(url url: NSURL, data: NSData) {
-        self.images.setObject(data, forKey: url)
+    func saveImage(spec spec: ImageSpec, image data: UIImage) {
+        
+        let key = self.key(spec: spec)
+        self.images.setObject(data, forKey: key)
     }
     
-    func loadImage(url url: NSURL) -> NSData? {
-        return self.images.objectForKey(url) as? NSData
+    func deleteImage(spec spec: ImageSpec) {
+        
+        let key = self.key(spec: spec)
+        self.images.removeObjectForKey(key)
+    }
+    
+    func loadImage(spec spec: ImageSpec) -> UIImage? {
+        
+        let key = self.key(spec: spec)
+        return self.images.objectForKey(key) as? UIImage
     }
 }

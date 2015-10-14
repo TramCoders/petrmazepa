@@ -39,7 +39,13 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
             self.collectionView.registerNib(component.cellNib(), forCellWithReuseIdentifier: component.cellIdentifier())
         }
         
-        self.model!.viewDidLoad()
+        self.model!.viewDidLoad(screenSize: UIScreen.mainScreen().bounds.size)
+    }
+    
+    override func viewDidLayoutSubviews() {
+
+        super.viewDidLayoutSubviews()
+        self.collectionView.collectionViewLayout.invalidateLayout()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -99,6 +105,7 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
             textComponent.text = htmlText
             
             self.collectionView.reloadItemsAtIndexPaths([ NSIndexPath(forItem: 1, inSection: 0), NSIndexPath(forItem: 2, inSection: 0) ])
+            self.collectionView.collectionViewLayout.invalidateLayout()
         }
     }
     
