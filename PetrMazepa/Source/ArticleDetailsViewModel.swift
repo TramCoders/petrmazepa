@@ -29,7 +29,7 @@ class ArticleDetailsViewModel {
         self.articleDetailsDismisser = articleDetailsDismisser
     }
     
-    func viewDidLoad(screenSize size: CGSize) {
+    func viewDidLoad() {
         
         self.imageLoaded!(image: nil)
         self.articleDetailsLoaded!(dateString: nil, author: self.article.author, htmlText: nil)
@@ -44,7 +44,14 @@ class ArticleDetailsViewModel {
             }
         }
         
-        self.imageCache.requestImage(spec: ImageSpec(url:self.article.thumbUrl!, size: size)) { image, _, _ in
+        self.imageCache.requestImage(url: self.article.thumbUrl!) { imageData, error, fromCache in
+            
+            guard let notNilImageData = imageData else {
+                return
+            }
+            
+            let image = UIImage(data: notNilImageData)
+            
             dispatch_async(dispatch_get_main_queue(), {
                 self.imageLoaded!(image: image)
             })

@@ -10,32 +10,19 @@ import Foundation
 
 class PersistentImageStorage: ImageStorage {
     
-    typealias ImageObject = NSData
-    
     private let cacheFolderPath: String = {
         
         var paths = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true) as [String]
         return paths[0]
     }()
     
-    func saveImage(spec spec: ImageSpec, image data: NSData) {
-        data.writeToFile(self.filePath(spec: spec), atomically: false)
+    func saveImage(url url: NSURL, data: NSData) {
+        data.writeToFile(self.filePath(imageUrl: url), atomically: false)
     }
     
-    func deleteImage(spec spec: ImageSpec) {
+    func loadImage(url url: NSURL) -> NSData? {
         
-        let fileManager = NSFileManager.defaultManager()
-        
-        do {
-            try fileManager.removeItemAtPath(self.filePath(spec: spec))
-        } catch {
-            // TODO: handle
-        }
-    }
-    
-    func loadImage(spec spec: ImageSpec) -> NSData? {
-        
-        let filePath = self.filePath(spec: spec)
+        let filePath = self.filePath(imageUrl: url)
         
         if let imageData = NSData(contentsOfFile: filePath) {
             return imageData
@@ -44,10 +31,9 @@ class PersistentImageStorage: ImageStorage {
         return nil
     }
     
-    private func filePath(spec spec: ImageSpec) -> String {
+    private func filePath(imageUrl url: NSURL) -> String {
         
-        let key = self.key(spec: spec)
-        let fileName = key.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())
-        return self.cacheFolderPath.stringByAppendingString(fileName!)
+        let fileName = url.absoluteString
+        return self.cacheFolderPath.stringByAppendingString(fileName)
     }
 }

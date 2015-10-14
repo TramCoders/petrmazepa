@@ -10,20 +10,17 @@ import Foundation
 
 protocol ImageStorage {
     
-    typealias ImageObject
-    func saveImage(spec spec: ImageSpec, image: ImageObject)
-    func deleteImage(spec spec: ImageSpec)
-    func loadImage(spec spec: ImageSpec) -> ImageObject?
+    func saveImage(url url: NSURL, data: NSData)
+    func saveImages(images: [NSURL: NSData])
+    func loadImage(url url: NSURL) -> NSData?
 }
 
 extension ImageStorage {
-
-    func key(spec spec: ImageSpec) -> String {
+    
+    func saveImages(images: [NSURL: NSData]) {
         
-        if let size = spec.size {
-            return spec.url.URLByAppendingPathComponent("\(size.width)").URLByAppendingPathComponent("\(size.height)").absoluteString
-        } else {
-            return "\(spec.url.absoluteString)"
+        for (url, data) in images {
+            self.saveImage(url: url, data: data)
         }
     }
 }

@@ -186,14 +186,13 @@
                         <viewControllerLayoutGuide type="bottom" id="MF9-LR-8y5"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="vfO-Yv-vwH">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="rlh-OX-ZCf">
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                 <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="s2l-x8-GkS">
-                                    <size key="itemSize" width="60" height="60"/>
+                                    <size key="itemSize" width="0.0" height="0.0"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -262,16 +261,16 @@
                                 <exclude reference="l87-yg-Knd"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="XTa-Yk-quV"/>
-                                <exclude reference="VfA-3r-gaR"/>
-                                <exclude reference="r0R-b9-QlB"/>
-                                <exclude reference="uuG-bm-uli"/>
                                 <exclude reference="K8m-Xm-Tej"/>
                                 <exclude reference="XR9-Cs-5mt"/>
                                 <exclude reference="yx2-kB-xdY"/>
                                 <exclude reference="BA7-Xs-mJ8"/>
                                 <exclude reference="Pz2-P6-xHW"/>
                                 <exclude reference="nQc-Y9-Z0g"/>
+                                <exclude reference="VfA-3r-gaR"/>
+                                <exclude reference="r0R-b9-QlB"/>
+                                <exclude reference="uuG-bm-uli"/>
+                                <exclude reference="XTa-Yk-quV"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -281,16 +280,16 @@
                                 <include reference="l87-yg-Knd"/>
                             </mask>
                             <mask key="constraints">
-                                <include reference="XTa-Yk-quV"/>
-                                <include reference="VfA-3r-gaR"/>
-                                <include reference="r0R-b9-QlB"/>
-                                <include reference="uuG-bm-uli"/>
                                 <include reference="K8m-Xm-Tej"/>
                                 <include reference="XR9-Cs-5mt"/>
                                 <include reference="yx2-kB-xdY"/>
                                 <include reference="BA7-Xs-mJ8"/>
                                 <include reference="Pz2-P6-xHW"/>
                                 <include reference="nQc-Y9-Z0g"/>
+                                <include reference="VfA-3r-gaR"/>
+                                <include reference="r0R-b9-QlB"/>
+                                <include reference="uuG-bm-uli"/>
+                                <include reference="XTa-Yk-quV"/>
                             </mask>
                         </variation>
                     </view>
