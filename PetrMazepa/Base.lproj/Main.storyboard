@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Navigation Controller-->
@@ -321,7 +322,7 @@
         <!--Search-->
         <scene sceneID="kdx-47-BBU">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="X7k-5v-zPq" customClass="SearchViewController" customModule="PetrMazepa" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="X7k-5v-zPq" customClass="SearchViewController" customModule="PetrMazepa" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Gs4-Ca-X1h"/>
                         <viewControllerLayoutGuide type="bottom" id="ETx-65-pbK"/>
@@ -352,6 +353,7 @@
                             <constraint firstAttribute="trailing" secondItem="Bwl-Ah-XPo" secondAttribute="trailing" id="8hi-RW-eW5"/>
                             <constraint firstItem="ETx-65-pbK" firstAttribute="top" secondItem="Bwl-Ah-XPo" secondAttribute="bottom" id="8sS-Zv-hIh"/>
                             <constraint firstItem="Bwl-Ah-XPo" firstAttribute="leading" secondItem="dre-gj-SFr" secondAttribute="leading" id="E6j-Gz-TqO"/>
+                            <constraint firstItem="Bwl-Ah-XPo" firstAttribute="top" secondItem="dre-gj-SFr" secondAttribute="topMargin" id="UdS-Pm-Rgj"/>
                             <constraint firstItem="Bwl-Ah-XPo" firstAttribute="top" secondItem="dre-gj-SFr" secondAttribute="top" id="fAL-tt-Db6">
                                 <variation key="heightClass=regular-widthClass=compact" constant="64"/>
                             </constraint>
@@ -361,10 +363,11 @@
                                 <exclude reference="Bwl-Ah-XPo"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="8sS-Zv-hIh"/>
                                 <exclude reference="8hi-RW-eW5"/>
                                 <exclude reference="E6j-Gz-TqO"/>
+                                <exclude reference="UdS-Pm-Rgj"/>
                                 <exclude reference="fAL-tt-Db6"/>
+                                <exclude reference="8sS-Zv-hIh"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -372,10 +375,11 @@
                                 <include reference="Bwl-Ah-XPo"/>
                             </mask>
                             <mask key="constraints">
-                                <include reference="8sS-Zv-hIh"/>
                                 <include reference="8hi-RW-eW5"/>
                                 <include reference="E6j-Gz-TqO"/>
-                                <include reference="fAL-tt-Db6"/>
+                                <include reference="UdS-Pm-Rgj"/>
+                                <exclude reference="fAL-tt-Db6"/>
+                                <include reference="8sS-Zv-hIh"/>
                             </mask>
                         </variation>
                     </view>
