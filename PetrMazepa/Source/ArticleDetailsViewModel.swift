@@ -20,6 +20,7 @@ class ArticleDetailsViewModel {
     private let imageCache: ImageCache
     
     private let article: Article
+    private var screenSize: CGSize!
     
     init(article: Article, imageCache: ImageCache, articleDetailsFetcher: ArticleDetailsFetcher, articleDetailsDismisser: ArticleDetailsDismisser) {
 
@@ -29,7 +30,11 @@ class ArticleDetailsViewModel {
         self.articleDetailsDismisser = articleDetailsDismisser
     }
     
-    func viewDidLoad(screenSize size: CGSize) {
+    func viewDidLayoutSubviews(screenSize size: CGSize) {
+        self.screenSize = size
+    }
+    
+    func viewDidAppear() {
         
         self.imageLoaded!(image: nil)
         self.articleDetailsLoaded!(dateString: nil, author: self.article.author, htmlText: nil)
@@ -44,7 +49,7 @@ class ArticleDetailsViewModel {
             }
         }
         
-        self.imageCache.requestImage(spec: ImageSpec(url:self.article.thumbUrl!, size: size)) { image, _, _ in
+        self.imageCache.requestImage(spec: ImageSpec(url:self.article.thumbUrl!, size: self.screenSize)) { image, _, _ in
             dispatch_async(dispatch_get_main_queue(), {
                 self.imageLoaded!(image: image)
             })

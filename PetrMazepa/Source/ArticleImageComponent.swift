@@ -26,14 +26,15 @@ class ArticleImageComponent: ArticleComponent {
     
     func requiredHeight() -> CGFloat {
         
+        let screenWidth = UIScreen.mainScreen().bounds.width
+        
         if let image = self.value() as? UIImage {
 
-            let screenWidth = UIScreen.mainScreen().bounds.width
             let imageSize = image.size
             return imageSize.height * screenWidth / imageSize.width
             
         } else {
-            return 100
+            return screenWidth
         }
     }
 }
