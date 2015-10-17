@@ -55,10 +55,10 @@ class ImageCache {
         
         if let imageData = self.persistentImageStorage.loadImage(spec: urlSpec) {
             
-            let image = self.saveImage(spec: spec, data: imageData)
+            let savedImages = self.saveImage(spec: spec, data: imageData)
             
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-                completion(image: image, error: nil, fromCache: false)
+                completion(image: savedImages.resizedImage, error: nil, fromCache: false)
             }
             
             return
@@ -70,7 +70,9 @@ class ImageCache {
             let image: UIImage?
             
             if let notNilData = data {
-                image = self.saveImage(spec: spec, data: notNilData)
+                
+                let savedImages = self.saveImage(spec: spec, data: notNilData)
+                image = savedImages.resizedImage
                 
             } else {
                 image = nil
@@ -80,10 +82,10 @@ class ImageCache {
         }
     }
     
-    private func saveImage(spec spec: ImageSpec, data: NSData) -> UIImage? {
+    private func saveImage(spec spec: ImageSpec, data: NSData) -> (image: UIImage?, resizedImage: UIImage?) {
 
         guard let image = UIImage(data: data) else {
-            return nil
+            return (image: nil, resizedImage:  nil)
         }
         
         let resizedImage: UIImage!
@@ -97,7 +99,7 @@ class ImageCache {
         self.persistentImageStorage.saveImage(spec: ImageSpec(url: spec.url), image: data)
         self.inMemoryImageStorage.saveImage(spec: spec, image: resizedImage)
         
-        return image
+        return (image: image, resizedImage: resizedImage)
     }
     
     private func deleteImage(spec spec: ImageSpec) {
@@ -118,8 +120,8 @@ class ImageCache {
         let ratio = min(xRatio, yRatio)
         let updatedNewSize = CGSizeMake(oldSize.width * ratio, oldSize.height * ratio)
         
-        UIGraphicsBeginImageContextWithOptions(size, true, 0)
-        image.drawInRect(CGRect(origin: CGPointZero, size: size))
+        UIGraphicsBeginImageContextWithOptions(updatedNewSize, true, 0)
+        image.drawInRect(CGRect(origin: CGPointZero, size: updatedNewSize))
         let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
