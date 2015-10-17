@@ -11,26 +11,24 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="450"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Mn-ci-78M">
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ue2-k2-TU2">
                     <rect key="frame" x="4" y="0.0" width="312" height="450"/>
-                    <color key="backgroundColor" red="0.75220688469174402" green="1" blue="0.8425416586026786" alpha="0.0" colorSpace="calibratedRGB"/>
-                    <string key="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris molestie ultrices magna vitae hendrerit. Sed suscipit, diam at viverra semper, leo leo molestie eros, sed mollis est velit et quam. Donec at urna dolor. Sed vestibulum porta turpis, et tristique leo gravida sed. Donec semper maximus odio et volutpat. Donec at turpis ante. Quisque iaculis diam ut nibh facilisis ultrices. Mauris ac mollis massa. Sed sit amet tristique purus. Mauris sit amet nibh lectus. Cras bibendum nibh luctus, efficitur odio at, varius sapien. Curabitur eu tincidunt lectus, ut rutrum nulla. Mauris non feugiat est, feugiat posuere erat. Aliquam erat volutpat. Quisque hendrerit ac turpis nec euismod. Nulla nisi lorem, dignissim sit amet aliquam nec, feugiat vel nisl.</string>
+                    <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                </textView>
             </subviews>
-            <color key="backgroundColor" red="0.78323119835736699" green="1" blue="0.69973218765929934" alpha="0.0" colorSpace="calibratedRGB"/>
+            <color key="backgroundColor" red="0.86917299723756902" green="0.32810168125421135" blue="0.2816962369702436" alpha="0.0" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstItem="7Mn-ci-78M" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="4" id="I7G-ot-z6D"/>
-                <constraint firstAttribute="trailing" secondItem="7Mn-ci-78M" secondAttribute="trailing" constant="4" id="QX0-kx-qBR"/>
-                <constraint firstItem="7Mn-ci-78M" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="cUY-2g-Wbg"/>
-                <constraint firstAttribute="bottom" secondItem="7Mn-ci-78M" secondAttribute="bottom" id="nlZ-SH-Jt4"/>
+                <constraint firstAttribute="bottom" secondItem="ue2-k2-TU2" secondAttribute="bottom" id="Bwe-Ma-KwH"/>
+                <constraint firstItem="ue2-k2-TU2" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="4" id="iOd-K6-yBB"/>
+                <constraint firstItem="ue2-k2-TU2" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="rgk-Z0-K8l"/>
+                <constraint firstAttribute="trailing" secondItem="ue2-k2-TU2" secondAttribute="trailing" constant="4" id="usi-AM-9Dd"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
-                <outlet property="textLabel" destination="7Mn-ci-78M" id="e79-GE-oJ6"/>
+                <outlet property="textView" destination="ue2-k2-TU2" id="C4f-gw-6Kc"/>
             </connections>
         </view>
     </objects>

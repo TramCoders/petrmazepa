@@ -10,15 +10,22 @@ import UIKit
 
 class ArticleTextCell: UICollectionViewCell, ArticleComponentCell {
     
-    @IBOutlet weak var textLabel: UILabel!
+    @IBOutlet weak var textView: UITextView!
     
     func update(value: AnyObject?) {
         
         if let text = value as? String {
-            self.textLabel.text = text
+            self.textView.text = text
         } else {
-            self.textLabel.text = ""
+            self.textView.text = ""
         }
     }
     
+    override func awakeFromNib() {
+        
+        super.awakeFromNib()
+        
+        self.textView.textContainer.lineFragmentPadding = 0
+        self.textView.textContainerInset = UIEdgeInsetsZero
+    }
 }

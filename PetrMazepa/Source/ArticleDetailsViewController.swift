@@ -10,15 +10,13 @@ import UIKit
 
 class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     
-    var model: ArticleDetailsViewModel? {
+    var model: ArticleDetailsViewModel! {
         didSet {
-            if let notNilModel = self.model {
-                
-                notNilModel.loadingStateChanged = self.loadingStateChangedHandler()
-                notNilModel.imageLoaded = self.imageLoadedHandler()
-                notNilModel.articleDetailsLoaded = self.articleDetailsLoadedHandler()
-                notNilModel.errorOccurred = self.errorOccurredHandler()
-            }
+
+            self.model.loadingStateChanged = self.loadingStateChangedHandler()
+            self.model.imageLoaded = self.imageLoadedHandler()
+            self.model.articleDetailsLoaded = self.articleDetailsLoadedHandler()
+            self.model.errorOccurred = self.errorOccurredHandler()
         }
     }
     
@@ -30,7 +28,8 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
         
         super.viewDidLoad()
         
-        // layout
+        self.collectionView.scrollsToTop = true
+        
         if let layout = self.collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.sectionInset = UIEdgeInsetsMake(20, 0, 0, 0)
         }
@@ -38,20 +37,24 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
         for component in self.components {
             self.collectionView.registerNib(component.cellNib(), forCellWithReuseIdentifier: component.cellIdentifier())
         }
-        
-        self.model!.viewDidLoad(screenSize: UIScreen.mainScreen().bounds.size)
     }
     
     override func viewDidLayoutSubviews() {
 
         super.viewDidLayoutSubviews()
-        self.collectionView.collectionViewLayout.invalidateLayout()
+        self.model.viewDidLayoutSubviews(screenSize: UIScreen.mainScreen().bounds.size)
     }
     
     override func viewWillAppear(animated: Bool) {
         
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        
+        super.viewDidAppear(animated)
+        self.model.viewDidAppear()
     }
     
     @IBAction func backTapped(sender: AnyObject) {
@@ -104,7 +107,10 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
             infoComponent.info = ArticleInfo(dateString: dateString, author: author)
             textComponent.text = htmlText
             
-            self.collectionView.reloadItemsAtIndexPaths([ NSIndexPath(forItem: 1, inSection: 0), NSIndexPath(forItem: 2, inSection: 0) ])
+            let infoIndexPath = NSIndexPath(forItem: 1, inSection: 0)
+            let textIndexPath = NSIndexPath(forItem: 2, inSection: 0)
+            
+            self.collectionView.reloadItemsAtIndexPaths([ infoIndexPath, textIndexPath ])
             self.collectionView.collectionViewLayout.invalidateLayout()
         }
     }
