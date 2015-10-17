@@ -55,9 +55,9 @@ class ImageCache {
         
         if let imageData = self.persistentImageStorage.loadImage(spec: urlSpec) {
             
-            let savedImages = self.saveImage(spec: spec, data: imageData)
-            
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+
+                let savedImages = self.saveImage(spec: spec, data: imageData)
                 completion(image: savedImages.resizedImage, error: nil, fromCache: false)
             }
             
