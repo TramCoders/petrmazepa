@@ -27,6 +27,9 @@ class ArticlesViewModel {
     private let searchPresenter: SearchPresenter
     private let articleDetailsPresenter: ArticleDetailsPresenter
     
+    private var screenSize: CGSize?
+    private var thumbSize: CGSize?
+    
     required init(imageCache: ImageCache, articleStorage: ArticleStorage, articlesFetcher: ArticlesFetcher, searchPresenter: SearchPresenter, articleDetailsPresenter: ArticleDetailsPresenter) {
 
         self.imageCache = imageCache
@@ -52,8 +55,16 @@ class ArticlesViewModel {
         self.articleDetailsPresenter.presentArticleDetails(article)
     }
     
-    func viewDidLoad() {
+    func viewDidLoad(screenSize size: CGSize) {
         
+        // screen size
+        self.screenSize = size
+        
+        // thumb size
+        let thumbWidth = (size.width - 1) / 2
+        self.thumbSize = CGSize.init(width: thumbWidth, height: thumbWidth)
+        
+        // check if articles have to be loaded
         guard self.loading == false else {
             return
         }
@@ -62,7 +73,9 @@ class ArticlesViewModel {
             return
         }
         
-        self.load()
+        // load articles
+        let initialArticlesAmount = Int(ceil(size.height / (thumbWidth + 1))) * 2
+        self.load(fromIndex: 0, count: initialArticlesAmount)
     }
     
     func didScrollToBottom() {
@@ -83,12 +96,16 @@ class ArticlesViewModel {
             return nil
         }
         
-        var image: UIImage?
+        guard let notNilThumbSize = self.thumbSize else {
+            return nil
+        }
         
-        self.imageCache.requestImage(url: notNilUrl) { imageData, error, fromCache in
+        var cachedImage: UIImage?
+        
+        self.imageCache.requestImage(spec: ImageSpec(url: notNilUrl, size: notNilThumbSize)) { image, error, fromCache in
 
             if fromCache {
-                image = UIImage(data: imageData!)
+                cachedImage = image
                 
             } else  {
                 dispatch_async(dispatch_get_main_queue(), {
@@ -97,17 +114,13 @@ class ArticlesViewModel {
             }
         }
         
-        return image
+        return cachedImage
     }
     
     private func loadMore() {
         
         let oldCount = self.articlesCount
         self.load(fromIndex: oldCount, count: 4)
-    }
-    
-    private func load() {
-        self.load(fromIndex: 0, count: 8)
     }
     
     private func load(fromIndex fromIndex: Int, count: Int) {

@@ -8,55 +8,124 @@
 
 import UIKit
 
+struct ImageSpec {
+    
+    let url: NSURL
+    let size: CGSize?
+    
+    init(url: NSURL) {
+        
+        self.url = url
+        self.size = nil
+    }
+    
+    init(url: NSURL, size: CGSize) {
+        
+        self.url = url
+        self.size = size
+    }
+}
+
 class ImageCache {
     
-    typealias ImageHandler = (imageData: NSData?, error: NSError?, fromCache: Bool) -> ()
+    typealias ImageHandler = (image: UIImage?, error: NSError?, fromCache: Bool) -> ()
     
     private let downloader: ImageDownloader
-    private let storages: [ImageStorage]
+    private let inMemoryImageStorage: InMemoryImageStorage
+    private let persistentImageStorage: PersistentImageStorage
 
-    required init(storages: [ImageStorage], downloader: ImageDownloader) {
+    required init(inMemoryImageStorage: InMemoryImageStorage, persistentImageStorage: PersistentImageStorage, downloader: ImageDownloader) {
         
-        self.storages = storages
+        self.inMemoryImageStorage = inMemoryImageStorage
+        self.persistentImageStorage = persistentImageStorage
         self.downloader = downloader
     }
     
-    func requestImage(url url: NSURL, completion: ImageHandler) {
+    func requestImage(spec spec: ImageSpec, completion: ImageHandler) {
         
-        // search for the image in the storages
-        if let imageData = self.loadImage(url: url) {
-
-            completion(imageData: imageData, error: nil, fromCache: true)
+        // search for the image in the in-memory storage
+        if let image = self.inMemoryImageStorage.loadImage(spec: spec) {
+            
+            completion(image: image, error: nil, fromCache: true)
+            return
+        }
+        
+        // search for the image in the persistent
+        let urlSpec = ImageSpec(url: spec.url)
+        
+        if let imageData = self.persistentImageStorage.loadImage(spec: urlSpec) {
+            
+            let savedImages = self.saveImage(spec: spec, data: imageData)
+            
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+                completion(image: savedImages.resizedImage, error: nil, fromCache: false)
+            }
+            
             return
         }
         
         // download the image from the network
-        self.downloader.downloadImage(url) { (data, error) -> () in
+        self.downloader.downloadImage(spec.url) { (data, error) -> () in
 
+            let image: UIImage?
+            
             if let notNilData = data {
-                self.saveImage(url: url, data: notNilData)
+                
+                let savedImages = self.saveImage(spec: spec, data: notNilData)
+                image = savedImages.resizedImage
+                
+            } else {
+                image = nil
             }
             
-            completion(imageData: data, error: error, fromCache: false)
+            completion(image: image, error: error, fromCache: false)
         }
     }
     
-    private func saveImage(url url: NSURL, data: NSData) {
+    private func saveImage(spec spec: ImageSpec, data: NSData) -> (image: UIImage?, resizedImage: UIImage?) {
 
-        for storage in self.storages {
-            storage.saveImage(url: url, data: data)
-        }
-    }
-    
-    private func loadImage(url url: NSURL) -> NSData? {
-
-        for storage in self.storages {
-            
-            if let imageData = storage.loadImage(url: url) {
-                return imageData
-            }
+        guard let image = UIImage(data: data) else {
+            return (image: nil, resizedImage:  nil)
         }
         
-        return nil
+        let resizedImage: UIImage!
+        
+        if let notNilSize = spec.size {
+            resizedImage = self.resizedImage(image, newSize: notNilSize)
+        } else {
+            resizedImage = image
+        }
+        
+        self.persistentImageStorage.saveImage(spec: ImageSpec(url: spec.url), image: data)
+        self.inMemoryImageStorage.saveImage(spec: spec, image: resizedImage)
+        
+        return (image: image, resizedImage: resizedImage)
+    }
+    
+    private func deleteImage(spec spec: ImageSpec) {
+        
+        self.persistentImageStorage.deleteImage(spec: spec)
+        self.inMemoryImageStorage.deleteImage(spec: spec)
+    }
+    
+    private func resizedImage(image: UIImage, newSize: CGSize?) -> UIImage {
+        
+        guard let size = newSize else {
+            return image
+        }
+        
+        let oldSize = image.size
+        let xRatio = size.width / oldSize.width
+        let yRatio = size.height / oldSize.height
+        let ratio = min(xRatio, yRatio)
+        let updatedNewSize = CGSizeMake(oldSize.width * ratio, oldSize.height * ratio)
+        
+        UIGraphicsBeginImageContextWithOptions(updatedNewSize, true, 0)
+        image.drawInRect(CGRect(origin: CGPointZero, size: updatedNewSize))
+        let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return scaledImage
     }
 }
+
