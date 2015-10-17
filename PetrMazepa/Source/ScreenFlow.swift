@@ -37,6 +37,7 @@ class ScreenFlow: SearchPresenter, SearchDismisser, ArticleDetailsPresenter, Art
     init() {
         
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        self.window.tintColor = UIColor(red: 0.933, green: 0.427, blue: 0.439, alpha: 1.0)
         self.storyboard = UIStoryboard(name: "Main", bundle: nil)
         self.navigationController = self.storyboard.instantiateInitialViewController() as! UINavigationController
         

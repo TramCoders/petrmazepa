@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8173.3" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8142"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -15,15 +15,23 @@
                     <rect key="frame" x="0.0" y="0.0" width="148" height="200"/>
                     <color key="backgroundColor" white="0.75" alpha="0.0" colorSpace="custom" customColorSpace="calibratedWhite"/>
                 </imageView>
+                <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iUl-0z-XqR">
+                    <rect key="frame" x="0.0" y="0.0" width="148" height="200"/>
+                    <color key="backgroundColor" white="0.080000000000000002" alpha="0.65000000000000002" colorSpace="calibratedWhite"/>
+                </view>
                 <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Bvm-4e-g0D">
                     <rect key="frame" x="56" y="82" width="37" height="37"/>
                 </activityIndicatorView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
             <constraints>
+                <constraint firstItem="iUl-0z-XqR" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="3YI-vT-hfk"/>
                 <constraint firstAttribute="bottom" secondItem="XbO-P9-6N9" secondAttribute="bottom" id="7iI-Dr-lAT"/>
+                <constraint firstAttribute="bottom" secondItem="iUl-0z-XqR" secondAttribute="bottom" id="FO9-hS-mpg"/>
                 <constraint firstItem="XbO-P9-6N9" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Kq3-8i-hXf"/>
+                <constraint firstItem="iUl-0z-XqR" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="VHy-ft-Y1q"/>
                 <constraint firstItem="Bvm-4e-g0D" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="dgf-0L-ofD"/>
+                <constraint firstAttribute="trailing" secondItem="iUl-0z-XqR" secondAttribute="trailing" id="elT-oP-VqG"/>
                 <constraint firstAttribute="trailing" secondItem="XbO-P9-6N9" secondAttribute="trailing" id="i1Q-Ao-TjW"/>
                 <constraint firstItem="XbO-P9-6N9" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="kue-a5-zoj"/>
                 <constraint firstItem="Bvm-4e-g0D" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="niW-eN-CEt"/>
@@ -32,6 +40,7 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="activityIndicator" destination="Bvm-4e-g0D" id="IPZ-fw-Nbk"/>
+                <outlet property="dimmerView" destination="iUl-0z-XqR" id="HJz-Jw-yX8"/>
                 <outlet property="imageView" destination="XbO-P9-6N9" id="xIZ-dJ-3Rz"/>
             </connections>
         </view>
