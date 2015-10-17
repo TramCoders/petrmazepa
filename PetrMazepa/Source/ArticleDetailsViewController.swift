@@ -28,6 +28,8 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
         
         super.viewDidLoad()
         
+        self.collectionView.scrollsToTop = true
+        
         if let layout = self.collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.sectionInset = UIEdgeInsetsMake(20, 0, 0, 0)
         }
@@ -105,7 +107,10 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
             infoComponent.info = ArticleInfo(dateString: dateString, author: author)
             textComponent.text = htmlText
             
-            self.collectionView.reloadItemsAtIndexPaths([ NSIndexPath(forItem: 1, inSection: 0), NSIndexPath(forItem: 2, inSection: 0) ])
+            let infoIndexPath = NSIndexPath(forItem: 1, inSection: 0)
+            let textIndexPath = NSIndexPath(forItem: 2, inSection: 0)
+            
+            self.collectionView.reloadItemsAtIndexPaths([ infoIndexPath, textIndexPath ])
             self.collectionView.collectionViewLayout.invalidateLayout()
         }
     }
