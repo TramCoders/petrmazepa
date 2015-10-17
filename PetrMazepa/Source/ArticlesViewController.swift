@@ -38,10 +38,10 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
         
         // register an article cell
         let cellNib = UINib(nibName: "ArticleCell", bundle: nil)
-        self.collectionView!.registerNib(cellNib, forCellWithReuseIdentifier: self.cellReuseIdentifier)
+        self.collectionView.registerNib(cellNib, forCellWithReuseIdentifier: self.cellReuseIdentifier)
         
         // a collection view layout data source
-        self.layout = self.collectionView!.collectionViewLayout as? ArticlesViewLayout
+        self.layout = self.collectionView.collectionViewLayout as? ArticlesViewLayout
         
         // notify model
         self.model!.viewDidLoad(screenSize: UIScreen.mainScreen().bounds.size)
@@ -84,16 +84,16 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
             let insertedIndexPaths = self.layout!.insertArticles(range.count)
             
             if range.startIndex == 0 {
-                self.collectionView!.reloadData()
+                self.collectionView.reloadData()
             } else {
-                self.collectionView!.insertItemsAtIndexPaths(insertedIndexPaths)
+                self.collectionView.insertItemsAtIndexPaths(insertedIndexPaths)
             }
         }
     }
     
     private func thumbImageLoadedHandler() -> ((index: Int) -> Void) {
-        return { (index: Int) in
-            self.collectionView!.reloadItemsAtIndexPaths([NSIndexPath(forItem: index, inSection: 0)])
+        return { index in
+            self.collectionView.reloadItemsAtIndexPaths([NSIndexPath(forItem: index, inSection: 0)])
         }
     }
     
