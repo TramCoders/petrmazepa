@@ -37,7 +37,7 @@ class ArticleDetailsViewModel {
     func viewDidAppear() {
         
         self.imageLoaded!(image: nil)
-        self.articleDetailsLoaded!(dateString: nil, author: self.article.author, htmlText: nil)
+        self.articleDetailsLoaded!(dateString: nil, author: nil, htmlText: nil)
         
         self.articleDetailsFetcher.fetchArticleDetails(article: self.article) { details, error in
             

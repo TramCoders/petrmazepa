@@ -6,11 +6,33 @@
 //  Copyright © 2015 TramCoders. All rights reserved.
 //
 
-import Foundation
+import UIKit
+
+class ActivityIndicator {
+    
+    init() {
+        self.activities = 0
+    }
+    
+    private var activities: Int {
+        didSet {
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = self.activities > 0
+        }
+    }
+    
+    func increment() {
+        self.activities++
+    }
+    
+    func decrement() {
+        self.activities--
+    }
+}
 
 class Networking: ImageDownloader, ArticlesFetcher, ArticleDetailsFetcher {
     
     private let session = NSURLSession.sharedSession()
+    private let activityIndicator = ActivityIndicator()
     private let baseUrl = "http://petrimazepa.com"
     
     private let articlesParser = ArticlesParser()
@@ -24,7 +46,11 @@ class Networking: ImageDownloader, ArticlesFetcher, ArticleDetailsFetcher {
             return
         }
         
+        self.activityIndicator.increment()
+
         self.session.dataTaskWithURL(url) { (data: NSData?, response: NSURLResponse?, error: NSError?) -> () in
+            
+            self.activityIndicator.decrement()
             
             guard let notNilData = data else {
 
@@ -55,7 +81,11 @@ class Networking: ImageDownloader, ArticlesFetcher, ArticleDetailsFetcher {
             return
         }
         
+        self.activityIndicator.increment()
+        
         self.session.dataTaskWithURL(notNilUrl) { (data: NSData?, response: NSURLResponse?, error: NSError?) -> () in
+            
+            self.activityIndicator.decrement()
             
             guard let notNilData = data else {
                 
@@ -77,8 +107,12 @@ class Networking: ImageDownloader, ArticlesFetcher, ArticleDetailsFetcher {
     
     func downloadImage(url: NSURL, completion: ImageDownloadHandler) {
         
+        self.activityIndicator.increment()
+        
         let request = NSURLRequest(URL: url)
         self.session.downloadTaskWithRequest(request) { (fileUrl: NSURL?, _, error: NSError?) -> () in
+            
+            self.activityIndicator.decrement()
             
             guard let notNilFileUrl = fileUrl else {
                 
