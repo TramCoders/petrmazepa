@@ -108,7 +108,7 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
     
     private func loadingStateChangedHandler() -> ((loading: Bool) -> Void) {
         return { (loading: Bool) in
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = loading
+            // TODO:
         }
     }
     

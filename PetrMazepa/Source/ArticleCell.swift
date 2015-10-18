@@ -12,6 +12,16 @@ class ArticleCell: UICollectionViewCell {
     
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var dimmerView: UIView!
+    
+    override var highlighted: Bool {
+        didSet {
+            
+            UIView.animateWithDuration(0.1) {
+                self.dimmerView.alpha = (self.highlighted ? 1.0 : 0.0)
+            }
+        }
+    }
     
     func update(image: UIImage?) {
         
