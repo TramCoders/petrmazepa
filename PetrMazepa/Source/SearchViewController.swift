@@ -45,6 +45,7 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
     override func viewWillDisappear(animated: Bool) {
         
         super.viewWillDisappear(animated)
+        self.searchBar.resignFirstResponder()
         self.stopHandlingKeyboardAppearance()
     }
     
