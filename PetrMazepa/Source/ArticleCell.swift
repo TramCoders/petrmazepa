@@ -33,6 +33,4 @@ class ArticleCell: UICollectionViewCell {
         
         self.imageView.image = image
     }
-    
-    
 }
