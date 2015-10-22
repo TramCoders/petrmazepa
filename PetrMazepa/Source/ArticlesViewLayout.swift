@@ -11,7 +11,7 @@ import UIKit
 class ArticlesViewLayout: UICollectionViewLayout  {
     
     var attributes = [UICollectionViewLayoutAttributes]()
-    let topMargin: CGFloat = 55.0
+    let topMargin: CGFloat = 1.0
     let margin: CGFloat = 0.0
     let internalMargin: CGFloat = 1.0
     
