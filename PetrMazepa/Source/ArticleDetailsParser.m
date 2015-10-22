@@ -27,7 +27,7 @@
 - (ArticleDetails *)convertElement:(TFHpple *)hpple {
     
     // html text
-    TFHppleElement *htmlTextElement = [hpple searchWithXPathQuery:@"//div[@class='article-content']"].firstObject;
+    TFHppleElement *htmlTextElement = [hpple searchWithXPathQuery:@"//div[@class='mainContent']"].firstObject;
     NSString *htmlText = htmlTextElement.content;
     
     // date string
