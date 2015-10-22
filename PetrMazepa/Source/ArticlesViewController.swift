@@ -47,6 +47,12 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
         self.model!.viewDidLoad(screenSize: UIScreen.mainScreen().bounds.size)
     }
     
+    override func viewWillAppear(animated: Bool) {
+        
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
     @IBAction func searchTapped(sender: AnyObject) {
         self.model!.searchTapped()
     }
