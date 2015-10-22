@@ -10,8 +10,8 @@
         <!--Navigation Controller-->
         <scene sceneID="kJh-Oa-DnC">
             <objects>
-                <navigationController navigationBarHidden="YES" id="ht5-ZF-4l0" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="kba-Rt-6g2">
+                <navigationController id="ht5-ZF-4l0" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="kba-Rt-6g2">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -23,10 +23,10 @@
             </objects>
             <point key="canvasLocation" x="-612" y="147"/>
         </scene>
-        <!--Articles View Controller-->
+        <!--Пётр и Мазепа-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="vXZ-lx-hvc" customClass="ArticlesViewController" customModule="PetrMazepa" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="vXZ-lx-hvc" customClass="ArticlesViewController" customModule="PetrMazepa" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jyV-Pf-zRb"/>
                         <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
@@ -60,114 +60,48 @@
                                     <outlet property="delegate" destination="vXZ-lx-hvc" id="2ot-oD-91m"/>
                                 </connections>
                             </collectionView>
-                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5VA-Db-qvl">
-                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="xLq-FM-vsx">
-                                    <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ixi-99-1BL">
-                                            <rect key="frame" x="-23" y="-15" width="46" height="30"/>
-                                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
-                                            <inset key="contentEdgeInsets" minX="0.0" minY="20" maxX="0.0" maxY="0.0"/>
-                                            <state key="normal" title="Search Petr&amp;Mazepa">
-                                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                            </state>
-                                            <connections>
-                                                <action selector="searchTapped:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="FYF-bh-wjk"/>
-                                            </connections>
-                                        </button>
-                                    </subviews>
-                                    <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    <constraints>
-                                        <constraint firstAttribute="trailing" secondItem="ixi-99-1BL" secondAttribute="trailing" id="5la-fH-t2V"/>
-                                        <constraint firstItem="ixi-99-1BL" firstAttribute="leading" secondItem="xLq-FM-vsx" secondAttribute="leading" id="Au5-CO-hWt"/>
-                                        <constraint firstItem="ixi-99-1BL" firstAttribute="top" secondItem="xLq-FM-vsx" secondAttribute="top" id="kGz-nP-MJJ"/>
-                                        <constraint firstAttribute="bottom" secondItem="ixi-99-1BL" secondAttribute="bottom" id="xZt-Az-qOs"/>
-                                    </constraints>
-                                    <variation key="default">
-                                        <mask key="subviews">
-                                            <exclude reference="ixi-99-1BL"/>
-                                        </mask>
-                                        <mask key="constraints">
-                                            <exclude reference="5la-fH-t2V"/>
-                                            <exclude reference="Au5-CO-hWt"/>
-                                            <exclude reference="kGz-nP-MJJ"/>
-                                            <exclude reference="xZt-Az-qOs"/>
-                                        </mask>
-                                    </variation>
-                                    <variation key="heightClass=regular-widthClass=compact">
-                                        <mask key="subviews">
-                                            <include reference="ixi-99-1BL"/>
-                                        </mask>
-                                        <mask key="constraints">
-                                            <include reference="5la-fH-t2V"/>
-                                            <include reference="Au5-CO-hWt"/>
-                                            <include reference="kGz-nP-MJJ"/>
-                                            <include reference="xZt-Az-qOs"/>
-                                        </mask>
-                                    </variation>
-                                </view>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="74" id="Tys-df-lLe"/>
-                                </constraints>
-                                <blurEffect style="light"/>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="Tys-df-lLe"/>
-                                    </mask>
-                                </variation>
-                                <variation key="heightClass=regular-widthClass=compact">
-                                    <mask key="constraints">
-                                        <include reference="Tys-df-lLe"/>
-                                    </mask>
-                                </variation>
-                            </visualEffectView>
                         </subviews>
                         <color key="backgroundColor" red="0.078431372549019607" green="0.078431372549019607" blue="0.078431372549019607" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="5VA-Db-qvl" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="top" id="CEE-HB-W6a"/>
-                            <constraint firstItem="5VA-Db-qvl" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="Cpj-8l-ed4"/>
                             <constraint firstItem="YoU-1M-ywq" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" id="E7b-tL-azp"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="YoU-1M-ywq" secondAttribute="bottom" id="KMi-tK-q0g"/>
-                            <constraint firstAttribute="trailing" secondItem="5VA-Db-qvl" secondAttribute="trailing" id="N2p-lM-kSX"/>
                             <constraint firstAttribute="trailing" secondItem="YoU-1M-ywq" secondAttribute="trailing" id="SNH-M9-5r7"/>
                             <constraint firstItem="YoU-1M-ywq" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="Zv4-yD-WGu"/>
+                            <constraint firstItem="YoU-1M-ywq" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="topMargin" id="bNd-Ij-jFJ"/>
                         </constraints>
                         <variation key="default">
                             <mask key="subviews">
                                 <exclude reference="YoU-1M-ywq"/>
-                                <exclude reference="5VA-Db-qvl"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="KMi-tK-q0g"/>
-                                <exclude reference="CEE-HB-W6a"/>
-                                <exclude reference="Cpj-8l-ed4"/>
-                                <exclude reference="N2p-lM-kSX"/>
                                 <exclude reference="E7b-tL-azp"/>
                                 <exclude reference="SNH-M9-5r7"/>
                                 <exclude reference="Zv4-yD-WGu"/>
+                                <exclude reference="bNd-Ij-jFJ"/>
+                                <exclude reference="KMi-tK-q0g"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
                             <mask key="subviews">
                                 <include reference="YoU-1M-ywq"/>
-                                <include reference="5VA-Db-qvl"/>
                             </mask>
                             <mask key="constraints">
-                                <include reference="KMi-tK-q0g"/>
-                                <include reference="CEE-HB-W6a"/>
-                                <include reference="Cpj-8l-ed4"/>
-                                <include reference="N2p-lM-kSX"/>
-                                <include reference="E7b-tL-azp"/>
+                                <exclude reference="E7b-tL-azp"/>
                                 <include reference="SNH-M9-5r7"/>
                                 <include reference="Zv4-yD-WGu"/>
+                                <include reference="bNd-Ij-jFJ"/>
+                                <include reference="KMi-tK-q0g"/>
                             </mask>
                         </variation>
                     </view>
-                    <navigationItem key="navigationItem" id="Dv3-z0-pke"/>
+                    <navigationItem key="navigationItem" title="Пётр и Мазепа" id="Dv3-z0-pke">
+                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="7EC-hu-x5y">
+                            <connections>
+                                <action selector="searchTapped:" destination="vXZ-lx-hvc" id="KvP-Tj-7TS"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
-                    <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <outlet property="collectionView" destination="YoU-1M-ywq" id="PZg-9z-49n"/>
                     </connections>
