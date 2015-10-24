@@ -11,7 +11,7 @@
         <scene sceneID="kJh-Oa-DnC">
             <objects>
                 <navigationController id="ht5-ZF-4l0" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="kba-Rt-6g2">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="kba-Rt-6g2">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -61,7 +61,7 @@
                                 </connections>
                             </collectionView>
                         </subviews>
-                        <color key="backgroundColor" red="0.078431372549019607" green="0.078431372549019607" blue="0.078431372549019607" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="YoU-1M-ywq" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" id="E7b-tL-azp"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="YoU-1M-ywq" secondAttribute="bottom" id="KMi-tK-q0g"/>
@@ -74,11 +74,11 @@
                                 <exclude reference="YoU-1M-ywq"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="KMi-tK-q0g"/>
                                 <exclude reference="E7b-tL-azp"/>
                                 <exclude reference="SNH-M9-5r7"/>
                                 <exclude reference="Zv4-yD-WGu"/>
                                 <exclude reference="bNd-Ij-jFJ"/>
-                                <exclude reference="KMi-tK-q0g"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -86,11 +86,11 @@
                                 <include reference="YoU-1M-ywq"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="KMi-tK-q0g"/>
                                 <exclude reference="E7b-tL-azp"/>
                                 <include reference="SNH-M9-5r7"/>
                                 <include reference="Zv4-yD-WGu"/>
                                 <include reference="bNd-Ij-jFJ"/>
-                                <include reference="KMi-tK-q0g"/>
                             </mask>
                         </variation>
                     </view>

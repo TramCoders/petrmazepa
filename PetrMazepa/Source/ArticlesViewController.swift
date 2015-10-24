@@ -64,8 +64,8 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(self.cellReuseIdentifier, forIndexPath: indexPath) as! ArticleCell
-        let thumb = self.model!.requestThumb(index: indexPath.item)
-        cell.update(thumb)
+        let articleModel = self.model!.requestArticleModel(index: indexPath.item)
+        cell.update(articleModel)
         
         return cell
     }
@@ -76,11 +76,8 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
         
-        let beyondBottom = scrollView.contentOffset.y + scrollView.frame.height - scrollView.contentSize.height
-        
-        if beyondBottom >= 0 {
-            self.model!.didScrollToBottom()
-        }
+        let distance = scrollView.contentSize.height - scrollView.frame.height - scrollView.contentOffset.y
+        self.model!.didChangeDistanceToBottom(distance)
     }
     
     private func articlesInsertedHandler() -> ((range: Range<Int>) -> Void) {

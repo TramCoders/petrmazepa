@@ -29,6 +29,7 @@ class ArticlesViewModel {
     
     private var screenSize: CGSize?
     private var thumbSize: CGSize?
+    private var screenArticlesAmount: Int = 0
     
     required init(imageCache: ImageCache, articleStorage: ArticleStorage, articlesFetcher: ArticlesFetcher, searchPresenter: SearchPresenter, articleDetailsPresenter: ArticleDetailsPresenter) {
 
@@ -56,7 +57,7 @@ class ArticlesViewModel {
     }
     
     func viewDidLoad(screenSize size: CGSize) {
-        
+
         // screen size
         self.screenSize = size
         
@@ -74,53 +75,62 @@ class ArticlesViewModel {
         }
         
         // load articles
-        let initialArticlesAmount = Int(ceil(size.height / (thumbWidth + 1))) * 2
-        self.load(fromIndex: 0, count: initialArticlesAmount)
+        self.screenArticlesAmount = Int(ceil(size.height / (thumbWidth + 1))) * 2
+        self.load(fromIndex: 0, count: self.screenArticlesAmount * 2)
     }
     
-    func didScrollToBottom() {
+    func didChangeDistanceToBottom(distance: CGFloat) {
         
         guard self.loading == false else {
+            return
+        }
+        
+        guard let notNilScreenSize = self.screenSize else {
+            return
+        }
+        
+        if distance > notNilScreenSize.height * 2 {
             return
         }
         
         self.loadMore()
     }
     
-    func requestThumb(index index: Int) -> UIImage? {
+    func requestArticleModel(index index: Int) -> (title: String, image: UIImage?) {
         
         let article = self.articleSrorage.allArticles()[index]
+        let title = article.title
         let url = article.thumbUrl
         
         guard let notNilUrl = url else {
-            return nil
+            return (title: title, image: nil)
         }
         
         guard let notNilThumbSize = self.thumbSize else {
-            return nil
+            return (title: title, image: nil)
         }
         
         var cachedImage: UIImage?
         
-        self.imageCache.requestImage(spec: ImageSpec(url: notNilUrl, size: notNilThumbSize)) { image, error, fromCache in
-
-            if fromCache {
-                cachedImage = image
-                
-            } else  {
-                dispatch_async(dispatch_get_main_queue(), {
-                    self.thumbImageLoaded!(index: index)
-                })
-            }
-        }
+//        self.imageCache.requestImage(spec: ImageSpec(url: notNilUrl, size: notNilThumbSize)) { image, error, fromCache in
+//
+//            if fromCache {
+//                cachedImage = image
+//                
+//            } else  {
+//                dispatch_async(dispatch_get_main_queue(), {
+//                    self.thumbImageLoaded!(index: index)
+//                })
+//            }
+//        }
         
-        return cachedImage
+        return (title: title, image: cachedImage)
     }
     
     private func loadMore() {
         
         let oldCount = self.articlesCount
-        self.load(fromIndex: oldCount, count: 4)
+        self.load(fromIndex: oldCount, count: self.screenArticlesAmount * 2)
     }
     
     private func load(fromIndex fromIndex: Int, count: Int) {
