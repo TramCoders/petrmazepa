@@ -13,35 +13,41 @@
             <subviews>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="XbO-P9-6N9">
                     <rect key="frame" x="0.0" y="0.0" width="148" height="200"/>
-                    <color key="backgroundColor" white="0.75" alpha="0.0" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" white="0.94000000000000006" alpha="0.0" colorSpace="calibratedWhite"/>
                 </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yG1-LZ-Uhd">
+                    <rect key="frame" x="5" y="5" width="138" height="190"/>
+                    <color key="backgroundColor" white="0.94000000000000006" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                    <color key="textColor" white="0.59907407407407409" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
                 <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iUl-0z-XqR">
                     <rect key="frame" x="0.0" y="0.0" width="148" height="200"/>
                     <color key="backgroundColor" white="0.080000000000000002" alpha="0.65000000000000002" colorSpace="calibratedWhite"/>
                 </view>
-                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Bvm-4e-g0D">
-                    <rect key="frame" x="56" y="82" width="37" height="37"/>
-                </activityIndicatorView>
             </subviews>
-            <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
+            <color key="backgroundColor" white="0.94000000000000006" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="iUl-0z-XqR" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="3YI-vT-hfk"/>
                 <constraint firstAttribute="bottom" secondItem="XbO-P9-6N9" secondAttribute="bottom" id="7iI-Dr-lAT"/>
+                <constraint firstItem="yG1-LZ-Uhd" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="5" id="AYp-9g-z6l"/>
                 <constraint firstAttribute="bottom" secondItem="iUl-0z-XqR" secondAttribute="bottom" id="FO9-hS-mpg"/>
                 <constraint firstItem="XbO-P9-6N9" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Kq3-8i-hXf"/>
+                <constraint firstAttribute="trailing" secondItem="yG1-LZ-Uhd" secondAttribute="trailing" constant="5" id="U0K-2q-Qpx"/>
                 <constraint firstItem="iUl-0z-XqR" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="VHy-ft-Y1q"/>
-                <constraint firstItem="Bvm-4e-g0D" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="dgf-0L-ofD"/>
                 <constraint firstAttribute="trailing" secondItem="iUl-0z-XqR" secondAttribute="trailing" id="elT-oP-VqG"/>
+                <constraint firstAttribute="bottom" secondItem="yG1-LZ-Uhd" secondAttribute="bottom" constant="5" id="h5z-Ey-7ei"/>
                 <constraint firstAttribute="trailing" secondItem="XbO-P9-6N9" secondAttribute="trailing" id="i1Q-Ao-TjW"/>
                 <constraint firstItem="XbO-P9-6N9" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="kue-a5-zoj"/>
-                <constraint firstItem="Bvm-4e-g0D" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="niW-eN-CEt"/>
+                <constraint firstItem="yG1-LZ-Uhd" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="5" id="trT-MC-74A"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
-                <outlet property="activityIndicator" destination="Bvm-4e-g0D" id="IPZ-fw-Nbk"/>
                 <outlet property="dimmerView" destination="iUl-0z-XqR" id="HJz-Jw-yX8"/>
                 <outlet property="imageView" destination="XbO-P9-6N9" id="xIZ-dJ-3Rz"/>
+                <outlet property="titleLabel" destination="yG1-LZ-Uhd" id="8v1-nL-oxH"/>
             </connections>
         </view>
     </objects>
