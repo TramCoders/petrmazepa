@@ -8,24 +8,42 @@
 
 import UIKit
 
-class ArticleTextCell: UICollectionViewCell, ArticleComponentCell {
+protocol ArticleTextCellDelegate {
+    func articleTextCellDidDetermineHeight(sender cell: ArticleTextCell, height: CGFloat)
+}
+
+class ArticleTextCell: UICollectionViewCell, ArticleComponentCell, UIWebViewDelegate {
     
-    @IBOutlet weak var textView: UITextView!
+    @IBOutlet weak var webView: UIWebView!
+    private var delegate: ArticleTextCellDelegate?  // FIXME: weak?
     
     func update(value: AnyObject?) {
         
-        if let text = value as? String {
-            self.textView.text = text
+        guard let notNilValue = value as? ArticleTextValue else {
+            return
+        }
+        
+        self.delegate = notNilValue.delegate
+        
+        if let notNilText = notNilValue.text {
+            self.webView.loadHTMLString(notNilText, baseURL: NSURL(string: "http:"))
+            
         } else {
-            self.textView.text = ""
+            self.webView.loadHTMLString("", baseURL: nil)
         }
     }
     
-    override func awakeFromNib() {
+    func webView(webView: UIWebView, didFailLoadWithError error: NSError?) {
+        // TODO: handle
+    }
+    
+    func webViewDidFinishLoad(webView: UIWebView) {
         
-        super.awakeFromNib()
+        guard let notNilDelegate = self.delegate else {
+            return
+        }
         
-        self.textView.textContainer.lineFragmentPadding = 0
-        self.textView.textContainerInset = UIEdgeInsetsZero
+        let size = webView.sizeThatFits(CGSizeMake(webView.bounds.width, CGFloat.max))
+        notNilDelegate.articleTextCellDidDetermineHeight(sender: self, height: size.height)
     }
 }

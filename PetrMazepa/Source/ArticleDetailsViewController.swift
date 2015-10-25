@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, ArticleTextComponentDelegate {
     
     var model: ArticleDetailsViewModel! {
         didSet {
@@ -21,8 +21,16 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
     }
     
     @IBOutlet weak var collectionView: UICollectionView!
+    private let components: [ArticleComponent]
     
-    private let components: [ArticleComponent] = [ ArticleImageComponent(), ArticleInfoComponent(), ArticleTextComponent() ]
+    required init?(coder aDecoder: NSCoder) {
+        
+        let textComponent = ArticleTextComponent()
+        self.components = [ ArticleImageComponent(), ArticleInfoComponent(), textComponent ]
+        
+        super.init(coder: aDecoder)
+        textComponent.delegate = self
+    }
     
     override func viewDidLoad() {
         
@@ -81,6 +89,10 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
         let height = component.requiredHeight()
         let width = self.view.frame.width
         return CGSizeMake(width, height)
+    }
+    
+    func articleTextComponentDidDetermineHeight(sender component: ArticleTextComponent, height: CGFloat) {
+        self.collectionView.collectionViewLayout.invalidateLayout()
     }
     
     private func loadingStateChangedHandler() -> ((loading: Bool) -> Void) {

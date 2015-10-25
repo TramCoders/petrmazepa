@@ -8,24 +8,36 @@
 
 import UIKit
 
-class ArticleTextComponent: ArticleComponent {
+class ArticleTextValue {
+
+    let text: String?
+    let delegate: ArticleTextCellDelegate
+    
+    init(text: String?, delegate: ArticleTextCellDelegate) {
+
+        self.text = text
+        self.delegate = delegate
+    }
+}
+
+protocol ArticleTextComponentDelegate {
+    func articleTextComponentDidDetermineHeight(sender component: ArticleTextComponent, height: CGFloat)
+}
+
+class ArticleTextComponent: ArticleComponent, ArticleTextCellDelegate {
     
     var text: String?
+    private var height: CGFloat?
+    var delegate: ArticleTextComponentDelegate?
     
     func value() -> AnyObject? {
-        return self.text
+        return ArticleTextValue(text: self.text, delegate: self)
     }
     
     func requiredHeight() -> CGFloat {
 
-        if let notNilText = self.text {
-
-            let string = notNilText as NSString
-            let attributes = [ NSFontAttributeName: UIFont.systemFontOfSize(17) ]
-            let width = UIScreen.mainScreen().bounds.width
-            let size = string.boundingRectWithSize(CGSizeMake(width - 8, CGFloat.max), options: .UsesLineFragmentOrigin, attributes: attributes, context: nil)
-            return size.height
-
+        if let notNilHeight = self.height {
+            return notNilHeight
         } else {
             return 0
         }
@@ -37,5 +49,14 @@ class ArticleTextComponent: ArticleComponent {
     
     func cellNib() -> UINib {
         return UINib(nibName: "ArticleTextCell", bundle: nil)
+    }
+    
+    func articleTextCellDidDetermineHeight(sender cell: ArticleTextCell, height: CGFloat) {
+
+        self.height = height
+        
+        if let notNilDelegate = self.delegate {
+            notNilDelegate.articleTextComponentDidDetermineHeight(sender: self, height: height)
+        }
     }
 }

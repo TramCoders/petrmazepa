@@ -112,17 +112,17 @@ class ArticlesViewModel {
         
         var cachedImage: UIImage?
         
-//        self.imageCache.requestImage(spec: ImageSpec(url: notNilUrl, size: notNilThumbSize)) { image, error, fromCache in
-//
-//            if fromCache {
-//                cachedImage = image
-//                
-//            } else  {
-//                dispatch_async(dispatch_get_main_queue(), {
-//                    self.thumbImageLoaded!(index: index)
-//                })
-//            }
-//        }
+        self.imageCache.requestImage(spec: ImageSpec(url: notNilUrl, size: notNilThumbSize)) { image, error, fromCache in
+
+            if fromCache {
+                cachedImage = image
+                
+            } else  {
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.thumbImageLoaded!(index: index)
+                })
+            }
+        }
         
         return (title: title, image: cachedImage)
     }

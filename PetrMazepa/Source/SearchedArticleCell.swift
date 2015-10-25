@@ -11,7 +11,6 @@ import UIKit
 class SearchedArticleCell: UITableViewCell {
     
     @IBOutlet weak var thumbImageView: UIImageView!
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var authorLabel: UILabel!
     
@@ -28,17 +27,6 @@ class SearchedArticleCell: UITableViewCell {
     }
     
     func updateThumb(image: UIImage?) {
-        
         self.thumbImageView.image = image
-        self.updateActivityIndicator(show: image == nil)
-    }
-    
-    private func updateActivityIndicator(show show: Bool) {
-        
-        if show {
-            self.activityIndicator.startAnimating()
-        } else {
-            self.activityIndicator.stopAnimating()
-        }
     }
 }
