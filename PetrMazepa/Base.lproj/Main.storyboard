@@ -3,8 +3,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
-        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Item-->
@@ -87,7 +85,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="YoU-1M-ywq" secondAttribute="bottom" id="KMi-tK-q0g"/>
-                            <constraint firstItem="YoU-1M-ywq" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="topMargin" id="NRu-Ap-jtX"/>
+                            <constraint firstItem="YoU-1M-ywq" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="top" id="NRu-Ap-jtX"/>
                             <constraint firstAttribute="trailing" secondItem="YoU-1M-ywq" secondAttribute="trailing" id="SNH-M9-5r7"/>
                             <constraint firstItem="YoU-1M-ywq" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="Zv4-yD-WGu"/>
                         </constraints>
@@ -216,10 +214,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Bwl-Ah-XPo">
-                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <searchBar key="tableHeaderView" contentMode="redraw" id="jHN-Wg-UfT">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                    <rect key="frame" x="0.0" y="64" width="600" height="44"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                     <textInputTraits key="textInputTraits"/>
                                     <connections>
@@ -237,35 +235,8 @@
                             <constraint firstAttribute="trailing" secondItem="Bwl-Ah-XPo" secondAttribute="trailing" id="8hi-RW-eW5"/>
                             <constraint firstItem="ETx-65-pbK" firstAttribute="top" secondItem="Bwl-Ah-XPo" secondAttribute="bottom" id="8sS-Zv-hIh"/>
                             <constraint firstItem="Bwl-Ah-XPo" firstAttribute="leading" secondItem="dre-gj-SFr" secondAttribute="leading" id="E6j-Gz-TqO"/>
-                            <constraint firstItem="Bwl-Ah-XPo" firstAttribute="top" secondItem="dre-gj-SFr" secondAttribute="topMargin" id="UdS-Pm-Rgj"/>
-                            <constraint firstItem="Bwl-Ah-XPo" firstAttribute="top" secondItem="dre-gj-SFr" secondAttribute="top" id="fAL-tt-Db6">
-                                <variation key="heightClass=regular-widthClass=compact" constant="64"/>
-                            </constraint>
+                            <constraint firstItem="Bwl-Ah-XPo" firstAttribute="top" secondItem="dre-gj-SFr" secondAttribute="top" id="UdS-Pm-Rgj"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="subviews">
-                                <exclude reference="Bwl-Ah-XPo"/>
-                            </mask>
-                            <mask key="constraints">
-                                <exclude reference="8sS-Zv-hIh"/>
-                                <exclude reference="8hi-RW-eW5"/>
-                                <exclude reference="E6j-Gz-TqO"/>
-                                <exclude reference="UdS-Pm-Rgj"/>
-                                <exclude reference="fAL-tt-Db6"/>
-                            </mask>
-                        </variation>
-                        <variation key="heightClass=regular-widthClass=compact">
-                            <mask key="subviews">
-                                <include reference="Bwl-Ah-XPo"/>
-                            </mask>
-                            <mask key="constraints">
-                                <include reference="8sS-Zv-hIh"/>
-                                <include reference="8hi-RW-eW5"/>
-                                <include reference="E6j-Gz-TqO"/>
-                                <include reference="UdS-Pm-Rgj"/>
-                                <exclude reference="fAL-tt-Db6"/>
-                            </mask>
-                        </variation>
                     </view>
                     <navigationItem key="navigationItem" title="Search" id="Xsj-qq-aym">
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="o8J-ZT-ON0">
