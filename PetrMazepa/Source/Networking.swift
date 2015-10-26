@@ -40,7 +40,7 @@ class Networking: ImageDownloader, ArticlesFetcher, ArticleDetailsFetcher {
     
     func fetchArticles(fromIndex fromIndex: Int, count: Int, completion: ArticlesFetchHandler) {
         
-        guard let url = self.fetchArticlesUrl(fromIndex: fromIndex, count: count) else {
+        guard let url = self.articlesUrl(fromIndex: fromIndex, count: count) else {
 
             completion(nil, nil)
             return
@@ -72,10 +72,7 @@ class Networking: ImageDownloader, ArticlesFetcher, ArticleDetailsFetcher {
     
     func fetchArticleDetails(article article: Article, completion: ArticleDetailsFetchHandler) {
         
-        let urlString = "\(self.baseUrl)/\(article.id).html"
-        let url = NSURL(string: urlString)
-        
-        guard let notNilUrl = url else {
+        guard let url = self.articleDetailsUrl(articleId: article.id) else {
 
             completion(nil, nil)
             return
@@ -83,7 +80,7 @@ class Networking: ImageDownloader, ArticlesFetcher, ArticleDetailsFetcher {
         
         self.activityIndicator.increment()
         
-        self.session.dataTaskWithURL(notNilUrl) { (data: NSData?, response: NSURLResponse?, error: NSError?) -> () in
+        self.session.dataTaskWithURL(url) { (data: NSData?, response: NSURLResponse?, error: NSError?) -> () in
             
             self.activityIndicator.decrement()
             
@@ -129,7 +126,11 @@ class Networking: ImageDownloader, ArticlesFetcher, ArticleDetailsFetcher {
         }.resume()
     }
     
-    private func fetchArticlesUrl(fromIndex fromIndex: Int, count: Int) -> NSURL? {
+    func articleDetailsUrl(articleId id: String) -> NSURL? {
+        return NSURL(string: "\(self.baseUrl)/\(id).html")
+    }
+    
+    private func articlesUrl(fromIndex fromIndex: Int, count: Int) -> NSURL? {
 
         if count <= 0 || fromIndex < 0 {
             return nil

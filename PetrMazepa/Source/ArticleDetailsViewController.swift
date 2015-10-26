@@ -70,7 +70,7 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
     }
     
     @IBAction func shareTapped(sender: AnyObject) {
-        // TODO:
+        self.model!.shareTapped()
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

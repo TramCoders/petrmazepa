@@ -77,10 +77,10 @@
                                 <exclude reference="YoU-1M-ywq"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="KMi-tK-q0g"/>
                                 <exclude reference="NRu-Ap-jtX"/>
                                 <exclude reference="SNH-M9-5r7"/>
                                 <exclude reference="Zv4-yD-WGu"/>
-                                <exclude reference="KMi-tK-q0g"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -88,10 +88,10 @@
                                 <include reference="YoU-1M-ywq"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="KMi-tK-q0g"/>
                                 <include reference="NRu-Ap-jtX"/>
                                 <include reference="SNH-M9-5r7"/>
                                 <include reference="Zv4-yD-WGu"/>
-                                <include reference="KMi-tK-q0g"/>
                             </mask>
                         </variation>
                     </view>
