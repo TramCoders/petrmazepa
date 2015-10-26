@@ -10,17 +10,41 @@ import UIKit
 
 class ArticleCell: UICollectionViewCell {
     
+    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var dimmerView: UIView!
     
-    func update(image: UIImage?) {
+    override var highlighted: Bool {
+        didSet {
+            
+            UIView.animateWithDuration(0.1) {
+                self.dimmerView.alpha = (self.highlighted ? 1.0 : 0.0)
+            }
+        }
+    }
+    
+    override func awakeFromNib() {
+
+        super.awakeFromNib()
+        self.layer.cornerRadius = 4.0
+        self.layer.masksToBounds = true
+    }
+    
+    func update(title title: String, image: UIImage?) {
+        
+        self.titleLabel.text = title
+        self.imageView.image = image
         
         if image == nil {
-            self.activityIndicator.startAnimating()
+        
+            self.imageView.alpha = 0.0
+            self.titleLabel.alpha = 1.0
+            
         } else {
-            self.activityIndicator.stopAnimating()
+            
+            self.imageView.alpha = 1.0
+            self.titleLabel.alpha = 0.0
         }
         
-        self.imageView.image = image
     }
 }

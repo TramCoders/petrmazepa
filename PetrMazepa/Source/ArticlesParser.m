@@ -19,7 +19,7 @@
     }
     
     TFHpple *hpple = [[TFHpple alloc] initWithData:html isXML:NO];
-    NSArray *elements = [hpple searchWithXPathQuery:@"//div[@class='cell']/*"];
+    NSArray *elements = [hpple searchWithXPathQuery:@"//div[@class='row articles']/div"];
     NSMutableArray *articles = [NSMutableArray new];
     
     for (TFHppleElement *element in elements) {
@@ -38,55 +38,19 @@
 
 - (Article *)convertElement:(TFHppleElement *)element {
     
-    TFHppleElement *articleContainer = [element firstChildWithClassName:@"article-container"];
-    
-    if (!articleContainer) {
-        return nil;
-    }
-    
     // identifier
-    NSString *href = articleContainer.attributes[@"href"];
+    TFHppleElement *aElement = [element searchWithXPathQuery:@"//a"].firstObject;
+    NSString *href = aElement.attributes[@"href"];
     NSString *identifier = [self identifierFromHref:href];
     
-    if (!identifier) {
-        return nil;
-    }
-    
     // title
-    TFHppleElement *articleTile = [articleContainer firstChildWithClassName:@"article-tile"];
+    TFHppleElement *imgElement = [element firstChildWithTagName:@"img"];
+    NSString *title = imgElement.attributes[@"title"];
     
-    if (!articleTile) {
-        return nil;
-    }
+    // thumb
+    NSString *thumbPath = imgElement.attributes[@"src"];
     
-    TFHppleElement *articleTitle = [articleTile firstChildWithClassName:@"article-title"];
-    
-    if (!articleTitle) {
-        return nil;
-    }
-    
-    NSString *title = articleTitle.content;
-    
-    // author
-    TFHppleElement *articleAuthor = [articleTile firstChildWithClassName:@"article-author"];
-    
-    if (!articleAuthor) {
-        return nil;
-    }
-    
-    NSString *author = articleAuthor.content;
-    
-    // image
-    TFHppleElement *articleImage = [articleContainer firstChildWithClassName:@"article-image"];
-    
-    if (!articleImage) {
-        return nil;
-    }
-    
-    NSString *imagePath = articleImage.attributes[@"src"];
-    
-    // result
-    return [[Article alloc] initWithId:identifier title:title author:author thumbPath:imagePath];
+    return [[Article alloc] initWithId:identifier title:title author:@"" thumbPath:thumbPath];
 }
 
 - (NSString *)identifierFromHref:(NSString *)href {

@@ -22,6 +22,7 @@ class ArticleDetailsViewModel {
     
     private let article: Article
     private var articleDetails: ArticleDetails?
+    private var screenSize: CGSize!
     
     init(article: Article, imageCache: ImageCache, articleDetailsFetcher: ArticleDetailsFetcher, articleDetailsDismisser: ArticleDetailsDismisser, articleSharer: ArticleSharer) {
 
@@ -32,10 +33,14 @@ class ArticleDetailsViewModel {
         self.articleSharer = articleSharer
     }
     
-    func viewDidLoad() {
+    func viewDidLayoutSubviews(screenSize size: CGSize) {
+        self.screenSize = size
+    }
+    
+    func viewDidAppear() {
         
         self.imageLoaded!(image: nil)
-        self.articleDetailsLoaded!(dateString: nil, author: self.article.author, htmlText: nil)
+        self.articleDetailsLoaded!(dateString: nil, author: nil, htmlText: nil)
         
         self.articleDetailsFetcher.fetchArticleDetails(article: self.article) { details, error in
             
@@ -49,14 +54,7 @@ class ArticleDetailsViewModel {
             }
         }
         
-        self.imageCache.requestImage(url: self.article.thumbUrl!) { imageData, error, fromCache in
-            
-            guard let notNilImageData = imageData else {
-                return
-            }
-            
-            let image = UIImage(data: notNilImageData)
-            
+        self.imageCache.requestImage(spec: ImageSpec(url:self.article.thumbUrl!, size: self.screenSize)) { image, _, _ in
             dispatch_async(dispatch_get_main_queue(), {
                 self.imageLoaded!(image: image)
             })

@@ -27,8 +27,9 @@
 - (ArticleDetails *)convertElement:(TFHpple *)hpple {
     
     // html text
-    TFHppleElement *htmlTextElement = [hpple searchWithXPathQuery:@"//div[@class='article-content']"].firstObject;
-    NSString *htmlText = htmlTextElement.content;
+    TFHppleElement *htmlTextElement = [hpple searchWithXPathQuery:@"//div[@class='mainContent']"].firstObject;
+    NSString *htmlText = htmlTextElement.raw;
+    NSString *fixedHtmlText = [self htmlTextWithFixedYoutubeWidth:htmlText];
     
     // date string
     TFHppleElement *dateElement = [hpple searchWithXPathQuery:@"//p[@class='article-metadata']"].firstObject;
@@ -38,7 +39,11 @@
     TFHppleElement *titleElement = [hpple searchWithXPathQuery:@"//meta[@class='og:title']"].firstObject;
     NSString *title = titleElement.attributes[@"content"];
     
-    return [[ArticleDetails alloc] initWithId:@"" title:title author:@"" thumbPath:@"" htmlText:htmlText dateString:dateString];
+    return [[ArticleDetails alloc] initWithId:@"" title:title author:@"" thumbPath:@"" htmlText:fixedHtmlText dateString:dateString];
+}
+
+- (NSString *)htmlTextWithFixedYoutubeWidth:(NSString *)htmlText {
+    return [htmlText stringByReplacingOccurrencesOfString:@"width=\"788\"" withString:@"width=\"100%%\""];
 }
 
 @end

@@ -6,12 +6,12 @@
     },
     {
       "idiom" : "universal",
+      "filename" : "splash_middle@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "scale" : "3x",
-      "filename" : "intermarium@3x.jpeg"
+      "scale" : "3x"
     }
   ],
   "info" : {

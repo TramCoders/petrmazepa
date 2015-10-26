@@ -40,8 +40,6 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
         
         super.viewDidAppear(animated)
         self.startHandlingKeyboardAppearance()
-        self.view.layoutIfNeeded()
-        self.searchBar.becomeFirstResponder()
     }
     
     override func viewWillDisappear(animated: Bool) {

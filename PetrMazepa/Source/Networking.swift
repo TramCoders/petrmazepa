@@ -6,11 +6,33 @@
 //  Copyright © 2015 TramCoders. All rights reserved.
 //
 
-import Foundation
+import UIKit
+
+class ActivityIndicator {
+    
+    init() {
+        self.activities = 0
+    }
+    
+    private var activities: Int {
+        didSet {
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = self.activities > 0
+        }
+    }
+    
+    func increment() {
+        self.activities++
+    }
+    
+    func decrement() {
+        self.activities--
+    }
+}
 
 class Networking: ImageDownloader, ArticlesFetcher, ArticleDetailsFetcher {
     
     private let session = NSURLSession.sharedSession()
+    private let activityIndicator = ActivityIndicator()
     private let baseUrl = "http://petrimazepa.com"
     
     private let articlesParser = ArticlesParser()
@@ -18,13 +40,17 @@ class Networking: ImageDownloader, ArticlesFetcher, ArticleDetailsFetcher {
     
     func fetchArticles(fromIndex fromIndex: Int, count: Int, completion: ArticlesFetchHandler) {
         
-        guard let url = self.fetchArticlesUrl(fromIndex: fromIndex, count: count) else {
+        guard let url = self.articlesUrl(fromIndex: fromIndex, count: count) else {
 
             completion(nil, nil)
             return
         }
         
+        self.activityIndicator.increment()
+
         self.session.dataTaskWithURL(url) { (data: NSData?, response: NSURLResponse?, error: NSError?) -> () in
+            
+            self.activityIndicator.decrement()
             
             guard let notNilData = data else {
 
@@ -46,16 +72,17 @@ class Networking: ImageDownloader, ArticlesFetcher, ArticleDetailsFetcher {
     
     func fetchArticleDetails(article article: Article, completion: ArticleDetailsFetchHandler) {
         
-        let urlString = "\(self.baseUrl)/\(article.id).html"
-        let url = NSURL(string: urlString)
-        
-        guard let notNilUrl = url else {
+        guard let url = self.articleDetailsUrl(articleId: article.id) else {
 
             completion(nil, nil)
             return
         }
         
-        self.session.dataTaskWithURL(notNilUrl) { (data: NSData?, response: NSURLResponse?, error: NSError?) -> () in
+        self.activityIndicator.increment()
+        
+        self.session.dataTaskWithURL(url) { (data: NSData?, response: NSURLResponse?, error: NSError?) -> () in
+            
+            self.activityIndicator.decrement()
             
             guard let notNilData = data else {
                 
@@ -77,8 +104,12 @@ class Networking: ImageDownloader, ArticlesFetcher, ArticleDetailsFetcher {
     
     func downloadImage(url: NSURL, completion: ImageDownloadHandler) {
         
+        self.activityIndicator.increment()
+        
         let request = NSURLRequest(URL: url)
         self.session.downloadTaskWithRequest(request) { (fileUrl: NSURL?, _, error: NSError?) -> () in
+            
+            self.activityIndicator.decrement()
             
             guard let notNilFileUrl = fileUrl else {
                 
@@ -95,7 +126,11 @@ class Networking: ImageDownloader, ArticlesFetcher, ArticleDetailsFetcher {
         }.resume()
     }
     
-    private func fetchArticlesUrl(fromIndex fromIndex: Int, count: Int) -> NSURL? {
+    func articleDetailsUrl(articleId id: String) -> NSURL? {
+        return NSURL(string: "\(self.baseUrl)/\(id).html")
+    }
+    
+    private func articlesUrl(fromIndex fromIndex: Int, count: Int) -> NSURL? {
 
         if count <= 0 || fromIndex < 0 {
             return nil

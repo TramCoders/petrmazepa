@@ -12,25 +12,25 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="01.01.2015" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Wr-Mp-fFS">
-                    <rect key="frame" x="4" y="10" width="85" height="21"/>
-                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <rect key="frame" x="4" y="10" width="63" height="15"/>
+                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="12"/>
+                    <color key="textColor" white="0.40000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="П. Мазепа" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eNB-l6-qxG">
-                    <rect key="frame" x="232" y="10" width="84" height="21"/>
-                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <rect key="frame" x="254" y="10" width="62" height="15"/>
+                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="12"/>
+                    <color key="textColor" white="0.40000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
             <color key="backgroundColor" red="0.96238345994475138" green="0.64813960815561444" blue="0.66977651172350983" alpha="0.0" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="eNB-l6-qxG" secondAttribute="trailing" constant="4" id="J8b-xt-0e0"/>
-                <constraint firstItem="eNB-l6-qxG" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="bhU-Lm-JQO"/>
+                <constraint firstItem="eNB-l6-qxG" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" constant="-3" id="bhU-Lm-JQO"/>
                 <constraint firstItem="9Wr-Mp-fFS" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="4" id="lha-Xc-8xF"/>
                 <constraint firstItem="eNB-l6-qxG" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="9Wr-Mp-fFS" secondAttribute="trailing" constant="8" id="pbe-Oi-Apy"/>
-                <constraint firstItem="9Wr-Mp-fFS" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="pby-8u-6sJ"/>
+                <constraint firstItem="9Wr-Mp-fFS" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" constant="-3" id="pby-8u-6sJ"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>

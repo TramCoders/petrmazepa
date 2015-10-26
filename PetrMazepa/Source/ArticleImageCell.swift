@@ -11,19 +11,13 @@ import UIKit
 class ArticleImageCell: UICollectionViewCell, ArticleComponentCell {
     
     @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     func update(value: AnyObject?) {
-    
+
         if let image = value as? UIImage {
-
             self.imageView.image = image
-            self.activityIndicator.stopAnimating()
-
         } else {
-            
             self.imageView.image = nil
-            self.activityIndicator.startAnimating()
         }
     }
 }

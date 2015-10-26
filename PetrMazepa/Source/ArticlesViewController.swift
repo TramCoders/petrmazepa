@@ -38,13 +38,19 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
         
         // register an article cell
         let cellNib = UINib(nibName: "ArticleCell", bundle: nil)
-        self.collectionView!.registerNib(cellNib, forCellWithReuseIdentifier: self.cellReuseIdentifier)
+        self.collectionView.registerNib(cellNib, forCellWithReuseIdentifier: self.cellReuseIdentifier)
         
         // a collection view layout data source
-        self.layout = self.collectionView!.collectionViewLayout as? ArticlesViewLayout
+        self.layout = self.collectionView.collectionViewLayout as? ArticlesViewLayout
         
         // notify model
-        self.model!.viewDidLoad()
+        self.model!.viewDidLoad(screenSize: UIScreen.mainScreen().bounds.size)
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
     @IBAction func searchTapped(sender: AnyObject) {
@@ -58,8 +64,8 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(self.cellReuseIdentifier, forIndexPath: indexPath) as! ArticleCell
-        let thumb = self.model!.requestThumb(index: indexPath.item)
-        cell.update(thumb)
+        let articleModel = self.model!.requestArticleModel(index: indexPath.item)
+        cell.update(articleModel)
         
         return cell
     }
@@ -70,11 +76,8 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
         
-        let beyondBottom = scrollView.contentOffset.y + scrollView.frame.height - scrollView.contentSize.height
-        
-        if beyondBottom >= 0 {
-            self.model!.didScrollToBottom()
-        }
+        let distance = scrollView.contentSize.height - scrollView.frame.height - scrollView.contentOffset.y
+        self.model!.didChangeDistanceToBottom(distance)
     }
     
     private func articlesInsertedHandler() -> ((range: Range<Int>) -> Void) {
@@ -84,16 +87,16 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
             let insertedIndexPaths = self.layout!.insertArticles(range.count)
             
             if range.startIndex == 0 {
-                self.collectionView!.reloadData()
+                self.collectionView.reloadData()
             } else {
-                self.collectionView!.insertItemsAtIndexPaths(insertedIndexPaths)
+                self.collectionView.insertItemsAtIndexPaths(insertedIndexPaths)
             }
         }
     }
     
     private func thumbImageLoadedHandler() -> ((index: Int) -> Void) {
-        return { (index: Int) in
-            self.collectionView!.reloadItemsAtIndexPaths([NSIndexPath(forItem: index, inSection: 0)])
+        return { index in
+            self.collectionView.reloadItemsAtIndexPaths([NSIndexPath(forItem: index, inSection: 0)])
         }
     }
     
@@ -108,7 +111,7 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
     
     private func loadingStateChangedHandler() -> ((loading: Bool) -> Void) {
         return { (loading: Bool) in
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = loading
+            // TODO:
         }
     }
     

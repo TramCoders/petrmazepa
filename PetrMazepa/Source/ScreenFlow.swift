@@ -32,22 +32,24 @@ class ScreenFlow: SearchPresenter, SearchDismisser, ArticleDetailsPresenter, Art
     
     private let imageCache: ImageCache
     private let contentProvider: ContentProvider
+    private let networking: Networking
     
     private var screenStack: [Screen]
     
     init() {
         
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        self.window.tintColor = UIColor(red: 0.933, green: 0.427, blue: 0.439, alpha: 1.0)
         self.storyboard = UIStoryboard(name: "Main", bundle: nil)
         self.navigationController = self.storyboard.instantiateInitialViewController() as! UINavigationController
         self.currentViewController = self.navigationController
         
-        let networking = Networking()
-        self.contentProvider = ContentProvider(networking: networking)
+        self.networking = Networking()
+        self.contentProvider = ContentProvider(networking: self.networking)
         
         let inMemoryImageStorage = InMemoryImageStorage()
         let persistentImageStorage = PersistentImageStorage()
-        self.imageCache = ImageCache(storages: [inMemoryImageStorage, persistentImageStorage], downloader: networking)
+        self.imageCache = ImageCache(inMemoryImageStorage: inMemoryImageStorage, persistentImageStorage: persistentImageStorage, downloader: self.networking)
         
         self.screenStack = [Screen]()
     }
@@ -150,7 +152,11 @@ class ScreenFlow: SearchPresenter, SearchDismisser, ArticleDetailsPresenter, Art
     
     func shareArticle(article: Article) {
 
-        let activityViewController = UIActivityViewController(activityItems: [article.title], applicationActivities: nil)
+        guard let url = self.networking.articleDetailsUrl(articleId: article.id) else {
+            return
+        }
+        
+        let activityViewController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
         self.currentViewController.presentViewController(activityViewController, animated: true, completion: nil)
     }
     

@@ -11,6 +11,6 @@ import Foundation
 extension ImageCache {
     
     class func defaultImageCache() -> Self {
-        return self.init(storages: [InMemoryImageStorage(), PersistentImageStorage()], downloader: Networking())
+        return self.init(inMemoryImageStorage: InMemoryImageStorage(), persistentImageStorage: PersistentImageStorage(), downloader: Networking())
     }
 }
