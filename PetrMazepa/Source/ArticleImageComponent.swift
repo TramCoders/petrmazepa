@@ -34,7 +34,7 @@ class ArticleImageComponent: ArticleComponent {
             return imageSize.height * screenWidth / imageSize.width
             
         } else {
-            return screenWidth
+            return 0.0
         }
     }
 }

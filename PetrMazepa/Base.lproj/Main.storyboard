@@ -11,10 +11,14 @@
         <scene sceneID="kJh-Oa-DnC">
             <objects>
                 <navigationController id="ht5-ZF-4l0" sceneMemberID="viewController">
+                    <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="kba-Rt-6g2">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="m3J-ig-JZJ">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
                     <connections>
                         <segue destination="vXZ-lx-hvc" kind="relationship" relationship="rootViewController" id="mpH-vd-Cq3"/>
                     </connections>
@@ -63,22 +67,20 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="YoU-1M-ywq" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" id="E7b-tL-azp"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="YoU-1M-ywq" secondAttribute="bottom" id="KMi-tK-q0g"/>
+                            <constraint firstItem="YoU-1M-ywq" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="topMargin" id="NRu-Ap-jtX"/>
                             <constraint firstAttribute="trailing" secondItem="YoU-1M-ywq" secondAttribute="trailing" id="SNH-M9-5r7"/>
                             <constraint firstItem="YoU-1M-ywq" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="Zv4-yD-WGu"/>
-                            <constraint firstItem="YoU-1M-ywq" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="topMargin" id="bNd-Ij-jFJ"/>
                         </constraints>
                         <variation key="default">
                             <mask key="subviews">
                                 <exclude reference="YoU-1M-ywq"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="KMi-tK-q0g"/>
-                                <exclude reference="E7b-tL-azp"/>
+                                <exclude reference="NRu-Ap-jtX"/>
                                 <exclude reference="SNH-M9-5r7"/>
                                 <exclude reference="Zv4-yD-WGu"/>
-                                <exclude reference="bNd-Ij-jFJ"/>
+                                <exclude reference="KMi-tK-q0g"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -86,14 +88,14 @@
                                 <include reference="YoU-1M-ywq"/>
                             </mask>
                             <mask key="constraints">
-                                <include reference="KMi-tK-q0g"/>
-                                <exclude reference="E7b-tL-azp"/>
+                                <include reference="NRu-Ap-jtX"/>
                                 <include reference="SNH-M9-5r7"/>
                                 <include reference="Zv4-yD-WGu"/>
-                                <include reference="bNd-Ij-jFJ"/>
+                                <include reference="KMi-tK-q0g"/>
                             </mask>
                         </variation>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <navigationItem key="navigationItem" title="Пётр и Мазепа" id="Dv3-z0-pke">
                         <barButtonItem key="rightBarButtonItem" systemItem="search" id="7EC-hu-x5y">
                             <connections>
