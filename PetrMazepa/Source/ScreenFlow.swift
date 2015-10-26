@@ -27,8 +27,10 @@ class ScreenFlow: SearchPresenter, SearchDismisser, ArticleDetailsPresenter, Art
     
     private let window: UIWindow
     private let storyboard: UIStoryboard
+    
+    private let tabBarController: UITabBarController
     private let navigationController: UINavigationController
-    private var currentViewController: UIViewController!
+    private var currentViewController: UIViewController
     
     private let imageCache: ImageCache
     private let contentProvider: ContentProvider
@@ -41,7 +43,9 @@ class ScreenFlow: SearchPresenter, SearchDismisser, ArticleDetailsPresenter, Art
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
         self.window.tintColor = UIColor(red: 0.933, green: 0.427, blue: 0.439, alpha: 1.0)
         self.storyboard = UIStoryboard(name: "Main", bundle: nil)
-        self.navigationController = self.storyboard.instantiateInitialViewController() as! UINavigationController
+        
+        self.tabBarController = self.storyboard.instantiateInitialViewController() as! UITabBarController
+        self.navigationController = self.tabBarController.viewControllers?.first as! UINavigationController
         self.currentViewController = self.navigationController
         
         self.networking = Networking()
@@ -65,10 +69,9 @@ class ScreenFlow: SearchPresenter, SearchDismisser, ArticleDetailsPresenter, Art
         }
         
         let articlesViewController = self.navigationController.topViewController as! ArticlesViewController
-        
         articlesViewController.model = ArticlesViewModel(imageCache: self.imageCache, articleStorage: self.contentProvider, articlesFetcher: self.contentProvider, searchPresenter: self, articleDetailsPresenter: self)
 
-        self.window.rootViewController = self.navigationController
+        self.window.rootViewController = self.tabBarController
         self.window.makeKeyAndVisible()
         
         self.currentViewController = articlesViewController
@@ -84,8 +87,8 @@ class ScreenFlow: SearchPresenter, SearchDismisser, ArticleDetailsPresenter, Art
         let searchNavigationController = self.storyboard.instantiateViewControllerWithIdentifier("SearchNav") as! UINavigationController
         let searchViewController = searchNavigationController.topViewController as! SearchViewController
         searchViewController.model = SearchViewModel(imageCache: self.imageCache, articleStorage: self.contentProvider, searchDismisser: self, articleDetailsPresenter: self)
-        
         let articlesViewController = self.navigationController.topViewController as! ArticlesViewController
+
         articlesViewController.presentViewController(searchNavigationController, animated: true, completion: nil)
         
         self.currentViewController = searchViewController
@@ -139,14 +142,14 @@ class ScreenFlow: SearchPresenter, SearchDismisser, ArticleDetailsPresenter, Art
         if self.currentScreen() == .Articles {
             
             self.navigationController.popViewControllerAnimated(true)
-            self.currentViewController = self.navigationController.topViewController
+            self.currentViewController = self.navigationController.topViewController!
             
         } else if self.currentScreen() == .Search {
             
             let articlesViewController = self.navigationController.topViewController as! ArticlesViewController
             let searchNavigationController = articlesViewController.presentedViewController as! UINavigationController
             searchNavigationController.popViewControllerAnimated(true)
-            self.currentViewController = searchNavigationController.topViewController
+            self.currentViewController = searchNavigationController.topViewController!
         }
     }
     
