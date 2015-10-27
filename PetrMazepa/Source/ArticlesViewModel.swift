@@ -8,8 +8,15 @@
 
 import UIKit
 
+enum RoundedCorner {
+    
+    case None
+    case TopLeft
+    case TopRight
+}
+
 class ArticlesViewModel {
-   
+    
     var loading = false {
         didSet {
             self.loadingStateChanged!(loading: self.loading)
@@ -24,19 +31,17 @@ class ArticlesViewModel {
     private let imageCache: ImageCache
     private let articlesFetcher: ArticlesFetcher
     private let articleSrorage: ArticleStorage
-    private let searchPresenter: SearchPresenter
     private let articleDetailsPresenter: ArticleDetailsPresenter
     
     private var screenSize: CGSize?
     private var thumbSize: CGSize?
     private var screenArticlesAmount: Int = 0
     
-    required init(imageCache: ImageCache, articleStorage: ArticleStorage, articlesFetcher: ArticlesFetcher, searchPresenter: SearchPresenter, articleDetailsPresenter: ArticleDetailsPresenter) {
+    required init(imageCache: ImageCache, articleStorage: ArticleStorage, articlesFetcher: ArticlesFetcher, articleDetailsPresenter: ArticleDetailsPresenter) {
 
         self.imageCache = imageCache
         self.articleSrorage = articleStorage
         self.articlesFetcher = articlesFetcher
-        self.searchPresenter = searchPresenter
         self.articleDetailsPresenter = articleDetailsPresenter
     }
     
@@ -44,10 +49,6 @@ class ArticlesViewModel {
         get {
             return self.articleSrorage.allArticles().count
         }
-    }
-    
-    func searchTapped() {
-        self.searchPresenter.presentSearch()
     }
     
     func articleTapped(index index: Int) {
@@ -96,18 +97,19 @@ class ArticlesViewModel {
         self.loadMore()
     }
     
-    func requestArticleModel(index index: Int) -> (title: String, image: UIImage?) {
+    func requestArticleModel(index index: Int) -> (title: String, image: UIImage?, roundedCorner: RoundedCorner) {
         
         let article = self.articleSrorage.allArticles()[index]
         let title = article.title
         let url = article.thumbUrl
+        let roundedCorner = self.roundedCorner(byIndex: index)
         
         guard let notNilUrl = url else {
-            return (title: title, image: nil)
+            return (title: title, image: nil, roundedCorner: roundedCorner)
         }
         
         guard let notNilThumbSize = self.thumbSize else {
-            return (title: title, image: nil)
+            return (title: title, image: nil, roundedCorner: roundedCorner)
         }
         
         var cachedImage: UIImage?
@@ -124,7 +126,7 @@ class ArticlesViewModel {
             }
         }
         
-        return (title: title, image: cachedImage)
+        return (title: title, image: cachedImage, roundedCorner: roundedCorner)
     }
     
     private func loadMore() {
@@ -144,6 +146,15 @@ class ArticlesViewModel {
                 let newCount = self.articlesCount
                 self.articlesInserted!(range: fromIndex..<newCount)
             })
+        }
+    }
+    
+    private func roundedCorner(byIndex index: Int) -> RoundedCorner {
+        
+        switch index {
+            case 0: return .TopLeft
+            case 1: return .TopRight
+            default: return .None
         }
     }
 }

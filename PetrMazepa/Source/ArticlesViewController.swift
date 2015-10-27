@@ -10,7 +10,6 @@ import UIKit
 
 class ArticlesViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
-    @IBOutlet weak var searchContainerView: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
     weak var layout: ArticlesViewLayout!
     let cellReuseIdentifier = "ArticleCell"
@@ -53,10 +52,6 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
         
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(false, animated: true)
-    }
-    
-    @IBAction func searchTapped(sender: AnyObject) {
-        self.model!.searchTapped()
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

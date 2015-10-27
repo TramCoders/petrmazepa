@@ -26,25 +26,59 @@ class ArticleCell: UICollectionViewCell {
     override func awakeFromNib() {
 
         super.awakeFromNib()
-        self.layer.cornerRadius = 4.0
         self.layer.masksToBounds = true
     }
     
-    func update(title title: String, image: UIImage?) {
+    func update(title title: String, image: UIImage?, roundedCorner: RoundedCorner) {
         
         self.titleLabel.text = title
         self.imageView.image = image
         
-        if image == nil {
+        self.updateImageVisibility(image != nil)
+        self.updateTitleVisibility(image == nil)
+        self.updateRoundedCorner(roundedCorner)
+    }
+    
+    private func updateImageVisibility(visible: Bool) {
         
-            self.imageView.alpha = 0.0
-            self.titleLabel.alpha = 1.0
-            
-        } else {
-            
+        if visible {
             self.imageView.alpha = 1.0
+        } else {
+            self.imageView.alpha = 0.0
+        }
+    }
+    
+    private func updateTitleVisibility(visible: Bool) {
+        
+        if visible {
+            self.titleLabel.alpha = 1.0
+        } else {
             self.titleLabel.alpha = 0.0
         }
+    }
+    
+    private func updateRoundedCorner(roundedCorner: RoundedCorner) {
         
+        guard let corners = self.convertRoundedCorners(roundedCorner) else {
+        
+            self.layer.mask = nil
+            return
+        }
+        
+        let maskPath = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: corners, cornerRadii: CGSizeMake(4.0, 4.0))
+        let maskLayer = CAShapeLayer()
+        maskLayer.frame = self.bounds
+        maskLayer.path = maskPath.CGPath
+        self.layer.mask = maskLayer
+    }
+    
+    private func convertRoundedCorners(roundedCorner: RoundedCorner) -> UIRectCorner? {
+        
+        switch roundedCorner {
+            
+            case .TopLeft: return .TopLeft
+            case .TopRight: return .TopRight
+            default: return nil
+        }
     }
 }

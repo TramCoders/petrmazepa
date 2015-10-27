@@ -5,12 +5,12 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
     </dependencies>
     <scenes>
-        <!--Item-->
+        <!--Новые-->
         <scene sceneID="kJh-Oa-DnC">
             <objects>
                 <navigationController id="ht5-ZF-4l0" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout" top="YES"/>
-                    <tabBarItem key="tabBarItem" title="Item" id="MEv-J8-COd"/>
+                    <tabBarItem key="tabBarItem" title="Новые" id="MEv-J8-COd"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="kba-Rt-6g2">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -37,14 +37,16 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
-                        <segue destination="ht5-ZF-4l0" kind="relationship" relationship="viewControllers" id="SWe-WB-wPu"/>
+                        <segue destination="ht5-ZF-4l0" kind="relationship" relationship="viewControllers" id="e7X-Sv-WIh"/>
+                        <segue destination="KAc-a6-Xrk" kind="relationship" relationship="viewControllers" id="uID-as-hhH"/>
+                        <segue destination="HJ1-Yo-TIi" kind="relationship" relationship="viewControllers" id="B4c-82-ddd"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cjn-ol-cj7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-592" y="-633"/>
+            <point key="canvasLocation" x="-1304" y="147"/>
         </scene>
-        <!--Пётр и Мазепа-->
+        <!--Новые-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
                 <viewController id="vXZ-lx-hvc" customClass="ArticlesViewController" customModule="PetrMazepa" customModuleProvider="target" sceneMemberID="viewController">
@@ -91,14 +93,8 @@
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" top="YES"/>
-                    <tabBarItem key="tabBarItem" systemItem="search" id="Du8-lm-R73"/>
-                    <navigationItem key="navigationItem" title="Пётр и Мазепа" id="Dv3-z0-pke">
-                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="7EC-hu-x5y">
-                            <connections>
-                                <action selector="searchTapped:" destination="vXZ-lx-hvc" id="KvP-Tj-7TS"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <tabBarItem key="tabBarItem" title="Новые" id="Du8-lm-R73"/>
+                    <navigationItem key="navigationItem" id="Dv3-z0-pke"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <connections>
                         <outlet property="collectionView" destination="YoU-1M-ywq" id="PZg-9z-49n"/>
@@ -107,6 +103,83 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="141" y="147"/>
+        </scene>
+        <!--Settings-->
+        <scene sceneID="8ly-Zt-Egg">
+            <objects>
+                <tableViewController title="Settings" id="AuA-Ve-Xy6" customClass="SettingsViewController" customModule="PetrMazepa" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="EvF-yj-r3c">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <sections>
+                            <tableViewSection id="BMY-te-Be6">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="60" id="4nk-ua-jWJ">
+                                        <rect key="frame" x="0.0" y="64" width="600" height="60"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4nk-ua-jWJ" id="pcx-9f-ecP">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="59"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PLu-8J-Gie">
+                                                    <rect key="frame" x="543" y="14" width="51" height="31"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="49" id="hDK-d6-8ph"/>
+                                                    </constraints>
+                                                    <connections>
+                                                        <action selector="wifiImagesChanged:" destination="AuA-Ve-Xy6" eventType="valueChanged" id="h9s-BA-m64"/>
+                                                    </connections>
+                                                </switch>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Загружать картинки только в сети Wi-Fi" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pdl-E5-4Jc">
+                                                    <rect key="frame" x="15" y="21" width="270" height="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="PLu-8J-Gie" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="pdl-E5-4Jc" secondAttribute="trailing" constant="8" id="GC3-eJ-fmk"/>
+                                                <constraint firstItem="PLu-8J-Gie" firstAttribute="centerY" secondItem="pcx-9f-ecP" secondAttribute="centerY" id="Giw-fL-wom"/>
+                                                <constraint firstAttribute="trailing" secondItem="PLu-8J-Gie" secondAttribute="trailing" constant="8" id="XNM-Pc-VXC"/>
+                                                <constraint firstItem="pdl-E5-4Jc" firstAttribute="centerY" secondItem="pcx-9f-ecP" secondAttribute="centerY" id="wcf-Bt-vaB"/>
+                                                <constraint firstItem="pdl-E5-4Jc" firstAttribute="leading" secondItem="pcx-9f-ecP" secondAttribute="leading" constant="15" id="wdz-zQ-wG4"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="AuA-Ve-Xy6" id="Lww-pK-4Gf"/>
+                            <outlet property="delegate" destination="AuA-Ve-Xy6" id="ALf-XG-qck"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Root View Controller" id="eox-Wh-JO6"/>
+                    <connections>
+                        <outlet property="wifiImagesSwitch" destination="PLu-8J-Gie" id="Pry-aO-d0o"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5FT-IC-tpH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="141" y="-633"/>
+        </scene>
+        <!--Настройки-->
+        <scene sceneID="A5y-qL-eZ7">
+            <objects>
+                <navigationController id="HJ1-Yo-TIi" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Настройки" id="4me-Td-geD"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="g1t-BJ-FTB">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="AuA-Ve-Xy6" kind="relationship" relationship="rootViewController" id="2u8-dz-WER"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Uen-UQ-FKt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-592" y="-633"/>
         </scene>
         <!--Article Details View Controller-->
         <scene sceneID="Hzd-tD-40U">
@@ -185,10 +258,11 @@
             </objects>
             <point key="canvasLocation" x="900" y="147"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Поиск-->
         <scene sceneID="ozl-3v-82p">
             <objects>
                 <navigationController storyboardIdentifier="SearchNav" id="KAc-a6-Xrk" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Поиск" id="KO3-UH-tLo"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="GEN-ip-Dub">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -199,7 +273,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vfm-2I-lV8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="141" y="849"/>
+            <point key="canvasLocation" x="-592" y="875"/>
         </scene>
         <!--Search-->
         <scene sceneID="kdx-47-BBU">
@@ -210,11 +284,11 @@
                         <viewControllerLayoutGuide type="bottom" id="ETx-65-pbK"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="dre-gj-SFr">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Bwl-Ah-XPo">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <searchBar key="tableHeaderView" contentMode="redraw" id="jHN-Wg-UfT">
                                     <rect key="frame" x="0.0" y="64" width="600" height="44"/>
@@ -238,13 +312,7 @@
                             <constraint firstItem="Bwl-Ah-XPo" firstAttribute="top" secondItem="dre-gj-SFr" secondAttribute="top" id="UdS-Pm-Rgj"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Search" id="Xsj-qq-aym">
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="o8J-ZT-ON0">
-                            <connections>
-                                <action selector="doneTapped:" destination="X7k-5v-zPq" id="qVQ-lg-W4x"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Search" id="Xsj-qq-aym"/>
                     <connections>
                         <outlet property="bottomTableContraint" destination="8sS-Zv-hIh" id="u8m-5X-NmF"/>
                         <outlet property="searchBar" destination="jHN-Wg-UfT" id="Mem-XU-2h2"/>
@@ -253,7 +321,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zQX-Nm-R0A" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="900" y="849"/>
+            <point key="canvasLocation" x="141" y="875"/>
         </scene>
     </scenes>
 </document>
