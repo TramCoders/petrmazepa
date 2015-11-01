@@ -34,9 +34,7 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
     override func viewDidLoad() {
 
         super.viewDidLoad()
-        
-        self.title = "Пётр и Мазепа"
-        
+
         // register an article cell
         let cellNib = UINib(nibName: "ArticleCell", bundle: nil)
         self.collectionView.registerNib(cellNib, forCellWithReuseIdentifier: self.cellReuseIdentifier)

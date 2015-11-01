@@ -30,6 +30,7 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
         
         self.title = "Поиск"
         
+        // register cell
         self.tableView.registerNib(UINib(nibName: "SearchedArticleCell", bundle: nil), forCellReuseIdentifier: "SearchedArticle")
     }
     

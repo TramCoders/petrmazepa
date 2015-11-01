@@ -27,10 +27,9 @@ class ScreenFlow: NSObject, ArticleDetailsPresenter, ArticleDetailsDismisser, Ar
         self.window.tintColor = UIColor(red: 0.933, green: 0.427, blue: 0.439, alpha: 1.0)
         self.window.layer.cornerRadius = 4.0
         self.window.layer.masksToBounds = true
+        
         self.storyboard = UIStoryboard(name: "Main", bundle: nil)
-        
         self.tabBarController = self.storyboard.instantiateInitialViewController() as! UITabBarController
-        
         self.currentNavigationController = self.tabBarController.viewControllers!.first as! UINavigationController
         self.currentViewController = self.tabBarController
         
