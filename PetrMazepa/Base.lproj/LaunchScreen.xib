@@ -10,53 +10,10 @@
         <view contentMode="scaleToFill" id="iN0-l3-epB">
             <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-            <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash_middle" translatesAutoresizingMaskIntoConstraints="NO" id="s4C-IS-rTL">
-                    <rect key="frame" x="178" y="0.0" width="125" height="66"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="125" id="2HO-SK-zV9"/>
-                        <constraint firstAttribute="height" constant="66" id="Q6i-Z7-ScO"/>
-                    </constraints>
-                </imageView>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash_side" translatesAutoresizingMaskIntoConstraints="NO" id="f3V-jF-mI5">
-                    <rect key="frame" x="0.0" y="0.0" width="178" height="66"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="66" id="8hX-Ch-Grh"/>
-                    </constraints>
-                </imageView>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash_side" translatesAutoresizingMaskIntoConstraints="NO" id="gJK-t7-zei">
-                    <rect key="frame" x="303" y="0.0" width="177" height="66"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="66" id="DRa-mX-DwQ"/>
-                    </constraints>
-                </imageView>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash_body" translatesAutoresizingMaskIntoConstraints="NO" id="uAo-fu-TYM">
-                    <rect key="frame" x="0.0" y="66" width="480" height="414"/>
-                </imageView>
-            </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-            <constraints>
-                <constraint firstItem="f3V-jF-mI5" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="AHo-Py-hou"/>
-                <constraint firstAttribute="bottom" secondItem="uAo-fu-TYM" secondAttribute="bottom" id="CZ4-iT-PPF"/>
-                <constraint firstAttribute="trailing" secondItem="uAo-fu-TYM" secondAttribute="trailing" id="Hp8-gn-c3Q"/>
-                <constraint firstItem="uAo-fu-TYM" firstAttribute="top" secondItem="gJK-t7-zei" secondAttribute="bottom" id="NJo-HI-QD1"/>
-                <constraint firstItem="f3V-jF-mI5" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="O6Q-jM-B7n"/>
-                <constraint firstItem="s4C-IS-rTL" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="PrZ-gX-IDy"/>
-                <constraint firstItem="gJK-t7-zei" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Wbu-hA-cOi"/>
-                <constraint firstItem="uAo-fu-TYM" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="fBv-8Z-ZeM"/>
-                <constraint firstAttribute="trailing" secondItem="gJK-t7-zei" secondAttribute="trailing" id="lhr-Qj-ZW5"/>
-                <constraint firstItem="gJK-t7-zei" firstAttribute="leading" secondItem="s4C-IS-rTL" secondAttribute="trailing" id="nVr-8d-ZKt"/>
-                <constraint firstItem="s4C-IS-rTL" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="pJz-8m-i0d"/>
-                <constraint firstItem="s4C-IS-rTL" firstAttribute="leading" secondItem="f3V-jF-mI5" secondAttribute="trailing" id="t2O-Tl-DgW"/>
-            </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="548" y="455"/>
         </view>
     </objects>
-    <resources>
-        <image name="splash_body" width="1" height="1"/>
-        <image name="splash_middle" width="125" height="66"/>
-        <image name="splash_side" width="1" height="66"/>
-    </resources>
 </document>
