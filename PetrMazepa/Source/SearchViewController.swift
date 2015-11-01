@@ -98,7 +98,7 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
             let keyboardScreenEndFrame = keyboardScreenEndFrameValue.CGRectValue()
             let keyboardHeight = keyboardScreenEndFrame.height
             
-            self.bottomTableContraint.constant = keyboardHeight
+            self.bottomTableContraint.constant = keyboardHeight - 49.0
             self.view.layoutIfNeeded()
         }
     }
