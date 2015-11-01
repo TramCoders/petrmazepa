@@ -69,7 +69,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ArticleCell" id="aiL-i9-KTL" customClass="ArticleCell" customModule="PetrMazepa" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="64" width="50" height="50"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
@@ -83,12 +83,26 @@
                                     <outlet property="delegate" destination="vXZ-lx-hvc" id="2ot-oD-91m"/>
                                 </connections>
                             </collectionView>
+                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FQY-Q4-Onk">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="20"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Yhu-DY-Lqf">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="20"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                </view>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="hqG-Yd-VXn"/>
+                                </constraints>
+                                <blurEffect style="light"/>
+                            </visualEffectView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="FQY-Q4-Onk" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="C1x-cF-zwb"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="YoU-1M-ywq" secondAttribute="bottom" id="KMi-tK-q0g"/>
                             <constraint firstItem="YoU-1M-ywq" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="top" id="NRu-Ap-jtX"/>
+                            <constraint firstItem="FQY-Q4-Onk" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="top" id="RwB-CH-L6y"/>
                             <constraint firstAttribute="trailing" secondItem="YoU-1M-ywq" secondAttribute="trailing" id="SNH-M9-5r7"/>
+                            <constraint firstAttribute="trailing" secondItem="FQY-Q4-Onk" secondAttribute="trailing" id="YX1-Cb-lLg"/>
                             <constraint firstItem="YoU-1M-ywq" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="Zv4-yD-WGu"/>
                         </constraints>
                     </view>
@@ -96,6 +110,7 @@
                     <tabBarItem key="tabBarItem" title="Новые" id="Du8-lm-R73"/>
                     <navigationItem key="navigationItem" id="Dv3-z0-pke"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
+                    <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <outlet property="collectionView" destination="YoU-1M-ywq" id="PZg-9z-49n"/>
                     </connections>

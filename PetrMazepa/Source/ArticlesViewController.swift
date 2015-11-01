@@ -28,7 +28,7 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
     }
 
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return .LightContent
+        return .Default
     }
     
     override func viewDidLoad() {
@@ -51,7 +51,7 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
     override func viewWillAppear(animated: Bool) {
         
         super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(false, animated: true)
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
