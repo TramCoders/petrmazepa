@@ -10,7 +10,6 @@ import UIKit
 
 class ArticlesViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
-    @IBOutlet weak var searchContainerView: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
     weak var layout: ArticlesViewLayout!
     let cellReuseIdentifier = "ArticleCell"
@@ -29,13 +28,13 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
     }
 
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return .LightContent
+        return .Default
     }
     
     override func viewDidLoad() {
 
         super.viewDidLoad()
-        
+
         // register an article cell
         let cellNib = UINib(nibName: "ArticleCell", bundle: nil)
         self.collectionView.registerNib(cellNib, forCellWithReuseIdentifier: self.cellReuseIdentifier)
@@ -50,11 +49,7 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
     override func viewWillAppear(animated: Bool) {
         
         super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(false, animated: true)
-    }
-    
-    @IBAction func searchTapped(sender: AnyObject) {
-        self.model!.searchTapped()
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

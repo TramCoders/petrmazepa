@@ -48,7 +48,7 @@
     NSString *title = imgElement.attributes[@"title"];
     
     // thumb
-    NSString *thumbPath = imgElement.attributes[@"src"];
+    NSString *thumbPath = imgElement.attributes[@"data-original"];
     
     return [[Article alloc] initWithId:identifier title:title author:@"" thumbPath:thumbPath];
 }

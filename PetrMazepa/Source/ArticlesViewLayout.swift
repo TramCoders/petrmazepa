@@ -13,7 +13,7 @@ class ArticlesViewLayout: UICollectionViewLayout  {
     var attributes = [UICollectionViewLayoutAttributes]()
     let topMargin: CGFloat = 2.0
     let margin: CGFloat = 2.0
-    let internalMargin: CGFloat = 2.0
+    let internalMargin: CGFloat = 1.0
     
     func insertArticles(count: Int) -> [NSIndexPath] {
         

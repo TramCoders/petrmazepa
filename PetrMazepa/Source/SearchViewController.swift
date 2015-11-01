@@ -27,6 +27,10 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        
+        self.title = "Поиск"
+        
+        // register cell
         self.tableView.registerNib(UINib(nibName: "SearchedArticleCell", bundle: nil), forCellReuseIdentifier: "SearchedArticle")
     }
     
@@ -47,10 +51,6 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
         super.viewWillDisappear(animated)
         self.searchBar.resignFirstResponder()
         self.stopHandlingKeyboardAppearance()
-    }
-    
-    @IBAction func doneTapped(sender: AnyObject) {
-        self.model!.doneTapped()
     }
     
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
@@ -81,7 +81,7 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 61.0
+        return 80.0
     }
     
     private func startHandlingKeyboardAppearance() {
@@ -99,7 +99,7 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
             let keyboardScreenEndFrame = keyboardScreenEndFrameValue.CGRectValue()
             let keyboardHeight = keyboardScreenEndFrame.height
             
-            self.bottomTableContraint.constant = keyboardHeight
+            self.bottomTableContraint.constant = keyboardHeight - 49.0
             self.view.layoutIfNeeded()
         }
     }

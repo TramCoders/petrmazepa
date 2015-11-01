@@ -19,20 +19,14 @@ class SearchViewModel {
     private let imageCache: ImageCache
     private let articleStorage: ArticleStorage
     private let articleDetailsPresenter: ArticleDetailsPresenter
-    private let searchDismisser: SearchDismisser
     
-    required init(imageCache: ImageCache, articleStorage: ArticleStorage, searchDismisser: SearchDismisser, articleDetailsPresenter: ArticleDetailsPresenter) {
+    required init(imageCache: ImageCache, articleStorage: ArticleStorage, articleDetailsPresenter: ArticleDetailsPresenter) {
         
         self.imageCache = imageCache
         self.articleStorage = articleStorage
         self.articleDetailsPresenter = articleDetailsPresenter
-        self.searchDismisser = searchDismisser
         
         self.filteredArticles = articleStorage.allArticles()
-    }
-    
-    func doneTapped() {
-        self.searchDismisser.dismissSearch()
     }
     
     func articleTapped(index index: Int) {

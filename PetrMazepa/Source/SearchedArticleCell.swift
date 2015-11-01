@@ -17,7 +17,13 @@ class SearchedArticleCell: UITableViewCell {
     override func awakeFromNib() {
         
         super.awakeFromNib()
+
+        // accessory type
         self.accessoryType = .DisclosureIndicator
+        
+        // corner radius
+        self.thumbImageView.layer.cornerRadius = self.thumbImageView.frame.width / 2
+        self.thumbImageView.layer.masksToBounds = true
     }
 
     func update(title title: String?, author: String?) {
