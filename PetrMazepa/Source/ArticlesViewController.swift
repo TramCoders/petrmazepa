@@ -50,6 +50,13 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
         
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: true)
+        self.model!.viewWillAppear()
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        
+        super.viewWillDisappear(animated)
+        self.model!.viewWillDisappear()
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -95,12 +102,24 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
         }
     }
     
-    private func errorOccurredHandler() -> ((error: NSError) -> Void) {
+    private func errorOccurredHandler() -> ((error: NSError?) -> Void) {
 
-        return { (error: NSError) in
+        return { _ in
             
-            let alert = UIAlertController(title: "", message: error.localizedDescription, preferredStyle: .Alert)
-            self.presentViewController(alert, animated: true, completion: nil)
+            let alertController = UIAlertController(title: nil, message: "Не удалось получить статьи", preferredStyle: .Alert)
+            
+            let retryAction = UIAlertAction(title: "Ещё раз", style: .Default, handler: { _ in
+                self.model!.retryActionTapped()
+            })
+            
+            let cancelAction = UIAlertAction(title: "Отмена", style: .Default, handler: { _ in
+                self.model!.cancelActionTapped()
+            })
+            
+            alertController.addAction(cancelAction)
+            alertController.addAction(retryAction)
+            
+            self.presentViewController(alertController, animated: true, completion: nil)
         }
     }
     

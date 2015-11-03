@@ -57,6 +57,13 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
         
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: true)
+        self.model!.viewWillAppear()
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        
+        super.viewWillDisappear(animated)
+        self.model!.viewWillDisappear()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -127,9 +134,23 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
         }
     }
     
-    private func errorOccurredHandler() -> ((error: NSError) -> Void) {
-        return { error in
-            // TODO:
+    private func errorOccurredHandler() -> ((error: NSError?) -> Void) {
+        return { _ in
+            
+            let alertController = UIAlertController(title: nil, message: "При получении статьи произошла ошибка", preferredStyle: .Alert)
+            
+            let closeAction = UIAlertAction(title: "Закрыть", style: .Cancel, handler: { _ in
+                self.model!.closeActionTapped()
+            })
+            
+            let retryAction = UIAlertAction(title: "Ещё раз", style: .Default, handler: { _ in
+                self.model!.retryActionTapped()
+            })
+            
+            alertController.addAction(closeAction)
+            alertController.addAction(retryAction)
+            
+            self.presentViewController(alertController, animated: true, completion: nil)
         }
     }
 }

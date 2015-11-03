@@ -25,6 +25,8 @@
 		AC701CA41BC1B2B5009891DD /* ArticleDetailsFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC701CA31BC1B2B5009891DD /* ArticleDetailsFetcher.swift */; settings = {ASSET_TAGS = (); }; };
 		AC701CA51BC1B38E009891DD /* ArticleDetailsFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC701CA31BC1B2B5009891DD /* ArticleDetailsFetcher.swift */; settings = {ASSET_TAGS = (); }; };
 		AC701CA61BC1B39B009891DD /* ArticleDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACBBD5F81BC186340063FBD6 /* ArticleDetails.swift */; settings = {ASSET_TAGS = (); }; };
+		AC8E1FD91BE93D6B0017B58B /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8E1FD81BE93D6B0017B58B /* ViewModel.swift */; settings = {ASSET_TAGS = (); }; };
+		AC8E1FDA1BE93D6B0017B58B /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8E1FD81BE93D6B0017B58B /* ViewModel.swift */; settings = {ASSET_TAGS = (); }; };
 		AC8F42341BBF24E200E3CAF7 /* ArticleDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8F42331BBF24E200E3CAF7 /* ArticleDetailsViewModel.swift */; settings = {ASSET_TAGS = (); }; };
 		AC8F42361BC0677500E3CAF7 /* ArticleStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8F42351BC0677500E3CAF7 /* ArticleStorage.swift */; settings = {ASSET_TAGS = (); }; };
 		AC926B731B9A23280078F333 /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = AC926B721B9A23280078F333 /* libxml2.tbd */; };
@@ -101,6 +103,7 @@
 		AC6B3ED81B8E3E42005BA7F1 /* SearchViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchViewModel.swift; path = Source/SearchViewModel.swift; sourceTree = "<group>"; };
 		AC6E0F4B1B63F9D700C8299E /* PetrMazepa-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PetrMazepa-Bridging-Header.h"; sourceTree = "<group>"; };
 		AC701CA31BC1B2B5009891DD /* ArticleDetailsFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ArticleDetailsFetcher.swift; path = Source/ArticleDetailsFetcher.swift; sourceTree = "<group>"; };
+		AC8E1FD81BE93D6B0017B58B /* ViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewModel.swift; path = Source/ViewModel.swift; sourceTree = "<group>"; };
 		AC8F42331BBF24E200E3CAF7 /* ArticleDetailsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ArticleDetailsViewModel.swift; path = Source/ArticleDetailsViewModel.swift; sourceTree = "<group>"; };
 		AC8F42351BC0677500E3CAF7 /* ArticleStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ArticleStorage.swift; path = Source/ArticleStorage.swift; sourceTree = "<group>"; };
 		AC926B721B9A23280078F333 /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
@@ -232,6 +235,7 @@
 		AC3D78351B80E73A006BE446 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				AC8E1FD81BE93D6B0017B58B /* ViewModel.swift */,
 				ACEF09961BC14553000F00B7 /* ArticlesViewModel.swift */,
 				AC8F42331BBF24E200E3CAF7 /* ArticleDetailsViewModel.swift */,
 				AC6B3ED81B8E3E42005BA7F1 /* SearchViewModel.swift */,
@@ -599,6 +603,7 @@
 				AC6B3ED91B8E3E42005BA7F1 /* SearchViewModel.swift in Sources */,
 				AC926B761B9B48260078F333 /* SearchedArticleCell.swift in Sources */,
 				AC8F42361BC0677500E3CAF7 /* ArticleStorage.swift in Sources */,
+				AC8E1FD91BE93D6B0017B58B /* ViewModel.swift in Sources */,
 				AC6B3ED71B8E3E08005BA7F1 /* SearchViewController.swift in Sources */,
 				ACA032831BDF6A6E00AA01C8 /* SettingsViewController.swift in Sources */,
 				ACA41A531BB8489B00550857 /* InMemoryImageStorage.swift in Sources */,
@@ -635,6 +640,7 @@
 				ACEE368C1BB8045900E7F63D /* ImageCacheTests.swift in Sources */,
 				ACEF09901BC1336A000F00B7 /* ArticlesParserTests.swift in Sources */,
 				AC701CA51BC1B38E009891DD /* ArticleDetailsFetcher.swift in Sources */,
+				AC8E1FDA1BE93D6B0017B58B /* ViewModel.swift in Sources */,
 				ACEF099B1BC145B1000F00B7 /* ArticlesParser.m in Sources */,
 				AC5FA43D1B9C58F10013E1C5 /* ArticlesViewModelTests.swift in Sources */,
 				ACEF09911BC1338E000F00B7 /* ArticleStorage.swift in Sources */,

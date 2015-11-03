@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SearchViewModel {
+class SearchViewModel : ViewModel {
     
     var thumbImageLoaded: ((index: Int) -> Void)?
     var articlesChanged: (() -> Void)?

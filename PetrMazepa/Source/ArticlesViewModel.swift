@@ -15,17 +15,19 @@ enum RoundedCorner {
     case TopRight
 }
 
-class ArticlesViewModel {
+class ArticlesViewModel : ViewModel {
     
     var loading = false {
         didSet {
-            self.loadingStateChanged!(loading: self.loading)
+            if self.viewIsPresented {
+                self.loadingStateChanged!(loading: self.loading)
+            }
         }
     }
     
     var thumbImageLoaded: ((index: Int) -> Void)?
     var articlesInserted: ((range: Range<Int>) -> Void)?
-    var errorOccurred: ((error: NSError) -> Void)?
+    var errorOccurred: ((error: NSError?) -> Void)?
     var loadingStateChanged: ((loading: Bool) -> Void)?
     
     private let imageCache: ImageCache
@@ -77,7 +79,7 @@ class ArticlesViewModel {
         
         // load articles
         self.screenArticlesAmount = Int(ceil(size.height / (thumbWidth + 1))) * 2
-        self.load(fromIndex: 0, count: self.screenArticlesAmount * 2)
+        self.loadFirst()
     }
     
     func didChangeDistanceToBottom(distance: CGFloat) {
@@ -115,18 +117,42 @@ class ArticlesViewModel {
         var cachedImage: UIImage?
         
         self.imageCache.requestImage(spec: ImageSpec(url: notNilUrl, size: notNilThumbSize)) { image, error, fromCache in
-
+            
             if fromCache {
                 cachedImage = image
                 
-            } else  {
-                dispatch_async(dispatch_get_main_queue(), {
-                    self.thumbImageLoaded!(index: index)
-                })
+            } else {
+                
+                if self.viewIsPresented {
+                    dispatch_async(dispatch_get_main_queue(), {
+                        self.thumbImageLoaded!(index: index)
+                    })
+                }
             }
         }
         
         return (title: title, image: cachedImage, roundedCorner: roundedCorner)
+    }
+    
+    func retryActionTapped() {
+        
+        guard self.loading == false else {
+            return
+        }
+        
+        if self.articlesCount == 0 {
+            self.loadFirst()
+        } else {
+            self.loadMore()
+        }
+    }
+    
+    func cancelActionTapped() {
+        // do nothing
+    }
+    
+    private func loadFirst() {
+        self.load(fromIndex: 0, count: self.screenArticlesAmount * 2)
     }
     
     private func loadMore() {
@@ -140,9 +166,21 @@ class ArticlesViewModel {
         self.loading = true
         
         self.articlesFetcher.fetchArticles(fromIndex: fromIndex, count: count) { articles, error in
+            
+            guard self.viewIsPresented else {
+                return
+            }
+            
             dispatch_async(dispatch_get_main_queue(), {
 
                 self.loading = false
+                
+                if let _ = error {
+                    
+                    self.errorOccurred!(error: error)
+                    return
+                }
+                
                 let newCount = self.articlesCount
                 self.articlesInserted!(range: fromIndex..<newCount)
             })

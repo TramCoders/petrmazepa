@@ -8,12 +8,12 @@
 
 import UIKit
 
-class ArticleDetailsViewModel {
+class ArticleDetailsViewModel : ViewModel {
     
     var loadingStateChanged: ((loading: Bool) -> Void)?
     var imageLoaded: ((image: UIImage?) -> Void)?
     var articleDetailsLoaded: ((dateString: String?, author: String?, htmlText: String?) -> ())?
-    var errorOccurred: ((error: NSError) -> Void)?
+    var errorOccurred: ((error: NSError?) -> Void)?
     
     private let articleDetailsDismisser: ArticleDetailsDismisser
     private let articleDetailsFetcher: ArticleDetailsFetcher
@@ -41,24 +41,15 @@ class ArticleDetailsViewModel {
         
         self.imageLoaded!(image: nil)
         self.articleDetailsLoaded!(dateString: nil, author: nil, htmlText: nil)
-        
-        self.articleDetailsFetcher.fetchArticleDetails(article: self.article) { details, error in
-            
-            self.articleDetails = details
-            
-            if let notNilDetails = details {
-                
-                dispatch_async(dispatch_get_main_queue(), {
-                    self.articleDetailsLoaded!(dateString: notNilDetails.dateString, author: notNilDetails.author, htmlText: notNilDetails.htmlText)
-                })
-            }
-        }
-        
-        self.imageCache.requestImage(spec: ImageSpec(url:self.article.thumbUrl!, size: self.screenSize)) { image, _, _ in
-            dispatch_async(dispatch_get_main_queue(), {
-                self.imageLoaded!(image: image)
-            })
-        }
+        self.loadContent()
+    }
+    
+    func closeActionTapped() {
+        self.articleDetailsDismisser.dismissArticleDetails()
+    }
+    
+    func retryActionTapped() {
+        self.loadContent()
     }
     
     func backTapped() {
@@ -67,5 +58,37 @@ class ArticleDetailsViewModel {
     
     func shareTapped() {
         self.articleSharer.shareArticle(self.article)
+    }
+    
+    func loadContent() {
+        
+        self.articleDetailsFetcher.fetchArticleDetails(article: self.article) { details, error in
+            
+            self.articleDetails = details
+            
+            guard self.viewIsPresented else {
+                return
+            }
+            
+            if let notNilDetails = details {
+                
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.articleDetailsLoaded!(dateString: notNilDetails.dateString, author: notNilDetails.author, htmlText: notNilDetails.htmlText)
+                })
+            } else {
+                self.errorOccurred!(error: error)
+            }
+        }
+        
+        self.imageCache.requestImage(spec: ImageSpec(url:self.article.thumbUrl!, size: self.screenSize)) { image, _, _ in
+            
+            guard self.viewIsPresented else {
+                return
+            }
+            
+            dispatch_async(dispatch_get_main_queue(), {
+                self.imageLoaded!(image: image)
+            })
+        }
     }
 }

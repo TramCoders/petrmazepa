@@ -18,6 +18,10 @@ class ArticleInfo {
         self.dateString = dateString
         self.author = author
     }
+    
+    func isEmpty() -> Bool {
+        return (self.author == nil || self.author == "") && (self.dateString == nil || self.dateString == "")
+    }
 }
 
 class ArticleInfoComponent: ArticleComponent {
@@ -37,6 +41,11 @@ class ArticleInfoComponent: ArticleComponent {
     }
     
     func requiredHeight() -> CGFloat {
-        return 40
+        
+        if (self.info == nil) || (self.info?.isEmpty() == true) {
+            return 0.0
+        } else {
+            return 40.0
+        }
     }
 }
