@@ -15,11 +15,13 @@ enum RoundedCorner {
     case TopRight
 }
 
-class ArticlesViewModel {
+class ArticlesViewModel : ViewModel {
     
     var loading = false {
         didSet {
-            self.loadingStateChanged!(loading: self.loading)
+            if self.viewIsPresented {
+                self.loadingStateChanged!(loading: self.loading)
+            }
         }
     }
     
@@ -115,14 +117,17 @@ class ArticlesViewModel {
         var cachedImage: UIImage?
         
         self.imageCache.requestImage(spec: ImageSpec(url: notNilUrl, size: notNilThumbSize)) { image, error, fromCache in
-
+            
             if fromCache {
                 cachedImage = image
                 
-            } else  {
-                dispatch_async(dispatch_get_main_queue(), {
-                    self.thumbImageLoaded!(index: index)
-                })
+            } else {
+                
+                if self.viewIsPresented {
+                    dispatch_async(dispatch_get_main_queue(), {
+                        self.thumbImageLoaded!(index: index)
+                    })
+                }
             }
         }
         
@@ -161,6 +166,11 @@ class ArticlesViewModel {
         self.loading = true
         
         self.articlesFetcher.fetchArticles(fromIndex: fromIndex, count: count) { articles, error in
+            
+            guard self.viewIsPresented else {
+                return
+            }
+            
             dispatch_async(dispatch_get_main_queue(), {
 
                 self.loading = false

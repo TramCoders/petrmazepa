@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ArticleDetailsViewModel {
+class ArticleDetailsViewModel : ViewModel {
     
     var loadingStateChanged: ((loading: Bool) -> Void)?
     var imageLoaded: ((image: UIImage?) -> Void)?
@@ -66,6 +66,10 @@ class ArticleDetailsViewModel {
             
             self.articleDetails = details
             
+            guard self.viewIsPresented else {
+                return
+            }
+            
             if let notNilDetails = details {
                 
                 dispatch_async(dispatch_get_main_queue(), {
@@ -77,6 +81,11 @@ class ArticleDetailsViewModel {
         }
         
         self.imageCache.requestImage(spec: ImageSpec(url:self.article.thumbUrl!, size: self.screenSize)) { image, _, _ in
+            
+            guard self.viewIsPresented else {
+                return
+            }
+            
             dispatch_async(dispatch_get_main_queue(), {
                 self.imageLoaded!(image: image)
             })

@@ -38,6 +38,7 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
         
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(false, animated: true)
+        self.model!.viewWillAppear()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -51,6 +52,7 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
         super.viewWillDisappear(animated)
         self.searchBar.resignFirstResponder()
         self.stopHandlingKeyboardAppearance()
+        self.model!.viewWillDisappear()
     }
     
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {

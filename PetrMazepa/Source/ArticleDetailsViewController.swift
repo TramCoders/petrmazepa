@@ -57,6 +57,13 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
         
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: true)
+        self.model!.viewWillAppear()
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        
+        super.viewWillDisappear(animated)
+        self.model!.viewWillDisappear()
     }
     
     override func viewDidAppear(animated: Bool) {
