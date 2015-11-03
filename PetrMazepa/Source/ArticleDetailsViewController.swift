@@ -127,9 +127,31 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
         }
     }
     
-    private func errorOccurredHandler() -> ((error: NSError) -> Void) {
+    private func errorOccurredHandler() -> ((error: NSError?) -> Void) {
         return { error in
-            // TODO:
+            
+            let message: String
+            
+            if let notNilError = error {
+                message = notNilError.localizedDescription
+            } else {
+                message = "Ошибка сети"   // FIXME:
+            }
+            
+            let alertController = UIAlertController(title: nil, message: message, preferredStyle: .Alert)
+            
+            let closeAction = UIAlertAction(title: "Закрыть", style: .Default, handler: { _ in
+                self.model!.closeActionTapped()
+            })
+            
+            let retryAction = UIAlertAction(title: "Попробовать ещё", style: .Default, handler: { _ in
+                self.model!.retryActionTapped()
+            })
+            
+            alertController.addAction(closeAction)
+            alertController.addAction(retryAction)
+            
+            self.presentViewController(alertController, animated: true, completion: nil)
         }
     }
 }

@@ -13,7 +13,7 @@ class ArticleDetailsViewModel {
     var loadingStateChanged: ((loading: Bool) -> Void)?
     var imageLoaded: ((image: UIImage?) -> Void)?
     var articleDetailsLoaded: ((dateString: String?, author: String?, htmlText: String?) -> ())?
-    var errorOccurred: ((error: NSError) -> Void)?
+    var errorOccurred: ((error: NSError?) -> Void)?
     
     private let articleDetailsDismisser: ArticleDetailsDismisser
     private let articleDetailsFetcher: ArticleDetailsFetcher
@@ -41,6 +41,26 @@ class ArticleDetailsViewModel {
         
         self.imageLoaded!(image: nil)
         self.articleDetailsLoaded!(dateString: nil, author: nil, htmlText: nil)
+        self.loadContent()
+    }
+    
+    func closeActionTapped() {
+        self.articleDetailsDismisser.dismissArticleDetails()
+    }
+    
+    func retryActionTapped() {
+        self.loadContent()
+    }
+    
+    func backTapped() {
+        self.articleDetailsDismisser.dismissArticleDetails()
+    }
+    
+    func shareTapped() {
+        self.articleSharer.shareArticle(self.article)
+    }
+    
+    func loadContent() {
         
         self.articleDetailsFetcher.fetchArticleDetails(article: self.article) { details, error in
             
@@ -51,6 +71,8 @@ class ArticleDetailsViewModel {
                 dispatch_async(dispatch_get_main_queue(), {
                     self.articleDetailsLoaded!(dateString: notNilDetails.dateString, author: notNilDetails.author, htmlText: notNilDetails.htmlText)
                 })
+            } else {
+                self.errorOccurred!(error: error)
             }
         }
         
@@ -59,13 +81,5 @@ class ArticleDetailsViewModel {
                 self.imageLoaded!(image: image)
             })
         }
-    }
-    
-    func backTapped() {
-        self.articleDetailsDismisser.dismissArticleDetails()
-    }
-    
-    func shareTapped() {
-        self.articleSharer.shareArticle(self.article)
     }
 }

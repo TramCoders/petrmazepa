@@ -95,12 +95,27 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
         }
     }
     
-    private func errorOccurredHandler() -> ((error: NSError) -> Void) {
+    private func errorOccurredHandler() -> ((error: NSError?) -> Void) {
 
-        return { (error: NSError) in
+        return { error in
             
-            let alert = UIAlertController(title: "", message: error.localizedDescription, preferredStyle: .Alert)
-            self.presentViewController(alert, animated: true, completion: nil)
+            let message: String
+            
+            if let notNilError = error {
+                message = notNilError.localizedDescription
+            } else {
+                message = "Ошибка сети"   // FIXME:
+            }
+            
+            let alertController = UIAlertController(title: nil, message: message, preferredStyle: .Alert)
+            
+            let retryAction = UIAlertAction(title: "Попробовать ещё", style: .Default, handler: { _ in
+                self.model!.retryActionTapped()
+            })
+            
+            alertController.addAction(retryAction)
+            
+            self.presentViewController(alertController, animated: true, completion: nil)
         }
     }
     

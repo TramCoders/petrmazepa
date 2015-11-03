@@ -25,7 +25,7 @@ class ArticlesViewModel {
     
     var thumbImageLoaded: ((index: Int) -> Void)?
     var articlesInserted: ((range: Range<Int>) -> Void)?
-    var errorOccurred: ((error: NSError) -> Void)?
+    var errorOccurred: ((error: NSError?) -> Void)?
     var loadingStateChanged: ((loading: Bool) -> Void)?
     
     private let imageCache: ImageCache
@@ -77,7 +77,7 @@ class ArticlesViewModel {
         
         // load articles
         self.screenArticlesAmount = Int(ceil(size.height / (thumbWidth + 1))) * 2
-        self.load(fromIndex: 0, count: self.screenArticlesAmount * 2)
+        self.loadFirst()
     }
     
     func didChangeDistanceToBottom(distance: CGFloat) {
@@ -129,6 +129,23 @@ class ArticlesViewModel {
         return (title: title, image: cachedImage, roundedCorner: roundedCorner)
     }
     
+    func retryActionTapped() {
+        
+        guard self.loading == false else {
+            return
+        }
+        
+        if self.articlesCount == 0 {
+            self.loadFirst()
+        } else {
+            self.loadMore()
+        }
+    }
+    
+    private func loadFirst() {
+        self.load(fromIndex: 0, count: self.screenArticlesAmount * 2)
+    }
+    
     private func loadMore() {
         
         let oldCount = self.articlesCount
@@ -143,6 +160,13 @@ class ArticlesViewModel {
             dispatch_async(dispatch_get_main_queue(), {
 
                 self.loading = false
+                
+                if let _ = error {
+                    
+                    self.errorOccurred!(error: error)
+                    return
+                }
+                
                 let newCount = self.articlesCount
                 self.articlesInserted!(range: fromIndex..<newCount)
             })
