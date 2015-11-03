@@ -128,23 +128,15 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
     }
     
     private func errorOccurredHandler() -> ((error: NSError?) -> Void) {
-        return { error in
+        return { _ in
             
-            let message: String
+            let alertController = UIAlertController(title: nil, message: "При получении статьи произошла ошибка", preferredStyle: .Alert)
             
-            if let notNilError = error {
-                message = notNilError.localizedDescription
-            } else {
-                message = "Ошибка сети"   // FIXME:
-            }
-            
-            let alertController = UIAlertController(title: nil, message: message, preferredStyle: .Alert)
-            
-            let closeAction = UIAlertAction(title: "Закрыть", style: .Default, handler: { _ in
+            let closeAction = UIAlertAction(title: "Закрыть", style: .Cancel, handler: { _ in
                 self.model!.closeActionTapped()
             })
             
-            let retryAction = UIAlertAction(title: "Попробовать ещё", style: .Default, handler: { _ in
+            let retryAction = UIAlertAction(title: "Ещё раз", style: .Default, handler: { _ in
                 self.model!.retryActionTapped()
             })
             

@@ -97,22 +97,19 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
     
     private func errorOccurredHandler() -> ((error: NSError?) -> Void) {
 
-        return { error in
+        return { _ in
             
-            let message: String
+            let alertController = UIAlertController(title: nil, message: "Не удалось получить статьи", preferredStyle: .Alert)
             
-            if let notNilError = error {
-                message = notNilError.localizedDescription
-            } else {
-                message = "Ошибка сети"   // FIXME:
-            }
-            
-            let alertController = UIAlertController(title: nil, message: message, preferredStyle: .Alert)
-            
-            let retryAction = UIAlertAction(title: "Попробовать ещё", style: .Default, handler: { _ in
+            let retryAction = UIAlertAction(title: "Ещё раз", style: .Default, handler: { _ in
                 self.model!.retryActionTapped()
             })
             
+            let cancelAction = UIAlertAction(title: "Отмена", style: .Default, handler: { _ in
+                self.model!.cancelActionTapped()
+            })
+            
+            alertController.addAction(cancelAction)
             alertController.addAction(retryAction)
             
             self.presentViewController(alertController, animated: true, completion: nil)

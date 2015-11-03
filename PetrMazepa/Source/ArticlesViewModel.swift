@@ -142,6 +142,10 @@ class ArticlesViewModel {
         }
     }
     
+    func cancelActionTapped() {
+        // do nothing
+    }
+    
     private func loadFirst() {
         self.load(fromIndex: 0, count: self.screenArticlesAmount * 2)
     }
