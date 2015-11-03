@@ -31,12 +31,24 @@ class ActivityIndicator {
 
 class Networking: ImageDownloader, ArticlesFetcher, ArticleDetailsFetcher {
     
-    private let session = NSURLSession.sharedSession()
+    private let session: NSURLSession
+    
     private let activityIndicator = ActivityIndicator()
     private let baseUrl = "http://petrimazepa.com"
     
     private let articlesParser = ArticlesParser()
     private let articleDetailsParser = ArticleDetailsParser()
+    
+    init() {
+        
+        // config
+        let config = NSURLSessionConfiguration.defaultSessionConfiguration()
+        config.timeoutIntervalForRequest = 5.0
+        config.timeoutIntervalForResource = 10.0
+        
+        // session
+        self.session = NSURLSession(configuration: config)
+    }
     
     func fetchArticles(fromIndex fromIndex: Int, count: Int, completion: ArticlesFetchHandler) {
         
