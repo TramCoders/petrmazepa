@@ -229,12 +229,18 @@
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="l87-yg-Knd">
                                 <rect key="frame" x="0.0" y="556" width="600" height="44"/>
                                 <items>
-                                    <barButtonItem title="Back" id="ahb-5N-g7F">
+                                    <barButtonItem image="back" id="ahb-5N-g7F">
                                         <connections>
                                             <action selector="backTapped:" destination="eL6-pm-8VV" id="Q2f-ya-9Gn"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="kc0-1d-VKz"/>
+                                    <barButtonItem image="unfavourite_icon" id="YxB-po-3v3">
+                                        <connections>
+                                            <action selector="favouriteTapped:" destination="eL6-pm-8VV" id="Ix0-lh-OGY"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="XVj-HM-UDL"/>
                                     <barButtonItem systemItem="action" id="HJe-Jl-G7A">
                                         <connections>
                                             <action selector="shareTapped:" destination="eL6-pm-8VV" id="Mh6-VX-1PE"/>
@@ -259,6 +265,7 @@
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="rlh-OX-ZCf" id="pbQ-fk-ETI"/>
+                        <outlet property="favouriteButton" destination="YxB-po-3v3" id="gRx-PK-0xj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YuN-sN-BaI" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -333,7 +340,9 @@
     </scenes>
     <resources>
         <image name="articles_tab" width="30" height="30"/>
+        <image name="back" width="30" height="30"/>
         <image name="favourite_tab" width="30" height="30"/>
         <image name="settings_tab" width="30" height="30"/>
+        <image name="unfavourite_icon" width="30" height="30"/>
     </resources>
 </document>
