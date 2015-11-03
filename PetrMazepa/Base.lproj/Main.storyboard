@@ -126,8 +126,41 @@
                         <sections>
                             <tableViewSection id="BMY-te-Be6">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="60" id="4nk-ua-jWJ">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="60" id="jb6-wM-gjx">
                                         <rect key="frame" x="0.0" y="64" width="600" height="60"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jb6-wM-gjx" id="SDZ-jK-PX7">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="59"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ClU-if-DIn">
+                                                    <rect key="frame" x="543" y="14" width="51" height="31"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="49" id="mqz-ch-nOF"/>
+                                                    </constraints>
+                                                    <color key="onTintColor" red="0.93333333330000001" green="0.42745098040000001" blue="0.43921568630000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <connections>
+                                                        <action selector="wifiImagesChanged:" destination="AuA-Ve-Xy6" eventType="valueChanged" id="J2l-nS-oX3"/>
+                                                    </connections>
+                                                </switch>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Оффлайн режим" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KQH-Sb-H1f">
+                                                    <rect key="frame" x="15" y="21" width="114" height="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="ClU-if-DIn" firstAttribute="centerY" secondItem="SDZ-jK-PX7" secondAttribute="centerY" id="0qe-0W-P2x"/>
+                                                <constraint firstItem="KQH-Sb-H1f" firstAttribute="centerY" secondItem="SDZ-jK-PX7" secondAttribute="centerY" id="CU1-wN-sv2"/>
+                                                <constraint firstAttribute="trailing" secondItem="ClU-if-DIn" secondAttribute="trailing" constant="8" id="PVb-Bi-hKl"/>
+                                                <constraint firstItem="KQH-Sb-H1f" firstAttribute="leading" secondItem="SDZ-jK-PX7" secondAttribute="leading" constant="15" id="XFt-tD-K2H"/>
+                                                <constraint firstItem="ClU-if-DIn" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="KQH-Sb-H1f" secondAttribute="trailing" constant="8" id="pJX-k6-6si"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="60" id="4nk-ua-jWJ">
+                                        <rect key="frame" x="0.0" y="124" width="600" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4nk-ua-jWJ" id="pcx-9f-ecP">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="59"/>
@@ -138,6 +171,7 @@
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="49" id="hDK-d6-8ph"/>
                                                     </constraints>
+                                                    <color key="onTintColor" red="0.93333333333333335" green="0.42745098039215684" blue="0.4392156862745098" alpha="1" colorSpace="calibratedRGB"/>
                                                     <connections>
                                                         <action selector="wifiImagesChanged:" destination="AuA-Ve-Xy6" eventType="valueChanged" id="h9s-BA-m64"/>
                                                     </connections>
