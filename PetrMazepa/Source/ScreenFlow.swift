@@ -95,7 +95,7 @@ class ScreenFlow: NSObject, ArticleDetailsPresenter, ArticleDetailsDismisser, Ar
             
         } else if let searchViewController = innerViewController as? SearchViewController {
             
-            searchViewController.model = SearchViewModel(imageCache: self.imageCache, articleStorage: self.contentProvider, articleDetailsPresenter: self)
+            searchViewController.model = SearchViewModel(imageCache: self.imageCache, articleStorage: self.contentProvider, favouriteArticleStorage: self.contentProvider, articleDetailsPresenter: self)
             
         } else if let settingsViewController = innerViewController as? SettingsViewController {
             

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ContentProvider: ArticleStorage, ArticlesFetcher, ArticleDetailsFetcher {
+class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher, ArticleDetailsFetcher {
     
     private var articles = [Article]()
     private let networking: Networking
@@ -19,6 +19,10 @@ class ContentProvider: ArticleStorage, ArticlesFetcher, ArticleDetailsFetcher {
     
     func allArticles() -> [Article] {
         return self.articles
+    }
+    
+    func favouriteArticles() -> [Article] {
+        return self.allArticles().filter({ $0.favourite })
     }
     
     func fetchArticles(fromIndex fromIndex: Int, count: Int, completion: ArticlesFetchHandler) {

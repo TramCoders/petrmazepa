@@ -45,6 +45,7 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
         
         super.viewDidAppear(animated)
         self.startHandlingKeyboardAppearance()
+        self.tableView.reloadData()
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -59,15 +60,27 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
         self.model!.didChangeQuery(searchText)
     }
     
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 2
+    }
+    
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
+        if section == 0 {
+            return "Favourite"
+        } else {
+            return "Other"
+        }
+    }
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.model!.articlesCount
+        return self.model!.articlesCount(section: section)
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("SearchedArticle", forIndexPath: indexPath) as! SearchedArticleCell
         
-        let index = indexPath.row
-        let searchedArticle = self.model!.requestArticle(index)
+        let searchedArticle = self.model!.requestArticle(indexPath)
         cell.update(title: searchedArticle.title, author: searchedArticle.author)
         
         let image = self.model!.requestThumb(url: searchedArticle.thumbUrl)
@@ -79,7 +92,7 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        self.model!.articleTapped(index: indexPath.item)
+        self.model!.articleTapped(indexPath)
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -145,9 +158,9 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
         }
     }
     
-    private func thumbImageLoadedHandler() -> ((index: Int) -> Void) {
-        return { (index: Int) in
-            self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forItem: index, inSection: 0)], withRowAnimation: .Automatic)
+    private func thumbImageLoadedHandler() -> ((indexPath: NSIndexPath) -> Void) {
+        return { (indexPath: NSIndexPath) in
+            self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
         }
     }
 }

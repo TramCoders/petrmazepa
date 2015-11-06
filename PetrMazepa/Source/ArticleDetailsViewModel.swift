@@ -25,12 +25,8 @@ class ArticleDetailsViewModel : ViewModel {
     private var articleDetails: ArticleDetails?
     private var screenSize: CGSize!
     
-    private(set) var favourite = false {
-        didSet {
-            if self.viewIsPresented {
-                self.favouriteStateChanged!(favourite: self.favourite)
-            }
-        }
+    var favourite: Bool {
+        return self.article.favourite
     }
     
     init(article: Article, imageCache: ImageCache, articleDetailsFetcher: ArticleDetailsFetcher, articleDetailsDismisser: ArticleDetailsDismisser, articleSharer: ArticleSharer) {
@@ -68,8 +64,11 @@ class ArticleDetailsViewModel : ViewModel {
     
     func favouriteTapped() {
      
-        self.favourite = !self.favourite
-        // TODO:
+        self.article.favourite = !self.article.favourite
+
+        if self.viewIsPresented {
+            self.favouriteStateChanged!(favourite: self.favourite)
+        }
     }
     
     func shareTapped() {
