@@ -36,13 +36,27 @@ class SearchViewModel : ViewModel {
         self.articleDetailsPresenter = articleDetailsPresenter
         
         self.filteredArticles = articleStorage.allArticles()
+        self.favouriteArticles = []
+    }
+    
+    override func viewWillAppear() {
+        
+        super.viewWillAppear()
         self.favouriteArticles = favouriteArticleStorage.favouriteArticles()
     }
     
     func articleTapped(indexPath: NSIndexPath) {
         
         let index = indexPath.row
-        let article = self.filteredArticles[index]
+        let section = indexPath.section
+        let article: Article
+        
+        switch self.convertSection(section) {
+            
+            case .Favourite: article = self.favouriteArticles[index]
+            case .Other: article = self.filteredArticles[index]
+        }
+        
         self.articleDetailsPresenter.presentArticleDetails(article)
     }
     

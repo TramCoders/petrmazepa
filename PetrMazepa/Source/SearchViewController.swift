@@ -10,7 +10,7 @@ import UIKit
 
 class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate {
     
-    @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var bottomTableContraint: NSLayoutConstraint!
     
@@ -37,27 +37,32 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
     override func viewWillAppear(animated: Bool) {
         
         super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(false, animated: true)
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
         self.model!.viewWillAppear()
+        self.tableView.reloadData()
     }
     
     override func viewDidAppear(animated: Bool) {
         
         super.viewDidAppear(animated)
         self.startHandlingKeyboardAppearance()
-        self.tableView.reloadData()
     }
     
     override func viewWillDisappear(animated: Bool) {
         
         super.viewWillDisappear(animated)
-        self.searchBar.resignFirstResponder()
+        self.searchTextField.resignFirstResponder()
         self.stopHandlingKeyboardAppearance()
         self.model!.viewWillDisappear()
     }
     
-    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
-        self.model!.didChangeQuery(searchText)
+    @IBAction func searchDidChange(sender: UITextField) {
+        
+        if let searchText = sender.text {
+            self.model!.didChangeQuery(searchText)
+        } else {
+            self.model!.didChangeQuery("")
+        }
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
