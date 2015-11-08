@@ -341,9 +341,10 @@
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Search" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Odq-ff-Uck">
                                         <rect key="frame" x="10" y="0.0" width="580" height="44"/>
                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" returnKeyType="search"/>
                                         <connections>
                                             <action selector="searchDidChange:" destination="X7k-5v-zPq" eventType="editingChanged" id="fcs-iD-3Ff"/>
+                                            <outlet property="delegate" destination="X7k-5v-zPq" id="763-OK-cs6"/>
                                         </connections>
                                     </textField>
                                 </subviews>
