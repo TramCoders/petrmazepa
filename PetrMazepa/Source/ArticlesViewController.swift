@@ -16,14 +16,13 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
     
     @IBOutlet weak var heightSearchConstraint: NSLayoutConstraint!
     
-    var model: ArticlesViewModel? {
+    var model: ArticlesViewModel! {
 
         didSet {
             
-            self.model!.articlesInserted = self.articlesInsertedHandler()
-            self.model!.thumbImageLoaded = self.thumbImageLoadedHandler()
-            self.model!.errorOccurred = self.errorOccurredHandler()
-            self.model!.loadingStateChanged = self.loadingStateChangedHandler()
+            self.model.articlesInserted = self.articlesInsertedHandler()
+            self.model.errorOccurred = self.errorOccurredHandler()
+            self.model.loadingStateChanged = self.loadingStateChangedHandler()
         }
     }
 
@@ -43,43 +42,43 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
         self.layout = self.collectionView.collectionViewLayout as? ArticlesViewLayout
         
         // notify model
-        self.model!.viewDidLoad(screenSize: UIScreen.mainScreen().bounds.size)
+        self.model.viewDidLoad(screenSize: UIScreen.mainScreen().bounds.size)
     }
     
     override func viewWillAppear(animated: Bool) {
         
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: true)
-        self.model!.viewWillAppear()
+        self.model.viewWillAppear()
     }
     
     override func viewWillDisappear(animated: Bool) {
         
         super.viewWillDisappear(animated)
-        self.model!.viewWillDisappear()
+        self.model.viewWillDisappear()
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.model!.articlesCount
+        return self.model.articlesCount
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(self.cellReuseIdentifier, forIndexPath: indexPath) as! ArticleCell
-        let articleModel = self.model!.requestArticleModel(index: indexPath.item)
-        cell.update(articleModel)
+        let articleModel = self.model.articleModel(index: indexPath.item)
+        cell.model = articleModel
         
         return cell
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        self.model?.articleTapped(index: indexPath.row)
+        self.model.articleTapped(index: indexPath.row)
     }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
         
         let distance = scrollView.contentSize.height - scrollView.frame.height - scrollView.contentOffset.y
-        self.model!.didChangeDistanceToBottom(distance)
+        self.model.didChangeDistanceToBottom(distance)
     }
     
     private func articlesInsertedHandler() -> ((range: Range<Int>) -> Void) {
@@ -96,12 +95,6 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
         }
     }
     
-    private func thumbImageLoadedHandler() -> ((index: Int) -> Void) {
-        return { index in
-            self.collectionView.reloadItemsAtIndexPaths([NSIndexPath(forItem: index, inSection: 0)])
-        }
-    }
-    
     private func errorOccurredHandler() -> ((error: NSError?) -> Void) {
 
         return { _ in
@@ -109,11 +102,11 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
             let alertController = UIAlertController(title: nil, message: "Не удалось получить статьи", preferredStyle: .Alert)
             
             let retryAction = UIAlertAction(title: "Ещё раз", style: .Default, handler: { _ in
-                self.model!.retryActionTapped()
+                self.model.retryActionTapped()
             })
             
             let cancelAction = UIAlertAction(title: "Отмена", style: .Default, handler: { _ in
-                self.model!.cancelActionTapped()
+                self.model.cancelActionTapped()
             })
             
             alertController.addAction(cancelAction)

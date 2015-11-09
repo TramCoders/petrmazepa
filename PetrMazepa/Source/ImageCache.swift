@@ -26,9 +26,7 @@ struct ImageSpec {
     }
 }
 
-class ImageCache {
-    
-    typealias ImageHandler = (image: UIImage?, error: NSError?, fromCache: Bool) -> ()
+class ImageCache : ImageGateway {
     
     private let downloader: ImageDownloader
     private let inMemoryImageStorage: InMemoryImageStorage

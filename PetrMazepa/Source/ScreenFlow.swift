@@ -51,7 +51,7 @@ class ScreenFlow: NSObject, ArticleDetailsPresenter, ArticleDetailsDismisser, Ar
     func presentArticles() {
         
         let articlesViewController = self.currentNavigationController.topViewController as! ArticlesViewController
-        articlesViewController.model = ArticlesViewModel(imageCache: self.imageCache, articleStorage: self.contentProvider, articlesFetcher: self.contentProvider, articleDetailsPresenter: self)
+        articlesViewController.model = ArticlesViewModel(imageGateway: self.imageCache, articleStorage: self.contentProvider, articlesFetcher: self.contentProvider, articleDetailsPresenter: self)
 
         self.window.rootViewController = self.tabBarController
         self.window.makeKeyAndVisible()

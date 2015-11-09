@@ -8,13 +8,6 @@
 
 import UIKit
 
-enum RoundedCorner {
-    
-    case None
-    case TopLeft
-    case TopRight
-}
-
 class ArticlesViewModel : ViewModel {
     
     var loading = false {
@@ -25,12 +18,11 @@ class ArticlesViewModel : ViewModel {
         }
     }
     
-    var thumbImageLoaded: ((index: Int) -> Void)?
     var articlesInserted: ((range: Range<Int>) -> Void)?
     var errorOccurred: ((error: NSError?) -> Void)?
     var loadingStateChanged: ((loading: Bool) -> Void)?
     
-    private let imageCache: ImageCache
+    private let imageGateway: ImageGateway
     private let articlesFetcher: ArticlesFetcher
     private let articleSrorage: ArticleStorage
     private let articleDetailsPresenter: ArticleDetailsPresenter
@@ -39,9 +31,9 @@ class ArticlesViewModel : ViewModel {
     private var thumbSize: CGSize?
     private var screenArticlesAmount: Int = 0
     
-    required init(imageCache: ImageCache, articleStorage: ArticleStorage, articlesFetcher: ArticlesFetcher, articleDetailsPresenter: ArticleDetailsPresenter) {
+    required init(imageGateway: ImageGateway, articleStorage: ArticleStorage, articlesFetcher: ArticlesFetcher, articleDetailsPresenter: ArticleDetailsPresenter) {
 
-        self.imageCache = imageCache
+        self.imageGateway = imageGateway
         self.articleSrorage = articleStorage
         self.articlesFetcher = articlesFetcher
         self.articleDetailsPresenter = articleDetailsPresenter
@@ -99,39 +91,11 @@ class ArticlesViewModel : ViewModel {
         self.loadMore()
     }
     
-    func requestArticleModel(index index: Int) -> (title: String, image: UIImage?, roundedCorner: RoundedCorner) {
+    func articleModel(index index: Int) -> ArticleCellModel {
         
         let article = self.articleSrorage.allArticles()[index]
-        let title = article.title
-        let url = article.thumbUrl
         let roundedCorner = self.roundedCorner(byIndex: index)
-        
-        guard let notNilUrl = url else {
-            return (title: title, image: nil, roundedCorner: roundedCorner)
-        }
-        
-        guard let notNilThumbSize = self.thumbSize else {
-            return (title: title, image: nil, roundedCorner: roundedCorner)
-        }
-        
-        var cachedImage: UIImage?
-        
-        self.imageCache.requestImage(spec: ImageSpec(url: notNilUrl, size: notNilThumbSize)) { image, error, fromCache in
-            
-            if fromCache {
-                cachedImage = image
-                
-            } else {
-                
-                if self.viewIsPresented {
-                    dispatch_async(dispatch_get_main_queue(), {
-                        self.thumbImageLoaded!(index: index)
-                    })
-                }
-            }
-        }
-        
-        return (title: title, image: cachedImage, roundedCorner: roundedCorner)
+        return ArticleCellModel(article: article, roundedCorner: roundedCorner, imageGateway: self.imageGateway)
     }
     
     func retryActionTapped() {
