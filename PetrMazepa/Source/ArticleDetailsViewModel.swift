@@ -13,6 +13,7 @@ class ArticleDetailsViewModel : ViewModel {
     var loadingStateChanged: ((loading: Bool) -> Void)?
     var imageLoaded: ((image: UIImage?) -> Void)?
     var articleDetailsLoaded: ((dateString: String?, author: String?, htmlText: String?) -> ())?
+    var favouriteStateChanged: ((favourite: Bool) -> Void)?
     var errorOccurred: ((error: NSError?) -> Void)?
     
     private let articleDetailsDismisser: ArticleDetailsDismisser
@@ -23,6 +24,10 @@ class ArticleDetailsViewModel : ViewModel {
     private let article: Article
     private var articleDetails: ArticleDetails?
     private var screenSize: CGSize!
+    
+    var favourite: Bool {
+        return self.article.favourite
+    }
     
     init(article: Article, imageCache: ImageCache, articleDetailsFetcher: ArticleDetailsFetcher, articleDetailsDismisser: ArticleDetailsDismisser, articleSharer: ArticleSharer) {
 
@@ -41,6 +46,7 @@ class ArticleDetailsViewModel : ViewModel {
         
         self.imageLoaded!(image: nil)
         self.articleDetailsLoaded!(dateString: nil, author: nil, htmlText: nil)
+        self.favouriteStateChanged!(favourite: self.favourite)
         self.loadContent()
     }
     
@@ -54,6 +60,15 @@ class ArticleDetailsViewModel : ViewModel {
     
     func backTapped() {
         self.articleDetailsDismisser.dismissArticleDetails()
+    }
+    
+    func favouriteTapped() {
+     
+        self.article.favourite = !self.article.favourite
+
+        if self.viewIsPresented {
+            self.favouriteStateChanged!(favourite: self.favourite)
+        }
     }
     
     func shareTapped() {

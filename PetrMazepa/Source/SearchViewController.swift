@@ -8,9 +8,9 @@
 
 import UIKit
 
-class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate {
+class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
     
-    @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var bottomTableContraint: NSLayoutConstraint!
     
@@ -37,8 +37,9 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
     override func viewWillAppear(animated: Bool) {
         
         super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(false, animated: true)
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
         self.model!.viewWillAppear()
+        self.tableView.reloadData()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -50,24 +51,41 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
     override func viewWillDisappear(animated: Bool) {
         
         super.viewWillDisappear(animated)
-        self.searchBar.resignFirstResponder()
+        self.searchTextField.resignFirstResponder()
         self.stopHandlingKeyboardAppearance()
         self.model!.viewWillDisappear()
     }
     
-    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
-        self.model!.didChangeQuery(searchText)
+    @IBAction func searchDidChange(sender: UITextField) {
+        
+        if let searchText = sender.text {
+            self.model!.didChangeQuery(searchText)
+        } else {
+            self.model!.didChangeQuery("")
+        }
+    }
+    
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 2
+    }
+    
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
+        if section == 0 {
+            return "Favourite"
+        } else {
+            return "Other"
+        }
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.model!.articlesCount
+        return self.model!.articlesCount(section: section)
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("SearchedArticle", forIndexPath: indexPath) as! SearchedArticleCell
         
-        let index = indexPath.row
-        let searchedArticle = self.model!.requestArticle(index)
+        let searchedArticle = self.model!.requestArticle(indexPath)
         cell.update(title: searchedArticle.title, author: searchedArticle.author)
         
         let image = self.model!.requestThumb(url: searchedArticle.thumbUrl)
@@ -79,11 +97,17 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        self.model!.articleTapped(index: indexPath.item)
+        self.model!.articleTapped(indexPath)
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return 80.0
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        
+        self.searchTextField.resignFirstResponder()
+        return false
     }
     
     private func startHandlingKeyboardAppearance() {
@@ -145,9 +169,9 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
         }
     }
     
-    private func thumbImageLoadedHandler() -> ((index: Int) -> Void) {
-        return { (index: Int) in
-            self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forItem: index, inSection: 0)], withRowAnimation: .Automatic)
+    private func thumbImageLoadedHandler() -> ((indexPath: NSIndexPath) -> Void) {
+        return { (indexPath: NSIndexPath) in
+            self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
         }
     }
 }

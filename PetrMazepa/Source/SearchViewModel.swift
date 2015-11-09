@@ -10,34 +10,62 @@ import UIKit
 
 class SearchViewModel : ViewModel {
     
-    var thumbImageLoaded: ((index: Int) -> Void)?
+    enum SearchSection: Int {
+        
+        case Favourite
+        case Other
+    }
+    
+    var thumbImageLoaded: ((indexPath: NSIndexPath) -> Void)?
     var articlesChanged: (() -> Void)?
     
     private var query = ""
     private var filteredArticles: [Article]
+    private var favouriteArticles: [Article]
     
     private let imageCache: ImageCache
     private let articleStorage: ArticleStorage
+    private let favouriteArticleStorage: FavouriteArticlesStorage
     private let articleDetailsPresenter: ArticleDetailsPresenter
     
-    required init(imageCache: ImageCache, articleStorage: ArticleStorage, articleDetailsPresenter: ArticleDetailsPresenter) {
+    required init(imageCache: ImageCache, articleStorage: ArticleStorage, favouriteArticleStorage: FavouriteArticlesStorage, articleDetailsPresenter: ArticleDetailsPresenter) {
         
         self.imageCache = imageCache
         self.articleStorage = articleStorage
+        self.favouriteArticleStorage = favouriteArticleStorage
         self.articleDetailsPresenter = articleDetailsPresenter
         
         self.filteredArticles = articleStorage.allArticles()
+        self.favouriteArticles = []
     }
     
-    func articleTapped(index index: Int) {
+    override func viewWillAppear() {
         
-        let article = self.filteredArticles[index]
+        super.viewWillAppear()
+        self.favouriteArticles = favouriteArticleStorage.favouriteArticles()
+    }
+    
+    func articleTapped(indexPath: NSIndexPath) {
+        
+        let index = indexPath.row
+        let section = indexPath.section
+        let article: Article
+        
+        switch self.convertSection(section) {
+            
+            case .Favourite: article = self.favouriteArticles[index]
+            case .Other: article = self.filteredArticles[index]
+        }
+        
         self.articleDetailsPresenter.presentArticleDetails(article)
     }
     
-    var articlesCount: Int {
-        get {
-            return self.filteredArticles.count
+    func articlesCount(section section: Int) -> Int {
+        
+        switch self.convertSection(section) {
+            
+            case .Favourite: return self.favouriteArticles.count
+            case .Other: return self.filteredArticles.count
         }
     }
     
@@ -57,19 +85,27 @@ class SearchViewModel : ViewModel {
                 return
             }
             
-            if let index = self.findArticle(thumbUrl: url) {
-                
-                dispatch_async(dispatch_get_main_queue(), {
-                    self.thumbImageLoaded!(index: index)
-                })
-            }
+            let indexPaths = self.findArticles(thumbUrl: url)
+            
+            dispatch_async(dispatch_get_main_queue(), {
+                for indexPath in indexPaths {
+                    self.thumbImageLoaded!(indexPath: indexPath)
+                }
+            })
         })
         
         return cachedImage
     }
     
-    func requestArticle(index: Int) -> Article {
-        return self.filteredArticles[index]
+    func requestArticle(indexPath: NSIndexPath) -> Article {
+        
+        let index = indexPath.row
+        
+        switch self.convertSection(indexPath.section) {
+            
+            case .Favourite: return self.favouriteArticles[index]
+            case .Other: return self.filteredArticles[index]
+        }
     }
     
     func didChangeQuery(query: String) {
@@ -92,7 +128,22 @@ class SearchViewModel : ViewModel {
         })
     }
     
-    private func findArticle(thumbUrl url: NSURL) -> Int? {
-        return self.filteredArticles.indexOf({ $0.thumbUrl == url })
+    private func findArticles(thumbUrl url: NSURL) -> [NSIndexPath] {
+        
+        var indexPaths = [NSIndexPath]()
+        
+        if let favouriteIndex = self.favouriteArticles.indexOf({ $0.thumbUrl == url }) {
+            indexPaths.append(NSIndexPath(forRow: favouriteIndex, inSection: 0))
+        }
+        
+        if let otherIndex = self.filteredArticles.indexOf({ $0.thumbUrl == url }) {
+            indexPaths.append(NSIndexPath(forRow: otherIndex, inSection: 1))
+        }
+        
+        return indexPaths
+    }
+    
+    private func convertSection(section: Int) -> SearchSection {
+        return SearchSection(rawValue: section)!
     }
 }

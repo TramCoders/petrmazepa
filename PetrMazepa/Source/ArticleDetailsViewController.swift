@@ -14,6 +14,7 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
         didSet {
 
             self.model.loadingStateChanged = self.loadingStateChangedHandler()
+            self.model.favouriteStateChanged = self.favouriteStateChangedHandler()
             self.model.imageLoaded = self.imageLoadedHandler()
             self.model.articleDetailsLoaded = self.articleDetailsLoadedHandler()
             self.model.errorOccurred = self.errorOccurredHandler()
@@ -21,6 +22,8 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
     }
     
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var favouriteButton: UIBarButtonItem!
+    
     private let components: [ArticleComponent]
     
     required init?(coder aDecoder: NSCoder) {
@@ -76,6 +79,10 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
         self.model!.backTapped()
     }
     
+    @IBAction func favouriteTapped(sender: AnyObject) {
+        self.model!.favouriteTapped()
+    }
+    
     @IBAction func shareTapped(sender: AnyObject) {
         self.model!.shareTapped()
     }
@@ -105,6 +112,12 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
     private func loadingStateChangedHandler() -> ((loading: Bool) -> Void) {
         return { loading in
             // TODO:
+        }
+    }
+    
+    private func favouriteStateChangedHandler() -> ((favourite: Bool) -> Void) {
+        return { favourite in
+            self.favouriteButton.image = favourite ? UIImage(named: "favourite_icon") : UIImage(named: "unfavourite_icon")
         }
     }
     

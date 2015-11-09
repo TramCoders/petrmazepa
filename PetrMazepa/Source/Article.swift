@@ -14,6 +14,7 @@ class Article : NSObject {
     let title: String
     let author: String
     let thumbPath: String
+    var favourite: Bool
     
     var thumbUrl: NSURL? {
         
@@ -29,5 +30,6 @@ class Article : NSObject {
         self.title = title
         self.author = author
         self.thumbPath = thumbPath
+        self.favourite = false
     }
 }
