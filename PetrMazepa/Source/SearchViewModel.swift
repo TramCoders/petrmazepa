@@ -16,27 +16,26 @@ class SearchViewModel : ViewModel {
         case Other
     }
     
-    var thumbImageLoaded: ((indexPath: NSIndexPath) -> Void)?
     var articlesChanged: (() -> Void)?
     
     private var query = ""
     private var filteredArticles: [Article]
     private var favouriteArticles: [Article]
     
-    private let imageCache: ImageCache
+    private let imageGateway: ImageGateway
     private let articleStorage: ArticleStorage
     private let favouriteArticleStorage: FavouriteArticlesStorage
     private let articleDetailsPresenter: ArticleDetailsPresenter
     
-    required init(imageCache: ImageCache, articleStorage: ArticleStorage, favouriteArticleStorage: FavouriteArticlesStorage, articleDetailsPresenter: ArticleDetailsPresenter) {
+    required init(imageGateway: ImageGateway, articleStorage: ArticleStorage, favouriteArticleStorage: FavouriteArticlesStorage, articleDetailsPresenter: ArticleDetailsPresenter) {
         
-        self.imageCache = imageCache
+        self.imageGateway = imageGateway
         self.articleStorage = articleStorage
         self.favouriteArticleStorage = favouriteArticleStorage
         self.articleDetailsPresenter = articleDetailsPresenter
         
         self.filteredArticles = articleStorage.allArticles()
-        self.favouriteArticles = []
+        self.favouriteArticles = favouriteArticleStorage.favouriteArticles()
     }
     
     override func viewWillAppear() {
@@ -69,43 +68,10 @@ class SearchViewModel : ViewModel {
         }
     }
     
-    func requestThumb(url url: NSURL?) -> UIImage? {
+    func searchedArticleModel(indexPath indexPath: NSIndexPath) -> SearchedArticleCellModel {
         
-        guard let url = url else {
-            return nil
-        }
-        
-        var cachedImage: UIImage? = nil
-        
-        self.imageCache.requestImage(spec: ImageSpec(url: url, size: CGSizeMake(60, 60)), completion: { image, error, fromCache in
-            
-            if fromCache {
-
-                cachedImage = image
-                return
-            }
-            
-            let indexPaths = self.findArticles(thumbUrl: url)
-            
-            dispatch_async(dispatch_get_main_queue(), {
-                for indexPath in indexPaths {
-                    self.thumbImageLoaded!(indexPath: indexPath)
-                }
-            })
-        })
-        
-        return cachedImage
-    }
-    
-    func requestArticle(indexPath: NSIndexPath) -> Article {
-        
-        let index = indexPath.row
-        
-        switch self.convertSection(indexPath.section) {
-            
-            case .Favourite: return self.favouriteArticles[index]
-            case .Other: return self.filteredArticles[index]
-        }
+        let article = self.findArticle(indexPath: indexPath)
+        return SearchedArticleCellModel(article: article, imageGateway: self.imageGateway)
     }
     
     func didChangeQuery(query: String) {
@@ -141,6 +107,17 @@ class SearchViewModel : ViewModel {
         }
         
         return indexPaths
+    }
+    
+    private func findArticle(indexPath indexPath: NSIndexPath) -> Article {
+        
+        let index = indexPath.row
+        
+        switch self.convertSection(indexPath.section) {
+            
+            case .Favourite: return self.favouriteArticles[index]
+            case .Other: return self.filteredArticles[index]
+        }
     }
     
     private func convertSection(section: Int) -> SearchSection {

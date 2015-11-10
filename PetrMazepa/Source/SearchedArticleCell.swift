@@ -14,6 +14,17 @@ class SearchedArticleCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var authorLabel: UILabel!
     
+    var model: SearchedArticleCellModel! {
+        didSet {
+            
+            self.titleLabel.text = self.model.title
+            self.authorLabel.text = self.model.author
+            self.thumbImageView.image = nil
+            
+            self.requestImage()
+        }
+    }
+    
     override func awakeFromNib() {
         
         super.awakeFromNib()
@@ -26,13 +37,27 @@ class SearchedArticleCell: UITableViewCell {
         self.thumbImageView.layer.masksToBounds = true
     }
 
-    func update(title title: String?, author: String?) {
+    private func requestImage() {
         
-        self.titleLabel.text = title
-        self.authorLabel.text = author
+        self.model.requestImage(size: self.bounds.size) { image, _, fromCache in
+            self.updateImage(image, animated: !fromCache)
+        }
     }
     
-    func updateThumb(image: UIImage?) {
+    private func updateImage(image: UIImage?, animated: Bool) {
+    
+        if animated {
+            
+            UIView.transitionWithView(self.thumbImageView, duration: 0.4, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: {
+                self.updateImage(image)
+            }, completion: nil)
+            
+        } else {
+            self.updateImage(image)
+        }
+    }
+    
+    private func updateImage(image: UIImage?) {
         self.thumbImageView.image = image
     }
 }

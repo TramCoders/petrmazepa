@@ -15,44 +15,17 @@ enum RoundedCorner {
     case TopRight
 }
 
-class ArticleCellModel {
+class ArticleCellModel : ImageCellModel {
     
-    private let imageGateway: ImageGateway
-    private let article: Article
     let roundedCorner: RoundedCorner
-    private var imageHandler: ImageHandler?
-
+    
     var title: String {
-        return article.title
+        return self.article.title
     }
     
-    required init(article: Article, roundedCorner: RoundedCorner, imageGateway: ImageGateway) {
+    init(article: Article, roundedCorner: RoundedCorner, imageGateway: ImageGateway) {
 
-        self.article = article
         self.roundedCorner = roundedCorner
-        self.imageGateway = imageGateway
+        super.init(article: article, imageGateway: imageGateway)
     }
-    
-    func requestImage(size size: CGSize, completion: ImageHandler) {
-        
-        guard let url = self.article.thumbUrl else {
-            
-            completion(image: nil, error: nil, fromCache: true)
-            return
-        }
-        
-        self.imageHandler = completion
-        
-        self.imageGateway.requestImage(spec: ImageSpec(url: url, size: size)) { [weak self] image, error, fromCache in
-            dispatch_async(dispatch_get_main_queue()) {
-            
-                if let notNilImageHandler = self?.imageHandler {
-
-                    notNilImageHandler(image: image, error: error, fromCache: fromCache)
-                    self?.imageHandler = nil
-                }
-            }
-        }
-    }
-    
 }
