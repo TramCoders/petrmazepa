@@ -51,7 +51,7 @@ class ScreenFlow: NSObject, ArticleDetailsPresenter, ArticleDetailsDismisser, Ar
     func presentArticles() {
         
         let articlesViewController = self.currentNavigationController.topViewController as! ArticlesViewController
-        articlesViewController.model = ArticlesViewModel(imageCache: self.imageCache, articleStorage: self.contentProvider, articlesFetcher: self.contentProvider, articleDetailsPresenter: self)
+        articlesViewController.model = ArticlesViewModel(imageGateway: self.imageCache, articleStorage: self.contentProvider, articlesFetcher: self.contentProvider, articleDetailsPresenter: self)
 
         self.window.rootViewController = self.tabBarController
         self.window.makeKeyAndVisible()
@@ -95,7 +95,7 @@ class ScreenFlow: NSObject, ArticleDetailsPresenter, ArticleDetailsDismisser, Ar
             
         } else if let searchViewController = innerViewController as? SearchViewController {
             
-            searchViewController.model = SearchViewModel(imageCache: self.imageCache, articleStorage: self.contentProvider, favouriteArticleStorage: self.contentProvider, articleDetailsPresenter: self)
+            searchViewController.model = SearchViewModel(imageGateway: self.imageCache, articleStorage: self.contentProvider, favouriteArticleStorage: self.contentProvider, articleDetailsPresenter: self)
             
         } else if let settingsViewController = innerViewController as? SettingsViewController {
             

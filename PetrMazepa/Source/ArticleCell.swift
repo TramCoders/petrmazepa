@@ -23,38 +23,54 @@ class ArticleCell: UICollectionViewCell {
         }
     }
     
+    var model: ArticleCellModel! {
+        didSet {
+            
+            self.updateTitle()
+            self.updateRoundedCorner()
+            self.updateVisibilities(imageVisible: false, animated: false)
+            
+            self.requestImage()
+        }
+    }
+    
     override func awakeFromNib() {
 
         super.awakeFromNib()
         self.layer.masksToBounds = true
     }
     
-    func update(title title: String, image: UIImage?, roundedCorner: RoundedCorner) {
-        
-        self.titleLabel.text = title
-        self.imageView.image = image
-        
-        self.updateImageVisibility(image != nil)
-        self.updateTitleVisibility(image == nil)
-        self.updateRoundedCorner(roundedCorner)
+    private func updateTitle() {
+        self.titleLabel.text = self.model.title
     }
     
-    private func updateImageVisibility(visible: Bool) {
+    private func updateRoundedCorner() {
+        self.updateRoundedCorner(self.model.roundedCorner)
+    }
+    
+    private func requestImage() {
         
-        if visible {
-            self.imageView.alpha = 1.0
-        } else {
-            self.imageView.alpha = 0.0
+        self.model.requestImage(size: self.bounds.size) { image, _, fromCache in
+            
+            self.imageView.image = image
+            let visible = (image != nil)
+            self.updateVisibilities(imageVisible: visible, animated: (!fromCache && visible))
         }
     }
     
-    private func updateTitleVisibility(visible: Bool) {
+    private func updateVisibilities(imageVisible visible: Bool, animated: Bool) {
+    
+        let duration: NSTimeInterval = animated ? 0.4 : 0.0
         
-        if visible {
-            self.titleLabel.alpha = 1.0
-        } else {
-            self.titleLabel.alpha = 0.0
+        UIView.animateWithDuration(duration) {
+            self.updateVisibilities(imageVisible: visible == true)
         }
+    }
+    
+    private func updateVisibilities(imageVisible visible: Bool) {
+
+        self.imageView.alpha = visible ? 1.0 : 0.0
+        self.titleLabel.alpha = visible ? 0.0 : 1.0
     }
     
     private func updateRoundedCorner(roundedCorner: RoundedCorner) {

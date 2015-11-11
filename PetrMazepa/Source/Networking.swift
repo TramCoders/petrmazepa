@@ -43,8 +43,10 @@ class Networking: ImageDownloader, ArticlesFetcher, ArticleDetailsFetcher {
         
         // config
         let config = NSURLSessionConfiguration.defaultSessionConfiguration()
-        config.timeoutIntervalForRequest = 5.0
-        config.timeoutIntervalForResource = 10.0
+        
+        // TODO: test and find proper values
+//        config.timeoutIntervalForRequest = 50.0
+//        config.timeoutIntervalForResource = 50.0
         
         // session
         self.session = NSURLSession(configuration: config)
@@ -124,7 +126,6 @@ class Networking: ImageDownloader, ArticlesFetcher, ArticleDetailsFetcher {
             self.activityIndicator.decrement()
             
             guard let notNilFileUrl = fileUrl else {
-                
                 completion(nil, error)
                 return
             }

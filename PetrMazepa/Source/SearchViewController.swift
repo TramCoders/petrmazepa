@@ -17,18 +17,15 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
     private var showKeyboardHandler: NSObjectProtocol?
     private var hideKeyboardHandler: NSObjectProtocol?
     
-    var model: SearchViewModel? {
+    var model: SearchViewModel! {
         didSet {
-            self.model!.articlesChanged = self.articlesChangedHandler()
-            self.model!.thumbImageLoaded = self.thumbImageLoadedHandler()
+            self.model.articlesChanged = self.articlesChangedHandler()
         }
     }
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        
-        self.title = "Поиск"
         
         // register cell
         self.tableView.registerNib(UINib(nibName: "SearchedArticleCell", bundle: nil), forCellReuseIdentifier: "SearchedArticle")
@@ -38,7 +35,7 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
         
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: true)
-        self.model!.viewWillAppear()
+        self.model.viewWillAppear()
         self.tableView.reloadData()
     }
     
@@ -53,15 +50,15 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
         super.viewWillDisappear(animated)
         self.searchTextField.resignFirstResponder()
         self.stopHandlingKeyboardAppearance()
-        self.model!.viewWillDisappear()
+        self.model.viewWillDisappear()
     }
     
     @IBAction func searchDidChange(sender: UITextField) {
         
         if let searchText = sender.text {
-            self.model!.didChangeQuery(searchText)
+            self.model.didChangeQuery(searchText)
         } else {
-            self.model!.didChangeQuery("")
+            self.model.didChangeQuery("")
         }
     }
     
@@ -79,25 +76,22 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.model!.articlesCount(section: section)
+        return self.model.articlesCount(section: section)
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+
         let cell = tableView.dequeueReusableCellWithIdentifier("SearchedArticle", forIndexPath: indexPath) as! SearchedArticleCell
-        
-        let searchedArticle = self.model!.requestArticle(indexPath)
-        cell.update(title: searchedArticle.title, author: searchedArticle.author)
-        
-        let image = self.model!.requestThumb(url: searchedArticle.thumbUrl)
-        cell.updateThumb(image)
-        
+        let searchedArticle = self.model.searchedArticleModel(indexPath: indexPath)
+        cell.model = searchedArticle
+
         return cell
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        self.model!.articleTapped(indexPath)
+        self.model.articleTapped(indexPath)
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
