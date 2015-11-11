@@ -39,7 +39,8 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
         
         super.viewDidLoad()
         
-        self.collectionView.scrollsToTop = true
+        self.automaticallyAdjustsScrollViewInsets = false
+        self.edgesForExtendedLayout = .None
         
         if let layout = self.collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.sectionInset = UIEdgeInsetsMake(20, 0, 0, 0)
