@@ -13,8 +13,4 @@ class SearchedArticleCellModel : ImageCellModel {
     var title: String {
         return self.article.title
     }
-    
-    var author: String? {
-        return self.article.author
-    }
 }

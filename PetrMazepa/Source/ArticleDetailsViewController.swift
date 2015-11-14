@@ -29,7 +29,7 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
     required init?(coder aDecoder: NSCoder) {
         
         let textComponent = ArticleTextComponent()
-        self.components = [ ArticleImageComponent(), ArticleInfoComponent(), textComponent ]
+        self.components = [ ArticleImageComponent(), textComponent ]
         
         super.init(coder: aDecoder)
         textComponent.delegate = self
@@ -131,19 +131,14 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
         }
     }
     
-    private func articleDetailsLoadedHandler() -> ((dateString: String?, author: String?, htmlText: String?) -> Void) {
-        return { dateString, author, htmlText in
+    private func articleDetailsLoadedHandler() -> ((htmlText: String?) -> Void) {
+        return { htmlText in
             
-            let infoComponent = self.components[1] as! ArticleInfoComponent
-            let textComponent = self.components[2] as! ArticleTextComponent
-            
-            infoComponent.info = ArticleInfo(dateString: dateString, author: author)
+            let textComponent = self.components[1] as! ArticleTextComponent
             textComponent.text = htmlText
+            let textIndexPath = NSIndexPath(forItem: 1, inSection: 0)
             
-            let infoIndexPath = NSIndexPath(forItem: 1, inSection: 0)
-            let textIndexPath = NSIndexPath(forItem: 2, inSection: 0)
-            
-            self.collectionView.reloadItemsAtIndexPaths([ infoIndexPath, textIndexPath ])
+            self.collectionView.reloadItemsAtIndexPaths([ textIndexPath ])
             self.collectionView.collectionViewLayout.invalidateLayout()
         }
     }
