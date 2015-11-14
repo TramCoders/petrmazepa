@@ -31,15 +31,7 @@
     NSString *htmlText = htmlTextElement.raw;
     NSString *fixedHtmlText = [self htmlTextWithFixedYoutubeWidth:htmlText];
     
-    // date string
-    TFHppleElement *dateElement = [hpple searchWithXPathQuery:@"//p[@class='article-metadata']"].firstObject;
-    NSString *dateString = dateElement.content;
-    
-    // title
-    TFHppleElement *titleElement = [hpple searchWithXPathQuery:@"//meta[@class='og:title']"].firstObject;
-    NSString *title = titleElement.attributes[@"content"];
-    
-    return [[ArticleDetails alloc] initWithId:@"" title:title author:@"" thumbPath:@"" htmlText:fixedHtmlText dateString:dateString];
+    return [[ArticleDetails alloc] initWithHtmlText:fixedHtmlText];
 }
 
 - (NSString *)htmlTextWithFixedYoutubeWidth:(NSString *)htmlText {

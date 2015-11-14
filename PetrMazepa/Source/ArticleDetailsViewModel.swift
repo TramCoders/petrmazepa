@@ -12,7 +12,7 @@ class ArticleDetailsViewModel : ViewModel {
     
     var loadingStateChanged: ((loading: Bool) -> Void)?
     var imageLoaded: ((image: UIImage?) -> Void)?
-    var articleDetailsLoaded: ((dateString: String?, author: String?, htmlText: String?) -> ())?
+    var articleDetailsLoaded: ((htmlText: String?) -> ())?
     var favouriteStateChanged: ((favourite: Bool) -> Void)?
     var errorOccurred: ((error: NSError?) -> Void)?
     
@@ -45,7 +45,7 @@ class ArticleDetailsViewModel : ViewModel {
     func viewDidAppear() {
         
         self.imageLoaded!(image: nil)
-        self.articleDetailsLoaded!(dateString: nil, author: nil, htmlText: nil)
+        self.articleDetailsLoaded!(htmlText: nil)
         self.favouriteStateChanged!(favourite: self.favourite)
         self.loadContent()
     }
@@ -88,7 +88,7 @@ class ArticleDetailsViewModel : ViewModel {
             if let notNilDetails = details {
                 
                 dispatch_async(dispatch_get_main_queue(), {
-                    self.articleDetailsLoaded!(dateString: notNilDetails.dateString, author: notNilDetails.author, htmlText: notNilDetails.htmlText)
+                    self.articleDetailsLoaded!(htmlText: notNilDetails.htmlText)
                 })
             } else {
                 self.errorOccurred!(error: error)

@@ -8,15 +8,11 @@
 
 import Foundation
 
-class ArticleDetails: Article {
+class ArticleDetails : NSObject {
     
     let htmlText: String
-    let dateString: String
     
-    init(id: String, title: String, author: String, thumbPath: String, htmlText: String, dateString: String) {
-        
+    init(htmlText: String) {
         self.htmlText = htmlText
-        self.dateString = dateString
-        super.init(id: id, title: title, author: author, thumbPath: thumbPath)
     }
 }

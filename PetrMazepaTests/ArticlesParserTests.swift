@@ -45,11 +45,9 @@ class ArticlesParserTests: XCTestCase {
         
         XCTAssertTrue(article0.id == "diggit")
         XCTAssertTrue(article0.title == "Исповедь шахтёра из «ДНР»: «Не проходит и недели, чтобы кто-то из нас не погиб»")
-        XCTAssertTrue(article0.author == "Shkvarki.org .")
         
         XCTAssertTrue(article1.id == "novitsalite")
         XCTAssertTrue(article1.title == "Слепота Европы")
-        XCTAssertTrue(article1.author == "Антон Швец")
     }
     
     private func loadHtml(fileName: String) -> NSData? {

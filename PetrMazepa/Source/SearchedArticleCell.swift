@@ -12,13 +12,11 @@ class SearchedArticleCell: UITableViewCell {
     
     @IBOutlet weak var thumbImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var authorLabel: UILabel!
     
     var model: SearchedArticleCellModel! {
         didSet {
             
             self.titleLabel.text = self.model.title
-            self.authorLabel.text = self.model.author
             self.thumbImageView.image = nil
             
             self.requestImage()

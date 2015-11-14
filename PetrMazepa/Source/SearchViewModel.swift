@@ -90,7 +90,7 @@ class SearchViewModel : ViewModel {
         }
         
         self.filteredArticles = self.articleStorage.allArticles().filter({ article in
-            return article.title.containsString(self.query) || article.author.containsString(self.query)
+            return article.title.containsString(self.query)
         })
     }
     

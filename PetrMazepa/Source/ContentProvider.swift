@@ -42,9 +42,7 @@ class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher
         self.networking.fetchArticleDetails(article: article) { details, error in
             
             if let notNilDetails = details {
-            
-                let updatedDetails = ArticleDetails(id: article.id, title: notNilDetails.title, author: article.author, thumbPath: article.thumbPath, htmlText: notNilDetails.htmlText, dateString: notNilDetails.dateString)
-                completion(updatedDetails, error)
+                completion(notNilDetails, error)
 
             } else {
                 completion(details, error)
