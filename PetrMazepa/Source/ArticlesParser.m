@@ -50,7 +50,7 @@
     // thumb
     NSString *thumbPath = imgElement.attributes[@"data-original"];
     
-    return [[Article alloc] initWithId:identifier title:title author:@"" thumbPath:thumbPath];
+    return [[Article alloc] initWithId:identifier title:title thumbPath:thumbPath];
 }
 
 - (NSString *)identifierFromHref:(NSString *)href {
