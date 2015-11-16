@@ -19,6 +19,7 @@ class ArticleDetailsViewModel : ViewModel {
     private let articleDetailsDismisser: ArticleDetailsDismisser
     private let articleDetailsFetcher: ArticleDetailsFetcher
     private let imageCache: ImageCache
+    private let favouriteMaker: FavouriteMaker
     private let articleSharer: ArticleSharer
     
     private let article: Article
@@ -29,11 +30,12 @@ class ArticleDetailsViewModel : ViewModel {
         return self.article.favourite
     }
     
-    init(article: Article, imageCache: ImageCache, articleDetailsFetcher: ArticleDetailsFetcher, articleDetailsDismisser: ArticleDetailsDismisser, articleSharer: ArticleSharer) {
+    init(article: Article, imageCache: ImageCache, articleDetailsFetcher: ArticleDetailsFetcher, favouriteMaker: FavouriteMaker, articleDetailsDismisser: ArticleDetailsDismisser, articleSharer: ArticleSharer) {
 
         self.article = article
         self.imageCache = imageCache
         self.articleDetailsFetcher = articleDetailsFetcher
+        self.favouriteMaker = favouriteMaker
         self.articleDetailsDismisser = articleDetailsDismisser
         self.articleSharer = articleSharer
     }
@@ -64,10 +66,15 @@ class ArticleDetailsViewModel : ViewModel {
     
     func favouriteTapped() {
      
-        self.article.favourite = !self.article.favourite
+        guard let details = self.articleDetails else {
+            return
+        }
+        
+        let favourite = !self.article.favourite
+        self.favouriteMaker.makeFavourite(article: self.article, details:  details, favourite: favourite)
 
         if self.viewIsPresented {
-            self.favouriteStateChanged!(favourite: self.favourite)
+            self.favouriteStateChanged!(favourite: favourite)
         }
     }
     

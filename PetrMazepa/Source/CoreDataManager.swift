@@ -17,15 +17,15 @@ class CoreDataManager {
         return urls.last!
     }()
     
-    private lazy var managedObjectModel: NSManagedObjectModel = {
+    private lazy var model: NSManagedObjectModel = {
 
         let modelUrl = NSBundle.mainBundle().URLForResource("PetrMazepa", withExtension: "momd")!
         return NSManagedObjectModel(contentsOfURL: modelUrl)!
     }()
     
-    private lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator = {
+    private lazy var coordinator: NSPersistentStoreCoordinator = {
 
-        let coordinator = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
+        let coordinator = NSPersistentStoreCoordinator(managedObjectModel: self.model)
         let url = self.documentsPath.URLByAppendingPathComponent("PetrMazepa")
         
         do {
@@ -37,11 +37,23 @@ class CoreDataManager {
         return coordinator
     }()
     
-    lazy var managedObjectContext: NSManagedObjectContext = {
+    lazy var context: NSManagedObjectContext = {
 
-        let coordinator = self.persistentStoreCoordinator
-        var managedObjectContext = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
-        managedObjectContext.persistentStoreCoordinator = coordinator
-        return managedObjectContext
+        let coordinator = self.coordinator
+        var context = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
+        context.persistentStoreCoordinator = coordinator
+        return context
     }()
+    
+    func saveContext() {
+        
+        if self.context.hasChanges {
+            
+            do {
+                try self.context.save()
+            } catch {
+                abort()
+            }
+        }
+    }
 }
