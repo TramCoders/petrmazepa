@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class CoreDataManager {
+class CoreDataManager : FavouriteArticlesStorage, FavouriteMaker {
     
     private lazy var documentsPath: NSURL = {
         
@@ -55,5 +55,66 @@ class CoreDataManager {
                 abort()
             }
         }
+    }
+    
+    func favouriteArticles() -> [Article] {
+        
+        let request = NSFetchRequest(entityName: MOArticle.entityName)
+        
+        do {
+            if let moArticles = try self.context.executeFetchRequest(request) as? [MOArticle] {
+                return moArticles.map({ self.articleFromManagedObject($0) })
+            } else {
+                return []
+            }
+        } catch {
+            return []
+        }
+    }
+    
+    func makeFavourite(article article: Article, details: ArticleDetails, favourite: Bool) {
+        
+        if favourite {
+            self.makeArticleFavourite(article: article, details: details)
+        } else {
+            self.makeArticleNotFavourite(article: article)
+        }
+    }
+    
+    private func makeArticleFavourite(article article: Article, details: ArticleDetails) {
+        
+        // details
+        let moDetails = NSEntityDescription.insertNewObjectForEntityForName(MOArticleDetails.entityName, inManagedObjectContext: self.context) as! MOArticleDetails
+        
+        moDetails.htmlText = details.htmlText
+        moDetails.scrollTop = 0.0
+        
+        // article
+        let moArticle = NSEntityDescription.insertNewObjectForEntityForName(MOArticle.entityName, inManagedObjectContext: self.context) as! MOArticle
+        moArticle.id = article.id
+        moArticle.title = article.title
+        moArticle.thumbPath = article.thumbPath
+        moArticle.favourite = article.favourite
+        moArticle.details = moDetails
+        
+        moDetails.article = moArticle
+    }
+    
+    private func makeArticleNotFavourite(article article: Article) {
+        
+        let request = NSFetchRequest(entityName: MOArticle.entityName)
+        request.predicate = NSPredicate(format: "id = %@", article.id)
+        
+        do {
+            if let moArticle = try self.context.executeFetchRequest(request).last as? MOArticle {
+                self.context.deleteObject(moArticle)
+            }
+        } catch {
+            // TODO:
+        }
+    }
+    
+    private func articleFromManagedObject(moArticle: MOArticle) -> Article {
+        return Article(id: moArticle.id!, title: moArticle.title!, thumbPath: moArticle.thumbPath!, favourite: moArticle.favourite!.boolValue)
     }
 }

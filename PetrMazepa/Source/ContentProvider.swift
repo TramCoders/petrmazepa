@@ -24,56 +24,13 @@ class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher
     }
     
     func favouriteArticles() -> [Article] {
-        
-        let request = NSFetchRequest(entityName: MOArticle.entityName)
-        
-        do {
-            if let moArticles = try self.coreData.context.executeFetchRequest(request) as? [MOArticle] {
-                return moArticles.map({ self.articleFromManagedObject($0) })
-            } else {
-                return []
-            }
-        } catch {
-            return []
-        }
+        return self.coreData.favouriteArticles()
     }
     
     func makeFavourite(article article: Article, details: ArticleDetails, favourite: Bool) {
 
         article.favourite = favourite
-        
-        if favourite {
-            
-            // details
-            let moDetails = NSEntityDescription.insertNewObjectForEntityForName(MOArticleDetails.entityName, inManagedObjectContext: self.coreData.context) as! MOArticleDetails
-
-            moDetails.htmlText = details.htmlText
-            moDetails.scrollTop = 0.0
-            
-            // article
-            let moArticle = NSEntityDescription.insertNewObjectForEntityForName(MOArticle.entityName, inManagedObjectContext: self.coreData.context) as! MOArticle
-            moArticle.id = article.id
-            moArticle.title = article.title
-            moArticle.thumbPath = article.thumbPath
-            moArticle.favourite = article.favourite
-            moArticle.details = moDetails
-
-            moDetails.article = moArticle
-            
-        } else {
-            
-            let request = NSFetchRequest(entityName: MOArticle.entityName)
-            request.predicate = NSPredicate(format: "id = %@", article.id)
-            
-            do {
-                if let moArticle = try self.coreData.context.executeFetchRequest(request).last as? MOArticle {
-                    self.coreData.context.deleteObject(moArticle)
-                }
-            } catch {
-                // TODO:
-            }
-        }
-        
+        self.coreData.makeFavourite(article: article, details: details, favourite: favourite)
         self.coreData.saveContext()
     }
     
@@ -100,10 +57,5 @@ class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher
                 completion(details, error)
             }
         }
-    }
-    
-    private func articleFromManagedObject(moArticle: MOArticle) -> Article {
-        
-        return Article(id: moArticle.id!, title: moArticle.title!, thumbPath: moArticle.thumbPath!, favourite: moArticle.favourite!.boolValue)
     }
 }
