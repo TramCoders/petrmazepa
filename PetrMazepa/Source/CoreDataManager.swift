@@ -72,6 +72,22 @@ class CoreDataManager : FavouriteArticlesStorage, FavouriteMaker {
         }
     }
     
+    func favouriteArticleDetails(article article: Article) -> ArticleDetails? {
+        
+        let request = NSFetchRequest(entityName: MOArticleDetails.entityName)
+        request.predicate = NSPredicate(format: "self.article.id = %@", article.id)
+        
+        do {
+            if let moArticleDetails = try self.context.executeFetchRequest(request).last as? MOArticleDetails {
+                return self.detailsFromManagedObject(moArticleDetails)
+            }
+        } catch {
+            // TODO:
+        }
+        
+        return nil
+    }
+    
     func makeFavourite(article article: Article, details: ArticleDetails, favourite: Bool) {
         
         if favourite {
@@ -116,5 +132,9 @@ class CoreDataManager : FavouriteArticlesStorage, FavouriteMaker {
     
     private func articleFromManagedObject(moArticle: MOArticle) -> Article {
         return Article(id: moArticle.id!, title: moArticle.title!, thumbPath: moArticle.thumbPath!, favourite: moArticle.favourite!.boolValue)
+    }
+    
+    private func detailsFromManagedObject(moDetails: MOArticleDetails) -> ArticleDetails {
+        return ArticleDetails(htmlText: moDetails.htmlText!)
     }
 }

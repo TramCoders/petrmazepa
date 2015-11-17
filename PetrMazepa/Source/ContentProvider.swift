@@ -48,6 +48,12 @@ class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher
     
     func fetchArticleDetails(article article: Article, completion: ArticleDetailsFetchHandler) {
         
+        if let details = self.coreData.favouriteArticleDetails(article: article) {
+            
+            completion(details, nil)
+            return
+        }
+        
         self.networking.fetchArticleDetails(article: article) { details, error in
             
             if let notNilDetails = details {
