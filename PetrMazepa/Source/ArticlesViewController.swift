@@ -12,7 +12,7 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
     
     @IBOutlet weak var collectionView: UICollectionView!
     weak var layout: ArticlesViewLayout!
-    let cellReuseIdentifier = "ArticleCell"
+    private let cellReuseIdentifier = "ArticleCell"
     
     @IBOutlet weak var heightSearchConstraint: NSLayoutConstraint!
     
@@ -22,7 +22,6 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
             
             self.model.articlesInserted = self.articlesInsertedHandler()
             self.model.errorOccurred = self.errorOccurredHandler()
-            self.model.loadingStateChanged = self.loadingStateChangedHandler()
         }
     }
 
@@ -83,7 +82,7 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
     
     private func articlesInsertedHandler() -> ((range: Range<Int>) -> Void) {
 
-        return { (range: Range<Int>) in
+        return { range in
             
             let insertedIndexPaths = self.layout!.insertArticles(range.count)
             
@@ -115,12 +114,5 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
             self.presentViewController(alertController, animated: true, completion: nil)
         }
     }
-    
-    private func loadingStateChangedHandler() -> ((loading: Bool) -> Void) {
-        return { (loading: Bool) in
-            // TODO:
-        }
-    }
-    
 }
 
