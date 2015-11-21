@@ -62,7 +62,7 @@ class ScreenFlow: NSObject, ArticleDetailsPresenter, ArticleDetailsDismisser, Ar
     func presentArticleDetails(article: Article) {
         
         let viewController = self.storyboard.instantiateViewControllerWithIdentifier("Details") as! ArticleDetailsViewController
-        viewController.model = ArticleDetailsViewModel(article: article, imageCache: self.imageCache, articleDetailsFetcher: self.contentProvider, articleDetailsDismisser: self, articleSharer: self)
+        viewController.model = ArticleDetailsViewModel(article: article, imageCache: self.imageCache, articleDetailsFetcher: self.contentProvider, favouriteMaker: self.contentProvider, articleDetailsDismisser: self, articleSharer: self)
         
         self.currentNavigationController.pushViewController(viewController, animated: true)
         self.currentViewController = viewController

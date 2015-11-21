@@ -23,11 +23,15 @@ class Article : NSObject {
         }
     }
     
-    init(id: String, title: String, author: String, thumbPath: String) {
+    convenience init(id: String, title: String, thumbPath: String) {
+        self.init(id: id, title: title, thumbPath: thumbPath, favourite: false)
+    }
+    
+    init(id: String, title: String, thumbPath: String, favourite: Bool) {
         
         self.id = id
         self.title = title
         self.thumbPath = thumbPath
-        self.favourite = false
+        self.favourite = favourite
     }
 }

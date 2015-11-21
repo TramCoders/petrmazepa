@@ -7,11 +7,13 @@
 //
 
 import UIKit
+import CoreData
 
-class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher, ArticleDetailsFetcher {
+class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher, ArticleDetailsFetcher, FavouriteMaker {
     
     private var articles = [Article]()
     private let networking: Networking
+    private let coreData = CoreDataManager()
     
     required init(networking: Networking) {
         self.networking = networking
@@ -22,7 +24,14 @@ class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher
     }
     
     func favouriteArticles() -> [Article] {
-        return self.allArticles().filter({ $0.favourite })
+        return self.coreData.favouriteArticles()
+    }
+    
+    func makeFavourite(article article: Article, details: ArticleDetails, favourite: Bool) {
+
+        article.favourite = favourite
+        self.coreData.makeFavourite(article: article, details: details, favourite: favourite)
+        self.coreData.saveContext()
     }
     
     func fetchArticles(fromIndex fromIndex: Int, count: Int, completion: ArticlesFetchHandler) {
@@ -38,6 +47,12 @@ class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher
     }
     
     func fetchArticleDetails(article article: Article, completion: ArticleDetailsFetchHandler) {
+        
+        if let details = self.coreData.favouriteArticleDetails(article: article) {
+            
+            completion(details, nil)
+            return
+        }
         
         self.networking.fetchArticleDetails(article: article) { details, error in
             

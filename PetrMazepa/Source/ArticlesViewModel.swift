@@ -10,17 +10,10 @@ import UIKit
 
 class ArticlesViewModel : ViewModel {
     
-    var loading = false {
-        didSet {
-            if self.viewIsPresented {
-                self.loadingStateChanged!(loading: self.loading)
-            }
-        }
-    }
+    var loading = false
     
     var articlesInserted: ((range: Range<Int>) -> Void)?
     var errorOccurred: ((error: NSError?) -> Void)?
-    var loadingStateChanged: ((loading: Bool) -> Void)?
     
     private let imageGateway: ImageGateway
     private let articlesFetcher: ArticlesFetcher
@@ -154,6 +147,7 @@ class ArticlesViewModel : ViewModel {
     private func roundedCorner(byIndex index: Int) -> RoundedCorner {
         
         switch index {
+            
             case 0: return .TopLeft
             case 1: return .TopRight
             default: return .None
