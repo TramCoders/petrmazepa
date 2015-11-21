@@ -41,7 +41,7 @@ class SearchViewModel : ViewModel {
     override func viewWillAppear() {
         
         super.viewWillAppear()
-        self.favouriteArticles = favouriteArticleStorage.favouriteArticles()
+        self.invalidateContent()
     }
     
     func articleTapped(indexPath: NSIndexPath) {
@@ -86,12 +86,16 @@ class SearchViewModel : ViewModel {
         if self.query == "" {
 
             self.filteredArticles = self.articleStorage.allArticles()
+            self.favouriteArticles = self.favouriteArticleStorage.favouriteArticles()
             return
         }
         
-        self.filteredArticles = self.articleStorage.allArticles().filter({ article in
+        let filter = { (article: Article) in
             return article.title.containsString(self.query)
-        })
+        }
+        
+        self.filteredArticles = self.articleStorage.allArticles().filter(filter)
+        self.favouriteArticles = self.favouriteArticleStorage.favouriteArticles().filter(filter)
     }
     
     private func findArticles(thumbUrl url: NSURL) -> [NSIndexPath] {
