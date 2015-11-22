@@ -66,7 +66,7 @@ class ImageCache : ImageGateway {
             return
         }
         
-        guard allowRemote == false else {
+        guard allowRemote == true else {
             
             completion(image: nil, error: nil, fromCache: true)
             return

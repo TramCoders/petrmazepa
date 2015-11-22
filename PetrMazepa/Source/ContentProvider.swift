@@ -68,7 +68,7 @@ class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher
             return
         }
         
-        guard allowRemote == false else {
+        guard allowRemote == true else {
             
             completion(nil, nil)
             return
