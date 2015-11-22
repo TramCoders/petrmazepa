@@ -15,7 +15,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3tE-Ac-fTu">
-                        <rect key="frame" x="5" y="5" width="50" height="50"/>
+                        <rect key="frame" x="10" y="15" width="50" height="50"/>
                         <animations/>
                         <color key="backgroundColor" white="0.94000000000000006" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -24,7 +24,7 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7eg-b4-qfm">
-                        <rect key="frame" x="63" y="8" width="257" height="17"/>
+                        <rect key="frame" x="70" y="10" width="250" height="59"/>
                         <animations/>
                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
                         <color key="textColor" white="0.080000000000000002" alpha="1" colorSpace="calibratedWhite"/>
@@ -34,11 +34,11 @@
                 <animations/>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="7eg-b4-qfm" secondAttribute="trailing" id="0SO-GK-MPg"/>
-                    <constraint firstItem="3tE-Ac-fTu" firstAttribute="leading" secondItem="044-nD-jUI" secondAttribute="leading" constant="5" id="GnH-Br-dHi"/>
-                    <constraint firstItem="7eg-b4-qfm" firstAttribute="leading" secondItem="3tE-Ac-fTu" secondAttribute="trailing" constant="8" id="Meu-II-rcM"/>
-                    <constraint firstItem="7eg-b4-qfm" firstAttribute="top" secondItem="044-nD-jUI" secondAttribute="top" constant="8" id="TJ8-zs-k0o"/>
-                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="7eg-b4-qfm" secondAttribute="bottom" constant="8" id="a0Y-0Z-r2f"/>
-                    <constraint firstItem="3tE-Ac-fTu" firstAttribute="top" secondItem="044-nD-jUI" secondAttribute="top" constant="5" id="bZg-hy-qvp"/>
+                    <constraint firstItem="3tE-Ac-fTu" firstAttribute="centerY" secondItem="044-nD-jUI" secondAttribute="centerY" id="C1o-SR-Cuz"/>
+                    <constraint firstItem="3tE-Ac-fTu" firstAttribute="leading" secondItem="044-nD-jUI" secondAttribute="leading" constant="10" id="GnH-Br-dHi"/>
+                    <constraint firstItem="7eg-b4-qfm" firstAttribute="leading" secondItem="3tE-Ac-fTu" secondAttribute="trailing" constant="10" id="Meu-II-rcM"/>
+                    <constraint firstItem="7eg-b4-qfm" firstAttribute="top" secondItem="044-nD-jUI" secondAttribute="top" constant="10" id="TJ8-zs-k0o"/>
+                    <constraint firstAttribute="bottom" secondItem="7eg-b4-qfm" secondAttribute="bottom" constant="10" id="a0Y-0Z-r2f"/>
                 </constraints>
             </tableViewCellContentView>
             <animations/>

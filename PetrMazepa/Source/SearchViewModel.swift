@@ -93,7 +93,7 @@ class SearchViewModel : ViewModel {
         }
         
         let filter = { (article: Article) in
-            return article.title.containsString(self.query)
+            return article.title.rangeOfString(self.query, options: NSStringCompareOptions.CaseInsensitiveSearch) != nil
         }
         
         self.filteredArticles = self.articleStorage.allArticles().filter(filter)

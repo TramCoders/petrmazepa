@@ -42,6 +42,8 @@
 		AC8F42361BC0677500E3CAF7 /* ArticleStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8F42351BC0677500E3CAF7 /* ArticleStorage.swift */; };
 		AC926B731B9A23280078F333 /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = AC926B721B9A23280078F333 /* libxml2.tbd */; };
 		AC926B761B9B48260078F333 /* SearchedArticleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC926B751B9B48260078F333 /* SearchedArticleCell.swift */; };
+		AC9D57F61C02424E005BF8CE /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9D57F51C02424E005BF8CE /* HeaderView.swift */; };
+		AC9D57F91C024282005BF8CE /* HeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC9D57F71C024282005BF8CE /* HeaderView.xib */; };
 		ACA032831BDF6A6E00AA01C8 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA032821BDF6A6E00AA01C8 /* SettingsViewController.swift */; };
 		ACA41A531BB8489B00550857 /* InMemoryImageStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA41A521BB8489B00550857 /* InMemoryImageStorage.swift */; };
 		ACA41A551BB849AF00550857 /* PersistentImageStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA41A541BB849AF00550857 /* PersistentImageStorage.swift */; };
@@ -150,6 +152,8 @@
 		AC8F42351BC0677500E3CAF7 /* ArticleStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ArticleStorage.swift; path = Source/ArticleStorage.swift; sourceTree = "<group>"; };
 		AC926B721B9A23280078F333 /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
 		AC926B751B9B48260078F333 /* SearchedArticleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchedArticleCell.swift; path = Source/SearchedArticleCell.swift; sourceTree = "<group>"; };
+		AC9D57F51C02424E005BF8CE /* HeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HeaderView.swift; path = Source/HeaderView.swift; sourceTree = "<group>"; };
+		AC9D57F81C024282005BF8CE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/HeaderView.xib; sourceTree = "<group>"; };
 		ACA032821BDF6A6E00AA01C8 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsViewController.swift; path = Source/SettingsViewController.swift; sourceTree = "<group>"; };
 		ACA41A521BB8489B00550857 /* InMemoryImageStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InMemoryImageStorage.swift; path = Source/InMemoryImageStorage.swift; sourceTree = "<group>"; };
 		ACA41A541BB849AF00550857 /* PersistentImageStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PersistentImageStorage.swift; path = Source/PersistentImageStorage.swift; sourceTree = "<group>"; };
@@ -367,6 +371,8 @@
 		AC6B3ED51B8E3DE8005BA7F1 /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				AC9D57F71C024282005BF8CE /* HeaderView.xib */,
+				AC9D57F51C02424E005BF8CE /* HeaderView.swift */,
 				AC5FA4391B9BA28C0013E1C5 /* SearchedArticleCell.xib */,
 				AC926B751B9B48260078F333 /* SearchedArticleCell.swift */,
 				AC6B3ED61B8E3E08005BA7F1 /* SearchViewController.swift */,
@@ -716,6 +722,7 @@
 				ACA41A6D1BBD91F900550857 /* ArticleImageCell.xib in Resources */,
 				ACA41A791BBEC3B800550857 /* ArticleTextCell.xib in Resources */,
 				AC5FA43B1B9BA28C0013E1C5 /* SearchedArticleCell.xib in Resources */,
+				AC9D57F91C024282005BF8CE /* HeaderView.xib in Resources */,
 				5EC712161B8CD42000C84AE7 /* ArticleCell.xib in Resources */,
 				ACAF975E1B5C04A200CB53B1 /* Main.storyboard in Resources */,
 				ACAF97631B5C04A200CB53B1 /* LaunchScreen.xib in Resources */,
@@ -788,6 +795,7 @@
 				AC8F42341BBF24E200E3CAF7 /* ArticleDetailsViewModel.swift in Sources */,
 				ACBA698E1C02160600A93C6D /* RemoteArticleDetailsFetcher.swift in Sources */,
 				ACA41A6F1BBD921000550857 /* ArticleImageCell.swift in Sources */,
+				AC9D57F61C02424E005BF8CE /* HeaderView.swift in Sources */,
 				ACEF099A1BC14584000F00B7 /* ArticlesParser.m in Sources */,
 				ACA41A7B1BBEC3EB00550857 /* ArticleTextCell.swift in Sources */,
 				ACE7D0C81BF9C2FA00116C93 /* NSManagedObject+EntityName.swift in Sources */,
@@ -870,6 +878,14 @@
 				AC5FA43A1B9BA28C0013E1C5 /* Base */,
 			);
 			name = SearchedArticleCell.xib;
+			sourceTree = "<group>";
+		};
+		AC9D57F71C024282005BF8CE /* HeaderView.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AC9D57F81C024282005BF8CE /* Base */,
+			);
+			name = HeaderView.xib;
 			sourceTree = "<group>";
 		};
 		ACA41A6B1BBD91F900550857 /* ArticleImageCell.xib */ = {
