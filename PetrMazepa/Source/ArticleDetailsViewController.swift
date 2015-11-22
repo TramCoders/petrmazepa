@@ -22,7 +22,7 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
     }
     
     @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var favouriteButton: UIBarButtonItem!
+    @IBOutlet weak var favouriteButton: UIButton!
     
     private let components: [ArticleComponent]
     
@@ -80,7 +80,7 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
         self.model!.backTapped()
     }
     
-    @IBAction func favouriteTapped(sender: AnyObject) {
+    @IBAction func favouriteTapped(sender: UIButton) {
         self.model!.favouriteTapped()
     }
     
@@ -118,7 +118,15 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
     
     private func favouriteStateChangedHandler() -> ((favourite: Bool) -> Void) {
         return { favourite in
-            self.favouriteButton.image = favourite ? UIImage(named: "favourite_icon") : UIImage(named: "unfavourite_icon")
+            
+            let image = favourite ? UIImage(named: "favourite_icon") : UIImage(named: "unfavourite_icon")
+            self.favouriteButton.setImage(image, forState: UIControlState.Normal)
+            
+            UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.BeginFromCurrentState, animations: {
+                self.favouriteButton.transform = CGAffineTransformMakeScale(1.2, 1.2)
+            }, completion: { _ in
+                self.favouriteButton.transform = CGAffineTransformIdentity
+            })
         }
     }
     

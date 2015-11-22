@@ -292,10 +292,32 @@
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="kc0-1d-VKz"/>
-                                    <barButtonItem image="unfavourite_icon" id="YxB-po-3v3">
-                                        <connections>
-                                            <action selector="favouriteTapped:" destination="eL6-pm-8VV" id="Ix0-lh-OGY"/>
-                                        </connections>
+                                    <barButtonItem style="plain" id="lP5-s6-Ev0">
+                                        <view key="customView" contentMode="scaleToFill" id="QI1-lb-TXU">
+                                            <rect key="frame" x="262" y="6" width="76" height="33"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uf3-1S-zRg">
+                                                    <rect key="frame" x="23" y="1" width="30" height="30"/>
+                                                    <animations/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="30" id="FMb-Sd-qy5"/>
+                                                        <constraint firstAttribute="width" constant="30" id="GaW-4q-8uR"/>
+                                                    </constraints>
+                                                    <color key="tintColor" red="0.93333333333333335" green="0.42745098039215684" blue="0.4392156862745098" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <state key="normal" title="Button" image="unfavourite_icon"/>
+                                                    <connections>
+                                                        <action selector="favouriteTapped:" destination="eL6-pm-8VV" eventType="touchUpInside" id="ImH-Xs-bQC"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <animations/>
+                                            <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstItem="Uf3-1S-zRg" firstAttribute="centerY" secondItem="QI1-lb-TXU" secondAttribute="centerY" id="PLW-VP-iOK"/>
+                                                <constraint firstItem="Uf3-1S-zRg" firstAttribute="centerX" secondItem="QI1-lb-TXU" secondAttribute="centerX" id="gJs-M9-vg1"/>
+                                            </constraints>
+                                        </view>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="XVj-HM-UDL"/>
                                     <barButtonItem systemItem="action" id="HJe-Jl-G7A">
@@ -324,7 +346,7 @@
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <connections>
                         <outlet property="collectionView" destination="rlh-OX-ZCf" id="pbQ-fk-ETI"/>
-                        <outlet property="favouriteButton" destination="YxB-po-3v3" id="gRx-PK-0xj"/>
+                        <outlet property="favouriteButton" destination="Uf3-1S-zRg" id="ofo-nb-w4D"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YuN-sN-BaI" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -367,6 +389,7 @@
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Search" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Odq-ff-Uck">
                                         <rect key="frame" x="10" y="0.0" width="580" height="60"/>
                                         <animations/>
+                                        <color key="textColor" red="0.93333333333333335" green="0.42745098039215684" blue="0.4392156862745098" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="18"/>
                                         <textInputTraits key="textInputTraits" returnKeyType="search"/>
                                         <connections>

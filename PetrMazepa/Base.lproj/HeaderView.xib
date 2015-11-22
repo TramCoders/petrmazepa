@@ -15,7 +15,7 @@
                     <rect key="frame" x="10" y="15" width="46" height="15"/>
                     <animations/>
                     <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="12"/>
-                    <color key="textColor" red="0.93333333333333335" green="0.42745098039215684" blue="0.4392156862745098" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="textColor" white="0.080000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
