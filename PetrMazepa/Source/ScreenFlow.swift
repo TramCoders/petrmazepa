@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ScreenFlow: NSObject, ArticleDetailsPresenter, ArticleDetailsDismisser, ArticleSharer, UITabBarControllerDelegate {
+class ScreenFlow: NSObject, UITabBarControllerDelegate, ArticleDetailsPresenter, ArticleDetailsDismisser, ArticleSharer {
     
     private let window: UIWindow
     private let storyboard: UIStoryboard
@@ -20,6 +20,7 @@ class ScreenFlow: NSObject, ArticleDetailsPresenter, ArticleDetailsDismisser, Ar
     private let imageCache: ImageCache
     private let contentProvider: ContentProvider
     private let networking: Networking
+    private let settings: Settings
     
     override init() {
         
@@ -33,6 +34,7 @@ class ScreenFlow: NSObject, ArticleDetailsPresenter, ArticleDetailsDismisser, Ar
         self.currentNavigationController = self.tabBarController.viewControllers!.first as! UINavigationController
         self.currentViewController = self.tabBarController
         
+        self.settings = Settings()
         self.networking = Networking()
         self.contentProvider = ContentProvider(networking: self.networking)
         
@@ -41,7 +43,26 @@ class ScreenFlow: NSObject, ArticleDetailsPresenter, ArticleDetailsDismisser, Ar
         self.imageCache = ImageCache(inMemoryImageStorage: inMemoryImageStorage, persistentImageStorage: persistentImageStorage, downloader: self.networking)
         
         super.init()
+        
         self.tabBarController.delegate = self
+        
+        guard let navigationControllers = self.tabBarController.viewControllers as? [UINavigationController] else {
+            return
+        }
+        
+        let viewControllers = navigationControllers.map({ $0.viewControllers.first! })
+        
+        if let articlesViewController = viewControllers[0] as? ArticlesViewController {
+            articlesViewController.model = self.createArticlesViewModel()
+        }
+        
+        if let searchViewController = viewControllers[1] as? SearchViewController {
+            searchViewController.model = self.createSearchViewModel()
+        }
+        
+        if let settingsViewController = viewControllers[2] as? SettingsViewController {
+            settingsViewController.model = self.createSettingsViewModel()
+        }
     }
     
     func start() {
@@ -51,7 +72,7 @@ class ScreenFlow: NSObject, ArticleDetailsPresenter, ArticleDetailsDismisser, Ar
     func presentArticles() {
         
         let articlesViewController = self.currentNavigationController.topViewController as! ArticlesViewController
-        articlesViewController.model = ArticlesViewModel(imageGateway: self.imageCache, articleStorage: self.contentProvider, articlesFetcher: self.contentProvider, articleDetailsPresenter: self)
+        articlesViewController.model = self.createArticlesViewModel()
 
         self.window.rootViewController = self.tabBarController
         self.window.makeKeyAndVisible()
@@ -62,8 +83,7 @@ class ScreenFlow: NSObject, ArticleDetailsPresenter, ArticleDetailsDismisser, Ar
     func presentArticleDetails(article: Article) {
         
         let viewController = self.storyboard.instantiateViewControllerWithIdentifier("Details") as! ArticleDetailsViewController
-        viewController.model = ArticleDetailsViewModel(article: article, imageCache: self.imageCache, articleDetailsFetcher: self.contentProvider, favouriteMaker: self.contentProvider, articleDetailsDismisser: self, articleSharer: self)
-        
+        viewController.model = self.createArticleDetailsViewModel(article: article)
         self.currentNavigationController.pushViewController(viewController, animated: true)
         self.currentViewController = viewController
     }
@@ -86,20 +106,28 @@ class ScreenFlow: NSObject, ArticleDetailsPresenter, ArticleDetailsDismisser, Ar
     
     func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
         
-        self.currentNavigationController = viewController as! UINavigationController
-        let innerViewController = self.currentNavigationController.topViewController
-        
-        if let articlesViewController = innerViewController as? ArticlesViewController {
-            
-            // TODO:
-            
-        } else if let searchViewController = innerViewController as? SearchViewController {
-            
-            searchViewController.model = SearchViewModel(imageGateway: self.imageCache, articleStorage: self.contentProvider, favouriteArticleStorage: self.contentProvider, articleDetailsPresenter: self)
-            
-        } else if let settingsViewController = innerViewController as? SettingsViewController {
-            
-            // TODO:
+        if let navigationController = viewController as? UINavigationController {
+            self.currentNavigationController = navigationController
         }
+    }
+    
+    private func createArticlesViewModel() -> ArticlesViewModel {
+        
+        return ArticlesViewModel(settings: self.settings, imageGateway: self.imageCache, articleStorage: self.contentProvider, articlesFetcher: self.contentProvider, articleDetailsPresenter: self)
+    }
+    
+    private func createArticleDetailsViewModel(article article: Article) -> ArticleDetailsViewModel {
+        
+        return ArticleDetailsViewModel(article: article, imageCache: self.imageCache, articleDetailsFetcher: self.contentProvider, favouriteMaker: self.contentProvider, articleDetailsDismisser: self, articleSharer: self)
+    }
+    
+    private func createSearchViewModel() -> SearchViewModel {
+        
+        return SearchViewModel(imageGateway: self.imageCache, articleStorage: self.contentProvider, favouriteArticleStorage: self.contentProvider, articleDetailsPresenter: self)
+    }
+    
+    private func createSettingsViewModel() -> SettingsViewModel {
+
+        return SettingsViewModel(settings: self.settings)
     }
 }

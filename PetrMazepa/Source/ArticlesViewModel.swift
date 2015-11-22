@@ -15,6 +15,7 @@ class ArticlesViewModel : ViewModel {
     var articlesInserted: ((range: Range<Int>) -> Void)?
     var errorOccurred: ((error: NSError?) -> Void)?
     
+    private let settings: ReadOnlySettings
     private let imageGateway: ImageGateway
     private let articlesFetcher: ArticlesFetcher
     private let articleSrorage: ArticleStorage
@@ -24,8 +25,9 @@ class ArticlesViewModel : ViewModel {
     private var thumbSize: CGSize?
     private var screenArticlesAmount: Int = 0
     
-    required init(imageGateway: ImageGateway, articleStorage: ArticleStorage, articlesFetcher: ArticlesFetcher, articleDetailsPresenter: ArticleDetailsPresenter) {
+    required init(settings: ReadOnlySettings, imageGateway: ImageGateway, articleStorage: ArticleStorage, articlesFetcher: ArticlesFetcher, articleDetailsPresenter: ArticleDetailsPresenter) {
 
+        self.settings = settings
         self.imageGateway = imageGateway
         self.articleSrorage = articleStorage
         self.articlesFetcher = articlesFetcher
@@ -119,6 +121,10 @@ class ArticlesViewModel : ViewModel {
     }
     
     private func load(fromIndex fromIndex: Int, count: Int) {
+        
+        guard self.settings.offlineMode == false else {
+            return
+        }
         
         self.loading = true
         
