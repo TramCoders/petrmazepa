@@ -40,6 +40,10 @@ class ImageCache : ImageGateway {
     }
     
     func requestImage(spec spec: ImageSpec, completion: ImageHandler) {
+        self.requestImage(spec: spec, allowWeb: true, completion: completion)
+    }
+
+    func requestImage(spec spec: ImageSpec, allowWeb: Bool, completion: ImageHandler) {
         
         // search for the image in the in-memory storage
         if let image = self.inMemoryImageStorage.loadImage(spec: spec) {
@@ -59,6 +63,12 @@ class ImageCache : ImageGateway {
                 completion(image: savedImages.resizedImage, error: nil, fromCache: false)
             }
             
+            return
+        }
+        
+        guard allowWeb else {
+            
+            completion(image: nil, error: nil, fromCache: true)
             return
         }
         
