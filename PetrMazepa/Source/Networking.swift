@@ -29,9 +29,12 @@ class ActivityIndicator {
     }
 }
 
-class Networking: ImageDownloader, ArticlesFetcher, ArticleDetailsFetcher {
+class Networking: ImageDownloader, RemoteArticlesFetcher, RemoteArticleDetailsFetcher {
     
     private let session: NSURLSession
+    
+    private var imageConfig: NSURLSessionConfiguration
+    private let imageSession: NSURLSession
     
     private let activityIndicator = ActivityIndicator()
     private let baseUrl = "http://petrimazepa.com"
@@ -41,15 +44,13 @@ class Networking: ImageDownloader, ArticlesFetcher, ArticleDetailsFetcher {
     
     init() {
         
-        // config
+        // normal session
         let config = NSURLSessionConfiguration.defaultSessionConfiguration()
-        
-        // TODO: test and find proper values
-//        config.timeoutIntervalForRequest = 50.0
-//        config.timeoutIntervalForResource = 50.0
-        
-        // session
         self.session = NSURLSession(configuration: config)
+        
+        // image session
+        self.imageConfig = NSURLSessionConfiguration.defaultSessionConfiguration()
+        self.imageSession = NSURLSession(configuration: self.imageConfig)
     }
     
     func fetchArticles(fromIndex fromIndex: Int, count: Int, completion: ArticlesFetchHandler) {
@@ -117,11 +118,16 @@ class Networking: ImageDownloader, ArticlesFetcher, ArticleDetailsFetcher {
     }
     
     func downloadImage(url: NSURL, completion: ImageDownloadHandler) {
+        self.downloadImage(url, onlyWifi: false, completion: completion)
+    }
+    
+    func downloadImage(url: NSURL, onlyWifi: Bool, completion: ImageDownloadHandler) {
         
         self.activityIndicator.increment()
         
         let request = NSURLRequest(URL: url)
-        self.session.downloadTaskWithRequest(request) { (fileUrl: NSURL?, _, error: NSError?) -> () in
+        self.imageConfig.allowsCellularAccess = !onlyWifi
+        self.imageSession.downloadTaskWithRequest(request) { (fileUrl: NSURL?, _, error: NSError?) -> () in
             
             self.activityIndicator.decrement()
             

@@ -10,21 +10,25 @@ import UIKit
 
 class SettingsViewController: UITableViewController {
     
-    @IBOutlet weak var wifiImagesSwitch: UISwitch!
+    @IBOutlet weak var offlineModeSwitch: UISwitch!
+    @IBOutlet weak var onlyWifiImagesSwitch: UISwitch!
+    
+    var model: SettingsViewModel!
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        self.title = "Настройки"
-    }
-    
-    override func viewWillAppear(animated: Bool) {
         
-        super.viewWillAppear(animated)
-        // TODO: update settings
+        self.title = "Настройки"
+        self.offlineModeSwitch.on = self.model.offlineMode
+        self.onlyWifiImagesSwitch.on = self.model.onlyWifiImages
     }
     
-    @IBAction func wifiImagesChanged(sender: AnyObject) {
-        // TODO: propagate changes
+    @IBAction func offlineModeChanged(sender: UISwitch) {
+        self.model.didSwitchOfflineMode(enabled: sender.on)
+    }
+    
+    @IBAction func onlyWifiImagesChanged(sender: UISwitch) {
+        self.model.didSwitchOnlyWifiImages(enabled: sender.on)
     }
 }

@@ -8,8 +8,6 @@
 
 import UIKit
 
-typealias ArticleDetailsFetchHandler = (ArticleDetails?, NSError?) -> ()
-
-protocol ArticleDetailsFetcher {
-    func fetchArticleDetails(article article: Article, completion: ArticleDetailsFetchHandler)
+protocol ArticleDetailsFetcher : RemoteArticleDetailsFetcher {
+    func fetchArticleDetails(article article: Article, allowRemote: Bool, completion: ArticleDetailsFetchHandler)
 }

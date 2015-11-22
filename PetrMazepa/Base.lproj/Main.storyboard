@@ -151,7 +151,7 @@
                                                     </constraints>
                                                     <color key="onTintColor" red="0.93333333330000001" green="0.42745098040000001" blue="0.43921568630000002" alpha="1" colorSpace="calibratedRGB"/>
                                                     <connections>
-                                                        <action selector="wifiImagesChanged:" destination="AuA-Ve-Xy6" eventType="valueChanged" id="J2l-nS-oX3"/>
+                                                        <action selector="offlineModeChanged:" destination="AuA-Ve-Xy6" eventType="valueChanged" id="MLS-2g-3HJ"/>
                                                     </connections>
                                                 </switch>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Оффлайн режим" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KQH-Sb-H1f">
@@ -188,7 +188,7 @@
                                                     </constraints>
                                                     <color key="onTintColor" red="0.93333333333333335" green="0.42745098039215684" blue="0.4392156862745098" alpha="1" colorSpace="calibratedRGB"/>
                                                     <connections>
-                                                        <action selector="wifiImagesChanged:" destination="AuA-Ve-Xy6" eventType="valueChanged" id="h9s-BA-m64"/>
+                                                        <action selector="onlyWifiImagesChanged:" destination="AuA-Ve-Xy6" eventType="valueChanged" id="pve-Lt-I46"/>
                                                     </connections>
                                                 </switch>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Загружать картинки только в сети Wi-Fi" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pdl-E5-4Jc">
@@ -220,7 +220,8 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Root View Controller" id="eox-Wh-JO6"/>
                     <connections>
-                        <outlet property="wifiImagesSwitch" destination="PLu-8J-Gie" id="Pry-aO-d0o"/>
+                        <outlet property="offlineModeSwitch" destination="ClU-if-DIn" id="fba-UU-E1Z"/>
+                        <outlet property="onlyWifiImagesSwitch" destination="PLu-8J-Gie" id="1ex-wU-Nrz"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5FT-IC-tpH" userLabel="First Responder" sceneMemberID="firstResponder"/>

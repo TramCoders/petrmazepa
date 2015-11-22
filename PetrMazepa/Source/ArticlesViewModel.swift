@@ -15,6 +15,7 @@ class ArticlesViewModel : ViewModel {
     var articlesInserted: ((range: Range<Int>) -> Void)?
     var errorOccurred: ((error: NSError?) -> Void)?
     
+    private let settings: ReadOnlySettings
     private let imageGateway: ImageGateway
     private let articlesFetcher: ArticlesFetcher
     private let articleSrorage: ArticleStorage
@@ -24,8 +25,9 @@ class ArticlesViewModel : ViewModel {
     private var thumbSize: CGSize?
     private var screenArticlesAmount: Int = 0
     
-    required init(imageGateway: ImageGateway, articleStorage: ArticleStorage, articlesFetcher: ArticlesFetcher, articleDetailsPresenter: ArticleDetailsPresenter) {
+    required init(settings: ReadOnlySettings, imageGateway: ImageGateway, articleStorage: ArticleStorage, articlesFetcher: ArticlesFetcher, articleDetailsPresenter: ArticleDetailsPresenter) {
 
+        self.settings = settings
         self.imageGateway = imageGateway
         self.articleSrorage = articleStorage
         self.articlesFetcher = articlesFetcher
@@ -88,7 +90,7 @@ class ArticlesViewModel : ViewModel {
         
         let article = self.articleSrorage.allArticles()[index]
         let roundedCorner = self.roundedCorner(byIndex: index)
-        return ArticleCellModel(article: article, roundedCorner: roundedCorner, imageGateway: self.imageGateway)
+        return ArticleCellModel(settings: self.settings, article: article, roundedCorner: roundedCorner, imageGateway: self.imageGateway)
     }
     
     func retryActionTapped() {
@@ -122,7 +124,7 @@ class ArticlesViewModel : ViewModel {
         
         self.loading = true
         
-        self.articlesFetcher.fetchArticles(fromIndex: fromIndex, count: count) { articles, error in
+        self.articlesFetcher.fetchArticles(fromIndex: fromIndex, count: count, allowRemote: !self.settings.offlineMode) { articles, error in
             
             guard self.viewIsPresented else {
                 return

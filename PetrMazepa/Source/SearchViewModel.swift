@@ -22,13 +22,15 @@ class SearchViewModel : ViewModel {
     private var filteredArticles: [Article]
     private var favouriteArticles: [Article]
     
+    private let settings: ReadOnlySettings
     private let imageGateway: ImageGateway
     private let articleStorage: ArticleStorage
     private let favouriteArticleStorage: FavouriteArticlesStorage
     private let articleDetailsPresenter: ArticleDetailsPresenter
     
-    required init(imageGateway: ImageGateway, articleStorage: ArticleStorage, favouriteArticleStorage: FavouriteArticlesStorage, articleDetailsPresenter: ArticleDetailsPresenter) {
+    required init(settings: ReadOnlySettings, imageGateway: ImageGateway, articleStorage: ArticleStorage, favouriteArticleStorage: FavouriteArticlesStorage, articleDetailsPresenter: ArticleDetailsPresenter) {
         
+        self.settings = settings
         self.imageGateway = imageGateway
         self.articleStorage = articleStorage
         self.favouriteArticleStorage = favouriteArticleStorage
@@ -71,7 +73,7 @@ class SearchViewModel : ViewModel {
     func searchedArticleModel(indexPath indexPath: NSIndexPath) -> SearchedArticleCellModel {
         
         let article = self.findArticle(indexPath: indexPath)
-        return SearchedArticleCellModel(article: article, imageGateway: self.imageGateway)
+        return SearchedArticleCellModel(settings: self.settings, article: article, imageGateway: self.imageGateway)
     }
     
     func didChangeQuery(query: String) {

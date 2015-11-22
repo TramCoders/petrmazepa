@@ -23,9 +23,9 @@ class ArticleCellModel : ImageCellModel {
         return self.article.title
     }
     
-    init(article: Article, roundedCorner: RoundedCorner, imageGateway: ImageGateway) {
+    init(settings: ReadOnlySettings, article: Article, roundedCorner: RoundedCorner, imageGateway: ImageGateway) {
 
         self.roundedCorner = roundedCorner
-        super.init(article: article, imageGateway: imageGateway)
+        super.init(settings: settings, article: article, imageGateway: imageGateway)
     }
 }
