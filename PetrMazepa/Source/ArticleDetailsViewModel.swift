@@ -104,7 +104,8 @@ class ArticleDetailsViewModel : ViewModel {
             }
         }
         
-        self.imageGateway.requestImage(spec: ImageSpec(url:self.article.thumbUrl!, size: self.screenSize), allowRemote: !self.settings.offlineMode) { image, _, _ in
+        let spec = ImageSpec(url:self.article.thumbUrl!, size: self.screenSize)
+        self.imageGateway.requestImage(spec: spec, allowRemote: !self.settings.offlineMode, onlyWifi: self.settings.onlyWifiImages) { image, _, _ in
             
             guard self.viewIsPresented else {
                 return

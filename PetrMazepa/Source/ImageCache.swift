@@ -40,10 +40,10 @@ class ImageCache : ImageGateway {
     }
     
     func requestImage(spec spec: ImageSpec, completion: ImageHandler) {
-        self.requestImage(spec: spec, allowRemote: true, completion: completion)
+        self.requestImage(spec: spec, allowRemote: true, onlyWifi: false, completion: completion)
     }
 
-    func requestImage(spec spec: ImageSpec, allowRemote: Bool, completion: ImageHandler) {
+    func requestImage(spec spec: ImageSpec, allowRemote: Bool, onlyWifi: Bool, completion: ImageHandler) {
         
         // search for the image in the in-memory storage
         if let image = self.inMemoryImageStorage.loadImage(spec: spec) {
@@ -73,7 +73,7 @@ class ImageCache : ImageGateway {
         }
         
         // download the image from the network
-        self.downloader.downloadImage(spec.url) { (data, error) -> () in
+        self.downloader.downloadImage(spec.url, onlyWifi: onlyWifi) { (data, error) -> () in
 
             let image: UIImage?
             

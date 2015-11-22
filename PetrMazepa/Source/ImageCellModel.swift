@@ -29,7 +29,7 @@ class ImageCellModel {
             return
         }
         
-        self.imageGateway.requestImage(spec: ImageSpec(url: url, size: size), allowRemote: !self.settings.offlineMode) { [weak self] image, error, fromCache in
+        self.imageGateway.requestImage(spec: ImageSpec(url: url, size: size), allowRemote: !self.settings.offlineMode, onlyWifi: self.settings.onlyWifiImages) { [weak self] image, error, fromCache in
             dispatch_async(dispatch_get_main_queue()) {
                 
                 if let _ = self {

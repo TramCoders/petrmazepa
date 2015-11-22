@@ -12,4 +12,5 @@ typealias ImageDownloadHandler = (NSData?, NSError?) -> ()
 
 protocol ImageDownloader {
     func downloadImage(url: NSURL, completion: ImageDownloadHandler)
+    func downloadImage(url: NSURL, onlyWifi: Bool, completion: ImageDownloadHandler)
 }
