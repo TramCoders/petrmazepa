@@ -29,7 +29,7 @@ class ActivityIndicator {
     }
 }
 
-class Networking: ImageDownloader, ArticlesFetcher, ArticleDetailsFetcher {
+class Networking: ImageDownloader, RemoteArticlesFetcher, RemoteArticleDetailsFetcher {
     
     private let session: NSURLSession
     

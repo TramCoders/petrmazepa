@@ -86,7 +86,7 @@ class ArticleDetailsViewModel : ViewModel {
     
     func loadContent() {
         
-        self.articleDetailsFetcher.fetchArticleDetails(article: self.article) { details, error in
+        self.articleDetailsFetcher.fetchArticleDetails(article: self.article, allowRemote: !self.settings.offlineMode) { details, error in
             
             self.articleDetails = details
             
@@ -104,7 +104,7 @@ class ArticleDetailsViewModel : ViewModel {
             }
         }
         
-        self.imageGateway.requestImage(spec: ImageSpec(url:self.article.thumbUrl!, size: self.screenSize), allowWeb: !self.settings.offlineMode) { image, _, _ in
+        self.imageGateway.requestImage(spec: ImageSpec(url:self.article.thumbUrl!, size: self.screenSize), allowRemote: !self.settings.offlineMode) { image, _, _ in
             
             guard self.viewIsPresented else {
                 return

@@ -35,7 +35,17 @@ class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher
     }
     
     func fetchArticles(fromIndex fromIndex: Int, count: Int, completion: ArticlesFetchHandler) {
-
+        self.fetchArticles(fromIndex: fromIndex, count: count, allowRemote: true, completion: completion)
+    }
+    
+    func fetchArticles(fromIndex fromIndex: Int, count: Int, allowRemote: Bool, completion: ArticlesFetchHandler) {
+        
+        guard allowRemote == true else {
+            
+            completion(nil, nil)
+            return
+        }
+        
         self.networking.fetchArticles(fromIndex: fromIndex, count: count) { articles, error in
             
             if let notNilArticles = articles {
@@ -47,10 +57,20 @@ class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher
     }
     
     func fetchArticleDetails(article article: Article, completion: ArticleDetailsFetchHandler) {
+        self.fetchArticleDetails(article: article, allowRemote: true, completion: completion)
+    }
+    
+    func fetchArticleDetails(article article: Article, allowRemote: Bool, completion: ArticleDetailsFetchHandler) {
         
         if let details = self.coreData.favouriteArticleDetails(article: article) {
             
             completion(details, nil)
+            return
+        }
+        
+        guard allowRemote == false else {
+            
+            completion(nil, nil)
             return
         }
         

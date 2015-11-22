@@ -124,7 +124,7 @@ class ArticlesViewModel : ViewModel {
         
         self.loading = true
         
-        self.articlesFetcher.fetchArticles(fromIndex: fromIndex, count: count) { articles, error in
+        self.articlesFetcher.fetchArticles(fromIndex: fromIndex, count: count, allowRemote: !self.settings.offlineMode) { articles, error in
             
             guard self.viewIsPresented else {
                 return
