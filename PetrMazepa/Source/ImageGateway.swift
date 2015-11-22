@@ -11,5 +11,7 @@ import UIKit
 typealias ImageHandler = (image: UIImage?, error: NSError?, fromCache: Bool) -> ()
 
 protocol ImageGateway {
+    
     func requestImage(spec spec: ImageSpec, completion: ImageHandler)
+    func requestImage(spec spec: ImageSpec, allowWeb: Bool, completion: ImageHandler)
 }

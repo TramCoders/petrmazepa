@@ -118,12 +118,12 @@ class ScreenFlow: NSObject, UITabBarControllerDelegate, ArticleDetailsPresenter,
     
     private func createArticleDetailsViewModel(article article: Article) -> ArticleDetailsViewModel {
         
-        return ArticleDetailsViewModel(article: article, imageCache: self.imageCache, articleDetailsFetcher: self.contentProvider, favouriteMaker: self.contentProvider, articleDetailsDismisser: self, articleSharer: self)
+        return ArticleDetailsViewModel(settings: self.settings, article: article, imageGateway: self.imageCache, articleDetailsFetcher: self.contentProvider, favouriteMaker: self.contentProvider, articleDetailsDismisser: self, articleSharer: self)
     }
     
     private func createSearchViewModel() -> SearchViewModel {
         
-        return SearchViewModel(imageGateway: self.imageCache, articleStorage: self.contentProvider, favouriteArticleStorage: self.contentProvider, articleDetailsPresenter: self)
+        return SearchViewModel(settings: self.settings, imageGateway: self.imageCache, articleStorage: self.contentProvider, favouriteArticleStorage: self.contentProvider, articleDetailsPresenter: self)
     }
     
     private func createSettingsViewModel() -> SettingsViewModel {

@@ -18,10 +18,11 @@ class ArticleDetailsViewModel : ViewModel {
     
     private let articleDetailsDismisser: ArticleDetailsDismisser
     private let articleDetailsFetcher: ArticleDetailsFetcher
-    private let imageCache: ImageCache
+    private let imageGateway: ImageGateway
     private let favouriteMaker: FavouriteMaker
     private let articleSharer: ArticleSharer
     
+    private let settings: ReadOnlySettings
     private let article: Article
     private var articleDetails: ArticleDetails?
     private var screenSize: CGSize!
@@ -30,10 +31,11 @@ class ArticleDetailsViewModel : ViewModel {
         return self.article.favourite
     }
     
-    init(article: Article, imageCache: ImageCache, articleDetailsFetcher: ArticleDetailsFetcher, favouriteMaker: FavouriteMaker, articleDetailsDismisser: ArticleDetailsDismisser, articleSharer: ArticleSharer) {
+    init(settings: ReadOnlySettings, article: Article, imageGateway: ImageGateway, articleDetailsFetcher: ArticleDetailsFetcher, favouriteMaker: FavouriteMaker, articleDetailsDismisser: ArticleDetailsDismisser, articleSharer: ArticleSharer) {
 
+        self.settings = settings
         self.article = article
-        self.imageCache = imageCache
+        self.imageGateway = imageGateway
         self.articleDetailsFetcher = articleDetailsFetcher
         self.favouriteMaker = favouriteMaker
         self.articleDetailsDismisser = articleDetailsDismisser
@@ -102,7 +104,7 @@ class ArticleDetailsViewModel : ViewModel {
             }
         }
         
-        self.imageCache.requestImage(spec: ImageSpec(url:self.article.thumbUrl!, size: self.screenSize)) { image, _, _ in
+        self.imageGateway.requestImage(spec: ImageSpec(url:self.article.thumbUrl!, size: self.screenSize), allowWeb: !self.settings.offlineMode) { image, _, _ in
             
             guard self.viewIsPresented else {
                 return

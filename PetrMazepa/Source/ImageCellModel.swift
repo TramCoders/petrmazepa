@@ -11,10 +11,12 @@ import UIKit
 class ImageCellModel {
     
     private let imageGateway: ImageGateway
+    private let settings: ReadOnlySettings
     let article: Article
     
-    init(article: Article, imageGateway: ImageGateway) {
+    init(settings: ReadOnlySettings, article: Article, imageGateway: ImageGateway) {
         
+        self.settings = settings
         self.article = article
         self.imageGateway = imageGateway
     }
@@ -27,7 +29,7 @@ class ImageCellModel {
             return
         }
         
-        self.imageGateway.requestImage(spec: ImageSpec(url: url, size: size)) { [weak self] image, error, fromCache in
+        self.imageGateway.requestImage(spec: ImageSpec(url: url, size: size), allowWeb: !self.settings.offlineMode) { [weak self] image, error, fromCache in
             dispatch_async(dispatch_get_main_queue()) {
                 
                 if let _ = self {

@@ -90,7 +90,7 @@ class ArticlesViewModel : ViewModel {
         
         let article = self.articleSrorage.allArticles()[index]
         let roundedCorner = self.roundedCorner(byIndex: index)
-        return ArticleCellModel(article: article, roundedCorner: roundedCorner, imageGateway: self.imageGateway)
+        return ArticleCellModel(settings: self.settings, article: article, roundedCorner: roundedCorner, imageGateway: self.imageGateway)
     }
     
     func retryActionTapped() {
@@ -121,10 +121,6 @@ class ArticlesViewModel : ViewModel {
     }
     
     private func load(fromIndex fromIndex: Int, count: Int) {
-        
-        guard self.settings.offlineMode == false else {
-            return
-        }
         
         self.loading = true
         
