@@ -96,8 +96,13 @@ class ArticleDetailsViewModel : ViewModel {
             
             if let notNilDetails = details {
                 
+                let font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
+                let fontName = font.fontName
+                let fontSize = 4    //FIXME: font.pointSize
+                let updatedHtmlText = "<font face='\(fontName)' size='\(fontSize)px'>\(notNilDetails.htmlText)"
+                
                 dispatch_async(dispatch_get_main_queue(), {
-                    self.articleDetailsLoaded!(htmlText: notNilDetails.htmlText)
+                    self.articleDetailsLoaded!(htmlText: updatedHtmlText)
                 })
             } else {
                 self.errorOccurred!(error: error)

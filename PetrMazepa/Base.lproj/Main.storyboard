@@ -292,10 +292,32 @@
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="kc0-1d-VKz"/>
-                                    <barButtonItem image="unfavourite_icon" id="YxB-po-3v3">
-                                        <connections>
-                                            <action selector="favouriteTapped:" destination="eL6-pm-8VV" id="Ix0-lh-OGY"/>
-                                        </connections>
+                                    <barButtonItem style="plain" id="lP5-s6-Ev0">
+                                        <view key="customView" contentMode="scaleToFill" id="QI1-lb-TXU">
+                                            <rect key="frame" x="262" y="6" width="76" height="33"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uf3-1S-zRg">
+                                                    <rect key="frame" x="23" y="1" width="30" height="30"/>
+                                                    <animations/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="30" id="FMb-Sd-qy5"/>
+                                                        <constraint firstAttribute="width" constant="30" id="GaW-4q-8uR"/>
+                                                    </constraints>
+                                                    <color key="tintColor" red="0.93333333333333335" green="0.42745098039215684" blue="0.4392156862745098" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <state key="normal" title="Button" image="unfavourite_icon"/>
+                                                    <connections>
+                                                        <action selector="favouriteTapped:" destination="eL6-pm-8VV" eventType="touchUpInside" id="ImH-Xs-bQC"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <animations/>
+                                            <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstItem="Uf3-1S-zRg" firstAttribute="centerY" secondItem="QI1-lb-TXU" secondAttribute="centerY" id="PLW-VP-iOK"/>
+                                                <constraint firstItem="Uf3-1S-zRg" firstAttribute="centerX" secondItem="QI1-lb-TXU" secondAttribute="centerX" id="gJs-M9-vg1"/>
+                                            </constraints>
+                                        </view>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="XVj-HM-UDL"/>
                                     <barButtonItem systemItem="action" id="HJe-Jl-G7A">
@@ -324,7 +346,7 @@
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <connections>
                         <outlet property="collectionView" destination="rlh-OX-ZCf" id="pbQ-fk-ETI"/>
-                        <outlet property="favouriteButton" destination="YxB-po-3v3" id="gRx-PK-0xj"/>
+                        <outlet property="favouriteButton" destination="Uf3-1S-zRg" id="ofo-nb-w4D"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YuN-sN-BaI" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -362,12 +384,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r6u-t2-abH">
-                                <rect key="frame" x="0.0" y="20" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="20" width="600" height="60"/>
                                 <subviews>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Search" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Odq-ff-Uck">
-                                        <rect key="frame" x="10" y="0.0" width="580" height="44"/>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Поиск" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Odq-ff-Uck">
+                                        <rect key="frame" x="10" y="0.0" width="580" height="60"/>
                                         <animations/>
-                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                                        <color key="textColor" red="0.93333333333333335" green="0.42745098039215684" blue="0.4392156862745098" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="18"/>
                                         <textInputTraits key="textInputTraits" returnKeyType="search"/>
                                         <connections>
                                             <action selector="searchDidChange:" destination="X7k-5v-zPq" eventType="editingChanged" id="fcs-iD-3Ff"/>
@@ -382,11 +405,11 @@
                                     <constraint firstItem="Odq-ff-Uck" firstAttribute="top" secondItem="r6u-t2-abH" secondAttribute="top" id="5ob-3x-U3b"/>
                                     <constraint firstItem="Odq-ff-Uck" firstAttribute="leading" secondItem="r6u-t2-abH" secondAttribute="leading" constant="10" id="F1P-xq-foo"/>
                                     <constraint firstAttribute="trailing" secondItem="Odq-ff-Uck" secondAttribute="trailing" constant="10" id="NaZ-jE-7Vo"/>
-                                    <constraint firstAttribute="height" constant="44" id="QJm-R2-GAs"/>
+                                    <constraint firstAttribute="height" constant="60" id="QJm-R2-GAs"/>
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Bwl-Ah-XPo">
-                                <rect key="frame" x="0.0" y="64" width="600" height="487"/>
+                                <rect key="frame" x="0.0" y="80" width="600" height="471"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>

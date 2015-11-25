@@ -66,13 +66,23 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
         return 2
     }
     
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 40.0
+    }
+    
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
-        if section == 0 {
-            return "Favourite"
-        } else {
-            return "Other"
+        guard let headerView = NSBundle.mainBundle().loadNibNamed("HeaderView", owner: nil, options: nil).first as? HeaderView else {
+            return nil
         }
+
+        if section == 0 {
+            headerView.text = NSLocalizedString("FavoriteSectionTitle", comment: "")
+        } else {
+            headerView.text = NSLocalizedString("OthersSectionTitle", comment: "")
+        }
+        
+        return headerView
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
