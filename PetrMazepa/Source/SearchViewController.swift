@@ -77,9 +77,9 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
         }
 
         if section == 0 {
-            headerView.text = "Favourite"
+            headerView.text = NSLocalizedString("FavoriteSectionTitle", comment: "")
         } else {
-            headerView.text = "Other"
+            headerView.text = NSLocalizedString("OthersSectionTitle", comment: "")
         }
         
         return headerView

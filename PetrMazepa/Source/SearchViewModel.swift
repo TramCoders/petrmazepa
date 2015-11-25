@@ -20,6 +20,7 @@ class SearchViewModel : ViewModel {
     
     private var query = ""
     private var filteredArticles: [Article]
+    private var allFavouriteArticles: [Article]
     private var favouriteArticles: [Article]
     
     private let settings: ReadOnlySettings
@@ -36,13 +37,15 @@ class SearchViewModel : ViewModel {
         self.favouriteArticleStorage = favouriteArticleStorage
         self.articleDetailsPresenter = articleDetailsPresenter
         
-        self.filteredArticles = articleStorage.allArticles()
-        self.favouriteArticles = favouriteArticleStorage.favouriteArticles()
+        self.filteredArticles = []
+        self.allFavouriteArticles = []
+        self.favouriteArticles = []
     }
     
     override func viewWillAppear() {
         
         super.viewWillAppear()
+        self.allFavouriteArticles = self.favouriteArticleStorage.favouriteArticles()
         self.invalidateContent()
     }
     
@@ -87,8 +90,8 @@ class SearchViewModel : ViewModel {
         
         if self.query == "" {
 
-            self.filteredArticles = self.articleStorage.allArticles()
-            self.favouriteArticles = self.favouriteArticleStorage.favouriteArticles()
+            self.favouriteArticles = self.allFavouriteArticles
+            self.filteredArticles = self.articles(self.articleStorage.allArticles(), withoutArticles: self.allFavouriteArticles)
             return
         }
         
@@ -96,8 +99,15 @@ class SearchViewModel : ViewModel {
             return article.title.rangeOfString(self.query, options: NSStringCompareOptions.CaseInsensitiveSearch) != nil
         }
         
-        self.filteredArticles = self.articleStorage.allArticles().filter(filter)
-        self.favouriteArticles = self.favouriteArticleStorage.favouriteArticles().filter(filter)
+        let articles = self.articles(self.articleStorage.allArticles(), withoutArticles: self.allFavouriteArticles)
+        self.filteredArticles = articles.filter(filter)
+        self.favouriteArticles = self.allFavouriteArticles.filter(filter)
+    }
+    
+    private func articles(articles: [Article], withoutArticles: [Article]) -> [Article] {
+        
+        let withoutIds = withoutArticles.map({ $0.id })
+        return articles.filter({ withoutIds.contains($0.id) == false })
     }
     
     private func findArticles(thumbUrl url: NSURL) -> [NSIndexPath] {
