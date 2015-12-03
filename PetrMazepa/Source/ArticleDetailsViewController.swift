@@ -8,7 +8,13 @@
 
 import UIKit
 
-class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, ArticleTextComponentDelegate {
+class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate, UIScrollViewDelegate, ArticleTextComponentDelegate {
+    
+    enum DetailsItem: Int {
+        
+        case Image
+        case Text
+    }
     
     var model: ArticleDetailsViewModel! {
         didSet {
@@ -24,7 +30,11 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var favouriteButton: UIButton!
     
+    @IBOutlet weak var heightToolbarConstraint: NSLayoutConstraint!
+    @IBOutlet weak var bottomToolbarConstraint: NSLayoutConstraint!
+    
     private let components: [ArticleComponent]
+    private var startOffsetY: CGFloat = 0.0
     
     required init?(coder aDecoder: NSCoder) {
         
@@ -38,9 +48,12 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        self.navigationController?.interactivePopGestureRecognizer!.delegate = self
         
         self.automaticallyAdjustsScrollViewInsets = false
         self.edgesForExtendedLayout = .None
+        
+        self.collectionView.delegate = self
         
         if let layout = self.collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.sectionInset = UIEdgeInsetsMake(20, 0, 0, 0)
@@ -94,8 +107,20 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
-        let component = self.components[indexPath.row]
-        return component.generateCell(collectionView: collectionView, indexPath: indexPath)
+        switch self.convertItem(indexPath.item) {
+            
+            case .Image: {
+
+                let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ImageCell", forIndexPath: indexPath) as! ArticleImageCell
+                return cell
+            }
+            
+            case .Text: {
+            
+                let cell = collectionView.dequeueReusableCellWithReuseIdentifier("TextCell", forIndexPath: indexPath) as! ArticleTextCell
+                return cell
+            }
+        }
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
@@ -106,8 +131,33 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
         return CGSizeMake(width, height)
     }
     
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        self.startOffsetY = scrollView.contentOffset.y
+    }
+    
+    func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        
+        let endOffsetY = scrollView.contentOffset.y
+        
+        if (endOffsetY - self.startOffsetY > 0) {
+            self.bottomToolbarConstraint.constant = -self.heightToolbarConstraint.constant
+        } else {
+            self.bottomToolbarConstraint.constant = 0.0
+        }
+        
+        self.view.layoutIfNeeded()
+    }
+    
+    func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+    
     func articleTextComponentDidDetermineHeight(sender component: ArticleTextComponent, height: CGFloat) {
         self.collectionView.collectionViewLayout.invalidateLayout()
+    }
+    
+    private func convertItem(item: Int) -> DetailsItem {
+        return DetailsItem(rawValue: item)!
     }
     
     private func loadingStateChangedHandler() -> ((loading: Bool) -> Void) {

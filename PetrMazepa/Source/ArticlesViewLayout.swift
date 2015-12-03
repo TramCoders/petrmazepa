@@ -10,10 +10,10 @@ import UIKit
 
 class ArticlesViewLayout: UICollectionViewLayout  {
     
-    var attributes = [UICollectionViewLayoutAttributes]()
-    let topMargin: CGFloat = 2.0
-    let margin: CGFloat = 2.0
-    let internalMargin: CGFloat = 1.0
+    private var attributes = [UICollectionViewLayoutAttributes]()
+    private let topMargin: CGFloat = 2.0
+    private let margin: CGFloat = 2.0
+    private let internalMargin: CGFloat = 1.0
     
     func insertArticles(count: Int) -> [NSIndexPath] {
         
@@ -69,11 +69,9 @@ class ArticlesViewLayout: UICollectionViewLayout  {
         return self.attributes.filter({ (attrs: UICollectionViewLayoutAttributes) -> Bool in
             return CGRectIntersectsRect(attrs.frame, rect)
         })
-        
     }
     
     override func layoutAttributesForItemAtIndexPath(indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes? {
         return self.attributes[indexPath.row]
     }
-    
 }

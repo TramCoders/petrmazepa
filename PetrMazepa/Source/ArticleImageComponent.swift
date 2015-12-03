@@ -17,7 +17,7 @@ class ArticleImageComponent: ArticleComponent {
     }
     
     func cellIdentifier() -> String {
-        return "ImageCell"
+        return 
     }
     
     func cellNib() -> UINib {

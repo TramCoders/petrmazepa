@@ -8,16 +8,17 @@
 
 import UIKit
 
-class ArticleImageCell: UICollectionViewCell, ArticleComponentCell {
+class ArticleImageCell: UICollectionViewCell {
     
-    @IBOutlet weak var imageView: UIImageView!
-    
-    func update(value: AnyObject?) {
-
-        if let image = value as? UIImage {
-            self.imageView.image = image
-        } else {
-            self.imageView.image = nil
+    var model: ArticleImageCellViewModel! {
+        didSet {
+            self.model.requestImage(size: CGSizeMake(self.bounds.width, 240.0)) { image, _, _ in
+                
+                self.imageView.image = image
+                // TODO: delegation
+            }
         }
     }
+    
+    @IBOutlet weak var imageView: UIImageView!
 }
