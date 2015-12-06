@@ -22,7 +22,7 @@ class ArticleDetailsLayout: UICollectionViewLayout  {
             self.setupAttributes()
         }
         
-        self.updateHeights()
+        self.updateFrames()
     }
     
     override func collectionViewContentSize() -> CGSize {
@@ -70,10 +70,10 @@ class ArticleDetailsLayout: UICollectionViewLayout  {
         self.attributes.append(self.textAttrs)
     }
     
-    private func updateHeights() {
+    private func updateFrames() {
         
         let screenWidth = UIScreen.mainScreen().bounds.size.width
-        self.imageAttrs.frame = CGRectMake(0.0, 0.0, screenWidth, screenWidth)
-        self.textAttrs.frame = CGRectMake(0.0, screenWidth, screenWidth, self.textCellHeight)
+        self.imageAttrs.frame = CGRectMake(0.0, 20.0, screenWidth, screenWidth)
+        self.textAttrs.frame = CGRectMake(0.0, self.imageAttrs.frame.maxY, screenWidth, self.textCellHeight)
     }
 }

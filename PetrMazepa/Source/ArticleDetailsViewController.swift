@@ -31,11 +31,12 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
     private weak var layout: ArticleDetailsLayout!
     @IBOutlet weak var favouriteButton: UIButton!
     
+    @IBOutlet weak var statusBarView: UIView!
     private weak var imageCell: ArticleImageCell!
     private weak var textCell: ArticleTextCell!
     
-    @IBOutlet weak var heightToolbarConstraint: NSLayoutConstraint!
-    @IBOutlet weak var bottomToolbarConstraint: NSLayoutConstraint!
+    @IBOutlet weak var heightToolBarConstraint: NSLayoutConstraint!
+    @IBOutlet weak var bottomToolBarConstraint: NSLayoutConstraint!
     
     private var startOffsetY: CGFloat = 0.0
         
@@ -59,7 +60,7 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
 
         super.viewDidLayoutSubviews()
         self.model.viewDidLayoutSubviews(screenSize: UIScreen.mainScreen().bounds.size)
-        self.layoutBars()
+        self.updateBars()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -79,6 +80,10 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
         
         super.viewDidAppear(animated)
         self.model.viewDidAppear()
+    }
+    
+    override func prefersStatusBarHidden() -> Bool {
+        return !self.model.barsVisibile
     }
     
     @IBAction func backTapped(sender: AnyObject) {
@@ -134,10 +139,13 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
         self.collectionView.collectionViewLayout.invalidateLayout()
     }
     
-    private func layoutBars() {
+    private func updateBars() {
         
-        self.bottomToolbarConstraint.constant = self.model.barsVisibile ? 0.0 : -self.heightToolbarConstraint.constant
+        self.bottomToolBarConstraint.constant = self.model.barsVisibile ? 0.0 : -self.heightToolBarConstraint.constant
+        self.statusBarView.alpha = self.model.barsVisibile ? 1.0 : 0.0
         self.view.layoutIfNeeded()
+        
+        self.setNeedsStatusBarAppearanceUpdate()
     }
     
     private func convertItem(item: Int) -> DetailsItem {
@@ -167,7 +175,7 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
     private func barsVisibilityChangedHandler() -> ((visible: Bool) -> Void) {
         return { _ in
             UIView.animateWithDuration(0.3, animations: {
-                self.layoutBars()
+                self.updateBars()
             })
         }
     }

@@ -343,10 +343,11 @@
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <connections>
-                        <outlet property="bottomToolbarConstraint" destination="XTa-Yk-quV" id="h7H-sx-sUg"/>
+                        <outlet property="bottomToolBarConstraint" destination="XTa-Yk-quV" id="n57-pP-17m"/>
                         <outlet property="collectionView" destination="rlh-OX-ZCf" id="pbQ-fk-ETI"/>
                         <outlet property="favouriteButton" destination="Uf3-1S-zRg" id="ofo-nb-w4D"/>
-                        <outlet property="heightToolbarConstraint" destination="Vev-Ji-9sp" id="4gm-Sm-Sro"/>
+                        <outlet property="heightToolBarConstraint" destination="Vev-Ji-9sp" id="pyE-7S-TXo"/>
+                        <outlet property="statusBarView" destination="H3J-w1-8ud" id="mbh-4m-QQ4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YuN-sN-BaI" userLabel="First Responder" sceneMemberID="firstResponder"/>

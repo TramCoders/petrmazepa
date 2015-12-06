@@ -62,19 +62,12 @@ class ArticleDetailsViewModel : ViewModel {
     func scrollViewWillEndDragging(offset offset: CGFloat) {
         
         if (offset - self.startOffset > 0) {
-            
             if self.barsVisibile == true {
-                
-                self.barsVisibile = false
-                self.barsVisibilityChanged!(visible: self.barsVisibile)
+                self.updateBarsVisible(false)
             }
-            
         } else {
-            
             if self.barsVisibile == false {
-                
-                self.barsVisibile = true
-                self.barsVisibilityChanged!(visible: self.barsVisibile)
+                self.updateBarsVisible(true)
             }
         }
     }
@@ -123,6 +116,12 @@ class ArticleDetailsViewModel : ViewModel {
         
         self.loadHtmlText()
         self.loadImage()
+    }
+    
+    private func updateBarsVisible(visible: Bool) {
+
+        self.barsVisibile = visible
+        self.barsVisibilityChanged!(visible: visible)
     }
     
     private func loadHtmlText() {
