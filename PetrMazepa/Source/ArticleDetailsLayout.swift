@@ -35,6 +35,7 @@ class ArticleDetailsLayout: UICollectionViewLayout  {
             size.height = max(CGRectGetMaxY(attrs.frame), size.height)
         }
         
+        size.height += 44.0     // toolbar height
         return size
     }
     

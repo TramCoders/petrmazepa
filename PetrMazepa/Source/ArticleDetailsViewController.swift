@@ -19,8 +19,8 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
     var model: ArticleDetailsViewModel! {
         didSet {
 
-            self.model.loadingStateChanged = self.loadingStateChangedHandler()
             self.model.favouriteStateChanged = self.favouriteStateChangedHandler()
+            self.model.barsVisibilityChanged = self.barsVisibilityChangedHandler()
             self.model.imageLoaded = self.imageLoadedHandler()
             self.model.textLoaded = self.textLoadedHandler()
             self.model.errorOccurred = self.errorOccurredHandler()
@@ -59,6 +59,7 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
 
         super.viewDidLayoutSubviews()
         self.model.viewDidLayoutSubviews(screenSize: UIScreen.mainScreen().bounds.size)
+        self.layoutBars()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -116,20 +117,11 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
     }
     
     func scrollViewWillBeginDragging(scrollView: UIScrollView) {
-        self.startOffsetY = scrollView.contentOffset.y
+        self.model.scrollViewWillBeginDragging(offset: scrollView.contentOffset.y);
     }
     
     func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        
-        let endOffsetY = scrollView.contentOffset.y
-        
-        if (endOffsetY - self.startOffsetY > 0) {
-            self.bottomToolbarConstraint.constant = -self.heightToolbarConstraint.constant
-        } else {
-            self.bottomToolbarConstraint.constant = 0.0
-        }
-        
-        self.view.layoutIfNeeded()
+        self.model.scrollViewWillEndDragging(offset: scrollView.contentOffset.y)
     }
     
     func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
@@ -140,6 +132,12 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
         
         self.layout.textCellHeight = height
         self.collectionView.collectionViewLayout.invalidateLayout()
+    }
+    
+    private func layoutBars() {
+        
+        self.bottomToolbarConstraint.constant = self.model.barsVisibile ? 0.0 : -self.heightToolbarConstraint.constant
+        self.view.layoutIfNeeded()
     }
     
     private func convertItem(item: Int) -> DetailsItem {
@@ -162,6 +160,14 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
                 self.favouriteButton.transform = CGAffineTransformMakeScale(1.2, 1.2)
             }, completion: { _ in
                 self.favouriteButton.transform = CGAffineTransformIdentity
+            })
+        }
+    }
+    
+    private func barsVisibilityChangedHandler() -> ((visible: Bool) -> Void) {
+        return { _ in
+            UIView.animateWithDuration(0.3, animations: {
+                self.layoutBars()
             })
         }
     }

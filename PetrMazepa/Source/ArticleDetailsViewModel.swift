@@ -10,10 +10,10 @@ import UIKit
 
 class ArticleDetailsViewModel : ViewModel {
     
-    var loadingStateChanged: ((loading: Bool) -> Void)?
     var imageLoaded: ((image: UIImage?) -> Void)?
     var textLoaded: ((htmlText: String?) -> ())?
     var favouriteStateChanged: ((favourite: Bool) -> Void)?
+    var barsVisibilityChanged: ((visible: Bool) -> Void)?
     var errorOccurred: ((error: NSError?) -> Void)?
     
     private let articleDetailsDismisser: ArticleDetailsDismisser
@@ -26,6 +26,9 @@ class ArticleDetailsViewModel : ViewModel {
     private let article: Article
     private var articleDetails: ArticleDetails?
     private var screenSize: CGSize!
+    private var startOffset: CGFloat!
+    
+    var barsVisibile: Bool = true
     
     var favourite: Bool {
         return self.article.favourite
@@ -50,6 +53,36 @@ class ArticleDetailsViewModel : ViewModel {
     
     func viewDidLayoutSubviews(screenSize size: CGSize) {
         self.screenSize = size
+    }
+    
+    func scrollViewWillBeginDragging(offset offset: CGFloat) {
+        self.startOffset = offset
+    }
+    
+    func scrollViewWillEndDragging(offset offset: CGFloat) {
+        
+        if (offset - self.startOffset > 0) {
+            
+            if self.barsVisibile == true {
+                
+                self.barsVisibile = false
+                self.barsVisibilityChanged!(visible: self.barsVisibile)
+            }
+            
+        } else {
+            
+            if self.barsVisibile == false {
+                
+                self.barsVisibile = true
+                self.barsVisibilityChanged!(visible: self.barsVisibile)
+            }
+        }
+    }
+    
+    override func viewWillAppear() {
+
+        super.viewWillAppear()
+        self.barsVisibile = true
     }
     
     func viewDidAppear() {
