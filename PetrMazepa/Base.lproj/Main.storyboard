@@ -259,14 +259,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="rlh-OX-ZCf">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="556"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <collectionViewLayout key="collectionViewLayout" id="3Ir-Y0-1Vc" customClass="ArticleDetailsLayout" customModule="PetrMazepa" customModuleProvider="target"/>
                                 <cells/>
                                 <connections>
                                     <outlet property="dataSource" destination="eL6-pm-8VV" id="NWV-9Z-Rfg"/>
-                                    <outlet property="delegate" destination="eL6-pm-8VV" id="2eA-d4-lKq"/>
+                                    <outlet property="delegate" destination="eL6-pm-8VV" id="qAU-UX-Tbl"/>
                                 </connections>
                             </collectionView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H3J-w1-8ud">
@@ -334,9 +334,9 @@
                             <constraint firstItem="H3J-w1-8ud" firstAttribute="top" secondItem="vfO-Yv-vwH" secondAttribute="top" id="EXG-uZ-zUX"/>
                             <constraint firstItem="rlh-OX-ZCf" firstAttribute="top" secondItem="vfO-Yv-vwH" secondAttribute="topMargin" id="LVC-WL-pWU"/>
                             <constraint firstAttribute="trailing" secondItem="rlh-OX-ZCf" secondAttribute="trailing" id="Pz2-P6-xHW"/>
-                            <constraint firstItem="l87-yg-Knd" firstAttribute="top" secondItem="rlh-OX-ZCf" secondAttribute="bottom" id="VfA-3r-gaR"/>
                             <constraint firstItem="MF9-LR-8y5" firstAttribute="top" secondItem="l87-yg-Knd" secondAttribute="bottom" id="XTa-Yk-quV"/>
                             <constraint firstAttribute="trailing" secondItem="H3J-w1-8ud" secondAttribute="trailing" id="gC3-f3-MPk"/>
+                            <constraint firstItem="MF9-LR-8y5" firstAttribute="top" secondItem="rlh-OX-ZCf" secondAttribute="bottom" id="ofN-pF-ySG"/>
                             <constraint firstAttribute="trailing" secondItem="l87-yg-Knd" secondAttribute="trailing" id="r0R-b9-QlB"/>
                             <constraint firstItem="l87-yg-Knd" firstAttribute="leading" secondItem="vfO-Yv-vwH" secondAttribute="leading" id="uuG-bm-uli"/>
                         </constraints>

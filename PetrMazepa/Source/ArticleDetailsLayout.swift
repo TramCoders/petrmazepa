@@ -14,7 +14,6 @@ class ArticleDetailsLayout: UICollectionViewLayout  {
     private var imageAttrs: UICollectionViewLayoutAttributes!
     private var textAttrs: UICollectionViewLayoutAttributes!
     
-    var imageCellHeight: CGFloat = 0.0
     var textCellHeight: CGFloat = 0.0
     
     override func prepareLayout() {
@@ -73,7 +72,7 @@ class ArticleDetailsLayout: UICollectionViewLayout  {
     private func updateHeights() {
         
         let screenWidth = UIScreen.mainScreen().bounds.size.width
-        self.imageAttrs.frame = CGRectMake(0.0, 0.0, screenWidth, self.imageCellHeight)
-        self.textAttrs.frame = CGRectMake(0.0, self.imageCellHeight, screenWidth, self.textCellHeight)
+        self.imageAttrs.frame = CGRectMake(0.0, 0.0, screenWidth, screenWidth)
+        self.textAttrs.frame = CGRectMake(0.0, screenWidth, screenWidth, self.textCellHeight)
     }
 }

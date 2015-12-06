@@ -10,15 +10,11 @@ import UIKit
 
 class ArticleImageCell: UICollectionViewCell {
     
-    var model: ArticleImageCellViewModel! {
+    @IBOutlet weak var imageView: UIImageView!
+
+    var image: UIImage? {
         didSet {
-            self.model.requestImage(size: CGSizeMake(self.bounds.width, 240.0)) { image, _, _ in
-                
-                self.imageView.image = image
-                // TODO: delegation
-            }
+            self.imageView.image = image
         }
     }
-    
-    @IBOutlet weak var imageView: UIImageView!
 }

@@ -12,7 +12,7 @@ class ArticleDetailsViewModel : ViewModel {
     
     var loadingStateChanged: ((loading: Bool) -> Void)?
     var imageLoaded: ((image: UIImage?) -> Void)?
-    var articleDetailsLoaded: ((htmlText: String?) -> ())?
+    var textLoaded: ((htmlText: String?) -> ())?
     var favouriteStateChanged: ((favourite: Bool) -> Void)?
     var errorOccurred: ((error: NSError?) -> Void)?
     
@@ -31,6 +31,12 @@ class ArticleDetailsViewModel : ViewModel {
         return self.article.favourite
     }
     
+    var htmlText: String? {
+        return self.articleDetails?.htmlText
+    }
+    
+    var image: UIImage?
+    
     init(settings: ReadOnlySettings, article: Article, imageGateway: ImageGateway, articleDetailsFetcher: ArticleDetailsFetcher, favouriteMaker: FavouriteMaker, articleDetailsDismisser: ArticleDetailsDismisser, articleSharer: ArticleSharer) {
 
         self.settings = settings
@@ -47,10 +53,6 @@ class ArticleDetailsViewModel : ViewModel {
     }
     
     func viewDidAppear() {
-        
-        self.imageLoaded!(image: nil)
-        self.articleDetailsLoaded!(htmlText: nil)
-        self.favouriteStateChanged!(favourite: self.favourite)
         self.loadContent()
     }
     
@@ -84,7 +86,13 @@ class ArticleDetailsViewModel : ViewModel {
         self.articleSharer.shareArticle(self.article)
     }
     
-    func loadContent() {
+    private func loadContent() {
+        
+        self.loadHtmlText()
+        self.loadImage()
+    }
+    
+    private func loadHtmlText() {
         
         self.articleDetailsFetcher.fetchArticleDetails(article: self.article, allowRemote: !self.settings.offlineMode) { details, error in
             
@@ -102,12 +110,15 @@ class ArticleDetailsViewModel : ViewModel {
                 let updatedHtmlText = "<font face='\(fontName)' size='\(fontSize)px'>\(notNilDetails.htmlText)"
                 
                 dispatch_async(dispatch_get_main_queue(), {
-                    self.articleDetailsLoaded!(htmlText: updatedHtmlText)
+                    self.textLoaded!(htmlText: updatedHtmlText)
                 })
             } else {
                 self.errorOccurred!(error: error)
             }
         }
+    }
+    
+    private func loadImage() {
         
         let spec = ImageSpec(url:self.article.thumbUrl!, size: self.screenSize)
         self.imageGateway.requestImage(spec: spec, allowRemote: !self.settings.offlineMode, onlyWifi: self.settings.onlyWifiImages) { image, _, _ in

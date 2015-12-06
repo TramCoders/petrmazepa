@@ -8,28 +8,20 @@
 
 import UIKit
 
-protocol ArticleTextCellDelegate {
+protocol ArticleTextCellDelegate: class {
     func articleTextCellDidDetermineHeight(sender cell: ArticleTextCell, height: CGFloat)
 }
 
-class ArticleTextCell: UICollectionViewCell, ArticleComponentCell, UIWebViewDelegate {
+class ArticleTextCell: UICollectionViewCell, UIWebViewDelegate {
     
     @IBOutlet weak var webView: UIWebView!
-    private var delegate: ArticleTextCellDelegate?  // FIXME: weak?
+    weak var delegate: ArticleTextCellDelegate?
     
-    func update(value: AnyObject?) {
-        
-        guard let notNilValue = value as? ArticleTextValue else {
-            return
-        }
-        
-        self.delegate = notNilValue.delegate
-        
-        if let notNilText = notNilValue.text {
-            self.webView.loadHTMLString(notNilText, baseURL: NSURL(string: "http:"))
-            
-        } else {
-            self.webView.loadHTMLString("", baseURL: nil)
+    var text: String? {
+        didSet {
+            if let notNilText = self.text {
+                self.webView.loadHTMLString(notNilText, baseURL: NSURL(string: "http:"))
+            }
         }
     }
     
@@ -39,11 +31,7 @@ class ArticleTextCell: UICollectionViewCell, ArticleComponentCell, UIWebViewDele
     
     func webViewDidFinishLoad(webView: UIWebView) {
         
-        guard let notNilDelegate = self.delegate else {
-            return
-        }
-        
         let size = webView.sizeThatFits(CGSizeMake(webView.bounds.width, CGFloat.max))
-        notNilDelegate.articleTextCellDidDetermineHeight(sender: self, height: size.height)
+        self.delegate?.articleTextCellDidDetermineHeight(sender: self, height: size.height)
     }
 }

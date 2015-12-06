@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate, UIScrollViewDelegate, ArticleTextComponentDelegate {
+class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate, UIScrollViewDelegate, ArticleTextCellDelegate {
     
     enum DetailsItem: Int {
         
@@ -22,29 +22,23 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
             self.model.loadingStateChanged = self.loadingStateChangedHandler()
             self.model.favouriteStateChanged = self.favouriteStateChangedHandler()
             self.model.imageLoaded = self.imageLoadedHandler()
-            self.model.articleDetailsLoaded = self.articleDetailsLoadedHandler()
+            self.model.textLoaded = self.textLoadedHandler()
             self.model.errorOccurred = self.errorOccurredHandler()
         }
     }
     
     @IBOutlet weak var collectionView: UICollectionView!
+    private weak var layout: ArticleDetailsLayout!
     @IBOutlet weak var favouriteButton: UIButton!
+    
+    private weak var imageCell: ArticleImageCell!
+    private weak var textCell: ArticleTextCell!
     
     @IBOutlet weak var heightToolbarConstraint: NSLayoutConstraint!
     @IBOutlet weak var bottomToolbarConstraint: NSLayoutConstraint!
     
-    private let components: [ArticleComponent]
     private var startOffsetY: CGFloat = 0.0
-    
-    required init?(coder aDecoder: NSCoder) {
         
-        let textComponent = ArticleTextComponent()
-        self.components = [ ArticleImageComponent(), textComponent ]
-        
-        super.init(coder: aDecoder)
-        textComponent.delegate = self
-    }
-    
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -53,15 +47,12 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
         self.automaticallyAdjustsScrollViewInsets = false
         self.edgesForExtendedLayout = .None
         
-        self.collectionView.delegate = self
+        // layout
+        self.layout = self.collectionView.collectionViewLayout as! ArticleDetailsLayout
         
-        if let layout = self.collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-            layout.sectionInset = UIEdgeInsetsMake(20, 0, 0, 0)
-        }
-        
-        for component in self.components {
-            self.collectionView.registerNib(component.cellNib(), forCellWithReuseIdentifier: component.cellIdentifier())
-        }
+        // register cells
+        self.collectionView.registerNib(UINib(nibName: "ArticleImageCell", bundle: nil), forCellWithReuseIdentifier: "ImageCell")
+        self.collectionView.registerNib(UINib(nibName: "ArticleTextCell", bundle: nil), forCellWithReuseIdentifier: "TextCell")
     }
     
     override func viewDidLayoutSubviews() {
@@ -74,13 +65,13 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
         
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: true)
-        self.model!.viewWillAppear()
+        self.model.viewWillAppear()
     }
     
     override func viewWillDisappear(animated: Bool) {
         
         super.viewWillDisappear(animated)
-        self.model!.viewWillDisappear()
+        self.model.viewWillDisappear()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -90,45 +81,38 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
     }
     
     @IBAction func backTapped(sender: AnyObject) {
-        self.model!.backTapped()
+        self.model.backTapped()
     }
     
     @IBAction func favouriteTapped(sender: UIButton) {
-        self.model!.favouriteTapped()
+        self.model.favouriteTapped()
     }
     
     @IBAction func shareTapped(sender: AnyObject) {
-        self.model!.shareTapped()
+        self.model.shareTapped()
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.components.count
+        return 2
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         switch self.convertItem(indexPath.item) {
             
-            case .Image: {
-
-                let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ImageCell", forIndexPath: indexPath) as! ArticleImageCell
-                return cell
-            }
+            case .Image:
+                
+                self.imageCell = collectionView.dequeueReusableCellWithReuseIdentifier("ImageCell", forIndexPath: indexPath) as! ArticleImageCell
+                self.imageCell.image = self.model.image
+                return self.imageCell
             
-            case .Text: {
-            
-                let cell = collectionView.dequeueReusableCellWithReuseIdentifier("TextCell", forIndexPath: indexPath) as! ArticleTextCell
-                return cell
-            }
+            case .Text:
+                
+                self.textCell = collectionView.dequeueReusableCellWithReuseIdentifier("TextCell", forIndexPath: indexPath) as! ArticleTextCell
+                self.textCell.delegate = self
+                self.textCell.text = self.model.htmlText
+                return self.textCell
         }
-    }
-    
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        
-        let component = self.components[indexPath.row]
-        let height = component.requiredHeight()
-        let width = self.view.frame.width
-        return CGSizeMake(width, height)
     }
     
     func scrollViewWillBeginDragging(scrollView: UIScrollView) {
@@ -152,7 +136,9 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
         return true
     }
     
-    func articleTextComponentDidDetermineHeight(sender component: ArticleTextComponent, height: CGFloat) {
+    func articleTextCellDidDetermineHeight(sender cell: ArticleTextCell, height: CGFloat) {
+        
+        self.layout.textCellHeight = height
         self.collectionView.collectionViewLayout.invalidateLayout()
     }
     
@@ -182,22 +168,13 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
     
     private func imageLoadedHandler() -> ((image: UIImage?) -> Void) {
         return { image in
-            
-            let imageComponent = self.components[0] as! ArticleImageComponent
-            imageComponent.image = image
-            self.collectionView.reloadItemsAtIndexPaths([ NSIndexPath(forItem: 0, inSection: 0) ])
+            self.imageCell.image = image
         }
     }
     
-    private func articleDetailsLoadedHandler() -> ((htmlText: String?) -> Void) {
+    private func textLoadedHandler() -> ((htmlText: String?) -> Void) {
         return { htmlText in
-            
-            let textComponent = self.components[1] as! ArticleTextComponent
-            textComponent.text = htmlText
-            let textIndexPath = NSIndexPath(forItem: 1, inSection: 0)
-            
-            self.collectionView.reloadItemsAtIndexPaths([ textIndexPath ])
-            self.collectionView.collectionViewLayout.invalidateLayout()
+            self.textCell.text = htmlText
         }
     }
     
@@ -207,11 +184,11 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
             let alertController = UIAlertController(title: nil, message: "При получении статьи произошла ошибка", preferredStyle: .Alert)
             
             let closeAction = UIAlertAction(title: "Закрыть", style: .Cancel, handler: { _ in
-                self.model!.closeActionTapped()
+                self.model.closeActionTapped()
             })
             
             let retryAction = UIAlertAction(title: "Ещё раз", style: .Default, handler: { _ in
-                self.model!.retryActionTapped()
+                self.model.retryActionTapped()
             })
             
             alertController.addAction(closeAction)
