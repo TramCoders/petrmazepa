@@ -125,8 +125,8 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
         self.model.scrollViewWillBeginDragging(offset: scrollView.contentOffset.y);
     }
     
-    func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        self.model.scrollViewWillEndDragging(offset: scrollView.contentOffset.y)
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        self.model.scrollViewDidScroll(offset: scrollView.contentOffset.y, contentHeight: scrollView.contentSize.height)
     }
     
     func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
@@ -136,6 +136,7 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
     func articleTextCellDidDetermineHeight(sender cell: ArticleTextCell, height: CGFloat) {
         
         self.layout.textCellHeight = height
+        self.textCell.height = height
         self.collectionView.collectionViewLayout.invalidateLayout()
     }
     
@@ -150,12 +151,6 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
     
     private func convertItem(item: Int) -> DetailsItem {
         return DetailsItem(rawValue: item)!
-    }
-    
-    private func loadingStateChangedHandler() -> ((loading: Bool) -> Void) {
-        return { loading in
-            // TODO:
-        }
     }
     
     private func favouriteStateChangedHandler() -> ((favourite: Bool) -> Void) {

@@ -15,13 +15,25 @@ protocol ArticleTextCellDelegate: class {
 class ArticleTextCell: UICollectionViewCell, UIWebViewDelegate {
     
     @IBOutlet weak var webView: UIWebView!
+    @IBOutlet weak var heightWebViewConstraint: NSLayoutConstraint!
+    
     weak var delegate: ArticleTextCellDelegate?
     
     var text: String? {
         didSet {
             if let notNilText = self.text {
+
+                self.webView.scrollView.scrollEnabled = false
                 self.webView.loadHTMLString(notNilText, baseURL: NSURL(string: "http:"))
             }
+        }
+    }
+    
+    var height: CGFloat = 0.0 {
+        didSet {
+            
+            self.heightWebViewConstraint.constant = self.height
+            self.contentView
         }
     }
     
@@ -31,6 +43,7 @@ class ArticleTextCell: UICollectionViewCell, UIWebViewDelegate {
     
     func webViewDidFinishLoad(webView: UIWebView) {
         
+        self.webView.scrollView.scrollEnabled = true
         let size = webView.sizeThatFits(CGSizeMake(webView.bounds.width, CGFloat.max))
         self.delegate?.articleTextCellDidDetermineHeight(sender: self, height: size.height)
     }

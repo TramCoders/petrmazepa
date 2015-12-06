@@ -59,9 +59,12 @@ class ArticleDetailsViewModel : ViewModel {
         self.startOffset = offset
     }
     
-    func scrollViewWillEndDragging(offset offset: CGFloat) {
+    func scrollViewDidScroll(offset offset: CGFloat, contentHeight: CGFloat) {
         
-        if (offset - self.startOffset > 0) {
+        let bottomDirection = offset - self.startOffset > 0.0
+        let reachedBottom = contentHeight - offset - self.screenSize.height <= 0.0
+        
+        if (!reachedBottom && bottomDirection) {
             if self.barsVisibile == true {
                 self.updateBarsVisible(false)
             }
@@ -80,6 +83,12 @@ class ArticleDetailsViewModel : ViewModel {
     
     func viewDidAppear() {
         self.loadContent()
+    }
+    
+    override func viewWillDisappear() {
+        
+        super.viewWillDisappear()
+        self.updateBarsVisible(true)
     }
     
     func closeActionTapped() {
@@ -154,6 +163,8 @@ class ArticleDetailsViewModel : ViewModel {
         
         let spec = ImageSpec(url:self.article.thumbUrl!, size: self.screenSize)
         self.imageGateway.requestImage(spec: spec, allowRemote: !self.settings.offlineMode, onlyWifi: self.settings.onlyWifiImages) { image, _, _ in
+            
+            self.image = image
             
             guard self.viewIsPresented else {
                 return
