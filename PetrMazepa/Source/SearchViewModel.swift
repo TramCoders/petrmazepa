@@ -28,14 +28,16 @@ class SearchViewModel : ViewModel {
     private let articleStorage: ArticleStorage
     private let favouriteArticleStorage: FavouriteArticlesStorage
     private let articleDetailsPresenter: ArticleDetailsPresenter
+    private let dismisser: SearchDismisser
     
-    required init(settings: ReadOnlySettings, imageGateway: ImageGateway, articleStorage: ArticleStorage, favouriteArticleStorage: FavouriteArticlesStorage, articleDetailsPresenter: ArticleDetailsPresenter) {
+    required init(settings: ReadOnlySettings, imageGateway: ImageGateway, articleStorage: ArticleStorage, favouriteArticleStorage: FavouriteArticlesStorage, articleDetailsPresenter: ArticleDetailsPresenter, dismisser: SearchDismisser) {
         
         self.settings = settings
         self.imageGateway = imageGateway
         self.articleStorage = articleStorage
         self.favouriteArticleStorage = favouriteArticleStorage
         self.articleDetailsPresenter = articleDetailsPresenter
+        self.dismisser = dismisser
         
         self.filteredArticles = []
         self.allFavouriteArticles = []
@@ -47,6 +49,10 @@ class SearchViewModel : ViewModel {
         super.viewWillAppear()
         self.allFavouriteArticles = self.favouriteArticleStorage.favouriteArticles()
         self.invalidateContent()
+    }
+    
+    func closeTapped() {
+        self.dismisser.dismissSearch()
     }
     
     func articleTapped(indexPath: NSIndexPath) {

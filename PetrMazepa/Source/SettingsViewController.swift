@@ -24,6 +24,10 @@ class SettingsViewController: UITableViewController {
         self.onlyWifiImagesSwitch.on = self.model.onlyWifiImages
     }
     
+    @IBAction func closeTapped(sender: AnyObject) {
+        self.model.closeTapped()
+    }
+    
     @IBAction func offlineModeChanged(sender: UISwitch) {
         self.model.didSwitchOfflineMode(enabled: sender.on)
     }

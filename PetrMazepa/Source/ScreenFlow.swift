@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ScreenFlow: NSObject, ArticleDetailsPresenter, SettingsPresenter, SearchPresenter, ArticleDetailsDismisser, ArticleSharer {
+class ScreenFlow: NSObject, ArticleDetailsPresenter, SettingsPresenter, SearchPresenter, ArticleDetailsDismisser, SettingsDismisser, SearchDismisser, ArticleSharer {
     
     private let window: UIWindow
     private let storyboard: UIStoryboard
@@ -83,6 +83,12 @@ class ScreenFlow: NSObject, ArticleDetailsPresenter, SettingsPresenter, SearchPr
         self.currentNavigationController = navigationController
     }
     
+    func dismissSettings() {
+        
+        self.mainNavigationController.dismissViewControllerAnimated(true, completion: nil)
+        self.currentNavigationController = self.mainNavigationController
+    }
+    
     func presentSearch() {
         
         let navigationController = self.storyboard.instantiateViewControllerWithIdentifier("SearchNav") as! UINavigationController
@@ -90,6 +96,12 @@ class ScreenFlow: NSObject, ArticleDetailsPresenter, SettingsPresenter, SearchPr
         searchViewController.model = self.createSearchViewModel()
         self.currentNavigationController.presentViewController(navigationController, animated: true, completion: nil)
         self.currentNavigationController = navigationController
+    }
+    
+    func dismissSearch() {
+        
+        self.mainNavigationController.dismissViewControllerAnimated(true, completion: nil)
+        self.currentNavigationController = self.mainNavigationController
     }
     
     func shareArticle(article: Article) {
@@ -114,11 +126,11 @@ class ScreenFlow: NSObject, ArticleDetailsPresenter, SettingsPresenter, SearchPr
     
     private func createSearchViewModel() -> SearchViewModel {
         
-        return SearchViewModel(settings: self.settings, imageGateway: self.imageCache, articleStorage: self.contentProvider, favouriteArticleStorage: self.contentProvider, articleDetailsPresenter: self)
+        return SearchViewModel(settings: self.settings, imageGateway: self.imageCache, articleStorage: self.contentProvider, favouriteArticleStorage: self.contentProvider, articleDetailsPresenter: self, dismisser: self)
     }
     
     private func createSettingsViewModel() -> SettingsViewModel {
 
-        return SettingsViewModel(settings: self.settings)
+        return SettingsViewModel(settings: self.settings, dismisser: self)
     }
 }

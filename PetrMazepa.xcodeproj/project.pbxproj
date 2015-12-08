@@ -32,6 +32,10 @@
 		AC2D3FD01C1797F300D227D0 /* SettingsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2D3FCE1C1797F300D227D0 /* SettingsPresenter.swift */; };
 		AC2D3FD21C17982700D227D0 /* SearchPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2D3FD11C17982700D227D0 /* SearchPresenter.swift */; };
 		AC2D3FD31C17982700D227D0 /* SearchPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2D3FD11C17982700D227D0 /* SearchPresenter.swift */; };
+		AC2D3FD51C179ED200D227D0 /* SearchDismisser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2D3FD41C179ED200D227D0 /* SearchDismisser.swift */; };
+		AC2D3FD61C179ED200D227D0 /* SearchDismisser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2D3FD41C179ED200D227D0 /* SearchDismisser.swift */; };
+		AC2D3FD81C179EFC00D227D0 /* SettingsDismisser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2D3FD71C179EFC00D227D0 /* SettingsDismisser.swift */; };
+		AC2D3FD91C179EFC00D227D0 /* SettingsDismisser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2D3FD71C179EFC00D227D0 /* SettingsDismisser.swift */; };
 		AC3625A61BF7F124000A51DD /* PetrMazepa.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AC3625A41BF7F124000A51DD /* PetrMazepa.xcdatamodeld */; };
 		AC5934DF1C10F572006F4894 /* ArticleDetailsLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5934DE1C10F572006F4894 /* ArticleDetailsLayout.swift */; };
 		AC5FA43B1B9BA28C0013E1C5 /* SearchedArticleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC5FA4391B9BA28C0013E1C5 /* SearchedArticleCell.xib */; };
@@ -145,6 +149,8 @@
 		AC0BD0D71BB74EF400876B76 /* NetworkingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkingTests.swift; sourceTree = "<group>"; };
 		AC2D3FCE1C1797F300D227D0 /* SettingsPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsPresenter.swift; path = Source/SettingsPresenter.swift; sourceTree = "<group>"; };
 		AC2D3FD11C17982700D227D0 /* SearchPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchPresenter.swift; path = Source/SearchPresenter.swift; sourceTree = "<group>"; };
+		AC2D3FD41C179ED200D227D0 /* SearchDismisser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchDismisser.swift; path = Source/SearchDismisser.swift; sourceTree = "<group>"; };
+		AC2D3FD71C179EFC00D227D0 /* SettingsDismisser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsDismisser.swift; path = Source/SettingsDismisser.swift; sourceTree = "<group>"; };
 		AC3625A51BF7F124000A51DD /* PetrMazepa.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PetrMazepa.xcdatamodel; sourceTree = "<group>"; };
 		AC5934DE1C10F572006F4894 /* ArticleDetailsLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ArticleDetailsLayout.swift; path = Source/ArticleDetailsLayout.swift; sourceTree = "<group>"; };
 		AC5FA43A1B9BA28C0013E1C5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SearchedArticleCell.xib; sourceTree = "<group>"; };
@@ -591,7 +597,9 @@
 				ACEF09A11BC15C38000F00B7 /* ArticleDetailsPresenter.swift */,
 				ACEF09A31BC15C7D000F00B7 /* ArticleDetailsDismisser.swift */,
 				AC2D3FCE1C1797F300D227D0 /* SettingsPresenter.swift */,
+				AC2D3FD71C179EFC00D227D0 /* SettingsDismisser.swift */,
 				AC2D3FD11C17982700D227D0 /* SearchPresenter.swift */,
+				AC2D3FD41C179ED200D227D0 /* SearchDismisser.swift */,
 				ACDBA7A41BC1D77600D53C66 /* ArticleSharer.swift */,
 			);
 			name = ScreenFlow;
@@ -745,6 +753,7 @@
 				ACA41A6A1BBD71BE00550857 /* ArticleDetailsViewController.swift in Sources */,
 				AC0BD0D51BB74B3E00876B76 /* Networking.swift in Sources */,
 				AC701CA41BC1B2B5009891DD /* ArticleDetailsFetcher.swift in Sources */,
+				AC2D3FD51C179ED200D227D0 /* SearchDismisser.swift in Sources */,
 				ACEF098E1BC13332000F00B7 /* Article.swift in Sources */,
 				ACBA696E1C01E91500A93C6D /* Settings.swift in Sources */,
 				ACA41A551BB849AF00550857 /* PersistentImageStorage.swift in Sources */,
@@ -780,6 +789,7 @@
 				ACA41A611BB8558500550857 /* ImageDownloader.swift in Sources */,
 				AC05D45F1BF29C3D0049CAC6 /* SearchedArticleCellModel.swift in Sources */,
 				ACBBD5F91BC186340063FBD6 /* ArticleDetails.swift in Sources */,
+				AC2D3FD81C179EFC00D227D0 /* SettingsDismisser.swift in Sources */,
 				ACEE36891BB801A900E7F63D /* ImageCache.swift in Sources */,
 				ACA41A641BB8620300550857 /* DefaultImageCache.swift in Sources */,
 				AC8F42341BBF24E200E3CAF7 /* ArticleDetailsViewModel.swift in Sources */,
@@ -810,6 +820,7 @@
 				AC0953381BED1A4E0035127E /* FavouriteArticlesStorage.swift in Sources */,
 				ACA41A671BBD54F700550857 /* ArticlesFetcher.swift in Sources */,
 				ACBA698F1C02160600A93C6D /* RemoteArticleDetailsFetcher.swift in Sources */,
+				AC2D3FD91C179EFC00D227D0 /* SettingsDismisser.swift in Sources */,
 				AC05D4601BF29C3D0049CAC6 /* SearchedArticleCellModel.swift in Sources */,
 				ACE7D0C11BF93AA000116C93 /* CoreDataManager.swift in Sources */,
 				AC0BD0D81BB74EF400876B76 /* NetworkingTests.swift in Sources */,
@@ -841,6 +852,7 @@
 				ACE7D0C51BF93E1D00116C93 /* MOArticle+CoreDataProperties.swift in Sources */,
 				ACE7D0CB1BF9C57500116C93 /* MOArticleDetails+CoreDataProperties.swift in Sources */,
 				AC701CA61BC1B39B009891DD /* ArticleDetails.swift in Sources */,
+				AC2D3FD61C179ED200D227D0 /* SearchDismisser.swift in Sources */,
 				ACE7D0C61BF93E1D00116C93 /* MOArticle.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
