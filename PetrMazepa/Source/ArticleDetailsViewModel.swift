@@ -85,12 +85,6 @@ class ArticleDetailsViewModel : ViewModel {
         self.loadContent()
     }
     
-    override func viewWillDisappear() {
-        
-        super.viewWillDisappear()
-        self.updateBarsVisible(true)
-    }
-    
     func closeActionTapped() {
         self.articleDetailsDismisser.dismissArticleDetails()
     }

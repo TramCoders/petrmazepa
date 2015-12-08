@@ -158,12 +158,6 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
             
             let image = favourite ? UIImage(named: "favourite_icon") : UIImage(named: "unfavourite_icon")
             self.favouriteButton.setImage(image, forState: UIControlState.Normal)
-            
-            UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.BeginFromCurrentState, animations: {
-                self.favouriteButton.transform = CGAffineTransformMakeScale(1.2, 1.2)
-            }, completion: { _ in
-                self.favouriteButton.transform = CGAffineTransformIdentity
-            })
         }
     }
     
