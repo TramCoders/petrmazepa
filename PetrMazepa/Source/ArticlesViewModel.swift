@@ -20,18 +20,22 @@ class ArticlesViewModel : ViewModel {
     private let articlesFetcher: ArticlesFetcher
     private let articleSrorage: ArticleStorage
     private let articleDetailsPresenter: ArticleDetailsPresenter
+    private let settingsPresenter: SettingsPresenter
+    private let searchPresenter: SearchPresenter
     
     private var screenSize: CGSize?
     private var thumbSize: CGSize?
     private var screenArticlesAmount: Int = 0
     
-    required init(settings: ReadOnlySettings, imageGateway: ImageGateway, articleStorage: ArticleStorage, articlesFetcher: ArticlesFetcher, articleDetailsPresenter: ArticleDetailsPresenter) {
+    required init(settings: ReadOnlySettings, imageGateway: ImageGateway, articleStorage: ArticleStorage, articlesFetcher: ArticlesFetcher, articleDetailsPresenter: ArticleDetailsPresenter, settingsPresenter: SettingsPresenter, searchPresenter: SearchPresenter) {
 
         self.settings = settings
         self.imageGateway = imageGateway
         self.articleSrorage = articleStorage
         self.articlesFetcher = articlesFetcher
         self.articleDetailsPresenter = articleDetailsPresenter
+        self.settingsPresenter = settingsPresenter
+        self.searchPresenter = searchPresenter
     }
     
     var articlesCount: Int {
@@ -104,6 +108,14 @@ class ArticlesViewModel : ViewModel {
         } else {
             self.loadMore()
         }
+    }
+    
+    func searchTapped() {
+        self.searchPresenter.presentSearch()
+    }
+    
+    func settingsTapped() {
+        self.settingsPresenter.presentSettings()
     }
     
     func cancelActionTapped() {

@@ -93,8 +93,16 @@
                     <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <tabBarItem key="tabBarItem" title="Новые" id="Du8-lm-R73"/>
                     <navigationItem key="navigationItem" id="Dv3-z0-pke">
-                        <barButtonItem key="leftBarButtonItem" image="settings_icon" id="owt-bH-waJ"/>
-                        <barButtonItem key="rightBarButtonItem" image="search_icon" id="r4d-yK-XbP"/>
+                        <barButtonItem key="leftBarButtonItem" image="settings_icon" id="owt-bH-waJ">
+                            <connections>
+                                <action selector="settingsTapped:" destination="vXZ-lx-hvc" id="p93-I2-fRY"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="search_icon" id="r4d-yK-XbP">
+                            <connections>
+                                <action selector="searchTapped:" destination="vXZ-lx-hvc" id="sE0-rp-pq7"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
@@ -213,7 +221,7 @@
         <!--Настройки-->
         <scene sceneID="A5y-qL-eZ7">
             <objects>
-                <navigationController id="HJ1-Yo-TIi" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="SettingsNav" id="HJ1-Yo-TIi" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Настройки" image="settings_tab" id="4me-Td-geD"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="g1t-BJ-FTB">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>

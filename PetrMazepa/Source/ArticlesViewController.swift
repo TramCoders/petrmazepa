@@ -59,6 +59,14 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
         self.model.viewWillDisappear()
     }
     
+    @IBAction func settingsTapped(sender: AnyObject) {
+        self.model.settingsTapped()
+    }
+    
+    @IBAction func searchTapped(sender: AnyObject) {
+        self.model.searchTapped()
+    }
+    
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.model.articlesCount
     }
