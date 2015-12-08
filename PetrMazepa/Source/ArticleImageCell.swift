@@ -8,16 +8,13 @@
 
 import UIKit
 
-class ArticleImageCell: UICollectionViewCell, ArticleComponentCell {
+class ArticleImageCell: UICollectionViewCell {
     
     @IBOutlet weak var imageView: UIImageView!
-    
-    func update(value: AnyObject?) {
 
-        if let image = value as? UIImage {
+    var image: UIImage? {
+        didSet {
             self.imageView.image = image
-        } else {
-            self.imageView.image = nil
         }
     }
 }

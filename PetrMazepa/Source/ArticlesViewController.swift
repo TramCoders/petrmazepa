@@ -115,4 +115,3 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
         }
     }
 }
-
