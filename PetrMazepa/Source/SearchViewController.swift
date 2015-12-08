@@ -62,6 +62,10 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
         }
     }
     
+    @IBAction func closeTapped(sender: AnyObject) {
+        self.model.closeTapped()
+    }
+    
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 2
     }

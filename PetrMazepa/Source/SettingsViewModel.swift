@@ -11,9 +11,12 @@ import Foundation
 class SettingsViewModel {
     
     private let settings: ReadWriteSettings
+    private let dismisser: SettingsDismisser
     
-    init(settings: ReadWriteSettings) {
+    init(settings: ReadWriteSettings, dismisser: SettingsDismisser) {
+
         self.settings = settings
+        self.dismisser = dismisser
     }
     
     var offlineMode: Bool {
@@ -22,6 +25,10 @@ class SettingsViewModel {
     
     var onlyWifiImages: Bool {
         return self.settings.onlyWifiImages
+    }
+    
+    func closeTapped() {
+        self.dismisser.dismissSettings()
     }
     
     func didSwitchOfflineMode(enabled enabled: Bool) {
