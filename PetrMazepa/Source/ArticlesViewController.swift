@@ -33,6 +33,8 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
 
         super.viewDidLoad()
 
+        self.title = NSLocalizedString("ArticlesScreenTitle", comment: "")
+        
         // register an article cell
         let cellNib = UINib(nibName: "ArticleCell", bundle: nil)
         self.collectionView.registerNib(cellNib, forCellWithReuseIdentifier: self.cellReuseIdentifier)
@@ -47,7 +49,7 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
     override func viewWillAppear(animated: Bool) {
         
         super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(true, animated: true)
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
         self.model.viewWillAppear()
     }
     

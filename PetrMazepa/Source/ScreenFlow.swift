@@ -8,12 +8,12 @@
 
 import UIKit
 
-class ScreenFlow: NSObject, UITabBarControllerDelegate, ArticleDetailsPresenter, ArticleDetailsDismisser, ArticleSharer {
+class ScreenFlow: NSObject, ArticleDetailsPresenter, ArticleDetailsDismisser, ArticleSharer {
     
     private let window: UIWindow
     private let storyboard: UIStoryboard
     
-    private let tabBarController: UITabBarController
+    private var mainNavigationController: UINavigationController
     private var currentNavigationController: UINavigationController
     private var currentViewController: UIViewController
     
@@ -30,9 +30,9 @@ class ScreenFlow: NSObject, UITabBarControllerDelegate, ArticleDetailsPresenter,
         self.window.layer.masksToBounds = true
         
         self.storyboard = UIStoryboard(name: "Main", bundle: nil)
-        self.tabBarController = self.storyboard.instantiateInitialViewController() as! UITabBarController
-        self.currentNavigationController = self.tabBarController.viewControllers!.first as! UINavigationController
-        self.currentViewController = self.tabBarController
+        self.mainNavigationController = self.storyboard.instantiateInitialViewController() as! UINavigationController
+        self.currentNavigationController = self.mainNavigationController
+        self.currentViewController = self.mainNavigationController
         
         self.settings = Settings()
         self.networking = Networking()
@@ -44,25 +44,19 @@ class ScreenFlow: NSObject, UITabBarControllerDelegate, ArticleDetailsPresenter,
         
         super.init()
         
-        self.tabBarController.delegate = self
-        
-        guard let navigationControllers = self.tabBarController.viewControllers as? [UINavigationController] else {
-            return
-        }
-        
-        let viewControllers = navigationControllers.map({ $0.viewControllers.first! })
-        
-        if let articlesViewController = viewControllers[0] as? ArticlesViewController {
-            articlesViewController.model = self.createArticlesViewModel()
-        }
-        
-        if let searchViewController = viewControllers[1] as? SearchViewController {
-            searchViewController.model = self.createSearchViewModel()
-        }
-        
-        if let settingsViewController = viewControllers[2] as? SettingsViewController {
-            settingsViewController.model = self.createSettingsViewModel()
-        }
+//        let viewControllers = navigationControllers.map({ $0.viewControllers.first! })
+//        
+//        if let articlesViewController = viewControllers[0] as? ArticlesViewController {
+//            articlesViewController.model = self.createArticlesViewModel()
+//        }
+//        
+//        if let searchViewController = viewControllers[1] as? SearchViewController {
+//            searchViewController.model = self.createSearchViewModel()
+//        }
+//        
+//        if let settingsViewController = viewControllers[2] as? SettingsViewController {
+//            settingsViewController.model = self.createSettingsViewModel()
+//        }
     }
     
     func start() {
@@ -74,7 +68,7 @@ class ScreenFlow: NSObject, UITabBarControllerDelegate, ArticleDetailsPresenter,
         let articlesViewController = self.currentNavigationController.topViewController as! ArticlesViewController
         articlesViewController.model = self.createArticlesViewModel()
 
-        self.window.rootViewController = self.tabBarController
+        self.window.rootViewController = self.currentNavigationController
         self.window.makeKeyAndVisible()
         
         self.currentViewController = articlesViewController
@@ -104,12 +98,12 @@ class ScreenFlow: NSObject, UITabBarControllerDelegate, ArticleDetailsPresenter,
         self.currentViewController.presentViewController(activityViewController, animated: true, completion: nil)
     }
     
-    func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
-        
-        if let navigationController = viewController as? UINavigationController {
-            self.currentNavigationController = navigationController
-        }
-    }
+//    func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
+//        
+//        if let navigationController = viewController as? UINavigationController {
+//            self.currentNavigationController = navigationController
+//        }
+//    }
     
     private func createArticlesViewModel() -> ArticlesViewModel {
         

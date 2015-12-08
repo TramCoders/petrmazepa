@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="37r-eI-B4w">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="ht5-ZF-4l0">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
@@ -29,27 +29,6 @@
             </objects>
             <point key="canvasLocation" x="-592" y="147"/>
         </scene>
-        <!--Tab Bar Controller-->
-        <scene sceneID="cTp-dg-Ghl">
-            <objects>
-                <tabBarController id="37r-eI-B4w" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" id="R9S-BI-XAN"/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" translucent="NO" id="5Vz-ob-0bJ">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <animations/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    </tabBar>
-                    <connections>
-                        <segue destination="ht5-ZF-4l0" kind="relationship" relationship="viewControllers" id="e7X-Sv-WIh"/>
-                        <segue destination="KAc-a6-Xrk" kind="relationship" relationship="viewControllers" id="uID-as-hhH"/>
-                        <segue destination="HJ1-Yo-TIi" kind="relationship" relationship="viewControllers" id="B4c-82-ddd"/>
-                    </connections>
-                </tabBarController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="cjn-ol-cj7" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1304" y="147"/>
-        </scene>
         <!--Новые-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
@@ -59,11 +38,11 @@
                         <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="YoU-1M-ywq">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Uhs-7R-TWZ" customClass="ArticlesViewLayout" customModule="PetrMazepa" customModuleProvider="target">
@@ -113,9 +92,12 @@
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <tabBarItem key="tabBarItem" title="Новые" id="Du8-lm-R73"/>
-                    <navigationItem key="navigationItem" id="Dv3-z0-pke"/>
+                    <navigationItem key="navigationItem" id="Dv3-z0-pke">
+                        <barButtonItem key="leftBarButtonItem" image="settings_icon" id="owt-bH-waJ"/>
+                        <barButtonItem key="rightBarButtonItem" image="search_icon" id="r4d-yK-XbP"/>
+                    </navigationItem>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
-                    <nil key="simulatedTopBarMetrics"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="collectionView" destination="YoU-1M-ywq" id="PZg-9z-49n"/>
                     </connections>
@@ -129,7 +111,7 @@
             <objects>
                 <tableViewController id="AuA-Ve-Xy6" customClass="SettingsViewController" customModule="PetrMazepa" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="EvF-yj-r3c">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -381,7 +363,7 @@
                         <viewControllerLayoutGuide type="bottom" id="ETx-65-pbK"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="dre-gj-SFr">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r6u-t2-abH">
@@ -410,7 +392,7 @@
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Bwl-Ah-XPo">
-                                <rect key="frame" x="0.0" y="80" width="600" height="471"/>
+                                <rect key="frame" x="0.0" y="80" width="600" height="520"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
@@ -448,6 +430,8 @@
         <image name="articles_tab" width="30" height="30"/>
         <image name="back" width="30" height="30"/>
         <image name="favourite_tab" width="30" height="30"/>
+        <image name="search_icon" width="22" height="22"/>
+        <image name="settings_icon" width="22" height="22"/>
         <image name="settings_tab" width="30" height="30"/>
         <image name="unfavourite_icon" width="30" height="30"/>
     </resources>
