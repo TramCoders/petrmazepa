@@ -79,6 +79,7 @@ class ArticleDetailsViewModel : ViewModel {
 
         super.viewWillAppear()
         self.barsVisibile = true
+        self.favouriteStateChanged!(favourite: self.article.favourite)
     }
     
     func viewDidAppear() {
