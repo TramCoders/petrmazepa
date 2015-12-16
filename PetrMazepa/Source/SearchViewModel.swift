@@ -71,7 +71,7 @@ class SearchViewModel : ViewModel {
     
     func sectionHeadersVisible() -> Bool {
         
-        let favoritesCount = self.favouriteArticles.count
+        let favoritesCount = self.allFavouriteArticles.count
         return favoritesCount == 0 ? false : true
     }
     
