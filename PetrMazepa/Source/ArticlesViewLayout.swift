@@ -15,10 +15,10 @@ class ArticlesViewLayout: UICollectionViewLayout  {
     private let margin: CGFloat = 2.0
     private let internalMargin: CGFloat = 1.0
     
-    func insertArticles(count: Int) -> [NSIndexPath] {
+    func insertArticles(count: Int) {
         
         guard count > 0 else {
-            return []
+            return
         }
 
         let screenWidth = UIScreen.mainScreen().bounds.size.width
@@ -26,12 +26,10 @@ class ArticlesViewLayout: UICollectionViewLayout  {
 
         let oldCount = self.attributes.count
         let insertedIndices = oldCount..<(oldCount + count)
-        var insertedIndexPaths = [NSIndexPath]()
 
         self.attributes.appendContentsOf(insertedIndices.map({ (index: Int) -> UICollectionViewLayoutAttributes in
 
             let indexPath = NSIndexPath(forItem: index, inSection: 0)
-            insertedIndexPaths.append(indexPath)
             let attrs = UICollectionViewLayoutAttributes(forCellWithIndexPath: indexPath)
 
             let even = index % 2 == 0
@@ -41,8 +39,10 @@ class ArticlesViewLayout: UICollectionViewLayout  {
             
             return attrs
         }))
-        
-        return insertedIndexPaths
+    }
+    
+    func deleteAllArticles() {
+        self.attributes.removeAll()
     }
     
     override func prepareLayout() {

@@ -11,6 +11,8 @@ import UIKit
 class ArticlesViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
     @IBOutlet weak var collectionView: UICollectionView!
+    private var refreshControl: UIRefreshControl!
+    
     weak var layout: ArticlesViewLayout!
     private let cellReuseIdentifier = "ArticleCell"
     
@@ -21,6 +23,8 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
         didSet {
             
             self.model.articlesInserted = self.articlesInsertedHandler()
+            self.model.allArticlesDeleted = self.allArticlesDeletedHandler()
+            self.model.refreshingStateChanged = self.refreshingStateChangedHandler()
             self.model.errorOccurred = self.errorOccurredHandler()
         }
     }
@@ -33,6 +37,7 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
 
         super.viewDidLoad()
 
+        // title
         self.title = NSLocalizedString("ArticlesScreenTitle", comment: "")
         
         // register an article cell
@@ -41,6 +46,11 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
         
         // a collection view layout data source
         self.layout = self.collectionView.collectionViewLayout as? ArticlesViewLayout
+        
+        // refresh control
+        self.refreshControl = UIRefreshControl()
+        self.refreshControl.addTarget(self, action: Selector("refreshTriggered"), forControlEvents: .ValueChanged)
+        self.collectionView.addSubview(self.refreshControl)
         
         // notify model
         self.model.viewDidLoad(screenSize: UIScreen.mainScreen().bounds.size)
@@ -65,6 +75,10 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
     
     @IBAction func searchTapped(sender: AnyObject) {
         self.model.searchTapped()
+    }
+    
+    func refreshTriggered() {
+        self.model.refreshTriggered()
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -94,12 +108,36 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
 
         return { range in
             
-            let insertedIndexPaths = self.layout!.insertArticles(range.count)
+            self.layout.insertArticles(range.count)
+            let insertedIndexPaths = self.indexPaths(range: range)
             
             if range.startIndex == 0 {
                 self.collectionView.reloadData()
             } else {
                 self.collectionView.insertItemsAtIndexPaths(insertedIndexPaths)
+            }
+        }
+    }
+    
+    private func allArticlesDeletedHandler() -> (() -> Void) {
+        return {
+            
+            self.layout.deleteAllArticles()
+            self.collectionView.reloadData()
+        }
+    }
+    
+    private func refreshingStateChangedHandler() -> ((refreshing: Bool) -> Void) {
+        return { refreshing in
+            
+            guard self.refreshControl.refreshing != refreshing else {
+                return
+            }
+            
+            if refreshing {
+                self.refreshControl.beginRefreshing()
+            } else {
+                self.refreshControl.endRefreshing()
             }
         }
     }
@@ -123,5 +161,9 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
             
             self.presentViewController(alertController, animated: true, completion: nil)
         }
+    }
+    
+    private func indexPaths(range range: Range<Int>) -> [NSIndexPath] {
+        return range.map({ NSIndexPath(forItem: $0, inSection: 0) })
     }
 }

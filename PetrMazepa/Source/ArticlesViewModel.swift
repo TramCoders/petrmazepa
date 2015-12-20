@@ -13,7 +13,9 @@ class ArticlesViewModel : ViewModel {
     var loading = false
     
     var articlesInserted: ((range: Range<Int>) -> Void)?
+    var allArticlesDeleted: (() -> Void)?
     var errorOccurred: ((error: NSError?) -> Void)?
+    var refreshingStateChanged: ((refreshing: Bool) -> Void)?
     
     private let settings: ReadOnlySettings
     private let imageGateway: ImageGateway
@@ -26,6 +28,14 @@ class ArticlesViewModel : ViewModel {
     private var screenSize: CGSize?
     private var thumbSize: CGSize?
     private var screenArticlesAmount: Int = 0
+    
+    private var refreshing: Bool = false {
+        didSet {
+            if self.refreshing != oldValue {
+                self.refreshingStateChanged!(refreshing: self.refreshing)
+            }
+        }
+    }
     
     required init(settings: ReadOnlySettings, imageGateway: ImageGateway, articleStorage: ArticleStorage, articlesFetcher: ArticlesFetcher, articleDetailsPresenter: ArticleDetailsPresenter, settingsPresenter: SettingsPresenter, searchPresenter: SearchPresenter) {
 
@@ -97,6 +107,17 @@ class ArticlesViewModel : ViewModel {
         return ArticleCellModel(settings: self.settings, article: article, roundedCorner: roundedCorner, imageGateway: self.imageGateway)
     }
     
+    func refreshTriggered() {
+        
+        guard self.loading == false else {
+            return
+        }
+        
+        self.articlesFetcher.cleanInMemoryCache()
+        self.allArticlesDeleted!()
+        self.loadFirst()
+    }
+    
     func retryActionTapped() {
         
         guard self.loading == false else {
@@ -123,18 +144,23 @@ class ArticlesViewModel : ViewModel {
     }
     
     private func loadFirst() {
-        self.load(fromIndex: 0, count: self.screenArticlesAmount * 2)
+        self.load(fromIndex: 0, count: self.screenArticlesAmount * 2, willLoadHandler: {
+            self.refreshing = true
+        }, didLoadHandler: {
+            self.refreshing = false
+        })
     }
     
     private func loadMore() {
         
         let oldCount = self.articlesCount
-        self.load(fromIndex: oldCount, count: self.screenArticlesAmount * 2)
+        self.load(fromIndex: oldCount, count: self.screenArticlesAmount * 2, willLoadHandler: {}, didLoadHandler: {})
     }
     
-    private func load(fromIndex fromIndex: Int, count: Int) {
+    private func load(fromIndex fromIndex: Int, count: Int, willLoadHandler: (() -> Void), didLoadHandler: (() -> Void)) {
         
         self.loading = true
+        willLoadHandler()
         
         self.articlesFetcher.fetchArticles(fromIndex: fromIndex, count: count, allowRemote: !self.settings.offlineMode) { articles, error in
             
@@ -144,6 +170,7 @@ class ArticlesViewModel : ViewModel {
             
             dispatch_async(dispatch_get_main_queue(), {
 
+                didLoadHandler()
                 self.loading = false
                 
                 if let _ = error {
