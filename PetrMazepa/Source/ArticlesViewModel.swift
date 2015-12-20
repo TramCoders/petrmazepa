@@ -204,6 +204,7 @@ class ArticlesViewModel : ViewModel {
         }
     }
     
+    // TODO: make a custom layout attribute
     private func roundedCorner(byIndex index: Int) -> RoundedCorner {
         
         switch index {
