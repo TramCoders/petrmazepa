@@ -11,16 +11,16 @@ import UIKit
 class ArticlesViewLayout: UICollectionViewLayout  {
     
     private var attributes = [UICollectionViewLayoutAttributes]()
-    private let topMargin: CGFloat = 2.0
-    private let margin: CGFloat = 2.0
-    private let internalMargin: CGFloat = 1.0
+    private let verPadding: CGFloat = 2.0
+    private let horPadding: CGFloat = 1.0
+    private let margin: CGFloat = 1.0
     
     private var screenWidth: CGFloat {
         return UIScreen.mainScreen().bounds.width
     }
     
     private var cellWidth: CGFloat {
-        return (self.screenWidth - 2 * self.margin - self.internalMargin) / 2
+        return (self.screenWidth - 2 * self.horPadding - self.margin) / 2
     }
     
     func insertArticles(count: Int) {
@@ -39,8 +39,8 @@ class ArticlesViewLayout: UICollectionViewLayout  {
             let attrs = UICollectionViewLayoutAttributes(forCellWithIndexPath: indexPath)
 
             let even = index % 2 == 0
-            let left = (even ? self.margin : self.margin + cellWidth + self.internalMargin)
-            let top = self.topMargin + (cellWidth + self.internalMargin) * CGFloat(index / 2)
+            let left = (even ? self.horPadding : self.horPadding + cellWidth + self.margin)
+            let top = self.verPadding + (cellWidth + self.margin) * CGFloat(index / 2)
             attrs.frame = CGRectMake(left, top, cellWidth, cellWidth)
             
             return attrs
@@ -73,8 +73,8 @@ class ArticlesViewLayout: UICollectionViewLayout  {
             size.height = max(CGRectGetMaxY(attrs.frame), size.height)
         }
         
-        size.height += self.margin
-        size.width += self.margin
+        size.height += self.verPadding
+        size.width += self.horPadding
         
         return size
     }
