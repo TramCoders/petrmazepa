@@ -10,12 +10,11 @@ import UIKit
 
 class ArticlesViewModel : ViewModel {
     
-    var loading = false
-    
     var articlesInserted: ((range: Range<Int>) -> Void)?
     var allArticlesDeleted: (() -> Void)?
     var errorOccurred: ((error: NSError?) -> Void)?
     var refreshingStateChanged: ((refreshing: Bool) -> Void)?
+    var loadingMoreStateChanged: ((loadingMore: Bool) -> Void)?
     
     private let settings: ReadOnlySettings
     private let imageGateway: ImageGateway
@@ -31,10 +30,18 @@ class ArticlesViewModel : ViewModel {
     
     private var refreshing: Bool = false {
         didSet {
-            if self.refreshing != oldValue {
-                self.refreshingStateChanged!(refreshing: self.refreshing)
-            }
+            self.refreshingStateChanged!(refreshing: self.refreshing)
         }
+    }
+    
+    var loadingMore: Bool = false {
+        didSet {
+            self.loadingMoreStateChanged!(loadingMore: self.loadingMore)
+        }
+    }
+    
+    private var loading: Bool {
+        return self.refreshing || self.loadingMore
     }
     
     required init(settings: ReadOnlySettings, imageGateway: ImageGateway, articleStorage: ArticleStorage, articlesFetcher: ArticlesFetcher, articleDetailsPresenter: ArticleDetailsPresenter, settingsPresenter: SettingsPresenter, searchPresenter: SearchPresenter) {
@@ -80,10 +87,14 @@ class ArticlesViewModel : ViewModel {
         
         // load articles
         self.screenArticlesAmount = Int(ceil(size.height / (thumbWidth + 1))) * 2
-        self.loadFirst()
+        self.refresh()
     }
     
     func didChangeDistanceToBottom(distance: CGFloat) {
+        
+        guard self.articlesCount > 0 else {
+            return
+        }
         
         guard self.loading == false else {
             return
@@ -108,24 +119,17 @@ class ArticlesViewModel : ViewModel {
     }
     
     func refreshTriggered() {
-        
-        guard self.loading == false else {
-            return
-        }
-        
-        self.articlesFetcher.cleanInMemoryCache()
-        self.allArticlesDeleted!()
-        self.loadFirst()
+        self.refresh()
     }
     
     func retryActionTapped() {
         
-        guard self.loading == false else {
+        guard !self.refreshing && !self.loadingMore else {
             return
         }
         
         if self.articlesCount == 0 {
-            self.loadFirst()
+            self.refresh()
         } else {
             self.loadMore()
         }
@@ -143,7 +147,15 @@ class ArticlesViewModel : ViewModel {
         // do nothing
     }
     
-    private func loadFirst() {
+    private func refresh() {
+        
+        guard !self.loading else {
+            return
+        }
+        
+        self.articlesFetcher.cleanInMemoryCache()
+        self.allArticlesDeleted!()
+        
         self.load(fromIndex: 0, count: self.screenArticlesAmount * 2, willLoadHandler: {
             self.refreshing = true
         }, didLoadHandler: {
@@ -153,13 +165,21 @@ class ArticlesViewModel : ViewModel {
     
     private func loadMore() {
         
+        guard !self.loading else {
+            return
+        }
+        
         let oldCount = self.articlesCount
-        self.load(fromIndex: oldCount, count: self.screenArticlesAmount * 2, willLoadHandler: {}, didLoadHandler: {})
+        
+        self.load(fromIndex: oldCount, count: self.screenArticlesAmount * 2, willLoadHandler: {
+            self.loadingMore = true
+        }, didLoadHandler: {
+            self.loadingMore = false
+        })
     }
     
     private func load(fromIndex fromIndex: Int, count: Int, willLoadHandler: (() -> Void), didLoadHandler: (() -> Void)) {
         
-        self.loading = true
         willLoadHandler()
         
         self.articlesFetcher.fetchArticles(fromIndex: fromIndex, count: count, allowRemote: !self.settings.offlineMode) { articles, error in
@@ -171,7 +191,6 @@ class ArticlesViewModel : ViewModel {
             dispatch_async(dispatch_get_main_queue(), {
 
                 didLoadHandler()
-                self.loading = false
                 
                 if let _ = error {
                     

@@ -36,6 +36,7 @@
 		AC2D3FD61C179ED200D227D0 /* SearchDismisser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2D3FD41C179ED200D227D0 /* SearchDismisser.swift */; };
 		AC2D3FD81C179EFC00D227D0 /* SettingsDismisser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2D3FD71C179EFC00D227D0 /* SettingsDismisser.swift */; };
 		AC2D3FD91C179EFC00D227D0 /* SettingsDismisser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2D3FD71C179EFC00D227D0 /* SettingsDismisser.swift */; };
+		AC31668B1C26DB8500EE0DAC /* LoadingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC3166891C26DB8500EE0DAC /* LoadingView.xib */; };
 		AC3625A61BF7F124000A51DD /* PetrMazepa.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AC3625A41BF7F124000A51DD /* PetrMazepa.xcdatamodeld */; };
 		AC5934DF1C10F572006F4894 /* ArticleDetailsLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5934DE1C10F572006F4894 /* ArticleDetailsLayout.swift */; };
 		AC5FA43B1B9BA28C0013E1C5 /* SearchedArticleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC5FA4391B9BA28C0013E1C5 /* SearchedArticleCell.xib */; };
@@ -151,6 +152,7 @@
 		AC2D3FD11C17982700D227D0 /* SearchPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchPresenter.swift; path = Source/SearchPresenter.swift; sourceTree = "<group>"; };
 		AC2D3FD41C179ED200D227D0 /* SearchDismisser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchDismisser.swift; path = Source/SearchDismisser.swift; sourceTree = "<group>"; };
 		AC2D3FD71C179EFC00D227D0 /* SettingsDismisser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsDismisser.swift; path = Source/SettingsDismisser.swift; sourceTree = "<group>"; };
+		AC31668A1C26DB8500EE0DAC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LoadingView.xib; sourceTree = "<group>"; };
 		AC3625A51BF7F124000A51DD /* PetrMazepa.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PetrMazepa.xcdatamodel; sourceTree = "<group>"; };
 		AC5934DE1C10F572006F4894 /* ArticleDetailsLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ArticleDetailsLayout.swift; path = Source/ArticleDetailsLayout.swift; sourceTree = "<group>"; };
 		AC5FA43A1B9BA28C0013E1C5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SearchedArticleCell.xib; sourceTree = "<group>"; };
@@ -374,6 +376,7 @@
 				ACEF09921BC14518000F00B7 /* ArticlesViewController.swift */,
 				5EC712141B8CD42000C84AE7 /* ArticleCell.xib */,
 				5EC711E91B8CD2B200C84AE7 /* ArticlesViewLayout.swift */,
+				AC3166891C26DB8500EE0DAC /* LoadingView.xib */,
 			);
 			name = Articles;
 			sourceTree = "<group>";
@@ -724,6 +727,7 @@
 				5EC712161B8CD42000C84AE7 /* ArticleCell.xib in Resources */,
 				ACAF975E1B5C04A200CB53B1 /* Main.storyboard in Resources */,
 				ACAF97631B5C04A200CB53B1 /* LaunchScreen.xib in Resources */,
+				AC31668B1C26DB8500EE0DAC /* LoadingView.xib in Resources */,
 				ACAF97601B5C04A200CB53B1 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -874,6 +878,14 @@
 				5EC712151B8CD42000C84AE7 /* Base */,
 			);
 			name = ArticleCell.xib;
+			sourceTree = "<group>";
+		};
+		AC3166891C26DB8500EE0DAC /* LoadingView.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AC31668A1C26DB8500EE0DAC /* Base */,
+			);
+			name = LoadingView.xib;
 			sourceTree = "<group>";
 		};
 		AC5FA4391B9BA28C0013E1C5 /* SearchedArticleCell.xib */ = {

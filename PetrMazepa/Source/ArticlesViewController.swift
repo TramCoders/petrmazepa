@@ -15,6 +15,7 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
     
     weak var layout: ArticlesViewLayout!
     private let cellReuseIdentifier = "ArticleCell"
+    private let loadingCellReuseIdentifier = "LoadingCell"
     
     @IBOutlet weak var heightSearchConstraint: NSLayoutConstraint!
     
@@ -25,6 +26,7 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
             self.model.articlesInserted = self.articlesInsertedHandler()
             self.model.allArticlesDeleted = self.allArticlesDeletedHandler()
             self.model.refreshingStateChanged = self.refreshingStateChangedHandler()
+            self.model.loadingMoreStateChanged = self.loadingMoreStateChangedHandler()
             self.model.errorOccurred = self.errorOccurredHandler()
         }
     }
@@ -50,7 +52,10 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
         // refresh control
         self.refreshControl = UIRefreshControl()
         self.refreshControl.addTarget(self, action: Selector("refreshTriggered"), forControlEvents: .ValueChanged)
+        self.refreshControl.layer.zPosition = -1
         self.collectionView.addSubview(self.refreshControl)
+        
+        self.collectionView.alwaysBounceVertical = true
         
         // notify model
         self.model.viewDidLoad(screenSize: UIScreen.mainScreen().bounds.size)
@@ -139,6 +144,12 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
             } else {
                 self.refreshControl.endRefreshing()
             }
+        }
+    }
+    
+    private func loadingMoreStateChangedHandler() -> ((loadingMore: Bool) -> Void) {
+        return { loadingMore in
+            // TODO:
         }
     }
     

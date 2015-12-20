@@ -15,15 +15,21 @@ class ArticlesViewLayout: UICollectionViewLayout  {
     private let margin: CGFloat = 2.0
     private let internalMargin: CGFloat = 1.0
     
+    private var screenWidth: CGFloat {
+        return UIScreen.mainScreen().bounds.width
+    }
+    
+    private var cellWidth: CGFloat {
+        return (self.screenWidth - 2 * self.margin - self.internalMargin) / 2
+    }
+    
     func insertArticles(count: Int) {
         
         guard count > 0 else {
             return
         }
 
-        let screenWidth = UIScreen.mainScreen().bounds.size.width
-        let cellWidth = (screenWidth - 2 * self.margin - self.internalMargin) / 2
-
+        let cellWidth = self.cellWidth
         let oldCount = self.attributes.count
         let insertedIndices = oldCount..<(oldCount + count)
 
@@ -43,6 +49,14 @@ class ArticlesViewLayout: UICollectionViewLayout  {
     
     func deleteAllArticles() {
         self.attributes.removeAll()
+    }
+    
+    func showLoadingIndicator() {
+        // TODO:
+    }
+    
+    func hideLoadingIndicator() {
+        // TODO:
     }
     
     override func prepareLayout() {
