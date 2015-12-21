@@ -9,3 +9,5 @@
 "ArticlesScreenTitle" = "Пётр и Мазепа";
 "FavoriteSectionTitle" = "Любимые";
 "OthersSectionTitle" = "Остальные";
+"ArticlesLoadingFailedMessage" = "Не удалось получить статьи";
+"ArticlesOfflineLoadingFailedMessage" = "Для получения статей отключите Оффлайн режим";

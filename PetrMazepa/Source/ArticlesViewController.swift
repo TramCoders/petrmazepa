@@ -66,6 +66,7 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         self.model.viewWillAppear()
+        self.updateRefreshControl()
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -134,16 +135,16 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
     
     private func refreshingStateChangedHandler() -> ((refreshing: Bool) -> Void) {
         return { refreshing in
-            
-            guard self.refreshControl.refreshing != refreshing else {
-                return
-            }
-            
-            if refreshing {
-                self.refreshControl.beginRefreshing()
-            } else {
-                self.refreshControl.endRefreshing()
-            }
+            self.updateRefreshControl()
+        }
+    }
+    
+    private func updateRefreshControl() {
+        
+        if self.model.refreshing {
+            self.refreshControl.beginRefreshing()
+        } else {
+            self.refreshControl.endRefreshing()
         }
     }
     
@@ -153,11 +154,12 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
         }
     }
     
-    private func errorOccurredHandler() -> ((error: NSError?) -> Void) {
+    private func errorOccurredHandler() -> ((messageKey: String) -> Void) {
 
-        return { _ in
+        return { messageKey in
             
-            let alertController = UIAlertController(title: nil, message: "Не удалось получить статьи", preferredStyle: .Alert)
+            let message = NSLocalizedString(messageKey, comment: "")
+            let alertController = UIAlertController(title: nil, message: message, preferredStyle: .Alert)
             
             let retryAction = UIAlertAction(title: "Ещё раз", style: .Default, handler: { _ in
                 self.model.retryActionTapped()

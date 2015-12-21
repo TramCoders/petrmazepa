@@ -12,7 +12,7 @@ class ArticlesViewModel : ViewModel {
     
     var articlesInserted: ((range: Range<Int>) -> Void)?
     var allArticlesDeleted: (() -> Void)?
-    var errorOccurred: ((error: NSError?) -> Void)?
+    var errorOccurred: ((messageKey: String) -> Void)?
     var refreshingStateChanged: ((refreshing: Bool) -> Void)?
     var loadingMoreStateChanged: ((loadingMore: Bool) -> Void)?
     
@@ -28,7 +28,7 @@ class ArticlesViewModel : ViewModel {
     private var thumbSize: CGSize?
     private var screenArticlesAmount: Int = 0
     
-    private var refreshing: Bool = false {
+    var refreshing: Bool = false {
         didSet {
             self.refreshingStateChanged!(refreshing: self.refreshing)
         }
@@ -119,12 +119,19 @@ class ArticlesViewModel : ViewModel {
     }
     
     func refreshTriggered() {
+        
+        guard !self.settings.offlineMode else {
+            
+            self.errorOccurred!(messageKey: "ArticlesOfflineLoadingFailedMessage")
+            return
+        }
+        
         self.refresh()
     }
     
     func retryActionTapped() {
         
-        guard !self.refreshing && !self.loadingMore else {
+        guard !self.loading else {
             return
         }
         
@@ -194,7 +201,7 @@ class ArticlesViewModel : ViewModel {
                 
                 if let _ = error {
                     
-                    self.errorOccurred!(error: error)
+                    self.errorOccurred!(messageKey: "ArticlesLoadingFailedMessage")
                     return
                 }
                 
