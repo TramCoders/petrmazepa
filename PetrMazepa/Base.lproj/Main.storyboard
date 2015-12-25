@@ -6,11 +6,12 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Navigation Controller-->
+        <!--Новые-->
         <scene sceneID="kJh-Oa-DnC">
             <objects>
                 <navigationController id="ht5-ZF-4l0" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout" top="YES"/>
+                    <tabBarItem key="tabBarItem" title="Новые" image="articles_tab" id="MEv-J8-COd"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="kba-Rt-6g2">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -223,10 +224,11 @@
             </objects>
             <point key="canvasLocation" x="141" y="-633"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Настройки-->
         <scene sceneID="A5y-qL-eZ7">
             <objects>
                 <navigationController storyboardIdentifier="SettingsNav" id="HJ1-Yo-TIi" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Настройки" image="settings_tab" id="4me-Td-geD"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="g1t-BJ-FTB">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -453,11 +455,13 @@
         </scene>
     </scenes>
     <resources>
+        <image name="articles_tab" width="30" height="30"/>
         <image name="back" width="30" height="30"/>
         <image name="close_icon" width="22" height="22"/>
         <image name="favourite_tab" width="30" height="30"/>
         <image name="search_icon" width="22" height="22"/>
         <image name="settings_icon" width="22" height="22"/>
+        <image name="settings_tab" width="30" height="30"/>
         <image name="unfavourite_icon" width="30" height="30"/>
     </resources>
 </document>

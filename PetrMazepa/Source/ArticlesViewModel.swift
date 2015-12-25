@@ -12,8 +12,7 @@ class ArticlesViewModel : ViewModel {
     
     var articlesInserted: ((range: Range<Int>) -> Void)?
     var allArticlesDeleted: (() -> Void)?
-    var loadingFailedInOfflineMode: (() -> Void)?
-    var errorOccurred: (() -> Void)?
+    var errorOccurred: ((messageKey: String) -> Void)?
     var refreshingStateChanged: ((refreshing: Bool) -> Void)?
     var loadingMoreStateChanged: ((loadingMore: Bool) -> Void)?
     
@@ -31,22 +30,12 @@ class ArticlesViewModel : ViewModel {
     
     var refreshing: Bool = false {
         didSet {
-            
-            guard self.viewIsPresented else {
-                return
-            }
-            
             self.refreshingStateChanged!(refreshing: self.refreshing)
         }
     }
     
     var loadingMore: Bool = false {
         didSet {
-            
-            guard self.viewIsPresented else {
-                return
-            }
-            
             self.loadingMoreStateChanged!(loadingMore: self.loadingMore)
         }
     }
@@ -54,8 +43,6 @@ class ArticlesViewModel : ViewModel {
     private var loading: Bool {
         return self.refreshing || self.loadingMore
     }
-    
-    private var willRefresh = false
     
     required init(settings: ReadOnlySettings, imageGateway: ImageGateway, articleStorage: ArticleStorage, articlesFetcher: ArticlesFetcher, articleDetailsPresenter: ArticleDetailsPresenter, settingsPresenter: SettingsPresenter, searchPresenter: SearchPresenter) {
 
@@ -100,54 +87,28 @@ class ArticlesViewModel : ViewModel {
         
         // load articles
         self.screenArticlesAmount = Int(ceil(size.height / (thumbWidth + 1))) * 2
+        self.refresh()
     }
     
-    override func viewWillAppear() {
+    func didChangeDistanceToBottom(distance: CGFloat) {
         
-        super.viewWillAppear()
-        
-        self.willRefresh = false
-        
-        if self.articlesCount == 0 {
-            self.refresh()
+        guard self.articlesCount > 0 else {
+            return
         }
-    }
-    
-    func didScroll(scrollOffset scrollOffset: CGFloat, distanceToBottom: CGFloat) {
         
         guard self.loading == false else {
             return
         }
         
-        if scrollOffset < -50.0 {
-            self.willRefresh = true
-            
-        } else {
-            
-            guard scrollOffset >= 0 else {
-                return
-            }
-            
-            if self.willRefresh {
-               
-                self.refresh()
-                self.willRefresh = false
-            }
-            
-            guard self.articlesCount > 0 else {
-                return
-            }
-            
-            guard let notNilScreenSize = self.screenSize else {
-                return
-            }
-            
-            if distanceToBottom > notNilScreenSize.height * 2 {
-                return
-            }
-            
-            self.loadMore()
+        guard let notNilScreenSize = self.screenSize else {
+            return
         }
+        
+        if distance > notNilScreenSize.height * 2 {
+            return
+        }
+        
+        self.loadMore()
     }
     
     func articleModel(index index: Int) -> ArticleCellModel {
@@ -155,6 +116,17 @@ class ArticlesViewModel : ViewModel {
         let article = self.articleSrorage.allArticles()[index]
         let roundedCorner = self.roundedCorner(byIndex: index)
         return ArticleCellModel(settings: self.settings, article: article, roundedCorner: roundedCorner, imageGateway: self.imageGateway)
+    }
+    
+    func refreshTriggered() {
+        
+        guard !self.settings.offlineMode else {
+            
+            self.errorOccurred!(messageKey: "ArticlesOfflineLoadingFailedMessage")
+            return
+        }
+        
+        self.refresh()
     }
     
     func retryActionTapped() {
@@ -170,10 +142,6 @@ class ArticlesViewModel : ViewModel {
         }
     }
     
-    func switchOffOfflineModeTapped() {
-        self.settingsPresenter.presentSettings()
-    }
-    
     func searchTapped() {
         self.searchPresenter.presentSearch()
     }
@@ -183,16 +151,12 @@ class ArticlesViewModel : ViewModel {
     }
     
     func cancelActionTapped() {
-        self.refreshing = false
+        // do nothing
     }
     
     private func refresh() {
         
         guard !self.loading else {
-            return
-        }
-        
-        guard !self.checkOfflineMode() else {
             return
         }
         
@@ -212,10 +176,6 @@ class ArticlesViewModel : ViewModel {
             return
         }
         
-        guard !self.checkOfflineMode() else {
-            return
-        }
-        
         let oldCount = self.articlesCount
         
         self.load(fromIndex: oldCount, count: self.screenArticlesAmount * 2, willLoadHandler: {
@@ -231,17 +191,17 @@ class ArticlesViewModel : ViewModel {
         
         self.articlesFetcher.fetchArticles(fromIndex: fromIndex, count: count, allowRemote: !self.settings.offlineMode) { articles, error in
             
+            guard self.viewIsPresented else {
+                return
+            }
+            
             dispatch_async(dispatch_get_main_queue(), {
 
                 didLoadHandler()
                 
-                guard self.viewIsPresented else {
-                    return
-                }
-                
                 if let _ = error {
                     
-                    self.errorOccurred!()
+                    self.errorOccurred!(messageKey: "ArticlesLoadingFailedMessage")
                     return
                 }
                 
@@ -249,17 +209,6 @@ class ArticlesViewModel : ViewModel {
                 self.articlesInserted!(range: fromIndex..<newCount)
             })
         }
-    }
-    
-    private func checkOfflineMode() -> Bool {
-        
-        if self.settings.offlineMode {
-            
-            self.loadingFailedInOfflineMode!()
-            return true
-        }
-        
-        return false
     }
     
     // TODO: make a custom layout attribute

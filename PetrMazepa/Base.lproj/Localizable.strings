@@ -6,15 +6,8 @@
   Copyright © 2015 TramCoders. All rights reserved.
 */
 
-"ArticlesScreen_title" = "Пётр и Мазепа";
-"FavoriteSection_title" = "Любимые";
-"OthersSection_title" = "Остальные";
-
-"Cancel" = "Отмена";
-"Retry" = "Попробовать ещё";
-"SwitchOff" = "Отключить";
-
-"ArticlesLoadingFailed_message" = "Не удалось получить статьи";
-
-"ArticlesOfflineLoadingFailed_message" = "Для получения статей отключите Оффлайн режим";
-"ArticlesOfflineLoadingFailed_switchOff_button" = "Для получения статей отключите Оффлайн режим";
+"ArticlesScreenTitle" = "Пётр и Мазепа";
+"FavoriteSectionTitle" = "Любимые";
+"OthersSectionTitle" = "Остальные";
+"ArticlesLoadingFailedMessage" = "Не удалось получить статьи";
+"ArticlesOfflineLoadingFailedMessage" = "Для получения статей отключите Оффлайн режим";
