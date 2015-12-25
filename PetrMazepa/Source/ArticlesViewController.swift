@@ -52,7 +52,6 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
         // refresh control
         self.refreshControl = UIRefreshControl()
         self.refreshControl.addTarget(self, action: Selector("refreshTriggered"), forControlEvents: .ValueChanged)
-        self.refreshControl.layer.zPosition = -1
         self.collectionView.addSubview(self.refreshControl)
         
         self.collectionView.alwaysBounceVertical = true
@@ -66,7 +65,6 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         self.model.viewWillAppear()
-        self.updateRefreshControl()
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -84,7 +82,9 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
     }
     
     func refreshTriggered() {
+        
         self.model.refreshTriggered()
+        self.refreshControl.endRefreshing()
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -135,16 +135,7 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
     
     private func refreshingStateChangedHandler() -> ((refreshing: Bool) -> Void) {
         return { refreshing in
-            self.updateRefreshControl()
-        }
-    }
-    
-    private func updateRefreshControl() {
-        
-        if self.model.refreshing {
-            self.refreshControl.beginRefreshing()
-        } else {
-            self.refreshControl.endRefreshing()
+            // TODO:
         }
     }
     

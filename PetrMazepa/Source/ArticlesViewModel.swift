@@ -90,6 +90,13 @@ class ArticlesViewModel : ViewModel {
         self.refresh()
     }
     
+    override func viewWillAppear() {
+        
+        super.viewWillAppear()
+        self.refreshing = false
+        self.loadingMore = false
+    }
+    
     func didChangeDistanceToBottom(distance: CGFloat) {
         
         guard self.articlesCount > 0 else {
