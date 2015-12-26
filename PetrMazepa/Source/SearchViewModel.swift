@@ -80,9 +80,9 @@ class SearchViewModel : ViewModel {
         let favoritesCount = self.favouriteArticles.count
         
         if (favoritesCount > 0) && (section == 0) {
-            return "FavoriteSectionTitle"
+            return "FavoriteSection_title"
         } else {
-            return "OthersSectionTitle"
+            return "OthersSection_title"
         }
     }
     

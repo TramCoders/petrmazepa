@@ -56,6 +56,10 @@ class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher
         }
     }
     
+    func cleanInMemoryCache() {
+        self.articles.removeAll()
+    }
+    
     func fetchArticleDetails(article article: Article, completion: ArticleDetailsFetchHandler) {
         self.fetchArticleDetails(article: article, allowRemote: true, completion: completion)
     }

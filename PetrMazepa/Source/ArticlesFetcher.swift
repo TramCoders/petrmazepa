@@ -9,5 +9,7 @@
 import Foundation
 
 protocol ArticlesFetcher: RemoteArticlesFetcher {
+    
     func fetchArticles(fromIndex fromIndex: Int, count: Int, allowRemote: Bool, completion: ArticlesFetchHandler)
+    func cleanInMemoryCache()
 }

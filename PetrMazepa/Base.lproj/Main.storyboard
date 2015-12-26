@@ -6,12 +6,11 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Новые-->
+        <!--Navigation Controller-->
         <scene sceneID="kJh-Oa-DnC">
             <objects>
                 <navigationController id="ht5-ZF-4l0" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout" top="YES"/>
-                    <tabBarItem key="tabBarItem" title="Новые" image="articles_tab" id="MEv-J8-COd"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="kba-Rt-6g2">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -69,25 +68,51 @@
                                     <outlet property="delegate" destination="vXZ-lx-hvc" id="2ot-oD-91m"/>
                                 </connections>
                             </collectionView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mvk-Ek-WFs">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="20"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5cx-wu-7kk" userLabel="View - Articles placeholder">
+                                <rect key="frame" x="226" y="238" width="148" height="60"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Статьи не загружены" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rTA-rm-Gcg">
+                                        <rect key="frame" x="0.0" y="0.0" width="148" height="17"/>
+                                        <animations/>
+                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                                        <color key="textColor" white="0.59999999999999998" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YNC-qf-QMl">
+                                        <rect key="frame" x="0.0" y="0.0" width="148" height="60"/>
+                                        <animations/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="60" id="4fz-M4-DU3"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                                        <state key="normal" title="Загрузить"/>
+                                        <connections>
+                                            <action selector="refreshTapped:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="sal-l8-Uvd"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
                                 <animations/>
-                                <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="20" id="YnK-1X-c8Y"/>
+                                    <constraint firstItem="rTA-rm-Gcg" firstAttribute="leading" secondItem="5cx-wu-7kk" secondAttribute="leading" id="70W-2H-dWZ"/>
+                                    <constraint firstItem="YNC-qf-QMl" firstAttribute="top" secondItem="5cx-wu-7kk" secondAttribute="top" id="K3T-h2-4Gd"/>
+                                    <constraint firstAttribute="bottom" secondItem="YNC-qf-QMl" secondAttribute="bottom" id="KyP-GZ-m5P"/>
+                                    <constraint firstAttribute="trailing" secondItem="rTA-rm-Gcg" secondAttribute="trailing" id="LtP-Rj-ZcQ"/>
+                                    <constraint firstItem="rTA-rm-Gcg" firstAttribute="top" secondItem="5cx-wu-7kk" secondAttribute="top" id="g1K-5b-YEN"/>
+                                    <constraint firstItem="YNC-qf-QMl" firstAttribute="leading" secondItem="5cx-wu-7kk" secondAttribute="leading" id="qsb-4T-adZ"/>
+                                    <constraint firstAttribute="trailing" secondItem="YNC-qf-QMl" secondAttribute="trailing" id="zuR-Wc-BT9"/>
                                 </constraints>
                             </view>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="mvk-Ek-WFs" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="top" id="Gwa-eR-XmJ"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="YoU-1M-ywq" secondAttribute="bottom" id="KMi-tK-q0g"/>
                             <constraint firstItem="YoU-1M-ywq" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="top" id="NRu-Ap-jtX"/>
                             <constraint firstAttribute="trailing" secondItem="YoU-1M-ywq" secondAttribute="trailing" id="SNH-M9-5r7"/>
+                            <constraint firstItem="5cx-wu-7kk" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="SW5-XS-fhH"/>
                             <constraint firstItem="YoU-1M-ywq" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="Zv4-yD-WGu"/>
-                            <constraint firstAttribute="trailing" secondItem="mvk-Ek-WFs" secondAttribute="trailing" id="atd-s1-ler"/>
-                            <constraint firstItem="mvk-Ek-WFs" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="u7x-rp-Wyj"/>
+                            <constraint firstItem="5cx-wu-7kk" firstAttribute="centerY" secondItem="kh9-bI-dsS" secondAttribute="centerY" id="ikh-2p-9Ci"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" top="YES"/>
@@ -108,6 +133,7 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="collectionView" destination="YoU-1M-ywq" id="PZg-9z-49n"/>
+                        <outlet property="noArticlesView" destination="5cx-wu-7kk" id="YUU-Mj-u5H"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
@@ -224,11 +250,10 @@
             </objects>
             <point key="canvasLocation" x="141" y="-633"/>
         </scene>
-        <!--Настройки-->
+        <!--Navigation Controller-->
         <scene sceneID="A5y-qL-eZ7">
             <objects>
                 <navigationController storyboardIdentifier="SettingsNav" id="HJ1-Yo-TIi" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Настройки" image="settings_tab" id="4me-Td-geD"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="g1t-BJ-FTB">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -455,13 +480,11 @@
         </scene>
     </scenes>
     <resources>
-        <image name="articles_tab" width="30" height="30"/>
         <image name="back" width="30" height="30"/>
         <image name="close_icon" width="22" height="22"/>
         <image name="favourite_tab" width="30" height="30"/>
         <image name="search_icon" width="22" height="22"/>
         <image name="settings_icon" width="22" height="22"/>
-        <image name="settings_tab" width="30" height="30"/>
         <image name="unfavourite_icon" width="30" height="30"/>
     </resources>
 </document>
