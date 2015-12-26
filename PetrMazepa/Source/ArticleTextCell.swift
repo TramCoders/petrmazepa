@@ -8,28 +8,32 @@
 
 import UIKit
 
-protocol ArticleTextCellDelegate {
+protocol ArticleTextCellDelegate: class {
     func articleTextCellDidDetermineHeight(sender cell: ArticleTextCell, height: CGFloat)
 }
 
-class ArticleTextCell: UICollectionViewCell, ArticleComponentCell, UIWebViewDelegate {
+class ArticleTextCell: UICollectionViewCell, UIWebViewDelegate {
     
     @IBOutlet weak var webView: UIWebView!
-    private var delegate: ArticleTextCellDelegate?  // FIXME: weak?
+    @IBOutlet weak var heightWebViewConstraint: NSLayoutConstraint!
     
-    func update(value: AnyObject?) {
-        
-        guard let notNilValue = value as? ArticleTextValue else {
-            return
+    weak var delegate: ArticleTextCellDelegate?
+    
+    var text: String? {
+        didSet {
+            if let notNilText = self.text {
+
+                self.webView.scrollView.scrollEnabled = false
+                self.webView.loadHTMLString(notNilText, baseURL: NSURL(string: "http:"))
+            }
         }
-        
-        self.delegate = notNilValue.delegate
-        
-        if let notNilText = notNilValue.text {
-            self.webView.loadHTMLString(notNilText, baseURL: NSURL(string: "http:"))
+    }
+    
+    var height: CGFloat = 0.0 {
+        didSet {
             
-        } else {
-            self.webView.loadHTMLString("", baseURL: nil)
+            self.heightWebViewConstraint.constant = self.height
+            self.contentView
         }
     }
     
@@ -39,11 +43,8 @@ class ArticleTextCell: UICollectionViewCell, ArticleComponentCell, UIWebViewDele
     
     func webViewDidFinishLoad(webView: UIWebView) {
         
-        guard let notNilDelegate = self.delegate else {
-            return
-        }
-        
+        self.webView.scrollView.scrollEnabled = true
         let size = webView.sizeThatFits(CGSizeMake(webView.bounds.width, CGFloat.max))
-        notNilDelegate.articleTextCellDidDetermineHeight(sender: self, height: size.height)
+        self.delegate?.articleTextCellDidDetermineHeight(sender: self, height: size.height)
     }
 }

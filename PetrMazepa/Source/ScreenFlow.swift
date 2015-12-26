@@ -8,12 +8,12 @@
 
 import UIKit
 
-class ScreenFlow: NSObject, UITabBarControllerDelegate, ArticleDetailsPresenter, ArticleDetailsDismisser, ArticleSharer {
+class ScreenFlow: NSObject, ArticleDetailsPresenter, SettingsPresenter, SearchPresenter, ArticleDetailsDismisser, SettingsDismisser, SearchDismisser, ArticleSharer {
     
     private let window: UIWindow
     private let storyboard: UIStoryboard
     
-    private let tabBarController: UITabBarController
+    private var mainNavigationController: UINavigationController
     private var currentNavigationController: UINavigationController
     private var currentViewController: UIViewController
     
@@ -30,9 +30,9 @@ class ScreenFlow: NSObject, UITabBarControllerDelegate, ArticleDetailsPresenter,
         self.window.layer.masksToBounds = true
         
         self.storyboard = UIStoryboard(name: "Main", bundle: nil)
-        self.tabBarController = self.storyboard.instantiateInitialViewController() as! UITabBarController
-        self.currentNavigationController = self.tabBarController.viewControllers!.first as! UINavigationController
-        self.currentViewController = self.tabBarController
+        self.mainNavigationController = self.storyboard.instantiateInitialViewController() as! UINavigationController
+        self.currentNavigationController = self.mainNavigationController
+        self.currentViewController = self.mainNavigationController
         
         self.settings = Settings()
         self.networking = Networking()
@@ -43,26 +43,6 @@ class ScreenFlow: NSObject, UITabBarControllerDelegate, ArticleDetailsPresenter,
         self.imageCache = ImageCache(inMemoryImageStorage: inMemoryImageStorage, persistentImageStorage: persistentImageStorage, downloader: self.networking)
         
         super.init()
-        
-        self.tabBarController.delegate = self
-        
-        guard let navigationControllers = self.tabBarController.viewControllers as? [UINavigationController] else {
-            return
-        }
-        
-        let viewControllers = navigationControllers.map({ $0.viewControllers.first! })
-        
-        if let articlesViewController = viewControllers[0] as? ArticlesViewController {
-            articlesViewController.model = self.createArticlesViewModel()
-        }
-        
-        if let searchViewController = viewControllers[1] as? SearchViewController {
-            searchViewController.model = self.createSearchViewModel()
-        }
-        
-        if let settingsViewController = viewControllers[2] as? SettingsViewController {
-            settingsViewController.model = self.createSettingsViewModel()
-        }
     }
     
     func start() {
@@ -74,7 +54,7 @@ class ScreenFlow: NSObject, UITabBarControllerDelegate, ArticleDetailsPresenter,
         let articlesViewController = self.currentNavigationController.topViewController as! ArticlesViewController
         articlesViewController.model = self.createArticlesViewModel()
 
-        self.window.rootViewController = self.tabBarController
+        self.window.rootViewController = self.currentNavigationController
         self.window.makeKeyAndVisible()
         
         self.currentViewController = articlesViewController
@@ -94,6 +74,36 @@ class ScreenFlow: NSObject, UITabBarControllerDelegate, ArticleDetailsPresenter,
         self.currentViewController = self.currentNavigationController.topViewController!
     }
     
+    func presentSettings() {
+        
+        let navigationController = self.storyboard.instantiateViewControllerWithIdentifier("SettingsNav") as! UINavigationController
+        let settingsViewController = navigationController.topViewController as! SettingsViewController
+        settingsViewController.model = self.createSettingsViewModel()
+        self.currentNavigationController.presentViewController(navigationController, animated: true, completion: nil)
+        self.currentNavigationController = navigationController
+    }
+    
+    func dismissSettings() {
+        
+        self.mainNavigationController.dismissViewControllerAnimated(true, completion: nil)
+        self.currentNavigationController = self.mainNavigationController
+    }
+    
+    func presentSearch() {
+        
+        let navigationController = self.storyboard.instantiateViewControllerWithIdentifier("SearchNav") as! UINavigationController
+        let searchViewController = navigationController.topViewController as! SearchViewController
+        searchViewController.model = self.createSearchViewModel()
+        self.currentNavigationController.presentViewController(navigationController, animated: true, completion: nil)
+        self.currentNavigationController = navigationController
+    }
+    
+    func dismissSearch() {
+        
+        self.mainNavigationController.dismissViewControllerAnimated(true, completion: nil)
+        self.currentNavigationController = self.mainNavigationController
+    }
+    
     func shareArticle(article: Article) {
 
         guard let url = self.networking.articleDetailsUrl(articleId: article.id) else {
@@ -104,16 +114,9 @@ class ScreenFlow: NSObject, UITabBarControllerDelegate, ArticleDetailsPresenter,
         self.currentViewController.presentViewController(activityViewController, animated: true, completion: nil)
     }
     
-    func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
-        
-        if let navigationController = viewController as? UINavigationController {
-            self.currentNavigationController = navigationController
-        }
-    }
-    
     private func createArticlesViewModel() -> ArticlesViewModel {
         
-        return ArticlesViewModel(settings: self.settings, imageGateway: self.imageCache, articleStorage: self.contentProvider, articlesFetcher: self.contentProvider, articleDetailsPresenter: self)
+        return ArticlesViewModel(settings: self.settings, imageGateway: self.imageCache, articleStorage: self.contentProvider, articlesFetcher: self.contentProvider, articleDetailsPresenter: self, settingsPresenter: self, searchPresenter: self)
     }
     
     private func createArticleDetailsViewModel(article article: Article) -> ArticleDetailsViewModel {
@@ -123,11 +126,11 @@ class ScreenFlow: NSObject, UITabBarControllerDelegate, ArticleDetailsPresenter,
     
     private func createSearchViewModel() -> SearchViewModel {
         
-        return SearchViewModel(settings: self.settings, imageGateway: self.imageCache, articleStorage: self.contentProvider, favouriteArticleStorage: self.contentProvider, articleDetailsPresenter: self)
+        return SearchViewModel(settings: self.settings, imageGateway: self.imageCache, articleStorage: self.contentProvider, favouriteArticleStorage: self.contentProvider, articleDetailsPresenter: self, dismisser: self)
     }
     
     private func createSettingsViewModel() -> SettingsViewModel {
 
-        return SettingsViewModel(settings: self.settings)
+        return SettingsViewModel(settings: self.settings, dismisser: self)
     }
 }

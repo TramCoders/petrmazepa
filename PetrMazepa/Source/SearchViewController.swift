@@ -62,25 +62,27 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
         }
     }
     
+    @IBAction func closeTapped(sender: AnyObject) {
+        self.model.closeTapped()
+    }
+    
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 2
+        return self.model.sectionsCount()
     }
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 40.0
+        return self.model.sectionHeadersVisible() ? 40.0 : 0.0
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
-        guard let headerView = NSBundle.mainBundle().loadNibNamed("HeaderView", owner: nil, options: nil).first as? HeaderView else {
+        guard self.model.sectionHeadersVisible() else {
             return nil
         }
-
-        if section == 0 {
-            headerView.text = NSLocalizedString("FavoriteSectionTitle", comment: "")
-        } else {
-            headerView.text = NSLocalizedString("OthersSectionTitle", comment: "")
-        }
+        
+        let headerView = NSBundle.mainBundle().loadNibNamed("HeaderView", owner: nil, options: nil).first as! HeaderView
+        let titleKey = self.model.sectionTitleKey(section: section)
+        headerView.text = NSLocalizedString(titleKey, comment: "")
         
         return headerView
     }
@@ -129,7 +131,7 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
             let keyboardScreenEndFrame = keyboardScreenEndFrameValue.CGRectValue()
             let keyboardHeight = keyboardScreenEndFrame.height
             
-            self.bottomTableContraint.constant = keyboardHeight - 49.0
+            self.bottomTableContraint.constant = keyboardHeight
             self.view.layoutIfNeeded()
         }
     }

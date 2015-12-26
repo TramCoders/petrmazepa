@@ -10,12 +10,6 @@ import UIKit
 
 class SearchViewModel : ViewModel {
     
-    enum SearchSection: Int {
-        
-        case Favourite
-        case Other
-    }
-    
     var articlesChanged: (() -> Void)?
     
     private var query = ""
@@ -28,14 +22,16 @@ class SearchViewModel : ViewModel {
     private let articleStorage: ArticleStorage
     private let favouriteArticleStorage: FavouriteArticlesStorage
     private let articleDetailsPresenter: ArticleDetailsPresenter
+    private let dismisser: SearchDismisser
     
-    required init(settings: ReadOnlySettings, imageGateway: ImageGateway, articleStorage: ArticleStorage, favouriteArticleStorage: FavouriteArticlesStorage, articleDetailsPresenter: ArticleDetailsPresenter) {
+    required init(settings: ReadOnlySettings, imageGateway: ImageGateway, articleStorage: ArticleStorage, favouriteArticleStorage: FavouriteArticlesStorage, articleDetailsPresenter: ArticleDetailsPresenter, dismisser: SearchDismisser) {
         
         self.settings = settings
         self.imageGateway = imageGateway
         self.articleStorage = articleStorage
         self.favouriteArticleStorage = favouriteArticleStorage
         self.articleDetailsPresenter = articleDetailsPresenter
+        self.dismisser = dismisser
         
         self.filteredArticles = []
         self.allFavouriteArticles = []
@@ -49,27 +45,55 @@ class SearchViewModel : ViewModel {
         self.invalidateContent()
     }
     
+    func closeTapped() {
+        self.dismisser.dismissSearch()
+    }
+    
     func articleTapped(indexPath: NSIndexPath) {
         
-        let index = indexPath.row
-        let section = indexPath.section
-        let article: Article
-        
-        switch self.convertSection(section) {
-            
-            case .Favourite: article = self.favouriteArticles[index]
-            case .Other: article = self.filteredArticles[index]
-        }
-        
+        let article = self.findArticle(indexPath: indexPath)
         self.articleDetailsPresenter.presentArticleDetails(article)
+    }
+    
+    func sectionsCount() -> Int {
+        
+        let favoritesCount = self.favouriteArticles.count
+        let othersCount = self.filteredArticles.count
+        
+        if (favoritesCount > 0) && (othersCount > 0) {
+            return 2
+        } else if (favoritesCount == 0) && (othersCount == 0) {
+            return 0
+        } else {
+            return 1
+        }
+    }
+    
+    func sectionHeadersVisible() -> Bool {
+        
+        let favoritesCount = self.allFavouriteArticles.count
+        return favoritesCount == 0 ? false : true
+    }
+    
+    func sectionTitleKey(section section: Int) -> String {
+        
+        let favoritesCount = self.favouriteArticles.count
+        
+        if (favoritesCount > 0) && (section == 0) {
+            return "FavoriteSection_title"
+        } else {
+            return "OthersSection_title"
+        }
     }
     
     func articlesCount(section section: Int) -> Int {
         
-        switch self.convertSection(section) {
-            
-            case .Favourite: return self.favouriteArticles.count
-            case .Other: return self.filteredArticles.count
+        let favoritesCount = self.favouriteArticles.count
+        
+        if (favoritesCount > 0) && (section == 0) {
+            return favoritesCount
+        } else {
+            return self.filteredArticles.count
         }
     }
     
@@ -110,33 +134,15 @@ class SearchViewModel : ViewModel {
         return articles.filter({ withoutIds.contains($0.id) == false })
     }
     
-    private func findArticles(thumbUrl url: NSURL) -> [NSIndexPath] {
-        
-        var indexPaths = [NSIndexPath]()
-        
-        if let favouriteIndex = self.favouriteArticles.indexOf({ $0.thumbUrl == url }) {
-            indexPaths.append(NSIndexPath(forRow: favouriteIndex, inSection: 0))
-        }
-        
-        if let otherIndex = self.filteredArticles.indexOf({ $0.thumbUrl == url }) {
-            indexPaths.append(NSIndexPath(forRow: otherIndex, inSection: 1))
-        }
-        
-        return indexPaths
-    }
-    
     private func findArticle(indexPath indexPath: NSIndexPath) -> Article {
         
         let index = indexPath.row
+        let favoritesCount = self.favouriteArticles.count
         
-        switch self.convertSection(indexPath.section) {
-            
-            case .Favourite: return self.favouriteArticles[index]
-            case .Other: return self.filteredArticles[index]
+        if (favoritesCount > 0) && (indexPath.section == 0) {
+            return self.favouriteArticles[index]
+        } else {
+            return self.filteredArticles[index]
         }
-    }
-    
-    private func convertSection(section: Int) -> SearchSection {
-        return SearchSection(rawValue: section)!
     }
 }

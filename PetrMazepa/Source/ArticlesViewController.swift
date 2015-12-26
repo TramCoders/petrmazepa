@@ -11,8 +11,12 @@ import UIKit
 class ArticlesViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
     @IBOutlet weak var collectionView: UICollectionView!
+    private var refreshControl: UIRefreshControl!
+    @IBOutlet weak var noArticlesView: UIView!
+    
     weak var layout: ArticlesViewLayout!
     private let cellReuseIdentifier = "ArticleCell"
+    private let loadingCellReuseIdentifier = "LoadingCell"
     
     @IBOutlet weak var heightSearchConstraint: NSLayoutConstraint!
     
@@ -21,7 +25,12 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
         didSet {
             
             self.model.articlesInserted = self.articlesInsertedHandler()
+            self.model.allArticlesDeleted = self.allArticlesDeletedHandler()
+            self.model.refreshingStateChanged = self.refreshingStateChangedHandler()
+            self.model.loadingMoreStateChanged = self.loadingMoreStateChangedHandler()
             self.model.errorOccurred = self.errorOccurredHandler()
+            self.model.loadingInOfflineModeFailed = self.loadingInOfflineModeFailedHandler()
+            self.model.noArticlesVisibleChanged = self.noArticlesVisibleChangedHandler()
         }
     }
 
@@ -33,12 +42,20 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
 
         super.viewDidLoad()
 
+        // title
+        self.title = NSLocalizedString("ArticlesScreen_title", comment: "")
+        
         // register an article cell
         let cellNib = UINib(nibName: "ArticleCell", bundle: nil)
         self.collectionView.registerNib(cellNib, forCellWithReuseIdentifier: self.cellReuseIdentifier)
         
         // a collection view layout data source
         self.layout = self.collectionView.collectionViewLayout as? ArticlesViewLayout
+        
+        // refresh control
+        self.refreshControl = UIRefreshControl()
+        self.refreshControl.addTarget(self, action: Selector("refreshTriggered"), forControlEvents: .ValueChanged)
+        self.collectionView.addSubview(self.refreshControl)
         
         // notify model
         self.model.viewDidLoad(screenSize: UIScreen.mainScreen().bounds.size)
@@ -47,7 +64,7 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
     override func viewWillAppear(animated: Bool) {
         
         super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(true, animated: true)
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
         self.model.viewWillAppear()
     }
     
@@ -55,6 +72,24 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
         
         super.viewWillDisappear(animated)
         self.model.viewWillDisappear()
+    }
+    
+    @IBAction func settingsTapped(sender: AnyObject) {
+        self.model.settingsTapped()
+    }
+    
+    @IBAction func searchTapped(sender: AnyObject) {
+        self.model.searchTapped()
+    }
+    
+    @IBAction func refreshTapped(sender: AnyObject) {
+        self.model.refreshTriggered()
+    }
+    
+    func refreshTriggered() {
+        
+        self.model.refreshTriggered()
+        self.refreshControl.endRefreshing()
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -84,7 +119,8 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
 
         return { range in
             
-            let insertedIndexPaths = self.layout!.insertArticles(range.count)
+            self.layout.insertArticles(range.count)
+            let insertedIndexPaths = self.indexPaths(range: range)
             
             if range.startIndex == 0 {
                 self.collectionView.reloadData()
@@ -94,17 +130,52 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
         }
     }
     
-    private func errorOccurredHandler() -> ((error: NSError?) -> Void) {
-
-        return { _ in
+    private func allArticlesDeletedHandler() -> (() -> Void) {
+        return {
             
-            let alertController = UIAlertController(title: nil, message: "Не удалось получить статьи", preferredStyle: .Alert)
+            self.layout.deleteAllArticles()
+            self.collectionView.reloadData()
+        }
+    }
+    
+    private func refreshingStateChangedHandler() -> ((refreshing: Bool) -> Void) {
+        return { refreshing in
+            // TODO:
+        }
+    }
+    
+    private func loadingMoreStateChangedHandler() -> ((loadingMore: Bool) -> Void) {
+        return { loadingMore in
+            // TODO:
+        }
+    }
+    
+    private func noArticlesVisibleChangedHandler() -> ((visible: Bool) -> Void) {
+        return { visible in
             
-            let retryAction = UIAlertAction(title: "Ещё раз", style: .Default, handler: { _ in
+            self.collectionView.hidden = visible
+            self.noArticlesView.hidden = !visible
+        }
+    }
+    
+    private func errorOccurredHandler() -> (() -> Void) {
+        return {
+            
+            // message
+            let message = NSLocalizedString("ArticlesLoadingFailed_message", comment: "")
+            let alertController = UIAlertController(title: nil, message: message, preferredStyle: .Alert)
+            
+            // retry
+            let retry = NSLocalizedString("Retry", comment: "")
+            
+            let retryAction = UIAlertAction(title: retry, style: .Default, handler: { _ in
                 self.model.retryActionTapped()
             })
             
-            let cancelAction = UIAlertAction(title: "Отмена", style: .Default, handler: { _ in
+            // cancel
+            let cancel = NSLocalizedString("Cancel", comment: "")
+            
+            let cancelAction = UIAlertAction(title: cancel, style: .Default, handler: { _ in
                 self.model.cancelActionTapped()
             })
             
@@ -114,5 +185,36 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
             self.presentViewController(alertController, animated: true, completion: nil)
         }
     }
+    
+    private func loadingInOfflineModeFailedHandler() -> (() -> Void)? {
+        return {
+            
+            // message
+            let message = NSLocalizedString("ArticlesOfflineLoadingFailed_message", comment: "")
+            let alertController = UIAlertController(title: nil, message: message, preferredStyle: .Alert)
+            
+            // retry
+            let switchOff = NSLocalizedString("SwitchOff", comment: "")
+            
+            let switchOffAction = UIAlertAction(title: switchOff, style: .Default, handler: { _ in
+                self.model.switchOffActionTapped()
+            })
+            
+            // cancel
+            let cancel = NSLocalizedString("Cancel", comment: "")
+            
+            let cancelAction = UIAlertAction(title: cancel, style: .Default, handler: { _ in
+                self.model.cancelActionTapped()
+            })
+            
+            alertController.addAction(cancelAction)
+            alertController.addAction(switchOffAction)
+            
+            self.presentViewController(alertController, animated: true, completion: nil)
+        }
+    }
+    
+    private func indexPaths(range range: Range<Int>) -> [NSIndexPath] {
+        return range.map({ NSIndexPath(forItem: $0, inSection: 0) })
+    }
 }
-

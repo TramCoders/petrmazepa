@@ -1,37 +1,43 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="JRl-sE-Hrz" customClass="ArticleTextCell" customModule="PetrMazepa" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="1"/>
+            <rect key="frame" x="0.0" y="0.0" width="320" height="20"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="1"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="20"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <webView clipsSubviews="YES" contentMode="scaleToFill" allowsInlineMediaPlayback="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MYQ-JL-9C2">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="1"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="20"/>
+                        <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="3js-Nn-aZK"/>
+                        </constraints>
                         <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES"/>
                         <connections>
                             <outlet property="delegate" destination="JRl-sE-Hrz" id="Cex-Mg-ppq"/>
                         </connections>
                     </webView>
                 </subviews>
+                <animations/>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
+            <animations/>
             <constraints>
                 <constraint firstItem="MYQ-JL-9C2" firstAttribute="top" secondItem="JRl-sE-Hrz" secondAttribute="top" id="1Eb-FM-usJ"/>
-                <constraint firstAttribute="bottom" secondItem="MYQ-JL-9C2" secondAttribute="bottom" id="6FQ-rJ-3F8"/>
                 <constraint firstAttribute="trailing" secondItem="MYQ-JL-9C2" secondAttribute="trailing" id="B32-0P-adX"/>
                 <constraint firstItem="MYQ-JL-9C2" firstAttribute="leading" secondItem="JRl-sE-Hrz" secondAttribute="leading" id="Ekc-5d-eib"/>
             </constraints>
             <connections>
+                <outlet property="heightWebViewConstraint" destination="3js-Nn-aZK" id="pRX-aW-v8L"/>
                 <outlet property="webView" destination="MYQ-JL-9C2" id="iW2-QA-Slu"/>
             </connections>
             <point key="canvasLocation" x="190" y="617"/>

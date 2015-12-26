@@ -10,10 +10,10 @@ import UIKit
 
 class ArticleDetailsViewModel : ViewModel {
     
-    var loadingStateChanged: ((loading: Bool) -> Void)?
     var imageLoaded: ((image: UIImage?) -> Void)?
-    var articleDetailsLoaded: ((htmlText: String?) -> ())?
+    var textLoaded: ((htmlText: String?) -> ())?
     var favouriteStateChanged: ((favourite: Bool) -> Void)?
+    var barsVisibilityChanged: ((visible: Bool) -> Void)?
     var errorOccurred: ((error: NSError?) -> Void)?
     
     private let articleDetailsDismisser: ArticleDetailsDismisser
@@ -26,10 +26,19 @@ class ArticleDetailsViewModel : ViewModel {
     private let article: Article
     private var articleDetails: ArticleDetails?
     private var screenSize: CGSize!
+    private var startOffset: CGFloat!
+    
+    var barsVisibile: Bool = true
     
     var favourite: Bool {
         return self.article.favourite
     }
+    
+    var htmlText: String? {
+        return self.articleDetails?.htmlText
+    }
+    
+    var image: UIImage?
     
     init(settings: ReadOnlySettings, article: Article, imageGateway: ImageGateway, articleDetailsFetcher: ArticleDetailsFetcher, favouriteMaker: FavouriteMaker, articleDetailsDismisser: ArticleDetailsDismisser, articleSharer: ArticleSharer) {
 
@@ -46,11 +55,34 @@ class ArticleDetailsViewModel : ViewModel {
         self.screenSize = size
     }
     
-    func viewDidAppear() {
+    func scrollViewWillBeginDragging(offset offset: CGFloat) {
+        self.startOffset = offset
+    }
+    
+    func scrollViewDidScroll(offset offset: CGFloat, contentHeight: CGFloat) {
         
-        self.imageLoaded!(image: nil)
-        self.articleDetailsLoaded!(htmlText: nil)
-        self.favouriteStateChanged!(favourite: self.favourite)
+        let bottomDirection = offset - self.startOffset > 0.0
+        let reachedBottom = contentHeight - offset - self.screenSize.height <= 0.0
+        
+        if (!reachedBottom && bottomDirection) {
+            if self.barsVisibile == true {
+                self.updateBarsVisible(false)
+            }
+        } else {
+            if self.barsVisibile == false {
+                self.updateBarsVisible(true)
+            }
+        }
+    }
+    
+    override func viewWillAppear() {
+
+        super.viewWillAppear()
+        self.barsVisibile = true
+        self.favouriteStateChanged!(favourite: self.article.favourite)
+    }
+    
+    func viewDidAppear() {
         self.loadContent()
     }
     
@@ -84,7 +116,19 @@ class ArticleDetailsViewModel : ViewModel {
         self.articleSharer.shareArticle(self.article)
     }
     
-    func loadContent() {
+    private func loadContent() {
+        
+        self.loadHtmlText()
+        self.loadImage()
+    }
+    
+    private func updateBarsVisible(visible: Bool) {
+
+        self.barsVisibile = visible
+        self.barsVisibilityChanged!(visible: visible)
+    }
+    
+    private func loadHtmlText() {
         
         self.articleDetailsFetcher.fetchArticleDetails(article: self.article, allowRemote: !self.settings.offlineMode) { details, error in
             
@@ -102,15 +146,20 @@ class ArticleDetailsViewModel : ViewModel {
                 let updatedHtmlText = "<font face='\(fontName)' size='\(fontSize)px'>\(notNilDetails.htmlText)"
                 
                 dispatch_async(dispatch_get_main_queue(), {
-                    self.articleDetailsLoaded!(htmlText: updatedHtmlText)
+                    self.textLoaded!(htmlText: updatedHtmlText)
                 })
             } else {
                 self.errorOccurred!(error: error)
             }
         }
+    }
+    
+    private func loadImage() {
         
         let spec = ImageSpec(url:self.article.thumbUrl!, size: self.screenSize)
         self.imageGateway.requestImage(spec: spec, allowRemote: !self.settings.offlineMode, onlyWifi: self.settings.onlyWifiImages) { image, _, _ in
+            
+            self.image = image
             
             guard self.viewIsPresented else {
                 return
