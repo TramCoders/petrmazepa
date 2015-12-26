@@ -12,6 +12,7 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
     
     @IBOutlet weak var collectionView: UICollectionView!
     private var refreshControl: UIRefreshControl!
+    @IBOutlet weak var noArticlesView: UIView!
     
     weak var layout: ArticlesViewLayout!
     private let cellReuseIdentifier = "ArticleCell"
@@ -28,6 +29,8 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
             self.model.refreshingStateChanged = self.refreshingStateChangedHandler()
             self.model.loadingMoreStateChanged = self.loadingMoreStateChangedHandler()
             self.model.errorOccurred = self.errorOccurredHandler()
+            self.model.loadingInOfflineModeFailed = self.loadingInOfflineModeFailedHandler()
+            self.model.noArticlesVisibleChanged = self.noArticlesVisibleChangedHandler()
         }
     }
 
@@ -40,7 +43,7 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
         super.viewDidLoad()
 
         // title
-        self.title = NSLocalizedString("ArticlesScreenTitle", comment: "")
+        self.title = NSLocalizedString("ArticlesScreen_title", comment: "")
         
         // register an article cell
         let cellNib = UINib(nibName: "ArticleCell", bundle: nil)
@@ -53,8 +56,6 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
         self.refreshControl = UIRefreshControl()
         self.refreshControl.addTarget(self, action: Selector("refreshTriggered"), forControlEvents: .ValueChanged)
         self.collectionView.addSubview(self.refreshControl)
-        
-        self.collectionView.alwaysBounceVertical = true
         
         // notify model
         self.model.viewDidLoad(screenSize: UIScreen.mainScreen().bounds.size)
@@ -79,6 +80,10 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
     
     @IBAction func searchTapped(sender: AnyObject) {
         self.model.searchTapped()
+    }
+    
+    @IBAction func refreshTapped(sender: AnyObject) {
+        self.model.refreshTriggered()
     }
     
     func refreshTriggered() {
@@ -145,23 +150,65 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
         }
     }
     
-    private func errorOccurredHandler() -> ((messageKey: String) -> Void) {
-
-        return { messageKey in
+    private func noArticlesVisibleChangedHandler() -> ((visible: Bool) -> Void) {
+        return { visible in
             
-            let message = NSLocalizedString(messageKey, comment: "")
+            self.collectionView.hidden = visible
+            self.noArticlesView.hidden = !visible
+        }
+    }
+    
+    private func errorOccurredHandler() -> (() -> Void) {
+        return {
+            
+            // message
+            let message = NSLocalizedString("ArticlesLoadingFailed_message", comment: "")
             let alertController = UIAlertController(title: nil, message: message, preferredStyle: .Alert)
             
-            let retryAction = UIAlertAction(title: "Ещё раз", style: .Default, handler: { _ in
+            // retry
+            let retry = NSLocalizedString("Retry", comment: "")
+            
+            let retryAction = UIAlertAction(title: retry, style: .Default, handler: { _ in
                 self.model.retryActionTapped()
             })
             
-            let cancelAction = UIAlertAction(title: "Отмена", style: .Default, handler: { _ in
+            // cancel
+            let cancel = NSLocalizedString("Cancel", comment: "")
+            
+            let cancelAction = UIAlertAction(title: cancel, style: .Default, handler: { _ in
                 self.model.cancelActionTapped()
             })
             
             alertController.addAction(cancelAction)
             alertController.addAction(retryAction)
+            
+            self.presentViewController(alertController, animated: true, completion: nil)
+        }
+    }
+    
+    private func loadingInOfflineModeFailedHandler() -> (() -> Void)? {
+        return {
+            
+            // message
+            let message = NSLocalizedString("ArticlesOfflineLoadingFailed_message", comment: "")
+            let alertController = UIAlertController(title: nil, message: message, preferredStyle: .Alert)
+            
+            // retry
+            let switchOff = NSLocalizedString("SwitchOff", comment: "")
+            
+            let switchOffAction = UIAlertAction(title: switchOff, style: .Default, handler: { _ in
+                self.model.switchOffActionTapped()
+            })
+            
+            // cancel
+            let cancel = NSLocalizedString("Cancel", comment: "")
+            
+            let cancelAction = UIAlertAction(title: cancel, style: .Default, handler: { _ in
+                self.model.cancelActionTapped()
+            })
+            
+            alertController.addAction(cancelAction)
+            alertController.addAction(switchOffAction)
             
             self.presentViewController(alertController, animated: true, completion: nil)
         }

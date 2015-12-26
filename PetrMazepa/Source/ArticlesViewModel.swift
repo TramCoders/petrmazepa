@@ -12,9 +12,11 @@ class ArticlesViewModel : ViewModel {
     
     var articlesInserted: ((range: Range<Int>) -> Void)?
     var allArticlesDeleted: (() -> Void)?
-    var errorOccurred: ((messageKey: String) -> Void)?
+    var loadingInOfflineModeFailed: (() -> Void)?
+    var errorOccurred: (() -> Void)?
     var refreshingStateChanged: ((refreshing: Bool) -> Void)?
     var loadingMoreStateChanged: ((loadingMore: Bool) -> Void)?
+    var noArticlesVisibleChanged: ((visible: Bool) -> Void)?
     
     private let settings: ReadOnlySettings
     private let imageGateway: ImageGateway
@@ -30,12 +32,22 @@ class ArticlesViewModel : ViewModel {
     
     var refreshing: Bool = false {
         didSet {
+            
+            guard self.viewIsPresented else {
+                return
+            }
+            
             self.refreshingStateChanged!(refreshing: self.refreshing)
         }
     }
     
     var loadingMore: Bool = false {
         didSet {
+            
+            guard self.viewIsPresented else {
+                return
+            }
+            
             self.loadingMoreStateChanged!(loadingMore: self.loadingMore)
         }
     }
@@ -85,16 +97,23 @@ class ArticlesViewModel : ViewModel {
             return
         }
         
-        // load articles
+        // articles
         self.screenArticlesAmount = Int(ceil(size.height / (thumbWidth + 1))) * 2
-        self.refresh()
+        
+        // no articles view
+        self.noArticlesVisibleChanged!(visible: false)
     }
     
     override func viewWillAppear() {
         
         super.viewWillAppear()
+        
         self.refreshing = false
         self.loadingMore = false
+        
+        if self.articlesCount == 0 {
+            self.refresh()
+        }
     }
     
     func didChangeDistanceToBottom(distance: CGFloat) {
@@ -129,7 +148,12 @@ class ArticlesViewModel : ViewModel {
         
         guard !self.settings.offlineMode else {
             
-            self.errorOccurred!(messageKey: "ArticlesOfflineLoadingFailedMessage")
+            self.loadingInOfflineModeFailed!()
+            
+            if self.articlesCount == 0 {
+                self.noArticlesVisibleChanged!(visible: true)
+            }
+            
             return
         }
         
@@ -159,6 +183,10 @@ class ArticlesViewModel : ViewModel {
     
     func cancelActionTapped() {
         // do nothing
+    }
+    
+    func switchOffActionTapped() {
+        self.settingsPresenter.presentSettings()
     }
     
     private func refresh() {
@@ -208,12 +236,20 @@ class ArticlesViewModel : ViewModel {
                 
                 if let _ = error {
                     
-                    self.errorOccurred!(messageKey: "ArticlesLoadingFailedMessage")
+                    self.errorOccurred!()
                     return
                 }
                 
                 let newCount = self.articlesCount
-                self.articlesInserted!(range: fromIndex..<newCount)
+                
+                if newCount == 0 {
+                    self.noArticlesVisibleChanged!(visible: true)
+                    
+                } else {
+                    
+                    self.noArticlesVisibleChanged!(visible: false)
+                    self.articlesInserted!(range: fromIndex..<newCount)
+                }
             })
         }
     }
