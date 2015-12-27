@@ -128,7 +128,7 @@ class ArticleDetailsViewModel : ViewModel {
         }
         
         let favourite = !self.article.favourite
-        self.favouriteMaker.makeFavourite(article: self.article, details:  details, favourite: favourite)
+        self.favouriteMaker.makeFavourite(article: self.article, favourite: favourite)
 
         if self.viewIsPresented {
             self.favouriteStateChanged!(favourite: favourite)

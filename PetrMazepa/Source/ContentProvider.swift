@@ -11,7 +11,6 @@ import CoreData
 
 class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher, ArticleDetailsFetcher, FavouriteMaker, TopOffsetEditor {
     
-    private var articles = [Article]()
     private let networking: Networking
     private let coreData = CoreDataManager()
     
@@ -20,17 +19,17 @@ class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher
     }
     
     func allArticles() -> [Article] {
-        return self.articles
+        return self.coreData.allArticles()
     }
     
     func favouriteArticles() -> [Article] {
         return self.coreData.favouriteArticles()
     }
     
-    func makeFavourite(article article: Article, details: ArticleDetails, favourite: Bool) {
+    func makeFavourite(article article: Article, favourite: Bool) {
 
         article.favourite = favourite
-        self.coreData.makeFavourite(article: article, details: details, favourite: favourite)
+        self.coreData.makeFavourite(article: article, favourite: favourite)
         self.coreData.saveContext()
     }
     
@@ -47,24 +46,29 @@ class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher
     
     func fetchArticles(fromIndex fromIndex: Int, count: Int, allowRemote: Bool, completion: ArticlesFetchHandler) {
         
+        if (fromIndex == 0) && (self.coreData.allArticlesCount() > 0) {
+            completion(articles: self.coreData.allArticles(), error: nil)
+            return
+        }
+        
         guard allowRemote == true else {
             
-            completion(nil, nil)
+            completion(articles: nil, error: nil)
             return
         }
         
         self.networking.fetchArticles(fromIndex: fromIndex, count: count) { articles, error in
             
             if let notNilArticles = articles {
-                self.articles.appendContentsOf(notNilArticles)
+                self.coreData.saveArticles(notNilArticles)
             }
             
-            completion(articles, error)
+            completion(articles: articles, error: error)
         }
     }
     
     func cleanInMemoryCache() {
-        self.articles.removeAll()
+        self.coreData.removeAll()
     }
     
     func fetchArticleDetails(article article: Article, completion: ArticleDetailsFetchHandler) {

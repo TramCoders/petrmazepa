@@ -15,10 +15,10 @@ import CoreData
 extension MOArticle {
 
     @NSManaged var id: String?
+    @NSManaged var index: NSNumber?
     @NSManaged var title: String?
     @NSManaged var thumbPath: String?
     @NSManaged var favourite: NSNumber?
     @NSManaged var details: MOArticleDetails?
     @NSManaged var topOffset: NSNumber?
-
 }

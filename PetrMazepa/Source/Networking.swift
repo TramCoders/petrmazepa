@@ -57,7 +57,7 @@ class Networking: ImageDownloader, RemoteArticlesFetcher, RemoteArticleDetailsFe
         
         guard let url = self.articlesUrl(fromIndex: fromIndex, count: count) else {
 
-            completion(nil, nil)
+            completion(articles: nil, error: nil)
             return
         }
         
@@ -69,18 +69,18 @@ class Networking: ImageDownloader, RemoteArticlesFetcher, RemoteArticleDetailsFe
             
             guard let notNilData = data else {
 
-                completion(nil, error)
+                completion(articles: nil, error: error)
                 return
             }
             
             if error != nil {
 
-                completion(nil, error)
+                completion(articles: nil, error: error)
                 return
             }
             
             let articles = self.articlesParser.parse(notNilData) as! [Article]
-            completion(articles, nil)
+            completion(articles: articles, error: nil)
             
         }.resume()
     }
