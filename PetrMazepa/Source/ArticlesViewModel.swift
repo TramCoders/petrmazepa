@@ -69,7 +69,7 @@ class ArticlesViewModel : ViewModel {
     
     var articlesCount: Int {
         get {
-            return self.articleSrorage.allArticles().count
+            return self.articleSrorage.allArticlesCount()
         }
     }
     
@@ -93,15 +93,18 @@ class ArticlesViewModel : ViewModel {
             return
         }
         
-        guard self.articlesCount == 0 else {
-            return
-        }
-        
         // articles
         self.screenArticlesAmount = Int(ceil(size.height / (thumbWidth + 1))) * 2
         
         // no articles view
         self.noArticlesVisibleChanged!(visible: false)
+        
+        // articles
+        let count = self.articlesCount
+        
+        if count > 0 {
+            self.articlesInserted!(range: 0..<count)
+        }
     }
     
     override func viewWillAppear() {
@@ -112,7 +115,7 @@ class ArticlesViewModel : ViewModel {
         self.loadingMore = false
         
         if self.articlesCount == 0 {
-            self.refresh()
+            self.loadFirst()
         }
     }
     
@@ -167,7 +170,7 @@ class ArticlesViewModel : ViewModel {
         }
         
         if self.articlesCount == 0 {
-            self.refresh()
+            self.loadFirst()
         } else {
             self.loadMore()
         }
@@ -197,11 +200,19 @@ class ArticlesViewModel : ViewModel {
         
         self.articlesFetcher.cleanInMemoryCache()
         self.allArticlesDeleted!()
+        self.loadFirst()
+    }
+    
+    private func loadFirst() {
+        
+        guard !self.loading else {
+            return
+        }
         
         self.load(fromIndex: 0, count: self.screenArticlesAmount * 2, willLoadHandler: {
             self.refreshing = true
-        }, didLoadHandler: {
-            self.refreshing = false
+            }, didLoadHandler: {
+                self.refreshing = false
         })
     }
     
@@ -243,11 +254,11 @@ class ArticlesViewModel : ViewModel {
                 let newCount = self.articlesCount
                 
                 if newCount == 0 {
-                    self.noArticlesVisibleChanged!(visible: true)
+//                    self.noArticlesVisibleChanged!(visible: true)
                     
                 } else {
                     
-                    self.noArticlesVisibleChanged!(visible: false)
+//                    self.noArticlesVisibleChanged!(visible: false)
                     self.articlesInserted!(range: fromIndex..<newCount)
                 }
             })

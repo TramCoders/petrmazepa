@@ -82,7 +82,7 @@ class CoreDataManager : FavouriteArticlesStorage, FavouriteMaker {
         return self.requestArticles(favorite: true)
     }
     
-    func favouriteArticleDetails(article article: Article) -> ArticleDetails? {
+    func detailsFromArticles(article: Article) -> ArticleDetails? {
         
         let request = NSFetchRequest(entityName: MOArticleDetails.entityName)
         request.predicate = NSPredicate(format: "self.article.id = %@", article.id)

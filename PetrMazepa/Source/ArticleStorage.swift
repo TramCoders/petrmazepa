@@ -9,5 +9,7 @@
 import Foundation
 
 protocol ArticleStorage {
+
     func allArticles() -> [Article]
+    func allArticlesCount() -> Int
 }

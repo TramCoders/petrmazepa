@@ -22,6 +22,10 @@ class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher
         return self.coreData.allArticles()
     }
     
+    func allArticlesCount() -> Int {
+        return self.coreData.allArticlesCount()
+    }
+    
     func favouriteArticles() -> [Article] {
         return self.coreData.favouriteArticles()
     }
@@ -47,6 +51,7 @@ class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher
     func fetchArticles(fromIndex fromIndex: Int, count: Int, allowRemote: Bool, completion: ArticlesFetchHandler) {
         
         if (fromIndex == 0) && (self.coreData.allArticlesCount() > 0) {
+
             completion(articles: self.coreData.allArticles(), error: nil)
             return
         }
@@ -60,7 +65,9 @@ class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher
         self.networking.fetchArticles(fromIndex: fromIndex, count: count) { articles, error in
             
             if let notNilArticles = articles {
+                
                 self.coreData.saveArticles(notNilArticles)
+                self.coreData.saveContext()
             }
             
             completion(articles: articles, error: error)
@@ -68,7 +75,9 @@ class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher
     }
     
     func cleanInMemoryCache() {
+
         self.coreData.removeAll()
+        self.coreData.saveContext()
     }
     
     func fetchArticleDetails(article article: Article, completion: ArticleDetailsFetchHandler) {
@@ -77,7 +86,7 @@ class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher
     
     func fetchArticleDetails(article article: Article, allowRemote: Bool, completion: ArticleDetailsFetchHandler) {
         
-        if let details = self.coreData.favouriteArticleDetails(article: article) {
+        if let details = self.coreData.detailsFromArticles(article) {
             
             completion(details, nil)
             return
@@ -92,6 +101,10 @@ class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher
         self.networking.fetchArticleDetails(article: article) { details, error in
             
             if let notNilDetails = details {
+                
+                self.coreData.saveArticleDetails(notNilDetails, article: article)
+                self.coreData.saveContext()
+                
                 completion(notNilDetails, error)
 
             } else {

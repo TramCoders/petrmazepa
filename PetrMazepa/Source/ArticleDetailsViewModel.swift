@@ -103,10 +103,7 @@ class ArticleDetailsViewModel : ViewModel {
     override func viewWillDisappear() {
         
         super.viewWillDisappear()
-        
-        if self.article.favourite {
-            self.topOffsetEditor.setTopOffset(self.article, offset: self.article.topOffset)
-        }
+        self.topOffsetEditor.setTopOffset(self.article, offset: self.article.topOffset)
     }
     
     func closeActionTapped() {
@@ -123,7 +120,7 @@ class ArticleDetailsViewModel : ViewModel {
     
     func favouriteTapped() {
      
-        guard let details = self.articleDetails else {
+        guard let _ = self.articleDetails else {
             return
         }
         
@@ -172,7 +169,9 @@ class ArticleDetailsViewModel : ViewModel {
                     self.textLoaded!(htmlText: updatedHtmlText)
                 })
             } else {
-                self.errorOccurred!(error: error)
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.errorOccurred!(error: error)
+                })
             }
         }
     }

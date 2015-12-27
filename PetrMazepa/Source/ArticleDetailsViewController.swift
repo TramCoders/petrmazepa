@@ -139,7 +139,11 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
         self.textCell.height = height
         self.collectionView.collectionViewLayout.invalidateLayout()
         
-        self.collectionView.setContentOffset(CGPointMake(0.0, self.model.topOffset), animated: true)
+        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC)))
+        dispatch_after(delayTime, dispatch_get_main_queue()) {
+            self.collectionView.setContentOffset(CGPointMake(0.0, self.model.topOffset), animated: true)
+        }
+        
     }
     
     private func updateBars() {
