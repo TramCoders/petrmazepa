@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher, ArticleDetailsFetcher, FavouriteMaker {
+class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher, ArticleDetailsFetcher, FavouriteMaker, TopOffsetEditor {
     
     private var articles = [Article]()
     private let networking: Networking
@@ -31,6 +31,13 @@ class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher
 
         article.favourite = favourite
         self.coreData.makeFavourite(article: article, details: details, favourite: favourite)
+        self.coreData.saveContext()
+    }
+    
+    func setTopOffset(article: Article, offset: Float) {
+        
+        article.topOffset = offset
+        self.coreData.setTopOffset(article, offset: offset)
         self.coreData.saveContext()
     }
     

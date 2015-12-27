@@ -19,5 +19,6 @@ extension MOArticle {
     @NSManaged var thumbPath: String?
     @NSManaged var favourite: NSNumber?
     @NSManaged var details: MOArticleDetails?
+    @NSManaged var topOffset: NSNumber?
 
 }

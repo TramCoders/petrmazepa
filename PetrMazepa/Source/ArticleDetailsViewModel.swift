@@ -21,6 +21,7 @@ class ArticleDetailsViewModel : ViewModel {
     private let imageGateway: ImageGateway
     private let favouriteMaker: FavouriteMaker
     private let articleSharer: ArticleSharer
+    private let topOffsetEditor: TopOffsetEditor
     
     private let settings: ReadOnlySettings
     private let article: Article
@@ -29,6 +30,10 @@ class ArticleDetailsViewModel : ViewModel {
     private var startOffset: CGFloat!
     
     var barsVisibile: Bool = true
+
+    var topOffset: CGFloat {
+        return CGFloat(self.article.topOffset)
+    }
     
     var favourite: Bool {
         return self.article.favourite
@@ -40,7 +45,7 @@ class ArticleDetailsViewModel : ViewModel {
     
     var image: UIImage?
     
-    init(settings: ReadOnlySettings, article: Article, imageGateway: ImageGateway, articleDetailsFetcher: ArticleDetailsFetcher, favouriteMaker: FavouriteMaker, articleDetailsDismisser: ArticleDetailsDismisser, articleSharer: ArticleSharer) {
+    init(settings: ReadOnlySettings, article: Article, imageGateway: ImageGateway, articleDetailsFetcher: ArticleDetailsFetcher, favouriteMaker: FavouriteMaker, articleDetailsDismisser: ArticleDetailsDismisser, articleSharer: ArticleSharer, topOffsetEditor: TopOffsetEditor) {
 
         self.settings = settings
         self.article = article
@@ -49,6 +54,7 @@ class ArticleDetailsViewModel : ViewModel {
         self.favouriteMaker = favouriteMaker
         self.articleDetailsDismisser = articleDetailsDismisser
         self.articleSharer = articleSharer
+        self.topOffsetEditor = topOffsetEditor
     }
     
     func viewDidLayoutSubviews(screenSize size: CGSize) {
@@ -61,7 +67,15 @@ class ArticleDetailsViewModel : ViewModel {
     
     func scrollViewDidScroll(offset offset: CGFloat, contentHeight: CGFloat) {
         
-        let bottomDirection = offset - self.startOffset > 0.0
+        self.article.topOffset = Float(offset)
+        let bottomDirection: Bool
+        
+        if let _ = self.startOffset {
+            bottomDirection = offset - self.startOffset > 0.0
+        } else {
+            bottomDirection = true
+        }
+        
         let reachedBottom = contentHeight - offset - self.screenSize.height <= 0.0
         
         if (!reachedBottom && bottomDirection) {
@@ -84,6 +98,15 @@ class ArticleDetailsViewModel : ViewModel {
     
     func viewDidAppear() {
         self.loadContent()
+    }
+    
+    override func viewWillDisappear() {
+        
+        super.viewWillDisappear()
+        
+        if self.article.favourite {
+            self.topOffsetEditor.setTopOffset(self.article, offset: self.article.topOffset)
+        }
     }
     
     func closeActionTapped() {
@@ -142,7 +165,7 @@ class ArticleDetailsViewModel : ViewModel {
                 
                 let font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
                 let fontName = font.fontName
-                let fontSize = 4    //FIXME: font.pointSize
+                let fontSize = 4    // FIXME: font.pointSize
                 let updatedHtmlText = "<font face='\(fontName)' size='\(fontSize)px'>\(notNilDetails.htmlText)"
                 
                 dispatch_async(dispatch_get_main_queue(), {

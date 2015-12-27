@@ -103,7 +103,6 @@ class CoreDataManager : FavouriteArticlesStorage, FavouriteMaker {
         let moDetails = NSEntityDescription.insertNewObjectForEntityForName(MOArticleDetails.entityName, inManagedObjectContext: self.context) as! MOArticleDetails
         
         moDetails.htmlText = details.htmlText
-        moDetails.scrollTop = 0.0
         
         // article
         let moArticle = NSEntityDescription.insertNewObjectForEntityForName(MOArticle.entityName, inManagedObjectContext: self.context) as! MOArticle
@@ -111,6 +110,7 @@ class CoreDataManager : FavouriteArticlesStorage, FavouriteMaker {
         moArticle.title = article.title
         moArticle.thumbPath = article.thumbPath
         moArticle.favourite = article.favourite
+        moArticle.topOffset = article.topOffset
         moArticle.details = moDetails
         
         moDetails.article = moArticle
@@ -130,8 +130,22 @@ class CoreDataManager : FavouriteArticlesStorage, FavouriteMaker {
         }
     }
     
+    func setTopOffset(article: Article, offset: Float) {
+        
+        let request = NSFetchRequest(entityName: MOArticle.entityName)
+        request.predicate = NSPredicate(format: "id = %@", article.id)
+        
+        do {
+            if let moArticle = try self.context.executeFetchRequest(request).last as? MOArticle {
+                moArticle.topOffset = NSNumber(float: offset)
+            }
+        } catch {
+            // TODO:
+        }
+    }
+    
     private func articleFromManagedObject(moArticle: MOArticle) -> Article {
-        return Article(id: moArticle.id!, title: moArticle.title!, thumbPath: moArticle.thumbPath!, favourite: moArticle.favourite!.boolValue)
+        return Article(id: moArticle.id!, title: moArticle.title!, thumbPath: moArticle.thumbPath!, favourite: moArticle.favourite!.boolValue, topOffset: moArticle.topOffset!.floatValue)
     }
     
     private func detailsFromManagedObject(moDetails: MOArticleDetails) -> ArticleDetails {

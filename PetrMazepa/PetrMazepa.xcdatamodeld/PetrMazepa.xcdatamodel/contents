@@ -5,15 +5,15 @@
         <attribute name="id" attributeType="String" syncable="YES"/>
         <attribute name="thumbPath" attributeType="String" syncable="YES"/>
         <attribute name="title" attributeType="String" syncable="YES"/>
+        <attribute name="topOffset" attributeType="Float" syncable="YES"/>
         <relationship name="details" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="MOArticleDetails" inverseName="article" inverseEntity="MOArticleDetails" syncable="YES"/>
     </entity>
     <entity name="MOArticleDetails" representedClassName="MOArticleDetails" syncable="YES">
         <attribute name="htmlText" attributeType="String" syncable="YES"/>
-        <attribute name="scrollTop" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <relationship name="article" maxCount="1" deletionRule="Nullify" destinationEntity="MOArticle" inverseName="details" inverseEntity="MOArticle" syncable="YES"/>
     </entity>
     <elements>
-        <element name="MOArticle" positionX="-63" positionY="-18" width="128" height="120"/>
-        <element name="MOArticleDetails" positionX="-54" positionY="-9" width="128" height="90"/>
+        <element name="MOArticle" positionX="-63" positionY="-18" width="128" height="135"/>
+        <element name="MOArticleDetails" positionX="-54" positionY="-9" width="128" height="75"/>
     </elements>
 </model>

@@ -121,7 +121,7 @@ class ScreenFlow: NSObject, ArticleDetailsPresenter, SettingsPresenter, SearchPr
     
     private func createArticleDetailsViewModel(article article: Article) -> ArticleDetailsViewModel {
         
-        return ArticleDetailsViewModel(settings: self.settings, article: article, imageGateway: self.imageCache, articleDetailsFetcher: self.contentProvider, favouriteMaker: self.contentProvider, articleDetailsDismisser: self, articleSharer: self)
+        return ArticleDetailsViewModel(settings: self.settings, article: article, imageGateway: self.imageCache, articleDetailsFetcher: self.contentProvider, favouriteMaker: self.contentProvider, articleDetailsDismisser: self, articleSharer: self, topOffsetEditor: self.contentProvider)
     }
     
     private func createSearchViewModel() -> SearchViewModel {
@@ -130,7 +130,6 @@ class ScreenFlow: NSObject, ArticleDetailsPresenter, SettingsPresenter, SearchPr
     }
     
     private func createSettingsViewModel() -> SettingsViewModel {
-
         return SettingsViewModel(settings: self.settings, dismisser: self)
     }
 }
