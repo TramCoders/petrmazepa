@@ -115,6 +115,13 @@ class ArticlesViewModel : ViewModel {
         self.loadingMore = false
         
         if self.articlesCount == 0 {
+            
+            self.allArticlesDeleted!()
+            
+            if self.settings.offlineMode {
+                self.noArticlesVisibleChanged!(visible: true)
+            }
+            
             self.loadFirst()
         }
     }
@@ -243,11 +250,11 @@ class ArticlesViewModel : ViewModel {
                 let newCount = self.articlesCount
                 
                 if newCount == 0 {
-//                    self.noArticlesVisibleChanged!(visible: true)
+                    self.noArticlesVisibleChanged!(visible: true)
                     
                 } else {
                     
-//                    self.noArticlesVisibleChanged!(visible: false)
+                    self.noArticlesVisibleChanged!(visible: false)
                     self.articlesInserted!(range: fromIndex..<newCount)
                 }
             })

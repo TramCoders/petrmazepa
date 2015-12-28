@@ -26,7 +26,7 @@ struct ImageSpec {
     }
 }
 
-class ImageCache : ImageGateway {
+class ImageCache : ImageGateway, ImageCleaner {
     
     private let downloader: ImageDownloader
     private let inMemoryImageStorage: InMemoryImageStorage
@@ -37,6 +37,10 @@ class ImageCache : ImageGateway {
         self.inMemoryImageStorage = inMemoryImageStorage
         self.persistentImageStorage = persistentImageStorage
         self.downloader = downloader
+    }
+    
+    func clearCache() {
+        // TODO: clear cache
     }
     
     func requestImage(spec spec: ImageSpec, completion: ImageHandler) {

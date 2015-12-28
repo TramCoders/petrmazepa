@@ -57,7 +57,7 @@ class CoreDataManager : FavouriteArticlesStorage, FavouriteMaker {
         }
     }
     
-    func removeAll() {
+    func deleteAllArticles() {
         
         let moArticles = self.requestManagedArticles(favorite: nil)
         

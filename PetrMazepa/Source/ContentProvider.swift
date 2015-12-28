@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher, ArticleDetailsFetcher, FavouriteMaker, TopOffsetEditor {
+class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher, ArticleDetailsFetcher, FavouriteMaker, TopOffsetEditor, ArticleCleaner {
     
     private let networking: Networking
     private let coreData = CoreDataManager()
@@ -42,6 +42,10 @@ class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher
         article.topOffset = offset
         self.coreData.setTopOffset(article, offset: offset)
         self.coreData.saveContext()
+    }
+    
+    func clearCache() {
+        self.coreData.deleteAllArticles()
     }
     
     func fetchArticles(fromIndex fromIndex: Int, count: Int, completion: ArticlesFetchHandler) {
