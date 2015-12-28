@@ -11,7 +11,6 @@ import UIKit
 class ArticlesViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
     @IBOutlet weak var collectionView: UICollectionView!
-    private var refreshControl: UIRefreshControl!
     @IBOutlet weak var noArticlesView: UIView!
     
     weak var layout: ArticlesViewLayout!
@@ -52,11 +51,6 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
         // a collection view layout data source
         self.layout = self.collectionView.collectionViewLayout as? ArticlesViewLayout
         
-        // refresh control
-        self.refreshControl = UIRefreshControl()
-        self.refreshControl.addTarget(self, action: Selector("refreshTriggered"), forControlEvents: .ValueChanged)
-        self.collectionView.addSubview(self.refreshControl)
-        
         // notify model
         self.model.viewDidLoad(screenSize: UIScreen.mainScreen().bounds.size)
     }
@@ -87,9 +81,7 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
     }
     
     func refreshTriggered() {
-        
         self.model.refreshTriggered()
-        self.refreshControl.endRefreshing()
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

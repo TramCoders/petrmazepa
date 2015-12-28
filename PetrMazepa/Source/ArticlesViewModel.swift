@@ -160,7 +160,7 @@ class ArticlesViewModel : ViewModel {
             return
         }
         
-        self.refresh()
+        self.loadFirst()
     }
     
     func retryActionTapped() {
@@ -190,17 +190,6 @@ class ArticlesViewModel : ViewModel {
     
     func switchOffActionTapped() {
         self.settingsPresenter.presentSettings()
-    }
-    
-    private func refresh() {
-        
-        guard !self.loading else {
-            return
-        }
-        
-        self.articlesFetcher.cleanInMemoryCache()
-        self.allArticlesDeleted!()
-        self.loadFirst()
     }
     
     private func loadFirst() {
