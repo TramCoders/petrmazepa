@@ -40,7 +40,9 @@ class ImageCache : ImageGateway, ImageCleaner {
     }
     
     func clearCache() {
-        // TODO: clear cache
+        
+        self.persistentImageStorage.clear()
+        self.inMemoryImageStorage.clear()
     }
     
     func requestImage(spec spec: ImageSpec, completion: ImageHandler) {
@@ -112,12 +114,6 @@ class ImageCache : ImageGateway, ImageCleaner {
         self.inMemoryImageStorage.saveImage(spec: spec, image: resizedImage)
         
         return (image: image, resizedImage: resizedImage)
-    }
-    
-    private func deleteImage(spec spec: ImageSpec) {
-        
-        self.persistentImageStorage.deleteImage(spec: spec)
-        self.inMemoryImageStorage.deleteImage(spec: spec)
     }
     
     private func resizedImage(image: UIImage, newSize: CGSize?) -> UIImage {
