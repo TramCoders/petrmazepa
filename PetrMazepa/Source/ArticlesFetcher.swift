@@ -8,6 +8,8 @@
 
 import Foundation
 
-protocol ArticlesFetcher: RemoteArticlesFetcher {
-    func fetchArticles(fromIndex fromIndex: Int, count: Int, allowRemote: Bool, completion: ArticlesFetchHandler)
+typealias ArticlesFetchHandler = (articles: [Article]?, error: NSError?) -> ()
+
+protocol ArticlesFetcher {
+    func fetchArticles(fromIndex fromIndex: Int, count: Int, completion: ArticlesFetchHandler)
 }

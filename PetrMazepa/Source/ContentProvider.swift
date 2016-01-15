@@ -49,22 +49,6 @@ class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher
     }
     
     func fetchArticles(fromIndex fromIndex: Int, count: Int, completion: ArticlesFetchHandler) {
-        self.fetchArticles(fromIndex: fromIndex, count: count, allowRemote: true, completion: completion)
-    }
-    
-    func fetchArticles(fromIndex fromIndex: Int, count: Int, allowRemote: Bool, completion: ArticlesFetchHandler) {
-        
-        if (fromIndex == 0) && (self.coreData.allArticlesCount() > 0) {
-
-            completion(articles: self.coreData.allArticles(), error: nil)
-            return
-        }
-        
-        guard allowRemote == true else {
-            
-            completion(articles: nil, error: nil)
-            return
-        }
         
         self.networking.fetchArticles(fromIndex: fromIndex, count: count) { articles, error in
             

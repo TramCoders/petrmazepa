@@ -110,9 +110,12 @@ class CoreDataManager : FavouriteArticlesStorage, FavouriteMaker {
     func saveArticles(articles: [Article]) {
         
         var index = self.allArticlesCount()
+        let existingArticles = self.allArticles()
         
         for article in articles {
-            self.saveArticle(article, index: index++)
+            if !self.contains(articles: existingArticles, article: article) {
+                self.saveArticle(article, index: index++)
+            }
         }
     }
     
@@ -141,6 +144,17 @@ class CoreDataManager : FavouriteArticlesStorage, FavouriteMaker {
             moArticle.details = moDetails
             moDetails.article = moArticle
         }
+    }
+    
+    private func contains(articles articles: [Article], article: Article) -> Bool {
+        
+        for anArticle in articles {
+            if anArticle.id == article.id {
+                return true
+            }
+        }
+        
+        return false
     }
     
     private func requestArticles(favorite favorite: Bool?) -> [Article] {

@@ -89,8 +89,6 @@
 		ACBA69861C0209F500A93C6D /* ReadOnlySettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACBA69841C0209F500A93C6D /* ReadOnlySettings.swift */; };
 		ACBA69881C020A7A00A93C6D /* ReadWriteSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACBA69871C020A7A00A93C6D /* ReadWriteSettings.swift */; };
 		ACBA69891C020A7A00A93C6D /* ReadWriteSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACBA69871C020A7A00A93C6D /* ReadWriteSettings.swift */; };
-		ACBA698B1C02155800A93C6D /* RemoteArticlesFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACBA698A1C02155800A93C6D /* RemoteArticlesFetcher.swift */; };
-		ACBA698C1C02155800A93C6D /* RemoteArticlesFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACBA698A1C02155800A93C6D /* RemoteArticlesFetcher.swift */; };
 		ACBA698E1C02160600A93C6D /* RemoteArticleDetailsFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACBA698D1C02160600A93C6D /* RemoteArticleDetailsFetcher.swift */; };
 		ACBA698F1C02160600A93C6D /* RemoteArticleDetailsFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACBA698D1C02160600A93C6D /* RemoteArticleDetailsFetcher.swift */; };
 		ACBBD5F91BC186340063FBD6 /* ArticleDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACBBD5F81BC186340063FBD6 /* ArticleDetails.swift */; };
@@ -201,7 +199,6 @@
 		ACBA69711C01EC5400A93C6D /* SettingsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsViewModel.swift; path = Source/SettingsViewModel.swift; sourceTree = "<group>"; };
 		ACBA69841C0209F500A93C6D /* ReadOnlySettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReadOnlySettings.swift; path = Source/ReadOnlySettings.swift; sourceTree = "<group>"; };
 		ACBA69871C020A7A00A93C6D /* ReadWriteSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReadWriteSettings.swift; path = Source/ReadWriteSettings.swift; sourceTree = "<group>"; };
-		ACBA698A1C02155800A93C6D /* RemoteArticlesFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RemoteArticlesFetcher.swift; path = Source/RemoteArticlesFetcher.swift; sourceTree = "<group>"; };
 		ACBA698D1C02160600A93C6D /* RemoteArticleDetailsFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RemoteArticleDetailsFetcher.swift; path = Source/RemoteArticleDetailsFetcher.swift; sourceTree = "<group>"; };
 		ACBBD5F81BC186340063FBD6 /* ArticleDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ArticleDetails.swift; path = Source/ArticleDetails.swift; sourceTree = "<group>"; };
 		ACBBD5FC1BC19A530063FBD6 /* ArticleDetailsParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ArticleDetailsParser.h; path = Source/ArticleDetailsParser.h; sourceTree = "<group>"; };
@@ -340,7 +337,6 @@
 			isa = PBXGroup;
 			children = (
 				ACBA698D1C02160600A93C6D /* RemoteArticleDetailsFetcher.swift */,
-				ACBA698A1C02155800A93C6D /* RemoteArticlesFetcher.swift */,
 				AC0BD0D41BB74B3E00876B76 /* Networking.swift */,
 			);
 			name = Networking;
@@ -784,7 +780,6 @@
 				ACEF09A41BC15C7D000F00B7 /* ArticleDetailsDismisser.swift in Sources */,
 				ACE7D0C01BF9352500116C93 /* CoreDataManager.swift in Sources */,
 				ACEF098C1BC1318A000F00B7 /* XPathQuery.m in Sources */,
-				ACBA698B1C02155800A93C6D /* RemoteArticlesFetcher.swift in Sources */,
 				AC05D4581BF133E90049CAC6 /* ArticleCellModel.swift in Sources */,
 				AC820FB41C31CD01004F0825 /* ImageCleaner.swift in Sources */,
 				AC05D4631BF29D530049CAC6 /* ImageCellModel.swift in Sources */,
@@ -868,7 +863,6 @@
 				1212A40C1BCAC3700022CD52 /* PersistentImageStorage.swift in Sources */,
 				AC05D4641BF29D530049CAC6 /* ImageCellModel.swift in Sources */,
 				1212A40B1BCAC3590022CD52 /* InMemoryImageStorage.swift in Sources */,
-				ACBA698C1C02155800A93C6D /* RemoteArticlesFetcher.swift in Sources */,
 				AC0BD0D21BB71F0400876B76 /* ContentProvider.swift in Sources */,
 				ACE7D0C51BF93E1D00116C93 /* MOArticle+CoreDataProperties.swift in Sources */,
 				ACE7D0CB1BF9C57500116C93 /* MOArticleDetails+CoreDataProperties.swift in Sources */,
