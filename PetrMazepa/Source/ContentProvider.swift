@@ -54,11 +54,13 @@ class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher
             
             if let notNilArticles = articles {
                 
-                self.coreData.saveArticles(notNilArticles)
+                let savedArticles = self.coreData.saveArticles(notNilArticles)
                 self.coreData.saveContext()
+                completion(articles: savedArticles, error: error)
+                
+            } else {
+                completion(articles: [], error: error)
             }
-            
-            completion(articles: articles, error: error)
         }
     }
     

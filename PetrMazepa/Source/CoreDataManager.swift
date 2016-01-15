@@ -107,29 +107,28 @@ class CoreDataManager : FavouriteArticlesStorage, FavouriteMaker {
         }
     }
     
-    func saveArticles(articles: [Article]) {
+    func saveArticles(articles: [Article]) -> [Article] {
         
-        var index = self.allArticlesCount()
         let existingArticles = self.allArticles()
+        var savedArticles = [Article]()
         
         for article in articles {
-            if !self.contains(articles: existingArticles, article: article) {
-                self.saveArticle(article, index: index++)
+            if let anArticle = self.find(article, inArticles: existingArticles) {
+                savedArticles.append(anArticle)
+            } else {
+                
+                self.saveArticle(article)
+                savedArticles.append(article)
             }
         }
+        
+        return savedArticles
     }
     
     func saveArticle(article: Article) {
         
-        let index = self.allArticlesCount()
-        self.saveArticle(article, index: index)
-    }
-    
-    func saveArticle(article: Article, index: Int) {
-        
         let moArticle = NSEntityDescription.insertNewObjectForEntityForName(MOArticle.entityName, inManagedObjectContext: self.context) as! MOArticle
         moArticle.id = article.id
-        moArticle.index = index
         moArticle.title = article.title
         moArticle.thumbPath = article.thumbPath
         moArticle.favourite = article.favourite
@@ -146,15 +145,15 @@ class CoreDataManager : FavouriteArticlesStorage, FavouriteMaker {
         }
     }
     
-    private func contains(articles articles: [Article], article: Article) -> Bool {
+    private func find(article: Article, inArticles articles: [Article]) -> Article? {
         
         for anArticle in articles {
             if anArticle.id == article.id {
-                return true
+                return anArticle
             }
         }
         
-        return false
+        return nil
     }
     
     private func requestArticles(favorite favorite: Bool?) -> [Article] {
@@ -164,7 +163,6 @@ class CoreDataManager : FavouriteArticlesStorage, FavouriteMaker {
     private func requestManagedArticles(favorite favorite: Bool?) -> [MOArticle] {
         
         let request = NSFetchRequest(entityName: MOArticle.entityName)
-        request.sortDescriptors = [NSSortDescriptor(key: "index", ascending: true)]
         
         if let notNilFavorite = favorite {
             request.predicate = NSPredicate(format: "favourite = %@", notNilFavorite)

@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9057" systemVersion="15B42" minimumToolsVersion="Xcode 7.0">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9525" systemVersion="14F27" minimumToolsVersion="Xcode 7.0">
     <entity name="MOArticle" representedClassName="MOArticle" syncable="YES">
         <attribute name="favourite" attributeType="Boolean" syncable="YES"/>
         <attribute name="id" attributeType="String" syncable="YES"/>
-        <attribute name="index" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="thumbPath" attributeType="String" syncable="YES"/>
         <attribute name="title" attributeType="String" syncable="YES"/>
         <attribute name="topOffset" attributeType="Float" defaultValueString="0" syncable="YES"/>
@@ -14,7 +13,7 @@
         <relationship name="article" maxCount="1" deletionRule="Nullify" destinationEntity="MOArticle" inverseName="details" inverseEntity="MOArticle" syncable="YES"/>
     </entity>
     <elements>
-        <element name="MOArticle" positionX="-63" positionY="-18" width="128" height="150"/>
+        <element name="MOArticle" positionX="-63" positionY="-18" width="128" height="135"/>
         <element name="MOArticleDetails" positionX="-54" positionY="-9" width="128" height="75"/>
     </elements>
 </model>
