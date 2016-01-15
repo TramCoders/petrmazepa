@@ -27,7 +27,6 @@ class ArticleCell: UICollectionViewCell {
         didSet {
             
             self.updateTitle()
-            self.updateRoundedCorner()
             self.updateVisibilities(imageVisible: false, animated: false)
             
             self.requestImage()
@@ -42,10 +41,6 @@ class ArticleCell: UICollectionViewCell {
     
     private func updateTitle() {
         self.titleLabel.text = self.model.title
-    }
-    
-    private func updateRoundedCorner() {
-        self.updateRoundedCorner(self.model.roundedCorner)
     }
     
     private func requestImage() {
@@ -71,30 +66,5 @@ class ArticleCell: UICollectionViewCell {
 
         self.imageView.alpha = visible ? 1.0 : 0.0
         self.titleLabel.alpha = visible ? 0.0 : 1.0
-    }
-    
-    private func updateRoundedCorner(roundedCorner: RoundedCorner) {
-        
-        guard let corners = self.convertRoundedCorners(roundedCorner) else {
-        
-            self.layer.mask = nil
-            return
-        }
-        
-        let maskPath = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: corners, cornerRadii: CGSizeMake(4.0, 4.0))
-        let maskLayer = CAShapeLayer()
-        maskLayer.frame = self.bounds
-        maskLayer.path = maskPath.CGPath
-        self.layer.mask = maskLayer
-    }
-    
-    private func convertRoundedCorners(roundedCorner: RoundedCorner) -> UIRectCorner? {
-        
-        switch roundedCorner {
-            
-            case .TopLeft: return .TopLeft
-            case .TopRight: return .TopRight
-            default: return nil
-        }
     }
 }

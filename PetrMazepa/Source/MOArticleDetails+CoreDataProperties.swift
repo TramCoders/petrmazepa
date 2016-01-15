@@ -15,7 +15,6 @@ import CoreData
 extension MOArticleDetails {
 
     @NSManaged var htmlText: String?
-    @NSManaged var scrollTop: NSNumber?
     @NSManaged var article: MOArticle?
 
 }

@@ -9,9 +9,8 @@
 import UIKit
 import CoreData
 
-class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher, ArticleDetailsFetcher, FavouriteMaker {
+class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher, ArticleDetailsFetcher, FavouriteMaker, TopOffsetEditor, ArticleCleaner {
     
-    private var articles = [Article]()
     private let networking: Networking
     private let coreData = CoreDataManager()
     
@@ -20,44 +19,47 @@ class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher
     }
     
     func allArticles() -> [Article] {
-        return self.articles
+        return self.coreData.allArticles()
+    }
+    
+    func allArticlesCount() -> Int {
+        return self.coreData.allArticlesCount()
     }
     
     func favouriteArticles() -> [Article] {
         return self.coreData.favouriteArticles()
     }
     
-    func makeFavourite(article article: Article, details: ArticleDetails, favourite: Bool) {
+    func makeFavourite(article article: Article, favourite: Bool) {
 
         article.favourite = favourite
-        self.coreData.makeFavourite(article: article, details: details, favourite: favourite)
+        self.coreData.makeFavourite(article: article, favourite: favourite)
         self.coreData.saveContext()
     }
     
-    func fetchArticles(fromIndex fromIndex: Int, count: Int, completion: ArticlesFetchHandler) {
-        self.fetchArticles(fromIndex: fromIndex, count: count, allowRemote: true, completion: completion)
+    func setTopOffset(article: Article, offset: Float) {
+        
+        article.topOffset = offset
+        self.coreData.setTopOffset(article, offset: offset)
+        self.coreData.saveContext()
     }
     
-    func fetchArticles(fromIndex fromIndex: Int, count: Int, allowRemote: Bool, completion: ArticlesFetchHandler) {
-        
-        guard allowRemote == true else {
-            
-            completion(nil, nil)
-            return
-        }
+    func clearCache() {
+        self.coreData.deleteAllArticles()
+    }
+    
+    func fetchArticles(fromIndex fromIndex: Int, count: Int, completion: ArticlesFetchHandler) {
         
         self.networking.fetchArticles(fromIndex: fromIndex, count: count) { articles, error in
             
             if let notNilArticles = articles {
-                self.articles.appendContentsOf(notNilArticles)
+                
+                self.coreData.saveArticles(notNilArticles)
+                self.coreData.saveContext()
             }
             
-            completion(articles, error)
+            completion(articles: articles, error: error)
         }
-    }
-    
-    func cleanInMemoryCache() {
-        self.articles.removeAll()
     }
     
     func fetchArticleDetails(article article: Article, completion: ArticleDetailsFetchHandler) {
@@ -66,7 +68,7 @@ class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher
     
     func fetchArticleDetails(article article: Article, allowRemote: Bool, completion: ArticleDetailsFetchHandler) {
         
-        if let details = self.coreData.favouriteArticleDetails(article: article) {
+        if let details = self.coreData.detailsFromArticles(article) {
             
             completion(details, nil)
             return
@@ -81,6 +83,10 @@ class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher
         self.networking.fetchArticleDetails(article: article) { details, error in
             
             if let notNilDetails = details {
+                
+                self.coreData.saveArticleDetails(notNilDetails, article: article)
+                self.coreData.saveContext()
+                
                 completion(notNilDetails, error)
 
             } else {

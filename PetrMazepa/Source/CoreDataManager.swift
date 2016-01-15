@@ -57,22 +57,32 @@ class CoreDataManager : FavouriteArticlesStorage, FavouriteMaker {
         }
     }
     
-    func favouriteArticles() -> [Article] {
+    func deleteAllArticles() {
         
-        let request = NSFetchRequest(entityName: MOArticle.entityName)
+        let moArticles = self.requestManagedArticles(favorite: nil)
         
-        do {
-            if let moArticles = try self.context.executeFetchRequest(request) as? [MOArticle] {
-                return moArticles.map({ self.articleFromManagedObject($0) })
-            } else {
-                return []
-            }
-        } catch {
-            return []
+        for moArticle in moArticles {
+            self.context.deleteObject(moArticle)
         }
     }
     
-    func favouriteArticleDetails(article article: Article) -> ArticleDetails? {
+    func allArticlesCount() -> Int {
+        return self.requestArticlesCount(favorite: nil)
+    }
+    
+    func allArticles() -> [Article] {
+        return self.requestArticles(favorite: nil)
+    }
+    
+    func notFavoriteArticles() -> [Article] {
+        return self.requestArticles(favorite: false)
+    }
+    
+    func favouriteArticles() -> [Article] {
+        return self.requestArticles(favorite: true)
+    }
+    
+    func detailsFromArticles(article: Article) -> ArticleDetails? {
         
         let request = NSFetchRequest(entityName: MOArticleDetails.entityName)
         request.predicate = NSPredicate(format: "self.article.id = %@", article.id)
@@ -88,50 +98,145 @@ class CoreDataManager : FavouriteArticlesStorage, FavouriteMaker {
         return nil
     }
     
-    func makeFavourite(article article: Article, details: ArticleDetails, favourite: Bool) {
+    func makeFavourite(article article: Article, favourite: Bool) {
         
-        if favourite {
-            self.makeArticleFavourite(article: article, details: details)
+        if let moArticle = self.managedObjectFromArticle(article) {
+            moArticle.favourite = favourite
         } else {
-            self.makeArticleNotFavourite(article: article)
+            // TODO:
         }
     }
     
-    private func makeArticleFavourite(article article: Article, details: ArticleDetails) {
+    func saveArticles(articles: [Article]) {
         
-        // details
-        let moDetails = NSEntityDescription.insertNewObjectForEntityForName(MOArticleDetails.entityName, inManagedObjectContext: self.context) as! MOArticleDetails
+        var index = self.allArticlesCount()
+        let existingArticles = self.allArticles()
         
-        moDetails.htmlText = details.htmlText
-        moDetails.scrollTop = 0.0
+        for article in articles {
+            if !self.contains(articles: existingArticles, article: article) {
+                self.saveArticle(article, index: index++)
+            }
+        }
+    }
+    
+    func saveArticle(article: Article) {
         
-        // article
+        let index = self.allArticlesCount()
+        self.saveArticle(article, index: index)
+    }
+    
+    func saveArticle(article: Article, index: Int) {
+        
         let moArticle = NSEntityDescription.insertNewObjectForEntityForName(MOArticle.entityName, inManagedObjectContext: self.context) as! MOArticle
         moArticle.id = article.id
+        moArticle.index = index
         moArticle.title = article.title
         moArticle.thumbPath = article.thumbPath
         moArticle.favourite = article.favourite
-        moArticle.details = moDetails
+        moArticle.topOffset = article.topOffset
+    }
+    
+    func saveArticleDetails(details: ArticleDetails, article: Article) {
         
-        moDetails.article = moArticle
+        if let moArticle = self.managedObjectFromArticle(article) {
+            
+            let moDetails = self.saveArticleDetails(details)
+            moArticle.details = moDetails
+            moDetails.article = moArticle
+        }
+    }
+    
+    private func contains(articles articles: [Article], article: Article) -> Bool {
+        
+        for anArticle in articles {
+            if anArticle.id == article.id {
+                return true
+            }
+        }
+        
+        return false
+    }
+    
+    private func requestArticles(favorite favorite: Bool?) -> [Article] {
+        return self.requestManagedArticles(favorite: favorite).map({ self.articleFromManagedObject($0) })
+    }
+    
+    private func requestManagedArticles(favorite favorite: Bool?) -> [MOArticle] {
+        
+        let request = NSFetchRequest(entityName: MOArticle.entityName)
+        request.sortDescriptors = [NSSortDescriptor(key: "index", ascending: true)]
+        
+        if let notNilFavorite = favorite {
+            request.predicate = NSPredicate(format: "favourite = %@", notNilFavorite)
+        }
+        
+        do {
+            return try self.context.executeFetchRequest(request) as! [MOArticle]
+        } catch {
+            return []
+        }
+    }
+    
+    private func requestArticlesCount(favorite favorite: Bool?) -> Int {
+        
+        let request = NSFetchRequest(entityName: MOArticle.entityName)
+        
+        if let notNilFavorite = favorite {
+            request.predicate = NSPredicate(format: "favourite = %@", notNilFavorite)
+        }
+        
+        var error: NSError?
+        return self.context.countForFetchRequest(request, error: &error)
+    }
+    
+    private func saveArticleDetails(details: ArticleDetails) -> MOArticleDetails {
+        
+        let moDetails = NSEntityDescription.insertNewObjectForEntityForName(MOArticleDetails.entityName, inManagedObjectContext: self.context) as! MOArticleDetails
+        moDetails.htmlText = details.htmlText
+        return moDetails
+    }
+    
+    private func makeArticleFavourite(article article: Article) {
+        
+        if let moArticle = self.managedObjectFromArticle(article) {
+            moArticle.favourite = true
+        } else {
+            // TODO:
+        }
     }
     
     private func makeArticleNotFavourite(article article: Article) {
+        
+        if let moArticle = self.managedObjectFromArticle(article) {
+            moArticle.favourite = false
+        } else {
+            // TODO:
+        }
+    }
+    
+    func setTopOffset(article: Article, offset: Float) {
+        
+        if let moArticle = self.managedObjectFromArticle(article) {
+            moArticle.topOffset = offset
+        } else {
+            // TODO:
+        }
+    }
+    
+    private func managedObjectFromArticle(article: Article) -> MOArticle? {
         
         let request = NSFetchRequest(entityName: MOArticle.entityName)
         request.predicate = NSPredicate(format: "id = %@", article.id)
         
         do {
-            if let moArticle = try self.context.executeFetchRequest(request).last as? MOArticle {
-                self.context.deleteObject(moArticle)
-            }
+            return try self.context.executeFetchRequest(request).last as? MOArticle
         } catch {
-            // TODO:
+            return nil
         }
     }
     
     private func articleFromManagedObject(moArticle: MOArticle) -> Article {
-        return Article(id: moArticle.id!, title: moArticle.title!, thumbPath: moArticle.thumbPath!, favourite: moArticle.favourite!.boolValue)
+        return Article(id: moArticle.id!, title: moArticle.title!, thumbPath: moArticle.thumbPath!, favourite: moArticle.favourite!.boolValue, topOffset: moArticle.topOffset!.floatValue)
     }
     
     private func detailsFromManagedObject(moDetails: MOArticleDetails) -> ArticleDetails {

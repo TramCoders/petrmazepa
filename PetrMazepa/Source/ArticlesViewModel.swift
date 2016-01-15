@@ -21,14 +21,20 @@ class ArticlesViewModel : ViewModel {
     private let settings: ReadOnlySettings
     private let imageGateway: ImageGateway
     private let articlesFetcher: ArticlesFetcher
-    private let articleSrorage: ArticleStorage
     private let articleDetailsPresenter: ArticleDetailsPresenter
     private let settingsPresenter: SettingsPresenter
     private let searchPresenter: SearchPresenter
     
+    private var articles = [Article]()
+    
     private var screenSize: CGSize?
     private var thumbSize: CGSize?
     private var screenArticlesAmount: Int = 0
+    private var loadingInOfflineModeHasShown = false
+    
+    var articlesCount: Int {
+        return self.articles.count
+    }
     
     var refreshing: Bool = false {
         didSet {
@@ -56,26 +62,19 @@ class ArticlesViewModel : ViewModel {
         return self.refreshing || self.loadingMore
     }
     
-    required init(settings: ReadOnlySettings, imageGateway: ImageGateway, articleStorage: ArticleStorage, articlesFetcher: ArticlesFetcher, articleDetailsPresenter: ArticleDetailsPresenter, settingsPresenter: SettingsPresenter, searchPresenter: SearchPresenter) {
+    required init(settings: ReadOnlySettings, imageGateway: ImageGateway, articlesFetcher: ArticlesFetcher, articleDetailsPresenter: ArticleDetailsPresenter, settingsPresenter: SettingsPresenter, searchPresenter: SearchPresenter) {
 
         self.settings = settings
         self.imageGateway = imageGateway
-        self.articleSrorage = articleStorage
         self.articlesFetcher = articlesFetcher
         self.articleDetailsPresenter = articleDetailsPresenter
         self.settingsPresenter = settingsPresenter
         self.searchPresenter = searchPresenter
     }
     
-    var articlesCount: Int {
-        get {
-            return self.articleSrorage.allArticles().count
-        }
-    }
-    
     func articleTapped(index index: Int) {
         
-        let article = self.articleSrorage.allArticles()[index]
+        let article = self.articles[index]
         self.articleDetailsPresenter.presentArticleDetails(article)
     }
     
@@ -93,15 +92,18 @@ class ArticlesViewModel : ViewModel {
             return
         }
         
-        guard self.articlesCount == 0 else {
-            return
-        }
-        
         // articles
         self.screenArticlesAmount = Int(ceil(size.height / (thumbWidth + 1))) * 2
         
         // no articles view
         self.noArticlesVisibleChanged!(visible: false)
+        
+        // articles
+        let count = self.articlesCount
+        
+        if count > 0 {
+            self.articlesInserted!(range: 0..<count)
+        }
     }
     
     override func viewWillAppear() {
@@ -112,7 +114,14 @@ class ArticlesViewModel : ViewModel {
         self.loadingMore = false
         
         if self.articlesCount == 0 {
-            self.refresh()
+            
+            self.allArticlesDeleted!()
+            
+            if self.settings.offlineMode {
+                self.noArticlesVisibleChanged!(visible: true)
+            }
+            
+            self.loadFirst()
         }
     }
     
@@ -139,15 +148,15 @@ class ArticlesViewModel : ViewModel {
     
     func articleModel(index index: Int) -> ArticleCellModel {
         
-        let article = self.articleSrorage.allArticles()[index]
-        let roundedCorner = self.roundedCorner(byIndex: index)
-        return ArticleCellModel(settings: self.settings, article: article, roundedCorner: roundedCorner, imageGateway: self.imageGateway)
+        let article = self.articles[index]
+        return ArticleCellModel(settings: self.settings, article: article, imageGateway: self.imageGateway)
     }
     
     func refreshTriggered() {
         
         guard !self.settings.offlineMode else {
             
+            self.loadingInOfflineModeHasShown = true
             self.loadingInOfflineModeFailed!()
             
             if self.articlesCount == 0 {
@@ -157,7 +166,7 @@ class ArticlesViewModel : ViewModel {
             return
         }
         
-        self.refresh()
+        self.loadFirst()
     }
     
     func retryActionTapped() {
@@ -167,7 +176,7 @@ class ArticlesViewModel : ViewModel {
         }
         
         if self.articlesCount == 0 {
-            self.refresh()
+            self.loadFirst()
         } else {
             self.loadMore()
         }
@@ -182,23 +191,25 @@ class ArticlesViewModel : ViewModel {
     }
     
     func cancelActionTapped() {
-        // do nothing
+        
+        if self.articlesCount > 0 {
+            return
+        }
+        
+        self.noArticlesVisibleChanged!(visible: true)
     }
     
     func switchOffActionTapped() {
         self.settingsPresenter.presentSettings()
     }
     
-    private func refresh() {
+    private func loadFirst() {
         
         guard !self.loading else {
             return
         }
         
-        self.articlesFetcher.cleanInMemoryCache()
-        self.allArticlesDeleted!()
-        
-        self.load(fromIndex: 0, count: self.screenArticlesAmount * 2, willLoadHandler: {
+        self.load(count: self.screenArticlesAmount * 2, willLoadHandler: {
             self.refreshing = true
         }, didLoadHandler: {
             self.refreshing = false
@@ -211,20 +222,30 @@ class ArticlesViewModel : ViewModel {
             return
         }
         
-        let oldCount = self.articlesCount
-        
-        self.load(fromIndex: oldCount, count: self.screenArticlesAmount * 2, willLoadHandler: {
+        self.load(count: self.screenArticlesAmount * 2, willLoadHandler: {
             self.loadingMore = true
         }, didLoadHandler: {
             self.loadingMore = false
         })
     }
     
-    private func load(fromIndex fromIndex: Int, count: Int, willLoadHandler: (() -> Void), didLoadHandler: (() -> Void)) {
+    private func load(count count: Int, willLoadHandler: (() -> Void), didLoadHandler: (() -> Void)) {
+        
+        if self.settings.offlineMode {
+            
+            if !self.loadingInOfflineModeHasShown {
+                
+                self.loadingInOfflineModeHasShown = true
+                self.loadingInOfflineModeFailed!()
+            }
+            
+            return
+        }
         
         willLoadHandler()
+        let fromIndex = self.articlesCount
         
-        self.articlesFetcher.fetchArticles(fromIndex: fromIndex, count: count, allowRemote: !self.settings.offlineMode) { articles, error in
+        self.articlesFetcher.fetchArticles(fromIndex: fromIndex, count: count) { newArticles, error in
             
             guard self.viewIsPresented else {
                 return
@@ -234,12 +255,17 @@ class ArticlesViewModel : ViewModel {
 
                 didLoadHandler()
                 
-                if let _ = error {
+                if (error != nil) || self.settings.offlineMode {
                     
                     self.errorOccurred!()
                     return
                 }
                 
+                guard let notNilNewArticles = newArticles else {
+                    return
+                }
+                
+                self.articles.appendContentsOf(notNilNewArticles)
                 let newCount = self.articlesCount
                 
                 if newCount == 0 {
@@ -251,17 +277,6 @@ class ArticlesViewModel : ViewModel {
                     self.articlesInserted!(range: fromIndex..<newCount)
                 }
             })
-        }
-    }
-    
-    // TODO: make a custom layout attribute
-    private func roundedCorner(byIndex index: Int) -> RoundedCorner {
-        
-        switch index {
-            
-            case 0: return .TopLeft
-            case 1: return .TopRight
-            default: return .None
         }
     }
 }

@@ -19,4 +19,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.screenFlow.start()
         return true
     }
+    
+    func applicationWillResignActive(application: UIApplication) {
+        // TODO: save a core data's context
+    }
 }
