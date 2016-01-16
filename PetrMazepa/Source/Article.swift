@@ -13,6 +13,7 @@ class Article : NSObject {
     let id: String
     let title: String
     let thumbPath: String
+    var saved: Bool
     var favourite: Bool
     var topOffset: Float
     
@@ -25,14 +26,15 @@ class Article : NSObject {
     }
     
     convenience init(id: String, title: String, thumbPath: String) {
-        self.init(id: id, title: title, thumbPath: thumbPath, favourite: false, topOffset: 0.0)
+        self.init(id: id, title: title, thumbPath: thumbPath, saved: false, favourite: false, topOffset: 0.0)
     }
     
-    init(id: String, title: String, thumbPath: String, favourite: Bool, topOffset: Float) {
+    init(id: String, title: String, thumbPath: String, saved: Bool, favourite: Bool, topOffset: Float) {
         
         self.id = id
         self.title = title
         self.thumbPath = thumbPath
+        self.saved = saved
         self.favourite = favourite
         self.topOffset = topOffset
     }

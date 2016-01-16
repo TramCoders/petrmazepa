@@ -13,4 +13,12 @@ class ArticleCellModel : ImageCellModel {
     var title: String {
         return self.article.title
     }
+    
+    var saved: Bool {
+        return self.article.saved
+    }
+    
+    var favorite: Bool {
+        return self.article.favourite
+    }
 }

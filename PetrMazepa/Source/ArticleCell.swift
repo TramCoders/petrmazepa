@@ -14,6 +14,12 @@ class ArticleCell: UICollectionViewCell {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var dimmerView: UIView!
     
+    @IBOutlet weak var favoriteImageView: UIImageView!
+    @IBOutlet weak var favoriteView: UIView!
+    
+    @IBOutlet weak var saveImageView: UIImageView!
+    @IBOutlet weak var saveView: UIView!
+    
     override var highlighted: Bool {
         didSet {
             
@@ -28,15 +34,27 @@ class ArticleCell: UICollectionViewCell {
             
             self.updateTitle()
             self.updateVisibilities(imageVisible: false, animated: false)
+            self.updateIcons()
             
             self.requestImage()
         }
     }
     
+    private let activeColor = UIColor(red: 0.933, green: 0.427, blue: 0.439, alpha: 0.9)
+    private let unactiveColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.9)
+    
     override func awakeFromNib() {
 
         super.awakeFromNib()
         self.layer.masksToBounds = true
+        
+        self.favoriteImageView.tintColor = self.unactiveColor
+        self.favoriteView.layer.cornerRadius = self.favoriteView.bounds.width / 2.0
+        self.favoriteView.layer.masksToBounds = true
+        
+        self.saveImageView.tintColor = self.unactiveColor
+        self.saveView.layer.cornerRadius = self.favoriteView.bounds.width / 2.0
+        self.saveView.layer.masksToBounds = true
     }
     
     private func updateTitle() {
@@ -60,6 +78,12 @@ class ArticleCell: UICollectionViewCell {
         UIView.animateWithDuration(duration) {
             self.updateVisibilities(imageVisible: visible == true)
         }
+    }
+    
+    private func updateIcons() {
+        
+        self.saveImageView.tintColor = self.model.saved ? self.activeColor : self.unactiveColor
+        self.favoriteImageView.tintColor = self.model.favorite ? self.activeColor : self.unactiveColor
     }
     
     private func updateVisibilities(imageVisible visible: Bool) {

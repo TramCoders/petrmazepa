@@ -90,6 +90,7 @@ class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher
                 
                 self.coreData.saveArticleDetails(notNilDetails, article: article)
                 self.coreData.saveContext()
+                article.saved = true
                 
                 completion(notNilDetails, error)
 

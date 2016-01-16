@@ -234,7 +234,7 @@ class CoreDataManager : FavouriteArticlesStorage, FavouriteMaker {
     }
     
     private func articleFromManagedObject(moArticle: MOArticle) -> Article {
-        return Article(id: moArticle.id!, title: moArticle.title!, thumbPath: moArticle.thumbPath!, favourite: moArticle.favourite!.boolValue, topOffset: moArticle.topOffset!.floatValue)
+        return Article(id: moArticle.id!, title: moArticle.title!, thumbPath: moArticle.thumbPath!, saved: moArticle.details != nil, favourite: moArticle.favourite!.boolValue, topOffset: moArticle.topOffset!.floatValue)
     }
     
     private func detailsFromManagedObject(moDetails: MOArticleDetails) -> ArticleDetails {
