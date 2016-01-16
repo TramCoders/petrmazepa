@@ -60,7 +60,6 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
         
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(false, animated: true)
-        self.collectionView.reloadData()
         self.model.viewWillAppear()
     }
     

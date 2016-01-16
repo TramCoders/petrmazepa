@@ -119,6 +119,8 @@ class ArticlesViewModel : ViewModel {
         
         super.viewWillAppear()
         
+        self.fetchedArticles = self.articleStorage.updateArticles(self.fetchedArticles)
+        
         self.refreshing = false
         self.loadingMore = false
         
@@ -134,6 +136,8 @@ class ArticlesViewModel : ViewModel {
         if self.fetchedArticles.count == 0 {
             self.loadFirst()
         }
+        
+        self.articlesUpdated!(newCount: self.articlesCount)
     }
     
     func didChangeDistanceToBottom(distance: CGFloat) {

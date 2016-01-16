@@ -113,8 +113,10 @@ class CoreDataManager : FavouriteArticlesStorage, FavouriteMaker {
         var savedArticles = [Article]()
         
         for article in articles {
+
             if let anArticle = self.find(article, inArticles: existingArticles) {
                 savedArticles.append(anArticle)
+
             } else {
                 
                 self.saveArticle(article)
@@ -123,6 +125,23 @@ class CoreDataManager : FavouriteArticlesStorage, FavouriteMaker {
         }
         
         return savedArticles
+    }
+    
+    func updateArticles(articles: [Article]) -> [Article] {
+        
+        let existingArticles = self.allArticles()
+        var updatedArticles = [Article]()
+        
+        for article in articles {
+
+            if let anArticle = self.find(article, inArticles: existingArticles) {
+                updatedArticles.append(anArticle)
+            } else {
+                updatedArticles.append(article)
+            }
+        }
+        
+        return updatedArticles
     }
     
     func saveArticle(article: Article) {

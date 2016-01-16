@@ -12,4 +12,5 @@ protocol ArticleStorage {
 
     func allArticles() -> [Article]
     func allArticlesCount() -> Int
+    func updateArticles(articles: [Article]) -> [Article]
 }
