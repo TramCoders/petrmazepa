@@ -262,7 +262,7 @@ class ArticlesViewModel : ViewModel {
         }
         
         willLoadHandler()
-        let fromIndex = self.articlesCount
+        let fromIndex = self.fetchedArticles.count
         
         self.articlesFetcher.fetchArticles(fromIndex: fromIndex, count: count) { newArticles, error in
             
@@ -298,7 +298,7 @@ class ArticlesViewModel : ViewModel {
 
                 } else {
                 
-                    let newCount = self.articlesCount
+                    let newCount = self.fetchedArticles.count
                     self.noArticlesVisibleChanged!(visible: false)
                     self.articlesInserted!(range: fromIndex..<newCount)
                 }

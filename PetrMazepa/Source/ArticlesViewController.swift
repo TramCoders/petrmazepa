@@ -126,6 +126,7 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
     private func articlesUpdatedHandler() -> ((newCount: Int) -> Void) {
         return { newCount in
 
+            self.layout.deleteAllArticles()
             self.layout.insertArticles(newCount)
             self.collectionView.reloadData()
         }
