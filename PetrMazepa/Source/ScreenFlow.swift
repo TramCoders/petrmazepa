@@ -114,7 +114,7 @@ class ScreenFlow: NSObject, ArticleDetailsPresenter, SettingsPresenter, SearchPr
     
     private func createArticlesViewModel() -> ArticlesViewModel {
         
-        return ArticlesViewModel(settings: self.settings, imageGateway: self.imageCache, articlesFetcher: self.contentProvider, articleDetailsPresenter: self, settingsPresenter: self, searchPresenter: self)
+        return ArticlesViewModel(settings: self.settings, articleStorage: self.contentProvider, imageGateway: self.imageCache, articlesFetcher: self.contentProvider, articleDetailsPresenter: self, settingsPresenter: self, searchPresenter: self)
     }
     
     private func createArticleDetailsViewModel(article article: Article) -> ArticleDetailsViewModel {

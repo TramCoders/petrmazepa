@@ -45,7 +45,9 @@ class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher
     }
     
     func clearCache() {
+        
         self.coreData.deleteAllArticles()
+        self.coreData.saveContext()
     }
     
     func fetchArticles(fromIndex fromIndex: Int, count: Int, completion: ArticlesFetchHandler) {

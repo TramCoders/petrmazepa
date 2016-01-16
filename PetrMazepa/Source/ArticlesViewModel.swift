@@ -12,6 +12,7 @@ class ArticlesViewModel : ViewModel {
     
     var articlesInserted: ((range: Range<Int>) -> Void)?
     var allArticlesDeleted: (() -> Void)?
+    var articlesUpdated: ((newCount: Int) -> Void)?
     var loadingInOfflineModeFailed: (() -> Void)?
     var errorOccurred: (() -> Void)?
     var refreshingStateChanged: ((refreshing: Bool) -> Void)?
@@ -21,11 +22,12 @@ class ArticlesViewModel : ViewModel {
     private let settings: ReadOnlySettings
     private let imageGateway: ImageGateway
     private let articlesFetcher: ArticlesFetcher
+    private let articleStorage: ArticleStorage
     private let articleDetailsPresenter: ArticleDetailsPresenter
     private let settingsPresenter: SettingsPresenter
     private let searchPresenter: SearchPresenter
     
-    private var articles = [Article]()
+    private var fetchedArticles = [Article]()
     
     private var screenSize: CGSize?
     private var thumbSize: CGSize?
@@ -33,7 +35,12 @@ class ArticlesViewModel : ViewModel {
     private var loadingInOfflineModeHasShown = false
     
     var articlesCount: Int {
-        return self.articles.count
+        
+        if self.fetchedArticles.count > 0 {
+            return self.fetchedArticles.count
+        } else {
+            return self.articleStorage.allArticlesCount()
+        }
     }
     
     var refreshing: Bool = false {
@@ -62,9 +69,10 @@ class ArticlesViewModel : ViewModel {
         return self.refreshing || self.loadingMore
     }
     
-    required init(settings: ReadOnlySettings, imageGateway: ImageGateway, articlesFetcher: ArticlesFetcher, articleDetailsPresenter: ArticleDetailsPresenter, settingsPresenter: SettingsPresenter, searchPresenter: SearchPresenter) {
+    required init(settings: ReadOnlySettings, articleStorage: ArticleStorage, imageGateway: ImageGateway, articlesFetcher: ArticlesFetcher, articleDetailsPresenter: ArticleDetailsPresenter, settingsPresenter: SettingsPresenter, searchPresenter: SearchPresenter) {
 
         self.settings = settings
+        self.articleStorage = articleStorage
         self.imageGateway = imageGateway
         self.articlesFetcher = articlesFetcher
         self.articleDetailsPresenter = articleDetailsPresenter
@@ -74,7 +82,7 @@ class ArticlesViewModel : ViewModel {
     
     func articleTapped(index index: Int) {
         
-        let article = self.articles[index]
+        let article = self.articleAtIndex(index)
         self.articleDetailsPresenter.presentArticleDetails(article)
     }
     
@@ -120,7 +128,9 @@ class ArticlesViewModel : ViewModel {
             if self.settings.offlineMode {
                 self.noArticlesVisibleChanged!(visible: true)
             }
-            
+        }
+        
+        if self.fetchedArticles.count == 0 {
             self.loadFirst()
         }
     }
@@ -148,7 +158,7 @@ class ArticlesViewModel : ViewModel {
     
     func articleModel(index index: Int) -> ArticleCellModel {
         
-        let article = self.articles[index]
+        let article = self.articleAtIndex(index)
         return ArticleCellModel(settings: self.settings, article: article, imageGateway: self.imageGateway)
     }
     
@@ -201,6 +211,15 @@ class ArticlesViewModel : ViewModel {
     
     func switchOffActionTapped() {
         self.settingsPresenter.presentSettings()
+    }
+    
+    private func articleAtIndex(index: Int) -> Article {
+        
+        if self.fetchedArticles.count > 0 {
+            return self.fetchedArticles[index]
+        } else {
+            return self.articleStorage.allArticles()[index]
+        }
     }
     
     private func loadFirst() {
@@ -265,14 +284,21 @@ class ArticlesViewModel : ViewModel {
                     return
                 }
                 
-                self.articles.appendContentsOf(notNilNewArticles)
-                let newCount = self.articlesCount
-                
-                if newCount == 0 {
+                guard notNilNewArticles.count > 0 else {
+                    
                     self.noArticlesVisibleChanged!(visible: true)
-                    
+                    return
+                }
+                
+                let oldCount = self.fetchedArticles.count
+                self.fetchedArticles.appendContentsOf(notNilNewArticles)
+                
+                if oldCount == 0 {                    
+                    self.articlesUpdated!(newCount: notNilNewArticles.count)
+
                 } else {
-                    
+                
+                    let newCount = self.articlesCount
                     self.noArticlesVisibleChanged!(visible: false)
                     self.articlesInserted!(range: fromIndex..<newCount)
                 }

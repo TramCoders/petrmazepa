@@ -24,6 +24,7 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
         didSet {
             
             self.model.articlesInserted = self.articlesInsertedHandler()
+            self.model.articlesUpdated = self.articlesUpdatedHandler()
             self.model.allArticlesDeleted = self.allArticlesDeletedHandler()
             self.model.refreshingStateChanged = self.refreshingStateChangedHandler()
             self.model.loadingMoreStateChanged = self.loadingMoreStateChangedHandler()
@@ -119,6 +120,14 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
             } else {
                 self.collectionView.insertItemsAtIndexPaths(insertedIndexPaths)
             }
+        }
+    }
+    
+    private func articlesUpdatedHandler() -> ((newCount: Int) -> Void) {
+        return { newCount in
+
+            self.layout.insertArticles(newCount)
+            self.collectionView.reloadData()
         }
     }
     
