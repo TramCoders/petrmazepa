@@ -12,10 +12,12 @@ import CoreData
 class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher, ArticleDetailsFetcher, FavouriteMaker, TopOffsetEditor, ArticleCleaner {
     
     private let networking: Networking
-    private let coreData = CoreDataManager()
+    private let coreData: CoreDataManager
     
-    required init(networking: Networking) {
+    required init(networking: Networking, coreData: CoreDataManager) {
+
         self.networking = networking
+        self.coreData = coreData
     }
     
     func allArticles() -> [Article] {

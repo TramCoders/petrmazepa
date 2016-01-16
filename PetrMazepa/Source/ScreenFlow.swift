@@ -20,6 +20,7 @@ class ScreenFlow: NSObject, ArticleDetailsPresenter, SettingsPresenter, SearchPr
     private let imageCache: ImageCache
     private let contentProvider: ContentProvider
     private let networking: Networking
+    private let coreData: CoreDataManager
     private let settings: Settings
     
     override init() {
@@ -34,7 +35,8 @@ class ScreenFlow: NSObject, ArticleDetailsPresenter, SettingsPresenter, SearchPr
         
         self.settings = Settings()
         self.networking = Networking()
-        self.contentProvider = ContentProvider(networking: self.networking)
+        self.coreData = CoreDataManager()
+        self.contentProvider = ContentProvider(networking: self.networking, coreData: self.coreData)
         
         let inMemoryImageStorage = InMemoryImageStorage()
         let persistentImageStorage = PersistentImageStorage()
@@ -45,6 +47,10 @@ class ScreenFlow: NSObject, ArticleDetailsPresenter, SettingsPresenter, SearchPr
     
     func start() {
         self.presentArticles()
+    }
+    
+    func save() {
+        self.coreData.saveContext()
     }
     
     func presentArticles() {
