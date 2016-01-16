@@ -52,7 +52,7 @@ class CoreDataManager : FavouriteArticlesStorage, FavouriteMaker {
             do {
                 try self.context.save()
             } catch {
-                abort()
+                print("Failed to save changes")
             }
         }
     }

@@ -33,6 +33,7 @@ class ArticlesViewModel : ViewModel {
     private var thumbSize: CGSize?
     private var screenArticlesAmount: Int = 0
     private var loadingInOfflineModeHasShown = false
+    private var errorOccurredHasShown = false
     
     var articlesCount: Int {
         
@@ -276,7 +277,12 @@ class ArticlesViewModel : ViewModel {
                 
                 if (error != nil) || self.settings.offlineMode {
                     
-                    self.errorOccurred!()
+                    if !self.errorOccurredHasShown {
+                     
+                        self.errorOccurredHasShown = true
+                        self.errorOccurred!()
+                    }
+                    
                     return
                 }
                 

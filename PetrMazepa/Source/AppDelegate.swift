@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
-    func applicationWillResignActive(application: UIApplication) {
-        // TODO: save a core data's context
+    func applicationWillTerminate(application: UIApplication) {
+        self.screenFlow.save()
     }
 }
