@@ -11,6 +11,7 @@ import Foundation
 protocol ArticleStorage {
 
     func allArticles() -> [Article]
+    func lastReadArticle() -> Article?
     func allArticlesCount() -> Int
     func updateArticles(articles: [Article]) -> [Article]
 }

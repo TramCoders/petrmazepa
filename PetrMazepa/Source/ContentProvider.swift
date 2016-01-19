@@ -24,6 +24,10 @@ class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher
         return self.coreData.allArticles()
     }
     
+    func lastReadArticle() -> Article? {
+        return nil      // TODO:
+    }
+    
     func updateArticles(articles: [Article]) -> [Article] {
         return self.coreData.updateArticles(articles)
     }
