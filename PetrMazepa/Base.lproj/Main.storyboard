@@ -63,7 +63,7 @@
                                     <outlet property="delegate" destination="vXZ-lx-hvc" id="2ot-oD-91m"/>
                                 </connections>
                             </collectionView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0ba-sK-NHx" userLabel="Last Read Article View">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0ba-sK-NHx" userLabel="Last Read Article View" customClass="LastReadArticleView" customModule="PetrMazepa" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="492" width="600" height="44"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chersonesus" translatesAutoresizingMaskIntoConstraints="NO" id="hgg-TQ-l8o">
@@ -80,7 +80,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" image="forward" translatesAutoresizingMaskIntoConstraints="NO" id="CFJ-ZA-RIC">
-                                        <rect key="frame" x="577" y="15" width="13" height="13"/>
+                                        <rect key="frame" x="560" y="6.5" width="30" height="30"/>
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" red="0.52955386513157898" green="0.80378803453947367" blue="0.68184621710526316" alpha="0.40000000000000002" colorSpace="calibratedRGB"/>
@@ -94,6 +94,10 @@
                                     <constraint firstAttribute="height" constant="44" id="evC-ze-ZO5"/>
                                     <constraint firstAttribute="trailing" secondItem="CFJ-ZA-RIC" secondAttribute="trailing" constant="10" id="siM-Kb-r0I"/>
                                 </constraints>
+                                <connections>
+                                    <outlet property="imageView" destination="hgg-TQ-l8o" id="4uy-5n-CTr"/>
+                                    <outlet property="titleLabel" destination="cZT-Yf-wjj" id="klc-KL-ZMW"/>
+                                </connections>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5cx-wu-7kk" userLabel="View - Articles placeholder">
                                 <rect key="frame" x="226" y="238" width="147.5" height="60"/>
@@ -508,7 +512,7 @@
         <image name="chersonesus" width="262" height="262"/>
         <image name="close_icon" width="22" height="22"/>
         <image name="favourite_tab" width="30" height="30"/>
-        <image name="forward" width="13" height="13"/>
+        <image name="forward" width="30" height="30"/>
         <image name="search_icon" width="22" height="22"/>
         <image name="settings_icon" width="22" height="22"/>
         <image name="unfavourite_icon" width="30" height="30"/>
