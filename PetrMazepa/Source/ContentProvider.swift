@@ -11,6 +11,8 @@ import CoreData
 
 class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher, ArticleDetailsFetcher, FavouriteMaker, TopOffsetEditor, ArticleCleaner, LastReadArticleMaker {
     
+    private static let lastReadArticleKey = "LastReadArticle"
+    
     private let networking: Networking
     private let coreData: CoreDataManager
     
@@ -20,7 +22,7 @@ class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher
 
         self.lastReadArticle = article
         
-        NSUserDefaults.standardUserDefaults().setObject(article.id, forKey: "LastReadArticle")
+        NSUserDefaults.standardUserDefaults().setObject(article.id, forKey: ContentProvider.lastReadArticleKey)
         NSUserDefaults.standardUserDefaults().synchronize()
     }
     
@@ -119,7 +121,7 @@ class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher
     
     private func setupLastReadArticle() {
         
-        if let articleId = NSUserDefaults.standardUserDefaults().objectForKey("LastReadArticle") as? String {
+        if let articleId = NSUserDefaults.standardUserDefaults().objectForKey(ContentProvider.lastReadArticleKey) as? String {
             
             for article in self.allArticles() {
                 if article.id == articleId {
