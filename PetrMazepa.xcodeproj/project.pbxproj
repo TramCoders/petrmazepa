@@ -10,6 +10,8 @@
 		1212A40B1BCAC3590022CD52 /* InMemoryImageStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA41A521BB8489B00550857 /* InMemoryImageStorage.swift */; };
 		1212A40C1BCAC3700022CD52 /* PersistentImageStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA41A541BB849AF00550857 /* PersistentImageStorage.swift */; };
 		123FCFEA1C4F8E520097D767 /* LastReadArticleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 123FCFE91C4F8E520097D767 /* LastReadArticleView.swift */; };
+		12AD97921C5810B500B92AA5 /* LastReadArticleMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12AD97911C5810B500B92AA5 /* LastReadArticleMaker.swift */; };
+		12AD97931C5810B500B92AA5 /* LastReadArticleMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12AD97911C5810B500B92AA5 /* LastReadArticleMaker.swift */; };
 		5EC711EF1B8CD2B200C84AE7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC711E61B8CD2B200C84AE7 /* AppDelegate.swift */; };
 		5EC711F21B8CD2B200C84AE7 /* ArticlesViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC711E91B8CD2B200C84AE7 /* ArticlesViewLayout.swift */; };
 		5EC711F41B8CD2B200C84AE7 /* ScreenFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC711EB1B8CD2B200C84AE7 /* ScreenFlow.swift */; };
@@ -142,6 +144,7 @@
 
 /* Begin PBXFileReference section */
 		123FCFE91C4F8E520097D767 /* LastReadArticleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LastReadArticleView.swift; path = Source/LastReadArticleView.swift; sourceTree = "<group>"; };
+		12AD97911C5810B500B92AA5 /* LastReadArticleMaker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LastReadArticleMaker.swift; path = Source/LastReadArticleMaker.swift; sourceTree = "<group>"; };
 		5EC711E61B8CD2B200C84AE7 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = Source/AppDelegate.swift; sourceTree = "<group>"; };
 		5EC711E91B8CD2B200C84AE7 /* ArticlesViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ArticlesViewLayout.swift; path = Source/ArticlesViewLayout.swift; sourceTree = "<group>"; };
 		5EC711EB1B8CD2B200C84AE7 /* ScreenFlow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ScreenFlow.swift; path = Source/ScreenFlow.swift; sourceTree = "<group>"; };
@@ -330,6 +333,7 @@
 				ACE7D0C21BF93BF600116C93 /* FavouriteMaker.swift */,
 				AC820FB01C301FBC004F0825 /* TopOffsetEditor.swift */,
 				AC820FB61C31CD95004F0825 /* ArticleCleaner.swift */,
+				12AD97911C5810B500B92AA5 /* LastReadArticleMaker.swift */,
 				AC0BD0CD1BB70BCE00876B76 /* ContentProvider.swift */,
 			);
 			name = ContentProvider;
@@ -799,6 +803,7 @@
 				AC6B3ED71B8E3E08005BA7F1 /* SearchViewController.swift in Sources */,
 				ACA032831BDF6A6E00AA01C8 /* SettingsViewController.swift in Sources */,
 				AC05D45B1BF141560049CAC6 /* ImageGateway.swift in Sources */,
+				12AD97921C5810B500B92AA5 /* LastReadArticleMaker.swift in Sources */,
 				ACA41A531BB8489B00550857 /* InMemoryImageStorage.swift in Sources */,
 				ACA41A571BB84AFD00550857 /* ImageStorage.swift in Sources */,
 				AC3625A61BF7F124000A51DD /* PetrMazepa.xcdatamodeld in Sources */,
@@ -855,6 +860,7 @@
 				ACE7D0C91BF9C2FA00116C93 /* NSManagedObject+EntityName.swift in Sources */,
 				AC2D3FD31C17982700D227D0 /* SearchPresenter.swift in Sources */,
 				AC701CA51BC1B38E009891DD /* ArticleDetailsFetcher.swift in Sources */,
+				12AD97931C5810B500B92AA5 /* LastReadArticleMaker.swift in Sources */,
 				AC8E1FDA1BE93D6B0017B58B /* ViewModel.swift in Sources */,
 				ACBA69891C020A7A00A93C6D /* ReadWriteSettings.swift in Sources */,
 				AC820FB81C31CD95004F0825 /* ArticleCleaner.swift in Sources */,

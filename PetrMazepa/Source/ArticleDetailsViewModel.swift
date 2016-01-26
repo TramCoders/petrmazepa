@@ -11,7 +11,7 @@ import UIKit
 class ArticleDetailsViewModel : ViewModel {
     
     var imageLoaded: ((image: UIImage?) -> Void)?
-    var textLoaded: ((htmlText: String?) -> ())?
+    var textLoaded: ((htmlText: String?) -> Void)?
     var favouriteStateChanged: ((favourite: Bool) -> Void)?
     var barsVisibilityChanged: ((visible: Bool) -> Void)?
     var errorOccurred: ((error: NSError?) -> Void)?
@@ -22,6 +22,7 @@ class ArticleDetailsViewModel : ViewModel {
     private let favouriteMaker: FavouriteMaker
     private let articleSharer: ArticleSharer
     private let topOffsetEditor: TopOffsetEditor
+    private let lastReadArticleMaker: LastReadArticleMaker
     
     private let settings: ReadOnlySettings
     private let article: Article
@@ -45,7 +46,7 @@ class ArticleDetailsViewModel : ViewModel {
     
     var image: UIImage?
     
-    init(settings: ReadOnlySettings, article: Article, imageGateway: ImageGateway, articleDetailsFetcher: ArticleDetailsFetcher, favouriteMaker: FavouriteMaker, articleDetailsDismisser: ArticleDetailsDismisser, articleSharer: ArticleSharer, topOffsetEditor: TopOffsetEditor) {
+    init(settings: ReadOnlySettings, article: Article, imageGateway: ImageGateway, articleDetailsFetcher: ArticleDetailsFetcher, favouriteMaker: FavouriteMaker, articleDetailsDismisser: ArticleDetailsDismisser, articleSharer: ArticleSharer, topOffsetEditor: TopOffsetEditor, lastReadArticleMaker: LastReadArticleMaker) {
 
         self.settings = settings
         self.article = article
@@ -55,6 +56,7 @@ class ArticleDetailsViewModel : ViewModel {
         self.articleDetailsDismisser = articleDetailsDismisser
         self.articleSharer = articleSharer
         self.topOffsetEditor = topOffsetEditor
+        self.lastReadArticleMaker = lastReadArticleMaker
     }
     
     func viewDidLayoutSubviews(screenSize size: CGSize) {
@@ -92,6 +94,7 @@ class ArticleDetailsViewModel : ViewModel {
     override func viewWillAppear() {
 
         super.viewWillAppear()
+        self.lastReadArticleMaker.setLastReadArticle(self.article)
         self.barsVisibile = true
         self.favouriteStateChanged!(favourite: self.article.favourite)
     }

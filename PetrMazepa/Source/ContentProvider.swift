@@ -9,26 +9,26 @@
 import UIKit
 import CoreData
 
-class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher, ArticleDetailsFetcher, FavouriteMaker, TopOffsetEditor, ArticleCleaner {
+class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher, ArticleDetailsFetcher, FavouriteMaker, TopOffsetEditor, ArticleCleaner, LastReadArticleMaker {
     
     private let networking: Networking
     private let coreData: CoreDataManager
     
-    var lastReadArticle: Article? {
-        
-        get {
-            return self.allArticles().first     // TODO: get a real last read article
-        }
+    var lastReadArticle: Article?
+    
+    func setLastReadArticle(article: Article) {
 
-        set(article) {
-            // TODO: store a last read article id in the user defaults
-        }
+        self.lastReadArticle = article
+        
+        NSUserDefaults.standardUserDefaults().setObject(article.id, forKey: "LastReadArticle")
+        NSUserDefaults.standardUserDefaults().synchronize()
     }
     
     required init(networking: Networking, coreData: CoreDataManager) {
 
         self.networking = networking
         self.coreData = coreData
+        self.setupLastReadArticle()
     }
     
     func allArticles() -> [Article] {
@@ -113,6 +113,20 @@ class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher
 
             } else {
                 completion(details, error)
+            }
+        }
+    }
+    
+    private func setupLastReadArticle() {
+        
+        if let articleId = NSUserDefaults.standardUserDefaults().objectForKey("LastReadArticle") as? String {
+            
+            for article in self.allArticles() {
+                if article.id == articleId {
+                    
+                    self.lastReadArticle = article
+                    break
+                }
             }
         }
     }
