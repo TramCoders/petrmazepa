@@ -8,20 +8,31 @@
 
 import UIKit
 
-class LastReadArticleView: UIView {
+class LastReadArticleView: UIControl {
 
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     
-    var title: String? {
+    override var highlighted: Bool {
         didSet {
-            self.titleLabel.text = self.title
+            UIView.animateWithDuration(0.1) {
+                self.backgroundColor = self.highlighted ? UIColor.blackColor() : UIColor.clearColor()
+            }
         }
     }
     
-    var image: UIImage? {
+    var model: SimpleArticleCellModel? {
         didSet {
-            self.imageView.image = self.image
+            
+            guard let notNilModel = self.model else {
+                return
+            }
+            
+            self.titleLabel.text = notNilModel.title
+            
+            notNilModel.requestImage(size: self.imageView.bounds.size) { image, _, _ in
+                self.imageView.image = image
+            }
         }
     }
     

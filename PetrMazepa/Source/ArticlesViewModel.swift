@@ -18,6 +18,7 @@ class ArticlesViewModel : ViewModel {
     var refreshingStateChanged: ((refreshing: Bool) -> Void)?
     var loadingMoreStateChanged: ((loadingMore: Bool) -> Void)?
     var noArticlesVisibleChanged: ((visible: Bool) -> Void)?
+    var lastReadArticleVisibleChanged: ((visible: Bool, animated: Bool) -> Void)?
     
     private let settings: ReadOnlySettings
     private let imageGateway: ImageGateway
@@ -34,6 +35,23 @@ class ArticlesViewModel : ViewModel {
     private var screenArticlesAmount: Int = 0
     private var loadingInOfflineModeHasShown = false
     private var errorOccurredHasShown = false
+    
+    private var lastReadArticleShown: Bool {
+        return self.lastReadArticle == nil ? false : true
+    }
+    
+    private var lastReadArticle: Article? {
+        return self.articleStorage.lastReadArticle
+    }
+    
+    var lastReadArticleViewModel: SimpleArticleCellModel? {
+        
+        guard let article = self.lastReadArticle else {
+            return nil
+        }
+        
+        return SimpleArticleCellModel(settings: self.settings, article: article, imageGateway: self.imageGateway)
+    }
     
     var articlesCount: Int {
         
@@ -138,6 +156,7 @@ class ArticlesViewModel : ViewModel {
         }
         
         self.articlesUpdated!(newCount: self.articlesCount)
+        self.lastReadArticleVisibleChanged!(visible: self.lastReadArticleShown, animated: false)
     }
     
     func didChangeDistanceToBottom(distance: CGFloat) {
@@ -203,6 +222,15 @@ class ArticlesViewModel : ViewModel {
     
     func settingsTapped() {
         self.settingsPresenter.presentSettings()
+    }
+    
+    func lastReadArticleTapped() {
+        
+        guard let article = self.articleStorage.lastReadArticle else {
+            return
+        }
+        
+        self.articleDetailsPresenter.presentArticleDetails(article)
     }
     
     func cancelActionTapped() {

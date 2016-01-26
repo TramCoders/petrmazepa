@@ -13,7 +13,7 @@ class SearchedArticleCell: UITableViewCell {
     @IBOutlet weak var thumbImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     
-    var model: SearchedArticleCellModel! {
+    var model: SimpleArticleCellModel! {
         didSet {
             
             self.titleLabel.text = self.model.title

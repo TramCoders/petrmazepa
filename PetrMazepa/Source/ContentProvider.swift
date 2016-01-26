@@ -14,6 +14,17 @@ class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher
     private let networking: Networking
     private let coreData: CoreDataManager
     
+    var lastReadArticle: Article? {
+        
+        get {
+            return self.allArticles().first     // TODO: get a real last read article
+        }
+
+        set(article) {
+            // TODO: store a last read article id in the user defaults
+        }
+    }
+    
     required init(networking: Networking, coreData: CoreDataManager) {
 
         self.networking = networking
@@ -22,10 +33,6 @@ class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher
     
     func allArticles() -> [Article] {
         return self.coreData.allArticles()
-    }
-    
-    func lastReadArticle() -> Article? {
-        return nil      // TODO:
     }
     
     func updateArticles(articles: [Article]) -> [Article] {

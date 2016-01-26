@@ -97,10 +97,10 @@ class SearchViewModel : ViewModel {
         }
     }
     
-    func searchedArticleModel(indexPath indexPath: NSIndexPath) -> SearchedArticleCellModel {
+    func searchedArticleModel(indexPath indexPath: NSIndexPath) -> SimpleArticleCellModel {
         
         let article = self.findArticle(indexPath: indexPath)
-        return SearchedArticleCellModel(settings: self.settings, article: article, imageGateway: self.imageGateway)
+        return SimpleArticleCellModel(settings: self.settings, article: article, imageGateway: self.imageGateway)
     }
     
     func didChangeQuery(query: String) {

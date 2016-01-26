@@ -1,5 +1,5 @@
 //
-//  SearchedArticleCellModel.swift
+//  SimpleArticleCellModel.swift
 //  PetrMazepa
 //
 //  Created by Artem Stepanenko on 11/10/15.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-class SearchedArticleCellModel : ImageCellModel {
+class SimpleArticleCellModel : ImageCellModel {
     
     var title: String {
         return self.article.title

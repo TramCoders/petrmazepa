@@ -12,6 +12,10 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
     
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var noArticlesView: UIView!
+    @IBOutlet weak var lastReadArticleView: LastReadArticleView!
+    
+    @IBOutlet weak var bottomLastReadConstraint: NSLayoutConstraint!
+    @IBOutlet weak var heightLastReadConstraint: NSLayoutConstraint!
     
     weak var layout: ArticlesViewLayout!
     private let cellReuseIdentifier = "ArticleCell"
@@ -31,6 +35,7 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
             self.model.errorOccurred = self.errorOccurredHandler()
             self.model.loadingInOfflineModeFailed = self.loadingInOfflineModeFailedHandler()
             self.model.noArticlesVisibleChanged = self.noArticlesVisibleChangedHandler()
+            self.model.lastReadArticleVisibleChanged = self.lastReadArticleVisibleChangedHandler()
         }
     }
 
@@ -61,6 +66,7 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         self.model.viewWillAppear()
+        self.lastReadArticleView.model = self.model.lastReadArticleViewModel
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -79,6 +85,10 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
     
     @IBAction func refreshTapped(sender: AnyObject) {
         self.model.refreshTriggered()
+    }
+    
+    @IBAction func lastReadArticleTapped(sender: AnyObject) {
+        self.model.lastReadArticleTapped()
     }
     
     func refreshTriggered() {
@@ -157,6 +167,15 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
             
             self.collectionView.hidden = visible
             self.noArticlesView.hidden = !visible
+        }
+    }
+    
+    private func lastReadArticleVisibleChangedHandler() -> ((visible: Bool, animated: Bool) -> Void) {
+        return { visible, animated in
+
+            // TODO: animated
+//            self.bottomLastReadConstraint.constant = visible ? 0.0 : -self.heightLastReadConstraint.constant
+//            self.view.layoutIfNeeded()
         }
     }
     
