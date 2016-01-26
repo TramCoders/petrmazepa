@@ -173,9 +173,8 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
     private func lastReadArticleVisibleChangedHandler() -> ((visible: Bool, animated: Bool) -> Void) {
         return { visible, animated in
 
-            // TODO: animated
-//            self.bottomLastReadConstraint.constant = visible ? 0.0 : -self.heightLastReadConstraint.constant
-//            self.view.layoutIfNeeded()
+            self.bottomLastReadConstraint.constant = visible ? 0.0 : -self.heightLastReadConstraint.constant
+            self.view.layoutIfNeeded()
         }
     }
     
