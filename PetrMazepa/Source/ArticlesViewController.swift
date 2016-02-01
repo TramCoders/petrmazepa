@@ -36,6 +36,7 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
             self.model.loadingInOfflineModeFailed = self.loadingInOfflineModeFailedHandler()
             self.model.noArticlesVisibleChanged = self.noArticlesVisibleChangedHandler()
             self.model.lastReadArticleVisibleChanged = self.lastReadArticleVisibleChangedHandler()
+            self.model.navigationBarVisibleChanged = self.navigationBarVisibleChangedHandler()
         }
     }
 
@@ -46,7 +47,8 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
     override func viewDidLoad() {
 
         super.viewDidLoad()
-
+        self.automaticallyAdjustsScrollViewInsets = false
+        
         // title
         self.title = NSLocalizedString("ArticlesScreen_title", comment: "")
         
@@ -64,15 +66,27 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
     override func viewWillAppear(animated: Bool) {
         
         super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(false, animated: true)
         self.model.viewWillAppear()
+
+        // last read article model
         self.lastReadArticleView.model = self.model.lastReadArticleViewModel
+        
+        // navigation bar visibility
+        self.navigationController?.setNavigationBarHidden(!self.model.navigationBarVisible, animated: true)
+        
+        // last read article visibility
+        self.bottomLastReadConstraint.constant = self.model.lastReadArticleVisible ? 0.0 : -self.heightLastReadConstraint.constant
+        self.view.layoutIfNeeded()
     }
     
     override func viewWillDisappear(animated: Bool) {
         
         super.viewWillDisappear(animated)
         self.model.viewWillDisappear()
+    }
+    
+    override func prefersStatusBarHidden() -> Bool {
+        return !self.model.navigationBarVisible
     }
     
     @IBAction func settingsTapped(sender: AnyObject) {
@@ -114,8 +128,9 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
         
-        let distance = scrollView.contentSize.height - scrollView.frame.height - scrollView.contentOffset.y
-        self.model.didChangeDistanceToBottom(distance)
+        let contentOffset = scrollView.contentOffset.y
+        let distance = scrollView.contentSize.height - scrollView.frame.height - contentOffset
+        self.model.didScroll(contentOffset: contentOffset, distanceToBottom: distance)
     }
     
     private func articlesInsertedHandler() -> ((range: Range<Int>) -> Void) {
@@ -174,7 +189,22 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
         return { visible, animated in
 
             self.bottomLastReadConstraint.constant = visible ? 0.0 : -self.heightLastReadConstraint.constant
-            self.view.layoutIfNeeded()
+            
+            if animated {
+                UIView.animateWithDuration(0.1, animations: {
+                    self.view.layoutIfNeeded()
+                })
+            } else {
+                self.view.layoutIfNeeded()
+            }
+        }
+    }
+    
+    private func navigationBarVisibleChangedHandler() -> ((visible: Bool, animated: Bool) -> Void) {
+        return { visible, animated in
+
+            self.navigationController?.setNavigationBarHidden(!visible, animated: animated)
+            self.setNeedsStatusBarAppearanceUpdate()
         }
     }
     

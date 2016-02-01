@@ -19,6 +19,7 @@ class ArticlesViewModel : ViewModel {
     var loadingMoreStateChanged: ((loadingMore: Bool) -> Void)?
     var noArticlesVisibleChanged: ((visible: Bool) -> Void)?
     var lastReadArticleVisibleChanged: ((visible: Bool, animated: Bool) -> Void)?
+    var navigationBarVisibleChanged: ((visible: Bool, animated: Bool) -> Void)?
     
     private let settings: ReadOnlySettings
     private let imageGateway: ImageGateway
@@ -36,7 +37,7 @@ class ArticlesViewModel : ViewModel {
     private var loadingInOfflineModeHasShown = false
     private var errorOccurredHasShown = false
     
-    private var lastReadArticleShown: Bool {
+    private var lastReadArticleExists: Bool {
         return self.lastReadArticle == nil ? false : true
     }
     
@@ -87,6 +88,9 @@ class ArticlesViewModel : ViewModel {
     private var loading: Bool {
         return self.refreshing || self.loadingMore
     }
+    
+    var lastReadArticleVisible: Bool = true
+    var navigationBarVisible: Bool = true
     
     required init(settings: ReadOnlySettings, articleStorage: ArticleStorage, imageGateway: ImageGateway, articlesFetcher: ArticlesFetcher, articleDetailsPresenter: ArticleDetailsPresenter, settingsPresenter: SettingsPresenter, searchPresenter: SearchPresenter) {
 
@@ -156,14 +160,32 @@ class ArticlesViewModel : ViewModel {
         }
         
         self.articlesUpdated!(newCount: self.articlesCount)
-        self.lastReadArticleVisibleChanged!(visible: self.lastReadArticleShown, animated: false)
+
+        self.lastReadArticleVisible = self.lastReadArticleExists
+        self.navigationBarVisible = true
     }
     
-    func didChangeDistanceToBottom(distance: CGFloat) {
+    func didScroll(contentOffset contentOffset: CGFloat, distanceToBottom: CGFloat) {
         
         guard self.articlesCount > 0 else {
             return
         }
+        
+        let barsVisible = contentOffset < 200
+        
+        if self.navigationBarVisible != barsVisible {
+            
+            if self.lastReadArticleExists {
+                
+                self.lastReadArticleVisible = barsVisible
+                self.lastReadArticleVisibleChanged!(visible: barsVisible, animated: true)
+            }
+            
+            self.navigationBarVisible = barsVisible
+            self.navigationBarVisibleChanged!(visible: barsVisible, animated: true)
+        }
+        
+        
         
         guard self.loading == false else {
             return
@@ -173,7 +195,7 @@ class ArticlesViewModel : ViewModel {
             return
         }
         
-        if distance > notNilScreenSize.height * 2 {
+        if distanceToBottom > notNilScreenSize.height * 2 {
             return
         }
         

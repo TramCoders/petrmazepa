@@ -14,6 +14,7 @@ class ArticlesViewLayout: UICollectionViewLayout  {
     private let verPadding: CGFloat = 2.0
     private let horPadding: CGFloat = 1.0
     private var toolbarHeight: CGFloat = 44.0
+    private var navigationBarHeight: CGFloat = 64.0
     private let margin: CGFloat = 1.0
     
     private var screenWidth: CGFloat {
@@ -41,7 +42,7 @@ class ArticlesViewLayout: UICollectionViewLayout  {
 
             let even = index % 2 == 0
             let left = (even ? self.horPadding : self.horPadding + cellWidth + self.margin)
-            let top = self.verPadding + (cellWidth + self.margin) * CGFloat(index / 2)
+            let top = self.navigationBarHeight + self.verPadding + (cellWidth + self.margin) * CGFloat(index / 2)
             attrs.frame = CGRectMake(left, top, cellWidth, cellWidth)
             
             return attrs
