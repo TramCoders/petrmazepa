@@ -169,7 +169,7 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
     
     private func barsVisibilityChangedHandler() -> ((visible: Bool) -> Void) {
         return { _ in
-            UIView.animateWithDuration(0.3, animations: {
+            UIView.animateWithDuration(0.2, animations: {
                 self.updateBars()
             })
         }

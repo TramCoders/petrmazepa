@@ -36,6 +36,7 @@ class ArticlesViewModel : ViewModel {
     private var screenArticlesAmount: Int = 0
     private var loadingInOfflineModeHasShown = false
     private var errorOccurredHasShown = false
+    private var startOffset: CGFloat!
     
     private var lastReadArticleExists: Bool {
         return self.lastReadArticle == nil ? false : true
@@ -165,27 +166,35 @@ class ArticlesViewModel : ViewModel {
         self.navigationBarVisible = true
     }
     
+    func willBeginDragging(offset offset: CGFloat) {
+        self.startOffset = offset
+    }
+    
     func didScroll(contentOffset contentOffset: CGFloat, distanceToBottom: CGFloat) {
         
         guard self.articlesCount > 0 else {
             return
         }
         
-        let barsVisible = contentOffset < 200
+        let bottomDirection: Bool
         
-        if self.navigationBarVisible != barsVisible {
-            
-            if self.lastReadArticleExists {
-                
-                self.lastReadArticleVisible = barsVisible
-                self.lastReadArticleVisibleChanged!(visible: barsVisible, animated: true)
-            }
-            
-            self.navigationBarVisible = barsVisible
-            self.navigationBarVisibleChanged!(visible: barsVisible, animated: true)
+        if let _ = self.startOffset {
+            bottomDirection = contentOffset - self.startOffset > 0.0
+        } else {
+            bottomDirection = true
         }
         
+        let reachedBottom = distanceToBottom <= 0.0
         
+        if (contentOffset > 64.0 && !reachedBottom && bottomDirection) {
+            if self.self.navigationBarVisible == true {
+                self.updateBarsVisible(false)
+            }
+        } else {
+            if self.navigationBarVisible == false {
+                self.updateBarsVisible(true)
+            }
+        }
         
         guard self.loading == false else {
             return
@@ -266,6 +275,21 @@ class ArticlesViewModel : ViewModel {
     
     func switchOffActionTapped() {
         self.settingsPresenter.presentSettings()
+    }
+    
+    private func updateBarsVisible(visible: Bool) {
+
+        if self.navigationBarVisible != visible {
+            
+            if self.lastReadArticleExists {
+                
+                self.lastReadArticleVisible = visible
+                self.lastReadArticleVisibleChanged!(visible: visible, animated: true)
+            }
+            
+            self.navigationBarVisible = visible
+            self.navigationBarVisibleChanged!(visible: visible, animated: true)
+        }
     }
     
     private func articleAtIndex(index: Int) -> Article {

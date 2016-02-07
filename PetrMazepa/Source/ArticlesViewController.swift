@@ -86,7 +86,7 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
     }
     
     override func prefersStatusBarHidden() -> Bool {
-        return !self.model.navigationBarVisible
+        return false
     }
     
     @IBAction func settingsTapped(sender: AnyObject) {
@@ -124,6 +124,10 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         self.model.articleTapped(index: indexPath.row)
+    }
+    
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        self.model.willBeginDragging(offset: scrollView.contentOffset.y);
     }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
@@ -191,7 +195,7 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
             self.bottomLastReadConstraint.constant = visible ? 0.0 : -self.heightLastReadConstraint.constant
             
             if animated {
-                UIView.animateWithDuration(0.1, animations: {
+                UIView.animateWithDuration(0.2, animations: {
                     self.view.layoutIfNeeded()
                 })
             } else {
@@ -202,9 +206,7 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
     
     private func navigationBarVisibleChangedHandler() -> ((visible: Bool, animated: Bool) -> Void) {
         return { visible, animated in
-
             self.navigationController?.setNavigationBarHidden(!visible, animated: animated)
-            self.setNeedsStatusBarAppearanceUpdate()
         }
     }
     
