@@ -41,7 +41,7 @@ class SearchViewModel : ViewModel {
     override func viewWillAppear() {
         
         super.viewWillAppear()
-        self.allFavouriteArticles = self.favouriteArticleStorage.favouriteArticles()
+        self.allFavouriteArticles = self.sortedArticles(self.favouriteArticleStorage.favouriteArticles())
         self.invalidateContent()
     }
     
@@ -97,10 +97,10 @@ class SearchViewModel : ViewModel {
         }
     }
     
-    func searchedArticleModel(indexPath indexPath: NSIndexPath) -> SearchedArticleCellModel {
+    func searchedArticleModel(indexPath indexPath: NSIndexPath) -> SimpleArticleCellModel {
         
         let article = self.findArticle(indexPath: indexPath)
-        return SearchedArticleCellModel(settings: self.settings, article: article, imageGateway: self.imageGateway)
+        return SimpleArticleCellModel(settings: self.settings, article: article, imageGateway: self.imageGateway)
     }
     
     func didChangeQuery(query: String) {
@@ -113,9 +113,14 @@ class SearchViewModel : ViewModel {
     private func invalidateContent() {
         
         if self.query == "" {
-
+            
+            // favorite articles
             self.favouriteArticles = self.allFavouriteArticles
-            self.filteredArticles = self.articles(self.articleStorage.allArticles(), withoutArticles: self.allFavouriteArticles)
+
+            // not favorite articles
+            let notFavoriteArticles = self.articles(self.articleStorage.allArticles(), withoutArticles: self.allFavouriteArticles)
+            self.filteredArticles = self.sortedArticles(notFavoriteArticles)
+            
             return
         }
         
@@ -123,8 +128,11 @@ class SearchViewModel : ViewModel {
             return article.title.rangeOfString(self.query, options: NSStringCompareOptions.CaseInsensitiveSearch) != nil
         }
         
+        // not favorite articles
         let articles = self.articles(self.articleStorage.allArticles(), withoutArticles: self.allFavouriteArticles)
-        self.filteredArticles = articles.filter(filter)
+        self.filteredArticles = self.sortedArticles(articles.filter(filter))
+        
+        // favorite articles
         self.favouriteArticles = self.allFavouriteArticles.filter(filter)
     }
     
@@ -144,5 +152,9 @@ class SearchViewModel : ViewModel {
         } else {
             return self.filteredArticles[index]
         }
+    }
+    
+    private func sortedArticles(articles: [Article]) -> [Article] {
+        return articles.sort { $0.title < $1.title }
     }
 }

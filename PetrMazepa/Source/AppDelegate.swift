@@ -19,4 +19,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.screenFlow.start()
         return true
     }
+    
+    func applicationWillTerminate(application: UIApplication) {
+        self.screenFlow.save()
+    }
 }

@@ -138,6 +138,12 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
         self.layout.textCellHeight = height
         self.textCell.height = height
         self.collectionView.collectionViewLayout.invalidateLayout()
+        
+        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC)))
+        dispatch_after(delayTime, dispatch_get_main_queue()) {
+            self.collectionView.setContentOffset(CGPointMake(0.0, self.model.topOffset), animated: true)
+        }
+        
     }
     
     private func updateBars() {
@@ -163,7 +169,7 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
     
     private func barsVisibilityChangedHandler() -> ((visible: Bool) -> Void) {
         return { _ in
-            UIView.animateWithDuration(0.3, animations: {
+            UIView.animateWithDuration(0.2, animations: {
                 self.updateBars()
             })
         }

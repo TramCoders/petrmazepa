@@ -20,14 +20,13 @@ class ScreenFlow: NSObject, ArticleDetailsPresenter, SettingsPresenter, SearchPr
     private let imageCache: ImageCache
     private let contentProvider: ContentProvider
     private let networking: Networking
+    private let coreData: CoreDataManager
     private let settings: Settings
     
     override init() {
         
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
         self.window.tintColor = UIColor(red: 0.933, green: 0.427, blue: 0.439, alpha: 1.0)
-        self.window.layer.cornerRadius = 4.0
-        self.window.layer.masksToBounds = true
         
         self.storyboard = UIStoryboard(name: "Main", bundle: nil)
         self.mainNavigationController = self.storyboard.instantiateInitialViewController() as! UINavigationController
@@ -36,7 +35,8 @@ class ScreenFlow: NSObject, ArticleDetailsPresenter, SettingsPresenter, SearchPr
         
         self.settings = Settings()
         self.networking = Networking()
-        self.contentProvider = ContentProvider(networking: self.networking)
+        self.coreData = CoreDataManager()
+        self.contentProvider = ContentProvider(networking: self.networking, coreData: self.coreData)
         
         let inMemoryImageStorage = InMemoryImageStorage()
         let persistentImageStorage = PersistentImageStorage()
@@ -47,6 +47,10 @@ class ScreenFlow: NSObject, ArticleDetailsPresenter, SettingsPresenter, SearchPr
     
     func start() {
         self.presentArticles()
+    }
+    
+    func save() {
+        self.coreData.saveContext()
     }
     
     func presentArticles() {
@@ -116,12 +120,12 @@ class ScreenFlow: NSObject, ArticleDetailsPresenter, SettingsPresenter, SearchPr
     
     private func createArticlesViewModel() -> ArticlesViewModel {
         
-        return ArticlesViewModel(settings: self.settings, imageGateway: self.imageCache, articleStorage: self.contentProvider, articlesFetcher: self.contentProvider, articleDetailsPresenter: self, settingsPresenter: self, searchPresenter: self)
+        return ArticlesViewModel(settings: self.settings, articleStorage: self.contentProvider, imageGateway: self.imageCache, articlesFetcher: self.contentProvider, articleDetailsPresenter: self, settingsPresenter: self, searchPresenter: self)
     }
     
     private func createArticleDetailsViewModel(article article: Article) -> ArticleDetailsViewModel {
         
-        return ArticleDetailsViewModel(settings: self.settings, article: article, imageGateway: self.imageCache, articleDetailsFetcher: self.contentProvider, favouriteMaker: self.contentProvider, articleDetailsDismisser: self, articleSharer: self)
+        return ArticleDetailsViewModel(settings: self.settings, article: article, imageGateway: self.imageCache, articleDetailsFetcher: self.contentProvider, favouriteMaker: self.contentProvider, articleDetailsDismisser: self, articleSharer: self, topOffsetEditor: self.contentProvider, lastReadArticleMaker: self.contentProvider)
     }
     
     private func createSearchViewModel() -> SearchViewModel {
@@ -130,7 +134,6 @@ class ScreenFlow: NSObject, ArticleDetailsPresenter, SettingsPresenter, SearchPr
     }
     
     private func createSettingsViewModel() -> SettingsViewModel {
-
-        return SettingsViewModel(settings: self.settings, dismisser: self)
+        return SettingsViewModel(settings: self.settings, dismisser: self, imageCleaner: self.imageCache, articleCleaner: self.contentProvider)
     }
 }

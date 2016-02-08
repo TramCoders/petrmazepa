@@ -9,55 +9,80 @@
 import UIKit
 import CoreData
 
-class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher, ArticleDetailsFetcher, FavouriteMaker {
+class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher, ArticleDetailsFetcher, FavouriteMaker, TopOffsetEditor, ArticleCleaner, LastReadArticleMaker {
     
-    private var articles = [Article]()
+    private static let lastReadArticleKey = "LastReadArticle"
+    
     private let networking: Networking
-    private let coreData = CoreDataManager()
+    private let coreData: CoreDataManager
     
-    required init(networking: Networking) {
+    var lastReadArticle: Article?
+    
+    func setLastReadArticle(article: Article) {
+
+        self.lastReadArticle = article
+        
+        NSUserDefaults.standardUserDefaults().setObject(article.id, forKey: ContentProvider.lastReadArticleKey)
+        NSUserDefaults.standardUserDefaults().synchronize()
+    }
+    
+    required init(networking: Networking, coreData: CoreDataManager) {
+
         self.networking = networking
+        self.coreData = coreData
+        self.setupLastReadArticle()
     }
     
     func allArticles() -> [Article] {
-        return self.articles
+        return self.coreData.allArticles()
+    }
+    
+    func updateArticles(articles: [Article]) -> [Article] {
+        return self.coreData.updateArticles(articles)
+    }
+    
+    func allArticlesCount() -> Int {
+        return self.coreData.allArticlesCount()
     }
     
     func favouriteArticles() -> [Article] {
         return self.coreData.favouriteArticles()
     }
     
-    func makeFavourite(article article: Article, details: ArticleDetails, favourite: Bool) {
+    func makeFavourite(article article: Article, favourite: Bool) {
 
         article.favourite = favourite
-        self.coreData.makeFavourite(article: article, details: details, favourite: favourite)
+        self.coreData.makeFavourite(article: article, favourite: favourite)
+        self.coreData.saveContext()
+    }
+    
+    func setTopOffset(article: Article, offset: Float) {
+        
+        article.topOffset = offset
+        self.coreData.setTopOffset(article, offset: offset)
+        self.coreData.saveContext()
+    }
+    
+    func clearCache() {
+        
+        self.coreData.deleteAllArticles()
         self.coreData.saveContext()
     }
     
     func fetchArticles(fromIndex fromIndex: Int, count: Int, completion: ArticlesFetchHandler) {
-        self.fetchArticles(fromIndex: fromIndex, count: count, allowRemote: true, completion: completion)
-    }
-    
-    func fetchArticles(fromIndex fromIndex: Int, count: Int, allowRemote: Bool, completion: ArticlesFetchHandler) {
-        
-        guard allowRemote == true else {
-            
-            completion(nil, nil)
-            return
-        }
         
         self.networking.fetchArticles(fromIndex: fromIndex, count: count) { articles, error in
             
             if let notNilArticles = articles {
-                self.articles.appendContentsOf(notNilArticles)
+                
+                let savedArticles = self.coreData.saveArticles(notNilArticles)
+                self.coreData.saveContext()
+                completion(articles: savedArticles, error: error)
+                
+            } else {
+                completion(articles: [], error: error)
             }
-            
-            completion(articles, error)
         }
-    }
-    
-    func cleanInMemoryCache() {
-        self.articles.removeAll()
     }
     
     func fetchArticleDetails(article article: Article, completion: ArticleDetailsFetchHandler) {
@@ -66,7 +91,7 @@ class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher
     
     func fetchArticleDetails(article article: Article, allowRemote: Bool, completion: ArticleDetailsFetchHandler) {
         
-        if let details = self.coreData.favouriteArticleDetails(article: article) {
+        if let details = self.coreData.detailsFromArticles(article) {
             
             completion(details, nil)
             return
@@ -81,10 +106,29 @@ class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher
         self.networking.fetchArticleDetails(article: article) { details, error in
             
             if let notNilDetails = details {
+                
+                self.coreData.saveArticleDetails(notNilDetails, article: article)
+                self.coreData.saveContext()
+                article.saved = true
+                
                 completion(notNilDetails, error)
 
             } else {
                 completion(details, error)
+            }
+        }
+    }
+    
+    private func setupLastReadArticle() {
+        
+        if let articleId = NSUserDefaults.standardUserDefaults().objectForKey(ContentProvider.lastReadArticleKey) as? String {
+            
+            for article in self.allArticles() {
+                if article.id == articleId {
+                    
+                    self.lastReadArticle = article
+                    break
+                }
             }
         }
     }

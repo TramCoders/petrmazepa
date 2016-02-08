@@ -35,4 +35,13 @@ class SettingsViewController: UITableViewController {
     @IBAction func onlyWifiImagesChanged(sender: UISwitch) {
         self.model.didSwitchOnlyWifiImages(enabled: sender.on)
     }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        
+        if indexPath.row == 2 {     // clear cache
+            self.model.clearCacheTapped()
+        }
+    }
 }

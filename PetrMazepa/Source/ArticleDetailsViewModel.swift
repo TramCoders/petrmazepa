@@ -11,7 +11,7 @@ import UIKit
 class ArticleDetailsViewModel : ViewModel {
     
     var imageLoaded: ((image: UIImage?) -> Void)?
-    var textLoaded: ((htmlText: String?) -> ())?
+    var textLoaded: ((htmlText: String?) -> Void)?
     var favouriteStateChanged: ((favourite: Bool) -> Void)?
     var barsVisibilityChanged: ((visible: Bool) -> Void)?
     var errorOccurred: ((error: NSError?) -> Void)?
@@ -21,6 +21,8 @@ class ArticleDetailsViewModel : ViewModel {
     private let imageGateway: ImageGateway
     private let favouriteMaker: FavouriteMaker
     private let articleSharer: ArticleSharer
+    private let topOffsetEditor: TopOffsetEditor
+    private let lastReadArticleMaker: LastReadArticleMaker
     
     private let settings: ReadOnlySettings
     private let article: Article
@@ -29,6 +31,10 @@ class ArticleDetailsViewModel : ViewModel {
     private var startOffset: CGFloat!
     
     var barsVisibile: Bool = true
+
+    var topOffset: CGFloat {
+        return CGFloat(self.article.topOffset)
+    }
     
     var favourite: Bool {
         return self.article.favourite
@@ -40,7 +46,7 @@ class ArticleDetailsViewModel : ViewModel {
     
     var image: UIImage?
     
-    init(settings: ReadOnlySettings, article: Article, imageGateway: ImageGateway, articleDetailsFetcher: ArticleDetailsFetcher, favouriteMaker: FavouriteMaker, articleDetailsDismisser: ArticleDetailsDismisser, articleSharer: ArticleSharer) {
+    init(settings: ReadOnlySettings, article: Article, imageGateway: ImageGateway, articleDetailsFetcher: ArticleDetailsFetcher, favouriteMaker: FavouriteMaker, articleDetailsDismisser: ArticleDetailsDismisser, articleSharer: ArticleSharer, topOffsetEditor: TopOffsetEditor, lastReadArticleMaker: LastReadArticleMaker) {
 
         self.settings = settings
         self.article = article
@@ -49,6 +55,8 @@ class ArticleDetailsViewModel : ViewModel {
         self.favouriteMaker = favouriteMaker
         self.articleDetailsDismisser = articleDetailsDismisser
         self.articleSharer = articleSharer
+        self.topOffsetEditor = topOffsetEditor
+        self.lastReadArticleMaker = lastReadArticleMaker
     }
     
     func viewDidLayoutSubviews(screenSize size: CGSize) {
@@ -61,7 +69,15 @@ class ArticleDetailsViewModel : ViewModel {
     
     func scrollViewDidScroll(offset offset: CGFloat, contentHeight: CGFloat) {
         
-        let bottomDirection = offset - self.startOffset > 0.0
+        self.article.topOffset = Float(offset)
+        let bottomDirection: Bool
+        
+        if let _ = self.startOffset {
+            bottomDirection = offset - self.startOffset > 0.0
+        } else {
+            bottomDirection = true
+        }
+        
         let reachedBottom = contentHeight - offset - self.screenSize.height <= 0.0
         
         if (!reachedBottom && bottomDirection) {
@@ -78,12 +94,19 @@ class ArticleDetailsViewModel : ViewModel {
     override func viewWillAppear() {
 
         super.viewWillAppear()
+        self.lastReadArticleMaker.setLastReadArticle(self.article)
         self.barsVisibile = true
         self.favouriteStateChanged!(favourite: self.article.favourite)
     }
     
     func viewDidAppear() {
         self.loadContent()
+    }
+    
+    override func viewWillDisappear() {
+        
+        super.viewWillDisappear()
+        self.topOffsetEditor.setTopOffset(self.article, offset: self.article.topOffset)
     }
     
     func closeActionTapped() {
@@ -100,12 +123,12 @@ class ArticleDetailsViewModel : ViewModel {
     
     func favouriteTapped() {
      
-        guard let details = self.articleDetails else {
+        guard let _ = self.articleDetails else {
             return
         }
         
         let favourite = !self.article.favourite
-        self.favouriteMaker.makeFavourite(article: self.article, details:  details, favourite: favourite)
+        self.favouriteMaker.makeFavourite(article: self.article, favourite: favourite)
 
         if self.viewIsPresented {
             self.favouriteStateChanged!(favourite: favourite)
@@ -142,14 +165,16 @@ class ArticleDetailsViewModel : ViewModel {
                 
                 let font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
                 let fontName = font.fontName
-                let fontSize = 4    //FIXME: font.pointSize
+                let fontSize = 4    // FIXME: font.pointSize
                 let updatedHtmlText = "<font face='\(fontName)' size='\(fontSize)px'>\(notNilDetails.htmlText)"
                 
                 dispatch_async(dispatch_get_main_queue(), {
                     self.textLoaded!(htmlText: updatedHtmlText)
                 })
             } else {
-                self.errorOccurred!(error: error)
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.errorOccurred!(error: error)
+                })
             }
         }
     }

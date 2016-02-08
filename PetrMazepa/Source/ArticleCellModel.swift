@@ -8,24 +8,17 @@
 
 import UIKit
 
-enum RoundedCorner {
-    
-    case None
-    case TopLeft
-    case TopRight
-}
-
 class ArticleCellModel : ImageCellModel {
-    
-    let roundedCorner: RoundedCorner
     
     var title: String {
         return self.article.title
     }
     
-    init(settings: ReadOnlySettings, article: Article, roundedCorner: RoundedCorner, imageGateway: ImageGateway) {
-
-        self.roundedCorner = roundedCorner
-        super.init(settings: settings, article: article, imageGateway: imageGateway)
+    var saved: Bool {
+        return self.article.saved
+    }
+    
+    var favorite: Bool {
+        return self.article.favourite
     }
 }

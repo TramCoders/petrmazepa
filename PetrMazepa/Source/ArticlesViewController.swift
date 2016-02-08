@@ -11,8 +11,11 @@ import UIKit
 class ArticlesViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
     @IBOutlet weak var collectionView: UICollectionView!
-    private var refreshControl: UIRefreshControl!
     @IBOutlet weak var noArticlesView: UIView!
+    @IBOutlet weak var lastReadArticleView: LastReadArticleView!
+    
+    @IBOutlet weak var bottomLastReadConstraint: NSLayoutConstraint!
+    @IBOutlet weak var heightLastReadConstraint: NSLayoutConstraint!
     
     weak var layout: ArticlesViewLayout!
     private let cellReuseIdentifier = "ArticleCell"
@@ -25,12 +28,15 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
         didSet {
             
             self.model.articlesInserted = self.articlesInsertedHandler()
+            self.model.articlesUpdated = self.articlesUpdatedHandler()
             self.model.allArticlesDeleted = self.allArticlesDeletedHandler()
             self.model.refreshingStateChanged = self.refreshingStateChangedHandler()
             self.model.loadingMoreStateChanged = self.loadingMoreStateChangedHandler()
             self.model.errorOccurred = self.errorOccurredHandler()
             self.model.loadingInOfflineModeFailed = self.loadingInOfflineModeFailedHandler()
             self.model.noArticlesVisibleChanged = self.noArticlesVisibleChangedHandler()
+            self.model.lastReadArticleVisibleChanged = self.lastReadArticleVisibleChangedHandler()
+            self.model.navigationBarVisibleChanged = self.navigationBarVisibleChangedHandler()
         }
     }
 
@@ -41,7 +47,8 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
     override func viewDidLoad() {
 
         super.viewDidLoad()
-
+        self.automaticallyAdjustsScrollViewInsets = false
+        
         // title
         self.title = NSLocalizedString("ArticlesScreen_title", comment: "")
         
@@ -52,11 +59,6 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
         // a collection view layout data source
         self.layout = self.collectionView.collectionViewLayout as? ArticlesViewLayout
         
-        // refresh control
-        self.refreshControl = UIRefreshControl()
-        self.refreshControl.addTarget(self, action: Selector("refreshTriggered"), forControlEvents: .ValueChanged)
-        self.collectionView.addSubview(self.refreshControl)
-        
         // notify model
         self.model.viewDidLoad(screenSize: UIScreen.mainScreen().bounds.size)
     }
@@ -64,14 +66,27 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
     override func viewWillAppear(animated: Bool) {
         
         super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(false, animated: true)
         self.model.viewWillAppear()
+
+        // last read article model
+        self.lastReadArticleView.model = self.model.lastReadArticleViewModel
+        
+        // navigation bar visibility
+        self.navigationController?.setNavigationBarHidden(!self.model.navigationBarVisible, animated: true)
+        
+        // last read article visibility
+        self.bottomLastReadConstraint.constant = self.model.lastReadArticleVisible ? 0.0 : -self.heightLastReadConstraint.constant
+        self.view.layoutIfNeeded()
     }
     
     override func viewWillDisappear(animated: Bool) {
         
         super.viewWillDisappear(animated)
         self.model.viewWillDisappear()
+    }
+    
+    override func prefersStatusBarHidden() -> Bool {
+        return false
     }
     
     @IBAction func settingsTapped(sender: AnyObject) {
@@ -86,10 +101,12 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
         self.model.refreshTriggered()
     }
     
+    @IBAction func lastReadArticleTapped(sender: AnyObject) {
+        self.model.lastReadArticleTapped()
+    }
+    
     func refreshTriggered() {
-        
         self.model.refreshTriggered()
-        self.refreshControl.endRefreshing()
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -109,10 +126,15 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
         self.model.articleTapped(index: indexPath.row)
     }
     
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        self.model.willBeginDragging(offset: scrollView.contentOffset.y);
+    }
+    
     func scrollViewDidScroll(scrollView: UIScrollView) {
         
-        let distance = scrollView.contentSize.height - scrollView.frame.height - scrollView.contentOffset.y
-        self.model.didChangeDistanceToBottom(distance)
+        let contentOffset = scrollView.contentOffset.y
+        let distance = scrollView.contentSize.height - scrollView.frame.height - contentOffset
+        self.model.didScroll(contentOffset: contentOffset, distanceToBottom: distance)
     }
     
     private func articlesInsertedHandler() -> ((range: Range<Int>) -> Void) {
@@ -127,6 +149,15 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
             } else {
                 self.collectionView.insertItemsAtIndexPaths(insertedIndexPaths)
             }
+        }
+    }
+    
+    private func articlesUpdatedHandler() -> ((newCount: Int) -> Void) {
+        return { newCount in
+
+            self.layout.deleteAllArticles()
+            self.layout.insertArticles(newCount)
+            self.collectionView.reloadData()
         }
     }
     
@@ -155,6 +186,27 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
             
             self.collectionView.hidden = visible
             self.noArticlesView.hidden = !visible
+        }
+    }
+    
+    private func lastReadArticleVisibleChangedHandler() -> ((visible: Bool, animated: Bool) -> Void) {
+        return { visible, animated in
+
+            self.bottomLastReadConstraint.constant = visible ? 0.0 : -self.heightLastReadConstraint.constant
+            
+            if animated {
+                UIView.animateWithDuration(0.2, animations: {
+                    self.view.layoutIfNeeded()
+                })
+            } else {
+                self.view.layoutIfNeeded()
+            }
+        }
+    }
+    
+    private func navigationBarVisibleChangedHandler() -> ((visible: Bool, animated: Bool) -> Void) {
+        return { visible, animated in
+            self.navigationController?.setNavigationBarHidden(!visible, animated: animated)
         }
     }
     

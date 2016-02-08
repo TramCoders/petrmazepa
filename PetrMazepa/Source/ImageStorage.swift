@@ -12,8 +12,8 @@ protocol ImageStorage {
     
     typealias ImageObject
     func saveImage(spec spec: ImageSpec, image: ImageObject)
-    func deleteImage(spec spec: ImageSpec)
     func loadImage(spec spec: ImageSpec) -> ImageObject?
+    func clear()
 }
 
 extension ImageStorage {

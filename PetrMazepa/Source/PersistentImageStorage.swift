@@ -18,19 +18,31 @@ class PersistentImageStorage: ImageStorage {
         return paths[0]
     }()
     
-    func saveImage(spec spec: ImageSpec, image data: NSData) {
-        data.writeToFile(self.filePath(spec: spec), atomically: false)
-    }
-    
-    func deleteImage(spec spec: ImageSpec) {
+    func clear() {      // not the best implementation
         
         let fileManager = NSFileManager.defaultManager()
+        let imageNames: [String]
         
         do {
-            try fileManager.removeItemAtPath(self.filePath(spec: spec))
+            imageNames = try fileManager.contentsOfDirectoryAtPath(self.cacheFolderPath)
         } catch {
-            // TODO: handle
+            imageNames = []
         }
+        
+        for imageName in imageNames {
+            do {
+                
+                let imagePath = "\(self.cacheFolderPath)/\(imageName)"
+                try fileManager.removeItemAtPath(imagePath)
+                
+            } catch {
+                // do nothing
+            }
+        }
+    }
+    
+    func saveImage(spec spec: ImageSpec, image data: NSData) {
+        data.writeToFile(self.filePath(spec: spec), atomically: false)
     }
     
     func loadImage(spec spec: ImageSpec) -> NSData? {
@@ -47,7 +59,7 @@ class PersistentImageStorage: ImageStorage {
     private func filePath(spec spec: ImageSpec) -> String {
         
         let key = self.key(spec: spec)
-        let fileName = key.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())
-        return self.cacheFolderPath.stringByAppendingString(fileName!)
+        let fileName = key.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!
+        return self.cacheFolderPath.stringByAppendingString("/\(fileName)")
     }
 }
