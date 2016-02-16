@@ -19,36 +19,87 @@ class InMemoryImageStorageSpec: QuickSpec {
         }
         
         describe("the storage loading works properly") {
-            context("when an image is specified only with URL") {
+            
+            var image: UIImage!
+
+            beforeEach {
+                image = self.someImage()
+            }
+            
+            context("when an image is specified only with a URL") {
                 
-                var image: UIImage!
                 var imageSpec: ImageSpec!
-                
+
                 beforeEach {
                     
-                    storage = InMemoryImageStorage()
-                    image = self.imageNamed("chersonesus")
-                    imageSpec = ImageSpec(url: NSURL(string: "http://test.petrimazepa.com/bundles/pim/images/thumbs/1.jpeg")!)
+                    imageSpec = ImageSpec(url: self.someUrl())
                     storage.saveImage(spec: imageSpec, image: image)
                 }
                 
                 it("returns an image if exists") {
 
                     let returnedImage = storage.loadImage(spec: imageSpec)
-                    expect(returnedImage) != nil
+                    expect(returnedImage).toNot(beNil())
                 }
                 
                 it("returns nil if doesn't exist") {
 
-                    let anotherImageSpec = ImageSpec(url: NSURL(string: "http://test.petrimazepa.com/bundles/pim/images/thumbs/2.jpeg")!)
+                    let anotherImageSpec = ImageSpec(url: self.anotherUrl())
                     let returnedImage = storage.loadImage(spec: anotherImageSpec)
-                    expect(returnedImage) == nil
+                    expect(returnedImage).to(beNil())
+                }
+            }
+            
+            context("when an image is specified with a URL and size") {
+                
+                var imageSpec: ImageSpec!
+                
+                beforeEach {
+                    
+                    imageSpec = ImageSpec(url: self.someUrl(), size: self.someSize())
+                    storage.saveImage(spec: imageSpec, image: image)
+                }
+                
+                it("returns an image if exists") {
+                    
+                    let returnedImage = storage.loadImage(spec: imageSpec)
+                    expect(returnedImage).toNot(beNil())
+                }
+                
+                it("returns nil if an existing image has a different size") {
+
+                    let anotherImageSpec = ImageSpec(url: self.someUrl(), size: self.anotherSize())
+                    let returnedImage = storage.loadImage(spec: anotherImageSpec)
+                    expect(returnedImage).to(beNil())
+                }
+                
+                it("returns nil if an existing image doesn't have a size") {
+                    
+                    let anotherImageSpec = ImageSpec(url: self.someUrl())
+                    let returnedImage = storage.loadImage(spec: anotherImageSpec)
+                    expect(returnedImage).to(beNil())
                 }
             }
         }
     }
     
-    private func imageNamed(name: String) -> UIImage! {
+    private func someImage() -> UIImage {
         return UIImage(named: "chersonesus", inBundle: NSBundle(forClass: self.classForCoder), compatibleWithTraitCollection: nil)!
+    }
+    
+    private func someUrl() -> NSURL {
+        return NSURL(string: "http://test.petrimazepa.com/bundles/pim/images/thumbs/1.jpeg")!
+    }
+    
+    private func anotherUrl() -> NSURL {
+        return NSURL(string: "http://test.petrimazepa.com/bundles/pim/images/thumbs/2.jpeg")!
+    }
+    
+    private func someSize() -> CGSize {
+        return CGSizeMake(100.0, 100.0)
+    }
+    
+    private func anotherSize() -> CGSize {
+        return CGSizeMake(200.0, 200.0)
     }
 }
