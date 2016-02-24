@@ -13,23 +13,19 @@ class InMemoryImageStorageSpec: QuickSpec {
     override func spec() {
         
         var storage: InMemoryImageStorage!
+        var image: UIImage!
+        var imageSpec: ImageSpec!
         
         beforeEach {
+            
             storage = InMemoryImageStorage()
+            image = self.someImage()
         }
         
-        describe("the storage loading works properly") {
-            
-            var image: UIImage!
+        describe("a load method") {
 
-            beforeEach {
-                image = self.someImage()
-            }
-            
             context("when an image is specified only with a URL") {
                 
-                var imageSpec: ImageSpec!
-
                 beforeEach {
                     
                     imageSpec = ImageSpec(url: self.someUrl())
@@ -79,6 +75,22 @@ class InMemoryImageStorageSpec: QuickSpec {
                     let returnedImage = storage.loadImage(spec: anotherImageSpec)
                     expect(returnedImage).to(beNil())
                 }
+            }
+        }
+        
+        describe("a clear method") {
+            
+            beforeEach {
+                
+                imageSpec = ImageSpec(url: self.someUrl())
+                storage.saveImage(spec: imageSpec, image: image)
+            }
+            
+            it("removes all images") {
+                
+                storage.clear()
+                let returnedImage = storage.loadImage(spec: imageSpec)
+                expect(returnedImage).to(beNil())
             }
         }
     }
