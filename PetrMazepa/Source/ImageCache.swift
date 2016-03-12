@@ -8,24 +8,6 @@
 
 import UIKit
 
-struct ImageSpec {
-    
-    let url: NSURL
-    let size: CGSize?
-    
-    init(url: NSURL) {
-        
-        self.url = url
-        self.size = nil
-    }
-    
-    init(url: NSURL, size: CGSize) {
-        
-        self.url = url
-        self.size = size
-    }
-}
-
 class ImageCache : ImageGateway, ImageCleaner {
     
     private let downloader: ImageDownloader
