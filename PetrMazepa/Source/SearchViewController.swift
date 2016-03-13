@@ -8,9 +8,8 @@
 
 import UIKit
 
-class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
+class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate {
     
-    @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var bottomTableContraint: NSLayoutConstraint!
     
@@ -32,7 +31,7 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
     override func viewWillAppear(animated: Bool) {
         
         super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(true, animated: true)
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
         self.model.viewWillAppear()
         self.tableView.reloadData()
     }
@@ -46,18 +45,16 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
     override func viewWillDisappear(animated: Bool) {
         
         super.viewWillDisappear(animated)
-        self.searchTextField.resignFirstResponder()
         self.stopHandlingKeyboardAppearance()
         self.model.viewWillDisappear()
     }
     
-    @IBAction func searchDidChange(sender: UITextField) {
-        
-        if let searchText = sender.text {
-            self.model.didChangeQuery(searchText)
-        } else {
-            self.model.didChangeQuery("")
-        }
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        self.model.didChangeQuery(searchText)
+    }
+    
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        self.view.endEditing(true)
     }
     
     @IBAction func closeTapped(sender: AnyObject) {
@@ -108,11 +105,6 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
         return 80.0
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-        
-        self.searchTextField.resignFirstResponder()
-        return false
-    }
     
     private func startHandlingKeyboardAppearance() {
         
