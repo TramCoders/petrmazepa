@@ -12,6 +12,7 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var bottomTableContraint: NSLayoutConstraint!
+    @IBOutlet weak var filterControl: UISegmentedControl!
     
     private var showKeyboardHandler: NSObjectProtocol?
     private var hideKeyboardHandler: NSObjectProtocol?
@@ -34,6 +35,7 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         self.model.viewWillAppear()
         self.tableView.reloadData()
+        self.filterControl.selectedSegmentIndex = self.indexFromFilter(self.model.filter)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -61,29 +63,14 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
         self.model.closeTapped()
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return self.model.sectionsCount()
-    }
-    
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return self.model.sectionHeadersVisible() ? 40.0 : 0.0
-    }
-    
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    @IBAction func filterChanged(sender: AnyObject) {
         
-        guard self.model.sectionHeadersVisible() else {
-            return nil
-        }
-        
-        let headerView = NSBundle.mainBundle().loadNibNamed("HeaderView", owner: nil, options: nil).first as! HeaderView
-        let titleKey = self.model.sectionTitleKey(section: section)
-        headerView.text = NSLocalizedString(titleKey, comment: "")
-        
-        return headerView
+        let filter = self.filterFromIndex(self.filterControl.selectedSegmentIndex)
+        self.model.filterTapped(filter)
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.model.articlesCount(section: section)
+        return self.model.articlesCount()
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -168,6 +155,22 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
     private func thumbImageLoadedHandler() -> ((indexPath: NSIndexPath) -> Void) {
         return { (indexPath: NSIndexPath) in
             self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+        }
+    }
+    
+    private func indexFromFilter(filter: SearchFilter) -> Int {
+        switch filter {
+        case .None: return 0
+        case .Saved: return 1
+        case .Favorite: return 2
+        }
+    }
+    
+    private func filterFromIndex(index: Int) -> SearchFilter {
+        switch index {
+        case 1: return .Saved
+        case 2: return .Favorite
+        default: return .None
         }
     }
 }

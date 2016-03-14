@@ -8,14 +8,21 @@
 
 import UIKit
 
+enum SearchFilter {
+
+    case None
+    case Saved
+    case Favorite
+}
+
 class SearchViewModel : ViewModel {
     
     var articlesChanged: (() -> Void)?
     
     private var query = ""
+    private var allArticles: [Article]
     private var filteredArticles: [Article]
-    private var allFavouriteArticles: [Article]
-    private var favouriteArticles: [Article]
+    private(set) var filter = SearchFilter.None
     
     private let settings: ReadOnlySettings
     private let imageGateway: ImageGateway
@@ -33,20 +40,29 @@ class SearchViewModel : ViewModel {
         self.articleDetailsPresenter = articleDetailsPresenter
         self.dismisser = dismisser
         
+        self.allArticles = []
         self.filteredArticles = []
-        self.allFavouriteArticles = []
-        self.favouriteArticles = []
     }
     
     override func viewWillAppear() {
         
         super.viewWillAppear()
-        self.allFavouriteArticles = self.sortedArticles(self.favouriteArticleStorage.favouriteArticles())
+        self.allArticles = self.sortedArticles(self.articleStorage.allArticles())
         self.invalidateContent()
     }
     
     func closeTapped() {
         self.dismisser.dismissSearch()
+    }
+    
+    func filterTapped(filter: SearchFilter) {
+        
+        if self.filter != filter {
+
+            self.filter = filter
+            self.invalidateContent()
+            self.articlesChanged!()
+        }
     }
     
     func articleTapped(indexPath: NSIndexPath) {
@@ -55,46 +71,8 @@ class SearchViewModel : ViewModel {
         self.articleDetailsPresenter.presentArticleDetails(article)
     }
     
-    func sectionsCount() -> Int {
-        
-        let favoritesCount = self.favouriteArticles.count
-        let othersCount = self.filteredArticles.count
-        
-        if (favoritesCount > 0) && (othersCount > 0) {
-            return 2
-        } else if (favoritesCount == 0) && (othersCount == 0) {
-            return 0
-        } else {
-            return 1
-        }
-    }
-    
-    func sectionHeadersVisible() -> Bool {
-        
-        let favoritesCount = self.allFavouriteArticles.count
-        return favoritesCount == 0 ? false : true
-    }
-    
-    func sectionTitleKey(section section: Int) -> String {
-        
-        let favoritesCount = self.favouriteArticles.count
-        
-        if (favoritesCount > 0) && (section == 0) {
-            return "FavoriteSection_title"
-        } else {
-            return "OthersSection_title"
-        }
-    }
-    
-    func articlesCount(section section: Int) -> Int {
-        
-        let favoritesCount = self.favouriteArticles.count
-        
-        if (favoritesCount > 0) && (section == 0) {
-            return favoritesCount
-        } else {
-            return self.filteredArticles.count
-        }
+    func articlesCount() -> Int {
+        return self.filteredArticles.count
     }
     
     func searchedArticleModel(indexPath indexPath: NSIndexPath) -> SimpleArticleCellModel {
@@ -111,29 +89,7 @@ class SearchViewModel : ViewModel {
     }
     
     private func invalidateContent() {
-        
-        if self.query == "" {
-            
-            // favorite articles
-            self.favouriteArticles = self.allFavouriteArticles
-
-            // not favorite articles
-            let notFavoriteArticles = self.articles(self.articleStorage.allArticles(), withoutArticles: self.allFavouriteArticles)
-            self.filteredArticles = self.sortedArticles(notFavoriteArticles)
-            
-            return
-        }
-        
-        let filter = { (article: Article) in
-            return article.title.rangeOfString(self.query, options: NSStringCompareOptions.CaseInsensitiveSearch) != nil
-        }
-        
-        // not favorite articles
-        let articles = self.articles(self.articleStorage.allArticles(), withoutArticles: self.allFavouriteArticles)
-        self.filteredArticles = self.sortedArticles(articles.filter(filter))
-        
-        // favorite articles
-        self.favouriteArticles = self.allFavouriteArticles.filter(filter)
+        self.filteredArticles = self.allArticles.filter(self.currentFilter())
     }
     
     private func articles(articles: [Article], withoutArticles: [Article]) -> [Article] {
@@ -143,18 +99,34 @@ class SearchViewModel : ViewModel {
     }
     
     private func findArticle(indexPath indexPath: NSIndexPath) -> Article {
-        
-        let index = indexPath.row
-        let favoritesCount = self.favouriteArticles.count
-        
-        if (favoritesCount > 0) && (indexPath.section == 0) {
-            return self.favouriteArticles[index]
-        } else {
-            return self.filteredArticles[index]
-        }
+        return self.filteredArticles[indexPath.row]
     }
     
     private func sortedArticles(articles: [Article]) -> [Article] {
         return articles.sort { $0.title < $1.title }
+    }
+    
+    private func currentFilter() -> ((Article) -> Bool) {
+        return { article in
+            return self.checkType(article) && self.checkTitle(article)
+        }
+    }
+    
+    private func checkType(article: Article) -> Bool {
+        
+        switch self.filter {
+        case .None: return true
+        case .Favorite: return article.favourite
+        case .Saved: return article.saved
+        }
+    }
+    
+    private func checkTitle(article: Article) -> Bool {
+        
+        if self.query == "" {
+            return true
+        }
+        
+        return article.title.rangeOfString(self.query, options: NSStringCompareOptions.CaseInsensitiveSearch) != nil
     }
 }

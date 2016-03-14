@@ -536,6 +536,9 @@
                                 <segment title="Сохр."/>
                                 <segment title="Любимые"/>
                             </segments>
+                            <connections>
+                                <action selector="filterChanged:" destination="X7k-5v-zPq" eventType="valueChanged" id="UTb-rb-UaL"/>
+                            </connections>
                         </segmentedControl>
                         <barButtonItem key="rightBarButtonItem" image="close_icon" id="BYh-EW-M9n">
                             <connections>
@@ -546,6 +549,7 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="bottomTableContraint" destination="8sS-Zv-hIh" id="u8m-5X-NmF"/>
+                        <outlet property="filterControl" destination="Ron-JT-WBh" id="huu-IY-aCY"/>
                         <outlet property="tableView" destination="Bwl-Ah-XPo" id="Sie-17-anP"/>
                     </connections>
                 </viewController>
