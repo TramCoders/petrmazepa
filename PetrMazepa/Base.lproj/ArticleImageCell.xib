@@ -11,7 +11,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="200"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="intermarium" translatesAutoresizingMaskIntoConstraints="NO" id="tct-9u-aun">
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="tct-9u-aun">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="200"/>
                     <animations/>
                     <color key="backgroundColor" red="0.68358873300036049" green="0.78247352734259634" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
@@ -32,7 +32,4 @@
             </connections>
         </view>
     </objects>
-    <resources>
-        <image name="intermarium" width="262" height="262"/>
-    </resources>
 </document>
