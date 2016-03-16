@@ -26,6 +26,7 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        self.tableView.tableFooterView = UIView(frame: CGRectZero)
         self.tableView.registerNib(UINib(nibName: "SearchedArticleCell", bundle: nil), forCellReuseIdentifier: "SearchedArticle")
     }
     
