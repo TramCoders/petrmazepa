@@ -9,7 +9,9 @@
 import UIKit
 
 protocol ArticleTextCellDelegate: class {
+
     func articleTextCellDidDetermineHeight(sender cell: ArticleTextCell, height: CGFloat)
+    func articleTextCellDidTapLink(sender cell: ArticleTextCell, url: NSURL?)
 }
 
 class ArticleTextCell: UICollectionViewCell, UIWebViewDelegate {
@@ -46,5 +48,17 @@ class ArticleTextCell: UICollectionViewCell, UIWebViewDelegate {
         self.webView.scrollView.scrollEnabled = true
         let size = webView.sizeThatFits(CGSizeMake(webView.bounds.width, CGFloat.max))
         self.delegate?.articleTextCellDidDetermineHeight(sender: self, height: size.height)
+    }
+    
+    func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+        
+        if navigationType == .LinkClicked {
+            
+            self.delegate?.articleTextCellDidTapLink(sender: self, url: request.URL)
+            return false
+            
+        } else {
+            return true
+        }
     }
 }
