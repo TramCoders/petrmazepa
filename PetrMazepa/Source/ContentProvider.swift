@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher, ArticleDetailsFetcher, FavouriteMaker, TopOffsetEditor, ArticleCleaner, LastReadArticleMaker {
+class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher, ArticleDetailsFetcher, FavouriteMaker, TopOffsetEditor, LastReadArticleMaker {
     
     private static let lastReadArticleKey = "LastReadArticle"
     
@@ -60,12 +60,6 @@ class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher
         
         article.topOffset = offset
         self.coreData.setTopOffset(article, offset: offset)
-        self.coreData.saveContext()
-    }
-    
-    func clearCache() {
-        
-        self.coreData.deleteAllArticles()
         self.coreData.saveContext()
     }
     

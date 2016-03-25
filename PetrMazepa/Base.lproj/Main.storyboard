@@ -216,6 +216,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <inset key="separatorInset" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <sections>
                             <tableViewSection id="BMY-te-Be6">
                                 <cells>
@@ -238,7 +239,7 @@
                                                     </connections>
                                                 </switch>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Оффлайн режим" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KQH-Sb-H1f">
-                                                    <rect key="frame" x="15" y="21" width="114" height="17"/>
+                                                    <rect key="frame" x="10" y="21" width="114" height="17"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -250,7 +251,7 @@
                                                 <constraint firstItem="ClU-if-DIn" firstAttribute="centerY" secondItem="SDZ-jK-PX7" secondAttribute="centerY" id="0qe-0W-P2x"/>
                                                 <constraint firstItem="KQH-Sb-H1f" firstAttribute="centerY" secondItem="SDZ-jK-PX7" secondAttribute="centerY" id="CU1-wN-sv2"/>
                                                 <constraint firstAttribute="trailing" secondItem="ClU-if-DIn" secondAttribute="trailing" constant="8" id="PVb-Bi-hKl"/>
-                                                <constraint firstItem="KQH-Sb-H1f" firstAttribute="leading" secondItem="SDZ-jK-PX7" secondAttribute="leading" constant="15" id="XFt-tD-K2H"/>
+                                                <constraint firstItem="KQH-Sb-H1f" firstAttribute="leading" secondItem="SDZ-jK-PX7" secondAttribute="leading" constant="10" id="XFt-tD-K2H"/>
                                                 <constraint firstItem="ClU-if-DIn" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="KQH-Sb-H1f" secondAttribute="trailing" constant="8" id="pJX-k6-6si"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -275,7 +276,7 @@
                                                     </connections>
                                                 </switch>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Загружать картинки только в сети Wi-Fi" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pdl-E5-4Jc">
-                                                    <rect key="frame" x="15" y="21" width="270" height="17"/>
+                                                    <rect key="frame" x="10" y="21" width="270" height="17"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -288,30 +289,50 @@
                                                 <constraint firstItem="PLu-8J-Gie" firstAttribute="centerY" secondItem="pcx-9f-ecP" secondAttribute="centerY" id="Giw-fL-wom"/>
                                                 <constraint firstAttribute="trailing" secondItem="PLu-8J-Gie" secondAttribute="trailing" constant="8" id="XNM-Pc-VXC"/>
                                                 <constraint firstItem="pdl-E5-4Jc" firstAttribute="centerY" secondItem="pcx-9f-ecP" secondAttribute="centerY" id="wcf-Bt-vaB"/>
-                                                <constraint firstItem="pdl-E5-4Jc" firstAttribute="leading" secondItem="pcx-9f-ecP" secondAttribute="leading" constant="15" id="wdz-zQ-wG4"/>
+                                                <constraint firstItem="pdl-E5-4Jc" firstAttribute="leading" secondItem="pcx-9f-ecP" secondAttribute="leading" constant="10" id="wdz-zQ-wG4"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <animations/>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="60" id="55S-XO-OAR">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="60" id="55S-XO-OAR">
                                         <rect key="frame" x="0.0" y="184" width="600" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="55S-XO-OAR" id="v4G-hU-rPo">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="59"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Очистить кэш" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Qh-ZB-W99">
-                                                    <rect key="frame" x="250" y="21" width="100" height="17"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Сохранённые картинки" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Gg-yy-puA">
+                                                    <rect key="frame" x="10" y="21" width="159" height="17"/>
                                                     <animations/>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
-                                                    <color key="textColor" red="0.93333333333333335" green="0.42745098039215684" blue="0.4392156862745098" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="10 Мб" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9HG-PH-hPn">
+                                                    <rect key="frame" x="177" y="21" width="41" height="17"/>
+                                                    <animations/>
+                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HeB-fc-bfx">
+                                                    <rect key="frame" x="524" y="14" width="68" height="30"/>
+                                                    <animations/>
+                                                    <state key="normal" title="Очистить"/>
+                                                    <connections>
+                                                        <action selector="clearImagesTapped:" destination="AuA-Ve-Xy6" eventType="touchUpInside" id="W5J-KD-UEH"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <animations/>
                                             <constraints>
-                                                <constraint firstItem="6Qh-ZB-W99" firstAttribute="centerY" secondItem="v4G-hU-rPo" secondAttribute="centerY" id="ZCl-Bb-6SF"/>
-                                                <constraint firstItem="6Qh-ZB-W99" firstAttribute="centerX" secondItem="v4G-hU-rPo" secondAttribute="centerX" id="p4a-Jd-J2X"/>
+                                                <constraint firstItem="0Gg-yy-puA" firstAttribute="centerY" secondItem="v4G-hU-rPo" secondAttribute="centerY" id="57E-f5-Pzf"/>
+                                                <constraint firstItem="HeB-fc-bfx" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="9HG-PH-hPn" secondAttribute="trailing" constant="10" id="IdE-wT-BSb"/>
+                                                <constraint firstItem="HeB-fc-bfx" firstAttribute="centerY" secondItem="v4G-hU-rPo" secondAttribute="centerY" id="K4d-gN-X1n"/>
+                                                <constraint firstItem="9HG-PH-hPn" firstAttribute="leading" secondItem="0Gg-yy-puA" secondAttribute="trailing" constant="8" id="NmR-0p-kZV"/>
+                                                <constraint firstAttribute="trailing" secondItem="HeB-fc-bfx" secondAttribute="trailing" constant="8" id="SVe-3b-ZDm"/>
+                                                <constraint firstItem="0Gg-yy-puA" firstAttribute="leading" secondItem="v4G-hU-rPo" secondAttribute="leading" constant="10" id="m0Z-wY-uvb"/>
+                                                <constraint firstItem="9HG-PH-hPn" firstAttribute="centerY" secondItem="0Gg-yy-puA" secondAttribute="centerY" id="sAt-e2-ib4"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <animations/>
@@ -332,6 +353,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="imagesSizeLabel" destination="9HG-PH-hPn" id="f4q-QC-XCA"/>
                         <outlet property="offlineModeSwitch" destination="ClU-if-DIn" id="fba-UU-E1Z"/>
                         <outlet property="onlyWifiImagesSwitch" destination="PLu-8J-Gie" id="1ex-wU-Nrz"/>
                     </connections>

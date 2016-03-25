@@ -8,12 +8,16 @@
 
 import UIKit
 
-class ImageCache : ImageGateway, ImageCleaner {
+class ImageCache : ImageGateway, ImageCacheUtil {
     
     private let downloader: ImageDownloader
     private let inMemoryImageStorage: InMemoryImageStorage
     private let persistentImageStorage: PersistentImageStorage
 
+    var sizeInBytes: UInt64 {
+        return self.persistentImageStorage.sizeInBytes()
+    }
+    
     required init(inMemoryImageStorage: InMemoryImageStorage, persistentImageStorage: PersistentImageStorage, downloader: ImageDownloader) {
         
         self.inMemoryImageStorage = inMemoryImageStorage

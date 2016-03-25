@@ -12,15 +12,13 @@ class SettingsViewModel {
     
     private let settings: ReadWriteSettings
     private let dismisser: SettingsDismisser
-    private let imageCleaner: ImageCleaner
-    private let articleCleaner: ArticleCleaner
+    private let imageCacheUtil: ImageCacheUtil
     
-    init(settings: ReadWriteSettings, dismisser: SettingsDismisser, imageCleaner: ImageCleaner, articleCleaner: ArticleCleaner) {
+    init(settings: ReadWriteSettings, dismisser: SettingsDismisser, imageCacheUtil: ImageCacheUtil) {
 
         self.settings = settings
         self.dismisser = dismisser
-        self.imageCleaner = imageCleaner
-        self.articleCleaner = articleCleaner
+        self.imageCacheUtil = imageCacheUtil
     }
     
     var offlineMode: Bool {
@@ -29,6 +27,10 @@ class SettingsViewModel {
     
     var onlyWifiImages: Bool {
         return self.settings.onlyWifiImages
+    }
+    
+    var imageCacheSize: UInt64 {
+        return self.imageCacheUtil.sizeInBytes
     }
     
     func closeTapped() {
@@ -45,7 +47,6 @@ class SettingsViewModel {
     
     func clearCacheTapped() {
         
-        self.imageCleaner.clearCache()
-        self.articleCleaner.clearCache()
+        self.imageCacheUtil.clearCache()
     }
 }
