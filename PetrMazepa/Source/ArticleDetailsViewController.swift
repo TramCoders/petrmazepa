@@ -143,7 +143,13 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
         dispatch_after(delayTime, dispatch_get_main_queue()) {
             self.collectionView.setContentOffset(CGPointMake(0.0, self.model.topOffset), animated: true)
         }
+    }
+    
+    func articleTextCellDidTapLink(sender cell: ArticleTextCell, url: NSURL?) {
         
+        if let url = url {
+            UIApplication.sharedApplication().openURL(url)
+        }
     }
     
     private func updateBars() {

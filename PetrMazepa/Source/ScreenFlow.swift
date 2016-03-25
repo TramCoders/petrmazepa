@@ -134,6 +134,6 @@ class ScreenFlow: NSObject, ArticleDetailsPresenter, SettingsPresenter, SearchPr
     }
     
     private func createSettingsViewModel() -> SettingsViewModel {
-        return SettingsViewModel(settings: self.settings, dismisser: self, imageCleaner: self.imageCache, articleCleaner: self.contentProvider)
+        return SettingsViewModel(settings: self.settings, dismisser: self, imageCacheUtil: self.imageCache)
     }
 }

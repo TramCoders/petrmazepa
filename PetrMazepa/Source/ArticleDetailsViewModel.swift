@@ -73,7 +73,7 @@ class ArticleDetailsViewModel : ViewModel {
         let bottomDirection: Bool
         
         if let _ = self.startOffset {
-            bottomDirection = offset - self.startOffset > 0.0
+            bottomDirection = (offset > 20.0) && (offset - self.startOffset > 0.0)
         } else {
             bottomDirection = true
         }
