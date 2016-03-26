@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Crashlytics
 
 class ArticleDetailsViewModel : ViewModel {
     
@@ -97,6 +98,8 @@ class ArticleDetailsViewModel : ViewModel {
         self.lastReadArticleMaker.setLastReadArticle(self.article)
         self.barsVisibile = true
         self.favouriteStateChanged!(favourite: self.article.favourite)
+        
+        Answers.logContentViewWithName(self.article.title, contentType: "article", contentId: self.article.id, customAttributes: nil)
     }
     
     func viewDidAppear() {
