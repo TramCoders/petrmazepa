@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Crashlytics
 
 class ArticleDetailsViewModel : ViewModel {
     
@@ -24,6 +23,7 @@ class ArticleDetailsViewModel : ViewModel {
     private let articleSharer: ArticleSharer
     private let topOffsetEditor: TopOffsetEditor
     private let lastReadArticleMaker: LastReadArticleMaker
+    private let tracker: Tracker
     
     private let settings: ReadOnlySettings
     private let article: Article
@@ -47,7 +47,7 @@ class ArticleDetailsViewModel : ViewModel {
     
     var image: UIImage?
     
-    init(settings: ReadOnlySettings, article: Article, imageGateway: ImageGateway, articleDetailsFetcher: ArticleDetailsFetcher, favouriteMaker: FavouriteMaker, articleDetailsDismisser: ArticleDetailsDismisser, articleSharer: ArticleSharer, topOffsetEditor: TopOffsetEditor, lastReadArticleMaker: LastReadArticleMaker) {
+    init(settings: ReadOnlySettings, article: Article, imageGateway: ImageGateway, articleDetailsFetcher: ArticleDetailsFetcher, favouriteMaker: FavouriteMaker, articleDetailsDismisser: ArticleDetailsDismisser, articleSharer: ArticleSharer, topOffsetEditor: TopOffsetEditor, lastReadArticleMaker: LastReadArticleMaker, tracker: Tracker) {
 
         self.settings = settings
         self.article = article
@@ -58,6 +58,7 @@ class ArticleDetailsViewModel : ViewModel {
         self.articleSharer = articleSharer
         self.topOffsetEditor = topOffsetEditor
         self.lastReadArticleMaker = lastReadArticleMaker
+        self.tracker = tracker
     }
     
     func viewDidLayoutSubviews(screenSize size: CGSize) {
@@ -99,7 +100,7 @@ class ArticleDetailsViewModel : ViewModel {
         self.barsVisibile = true
         self.favouriteStateChanged!(favourite: self.article.favourite)
         
-        Answers.logContentViewWithName(self.article.title, contentType: "article", contentId: self.article.id, customAttributes: nil)
+        self.tracker.textLoadingDidStart()
     }
     
     func viewDidAppear() {
@@ -110,6 +111,10 @@ class ArticleDetailsViewModel : ViewModel {
         
         super.viewWillDisappear()
         self.topOffsetEditor.setTopOffset(self.article, offset: self.article.topOffset)
+    }
+    
+    func textDidLoad() {
+        self.tracker.trackArticleView(self.article)
     }
     
     func closeActionTapped() {
