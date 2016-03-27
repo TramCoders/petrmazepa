@@ -28,4 +28,8 @@ class Tracker: NSObject {
         
         Answers.logContentViewWithName(article.title, contentType: "article", contentId: article.id, customAttributes: [ "loading_time": loadingTime ])
     }
+    
+    func trackShare(article: Article, activityType: String?) {
+        Answers.logShareWithMethod(activityType, contentName: article.title, contentType: "article", contentId: article.id, customAttributes: nil)
+    }
 }

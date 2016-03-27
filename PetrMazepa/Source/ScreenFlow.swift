@@ -118,6 +118,15 @@ class ScreenFlow: NSObject, ArticleDetailsPresenter, SettingsPresenter, SearchPr
         
         let activityViewController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
         self.currentViewController.presentViewController(activityViewController, animated: true, completion: nil)
+
+        activityViewController.completionWithItemsHandler = { activityType, completed, returnedItems, activityError in
+
+            guard completed && (activityError == nil) else {
+                return
+            }
+            
+            self.tracker.trackShare(article, activityType: activityType)
+        }
     }
     
     private func createArticlesViewModel() -> ArticlesViewModel {
