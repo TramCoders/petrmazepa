@@ -30,8 +30,9 @@ class SearchViewModel : ViewModel {
     private let favouriteArticleStorage: FavouriteArticlesStorage
     private let articleDetailsPresenter: ArticleDetailsPresenter
     private let dismisser: SearchDismisser
+    private let tracker: Tracker
     
-    required init(settings: ReadOnlySettings, imageGateway: ImageGateway, articleStorage: ArticleStorage, favouriteArticleStorage: FavouriteArticlesStorage, articleDetailsPresenter: ArticleDetailsPresenter, dismisser: SearchDismisser) {
+    required init(settings: ReadOnlySettings, imageGateway: ImageGateway, articleStorage: ArticleStorage, favouriteArticleStorage: FavouriteArticlesStorage, articleDetailsPresenter: ArticleDetailsPresenter, dismisser: SearchDismisser, tracker: Tracker) {
         
         self.settings = settings
         self.imageGateway = imageGateway
@@ -39,6 +40,7 @@ class SearchViewModel : ViewModel {
         self.favouriteArticleStorage = favouriteArticleStorage
         self.articleDetailsPresenter = articleDetailsPresenter
         self.dismisser = dismisser
+        self.tracker = tracker
         
         self.allArticles = []
         self.filteredArticles = []
@@ -86,6 +88,8 @@ class SearchViewModel : ViewModel {
         self.query = query
         self.invalidateContent()
         self.articlesChanged!()
+        
+        self.tracker.trackSearch(query)
     }
     
     private func invalidateContent() {

@@ -33,6 +33,8 @@
 		AC2D3FD81C179EFC00D227D0 /* SettingsDismisser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2D3FD71C179EFC00D227D0 /* SettingsDismisser.swift */; };
 		AC31668B1C26DB8500EE0DAC /* LoadingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC3166891C26DB8500EE0DAC /* LoadingView.xib */; };
 		AC3625A61BF7F124000A51DD /* PetrMazepa.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AC3625A41BF7F124000A51DD /* PetrMazepa.xcdatamodeld */; };
+		AC576D5B1CAB119D0024F5A2 /* Scheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC576D5A1CAB119D0024F5A2 /* Scheduler.swift */; };
+		AC576D5C1CAB119D0024F5A2 /* Scheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC576D5A1CAB119D0024F5A2 /* Scheduler.swift */; };
 		AC5934DF1C10F572006F4894 /* ArticleDetailsLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5934DE1C10F572006F4894 /* ArticleDetailsLayout.swift */; };
 		AC5C89421CA7BFFE0051BA01 /* Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5C89411CA7BFFE0051BA01 /* Tracker.swift */; };
 		AC5FA43B1B9BA28C0013E1C5 /* SearchedArticleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC5FA4391B9BA28C0013E1C5 /* SearchedArticleCell.xib */; };
@@ -130,6 +132,7 @@
 		AC2D3FD71C179EFC00D227D0 /* SettingsDismisser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsDismisser.swift; path = Source/SettingsDismisser.swift; sourceTree = "<group>"; };
 		AC31668A1C26DB8500EE0DAC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LoadingView.xib; sourceTree = "<group>"; };
 		AC3625A51BF7F124000A51DD /* PetrMazepa.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PetrMazepa.xcdatamodel; sourceTree = "<group>"; };
+		AC576D5A1CAB119D0024F5A2 /* Scheduler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Scheduler.swift; path = Source/Scheduler.swift; sourceTree = "<group>"; };
 		AC5934DE1C10F572006F4894 /* ArticleDetailsLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ArticleDetailsLayout.swift; path = Source/ArticleDetailsLayout.swift; sourceTree = "<group>"; };
 		AC5C89411CA7BFFE0051BA01 /* Tracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Tracker.swift; path = Source/Tracker.swift; sourceTree = "<group>"; };
 		AC5FA43A1B9BA28C0013E1C5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SearchedArticleCell.xib; sourceTree = "<group>"; };
@@ -384,6 +387,14 @@
 			name = Articles;
 			sourceTree = "<group>";
 		};
+		AC576D591CAB11860024F5A2 /* Scheduler */ = {
+			isa = PBXGroup;
+			children = (
+				AC576D5A1CAB119D0024F5A2 /* Scheduler.swift */,
+			);
+			name = Scheduler;
+			sourceTree = "<group>";
+		};
 		AC5C89401CA7BFD80051BA01 /* Tracker */ = {
 			isa = PBXGroup;
 			children = (
@@ -520,6 +531,7 @@
 		ACAF97781B5C0A1B00CB53B1 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				AC576D591CAB11860024F5A2 /* Scheduler */,
 				AC5C89401CA7BFD80051BA01 /* Tracker */,
 				ACBA696C1C01E8F300A93C6D /* Settings */,
 				AC3625A31BF7F0CF000A51DD /* CoreData */,
@@ -911,6 +923,7 @@
 				AC0BD0CE1BB70BCE00876B76 /* ContentProvider.swift in Sources */,
 				ACF1FDD31BF8B63600BEC0B2 /* MOArticleDetails+CoreDataProperties.swift in Sources */,
 				ACBA69881C020A7A00A93C6D /* ReadWriteSettings.swift in Sources */,
+				AC576D5B1CAB119D0024F5A2 /* Scheduler.swift in Sources */,
 				AC6B3ED91B8E3E42005BA7F1 /* SearchViewModel.swift in Sources */,
 				ACBA69851C0209F500A93C6D /* ReadOnlySettings.swift in Sources */,
 				AC926B761B9B48260078F333 /* SearchedArticleCell.swift in Sources */,
@@ -953,6 +966,7 @@
 				AC0837141C6A9D60005A85C5 /* InMemoryImageStorageSpec.swift in Sources */,
 				122D4C9F1C73684600EB5300 /* ImageStorage.swift in Sources */,
 				122D4CA31C73689300EB5300 /* ImageSpec.swift in Sources */,
+				AC576D5C1CAB119D0024F5A2 /* Scheduler.swift in Sources */,
 				122D4C9E1C73683700EB5300 /* InMemoryImageStorage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

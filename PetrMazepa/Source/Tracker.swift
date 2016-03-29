@@ -12,6 +12,7 @@ import Crashlytics
 class Tracker: NSObject {
     
     private var textLoadingStarted: NSDate?
+    private var canceler: FireCanceler?
     
     func textLoadingDidStart() {
         self.textLoadingStarted = NSDate()
@@ -31,5 +32,18 @@ class Tracker: NSObject {
     
     func trackShare(article: Article, activityType: String?) {
         Answers.logShareWithMethod(activityType, contentName: article.title, contentType: "article", contentId: article.id, customAttributes: nil)
+    }
+    
+    func trackSearch(searchQuery: String) {
+        
+        if let canceler = self.canceler {
+            canceler.cancel()
+        }
+        
+        self.canceler = Scheduler.fireBlock(1) { [unowned self] in
+        
+            Answers.logSearchWithQuery(searchQuery, customAttributes: nil)
+            self.canceler = nil
+        }
     }
 }
