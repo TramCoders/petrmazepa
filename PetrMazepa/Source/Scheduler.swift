@@ -20,9 +20,9 @@ class Scheduler: NSObject, FireCanceler {
     private var block: () -> ()
     private var interval: NSTimeInterval
     
-    class func fireBlock(after: NSTimeInterval, block: () -> ()) -> FireCanceler {
+    class func fireBlock(after interval: NSTimeInterval, block: () -> ()) -> FireCanceler {
      
-        let scheduler = Scheduler(block: block, interval: after)
+        let scheduler = Scheduler(block: block, interval: interval)
         Scheduler.pool.addObject(scheduler)
         scheduler.schedule()
         return scheduler

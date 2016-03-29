@@ -40,7 +40,7 @@ class Tracker: NSObject {
             canceler.cancel()
         }
         
-        self.canceler = Scheduler.fireBlock(1) { [unowned self] in
+        self.canceler = Scheduler.fireBlock(after: 1) { [unowned self] in
         
             Answers.logSearchWithQuery(searchQuery, customAttributes: nil)
             self.canceler = nil
