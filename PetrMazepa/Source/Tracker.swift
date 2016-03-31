@@ -48,11 +48,11 @@ class Tracker: NSObject {
     }
     
     func trackFavouriteChange(article: Article) {
-        Answers.logCustomEventWithName("favorite", customAttributes: [ "article_id" : article.id, "article_title" : article.title, "favourite" : NSNumber(bool: article.favourite) ])
+        Answers.logCustomEventWithName("Favorite Article", customAttributes: [ "article_id" : article.id, "article_title" : article.title, "favourite" : NSNumber(bool: article.favourite) ])
     }
     
     func trackOfflineModeChange(enabled: Bool) {
-        Answers.logCustomEventWithName("offline_mode", customAttributes: [ "enabled" : NSNumber(bool: enabled) ])
+        Answers.logCustomEventWithName("Offline Mode", customAttributes: [ "enabled" : NSNumber(bool: enabled) ])
     }
     
     func trackOnlyWiFiImagesChange(enabled: Bool) {
