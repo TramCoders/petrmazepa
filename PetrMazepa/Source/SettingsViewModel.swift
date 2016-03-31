@@ -53,6 +53,7 @@ class SettingsViewModel {
     
     func clearCacheTapped() {
         
+        self.tracker.trackClearImages(self.imageCacheUtil.sizeInBytes)
         self.imageCacheUtil.clearCache()
     }
 }

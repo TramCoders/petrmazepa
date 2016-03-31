@@ -52,10 +52,14 @@ class Tracker: NSObject {
     }
     
     func trackOfflineModeChange(enabled: Bool) {
-        Answers.logCustomEventWithName("setting_offline_mode", customAttributes: [ "enabled" : enabled ])
+        Answers.logCustomEventWithName("offline_mode", customAttributes: [ "enabled" : enabled ])
     }
     
     func trackOnlyWiFiImagesChange(enabled: Bool) {
-        Answers.logCustomEventWithName("setting_only_wifi_images", customAttributes: [ "enabled" : enabled ])
+        Answers.logCustomEventWithName("only_wifi_images", customAttributes: [ "enabled" : enabled ])
+    }
+    
+    func trackClearImages(sizeInBytes: UInt64) {
+        Answers.logCustomEventWithName("clear_images", customAttributes: [ "size_bytes" : NSNumber(unsignedLongLong: sizeInBytes) ])
     }
 }
