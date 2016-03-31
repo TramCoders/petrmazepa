@@ -137,10 +137,9 @@ class ArticleDetailsViewModel : ViewModel {
         
         let favourite = !self.article.favourite
         self.favouriteMaker.makeFavourite(article: self.article, favourite: favourite)
-
-        if self.viewIsPresented {
-            self.favouriteStateChanged!(favourite: favourite)
-        }
+        self.favouriteStateChanged!(favourite: favourite)
+        
+        self.tracker.trackFavouriteChange(self.article)
     }
     
     func shareTapped() {

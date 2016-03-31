@@ -46,4 +46,16 @@ class Tracker: NSObject {
             self.canceler = nil
         }
     }
+    
+    func trackFavouriteChange(article: Article) {
+        Answers.logCustomEventWithName("favorite", customAttributes: [ "article_id" : article.id, "article_title" : article.title, "favourite" : article.favourite ])
+    }
+    
+    func trackOfflineModeChange(enabled: Bool) {
+        Answers.logCustomEventWithName("setting_offline_mode", customAttributes: [ "enabled" : enabled ])
+    }
+    
+    func trackOnlyWiFiImagesChange(enabled: Bool) {
+        Answers.logCustomEventWithName("setting_only_wifi_images", customAttributes: [ "enabled" : enabled ])
+    }
 }
