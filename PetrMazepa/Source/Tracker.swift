@@ -27,7 +27,7 @@ class Tracker: NSObject {
         let loadingTime = NSDate().timeIntervalSinceDate(lodingStarted)
         self.textLoadingStarted = nil
         
-        Answers.logContentViewWithName(article.title, contentType: "article", contentId: article.id, customAttributes: [ "loading_time": loadingTime ])
+        Answers.logContentViewWithName(article.title, contentType: "article", contentId: article.id, customAttributes: [ "loading_time": NSNumber(double: loadingTime) ])
     }
     
     func trackShare(article: Article, activityType: String?) {
@@ -48,18 +48,18 @@ class Tracker: NSObject {
     }
     
     func trackFavouriteChange(article: Article) {
-        Answers.logCustomEventWithName("favorite", customAttributes: [ "article_id" : article.id, "article_title" : article.title, "favourite" : article.favourite ])
+        Answers.logCustomEventWithName("favorite", customAttributes: [ "article_id" : article.id, "article_title" : article.title, "favourite" : NSNumber(bool: article.favourite) ])
     }
     
     func trackOfflineModeChange(enabled: Bool) {
-        Answers.logCustomEventWithName("offline_mode", customAttributes: [ "enabled" : enabled ])
+        Answers.logCustomEventWithName("offline_mode", customAttributes: [ "enabled" : NSNumber(bool: enabled) ])
     }
     
     func trackOnlyWiFiImagesChange(enabled: Bool) {
-        Answers.logCustomEventWithName("only_wifi_images", customAttributes: [ "enabled" : enabled ])
+        Answers.logCustomEventWithName("Only Wi-Fi Images", customAttributes: [ "enabled" : NSNumber(bool: enabled) ])
     }
     
     func trackClearImages(sizeInBytes: UInt64) {
-        Answers.logCustomEventWithName("clear_images", customAttributes: [ "size_bytes" : NSNumber(unsignedLongLong: sizeInBytes) ])
+        Answers.logCustomEventWithName("Clear Images", customAttributes: [ "size_bytes" : NSNumber(unsignedLongLong: sizeInBytes) ])
     }
 }
