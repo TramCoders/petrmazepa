@@ -11,6 +11,10 @@ import Crashlytics
 
 class Tracker: NSObject {
     
+    private static let yes = "yes"
+    private static let no = "no"
+    private static let contentType = "article"
+    
     private var textLoadingStarted: NSDate?
     private var canceler: FireCanceler?
     
@@ -27,11 +31,11 @@ class Tracker: NSObject {
         let loadingTime = NSDate().timeIntervalSinceDate(lodingStarted)
         self.textLoadingStarted = nil
         
-        Answers.logContentViewWithName(article.title, contentType: "article", contentId: article.id, customAttributes: [ "loading_time": NSNumber(double: loadingTime) ])
+        Answers.logContentViewWithName(article.title, contentType: Tracker.contentType, contentId: article.id, customAttributes: [ "Loading time": NSNumber(double: loadingTime) ])
     }
     
     func trackShare(article: Article, activityType: String?) {
-        Answers.logShareWithMethod(activityType, contentName: article.title, contentType: "article", contentId: article.id, customAttributes: nil)
+        Answers.logShareWithMethod(activityType, contentName: article.title, contentType: Tracker.contentType, contentId: article.id, customAttributes: nil)
     }
     
     func trackSearch(searchQuery: String) {
@@ -48,18 +52,22 @@ class Tracker: NSObject {
     }
     
     func trackFavouriteChange(article: Article) {
-        Answers.logCustomEventWithName("Favorite Article", customAttributes: [ "article_id" : article.id, "article_title" : article.title, "favourite" : NSNumber(bool: article.favourite) ])
+        Answers.logCustomEventWithName("Favorite Article", customAttributes: [ "Article ID" : article.id, "Article name" : article.title, "Favorite" : Tracker.stringFromBool(article.favourite) ])
     }
     
     func trackOfflineModeChange(enabled: Bool) {
-        Answers.logCustomEventWithName("Offline Mode", customAttributes: [ "enabled" : NSNumber(bool: enabled) ])
+        Answers.logCustomEventWithName("Offline Mode", customAttributes: [ "Enabled" : Tracker.stringFromBool(enabled) ])
     }
     
     func trackOnlyWiFiImagesChange(enabled: Bool) {
-        Answers.logCustomEventWithName("Only Wi-Fi Images", customAttributes: [ "enabled" : NSNumber(bool: enabled) ])
+        Answers.logCustomEventWithName("Only Wi-Fi Images", customAttributes: [ "Enabled" : Tracker.stringFromBool(enabled) ])
     }
     
     func trackClearImages(sizeInBytes: UInt64) {
-        Answers.logCustomEventWithName("Clear Images", customAttributes: [ "size_bytes" : NSNumber(unsignedLongLong: sizeInBytes) ])
+        Answers.logCustomEventWithName("Clear Images", customAttributes: [ "Size in bytes" : NSNumber(unsignedLongLong: sizeInBytes) ])
+    }
+    
+    private static func stringFromBool(flag: Bool) -> String {
+        return flag ? Tracker.yes : Tracker.no
     }
 }
