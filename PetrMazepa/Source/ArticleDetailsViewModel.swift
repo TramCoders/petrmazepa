@@ -117,6 +117,10 @@ class ArticleDetailsViewModel : ViewModel {
         self.tracker.trackArticleView(self.article)
     }
     
+    func applicationWillResignActive() {
+        self.topOffsetEditor.setTopOffset(self.article, offset: self.article.topOffset)
+    }
+    
     func closeActionTapped() {
         self.articleDetailsDismisser.dismissArticleDetails()
     }

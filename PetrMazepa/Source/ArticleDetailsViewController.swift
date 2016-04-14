@@ -68,12 +68,15 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: true)
         self.model.viewWillAppear()
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationWillResignActive"), name:UIApplicationWillResignActiveNotification, object: nil)
     }
     
     override func viewWillDisappear(animated: Bool) {
         
-        super.viewWillDisappear(animated)
+        NSNotificationCenter.defaultCenter().removeObserver(self)
         self.model.viewWillDisappear()
+        super.viewWillDisappear(animated)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -84,6 +87,10 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
     
     override func prefersStatusBarHidden() -> Bool {
         return !self.model.barsVisibile
+    }
+    
+    func applicationWillResignActive() {
+        self.model.applicationWillResignActive()
     }
     
     @IBAction func backTapped(sender: AnyObject) {
