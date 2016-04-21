@@ -68,12 +68,15 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: true)
         self.model.viewWillAppear()
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationWillResignActive"), name:UIApplicationWillResignActiveNotification, object: nil)
     }
     
     override func viewWillDisappear(animated: Bool) {
         
-        super.viewWillDisappear(animated)
+        NSNotificationCenter.defaultCenter().removeObserver(self)
         self.model.viewWillDisappear()
+        super.viewWillDisappear(animated)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -84,6 +87,10 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
     
     override func prefersStatusBarHidden() -> Bool {
         return !self.model.barsVisibile
+    }
+    
+    func applicationWillResignActive() {
+        self.model.applicationWillResignActive()
     }
     
     @IBAction func backTapped(sender: AnyObject) {
@@ -133,7 +140,7 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
         return true
     }
     
-    func articleTextCellDidDetermineHeight(sender cell: ArticleTextCell, height: CGFloat) {
+    func articleTextCellDidLoad(sender cell: ArticleTextCell, height: CGFloat) {
         
         self.layout.textCellHeight = height
         self.textCell.height = height
@@ -141,9 +148,17 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
         
         let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC)))
         dispatch_after(delayTime, dispatch_get_main_queue()) {
+            
             self.collectionView.setContentOffset(CGPointMake(0.0, self.model.topOffset), animated: true)
+            self.model.textDidLoad()
         }
+    }
+    
+    func articleTextCellDidTapLink(sender cell: ArticleTextCell, url: NSURL?) {
         
+        if let url = url {
+            UIApplication.sharedApplication().openURL(url)
+        }
     }
     
     private func updateBars() {

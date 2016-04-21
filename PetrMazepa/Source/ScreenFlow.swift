@@ -22,6 +22,7 @@ class ScreenFlow: NSObject, ArticleDetailsPresenter, SettingsPresenter, SearchPr
     private let networking: Networking
     private let coreData: CoreDataManager
     private let settings: Settings
+    private let tracker: Tracker
     
     override init() {
         
@@ -37,6 +38,7 @@ class ScreenFlow: NSObject, ArticleDetailsPresenter, SettingsPresenter, SearchPr
         self.networking = Networking()
         self.coreData = CoreDataManager()
         self.contentProvider = ContentProvider(networking: self.networking, coreData: self.coreData)
+        self.tracker = Tracker()
         
         let inMemoryImageStorage = InMemoryImageStorage()
         let persistentImageStorage = PersistentImageStorage()
@@ -116,6 +118,15 @@ class ScreenFlow: NSObject, ArticleDetailsPresenter, SettingsPresenter, SearchPr
         
         let activityViewController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
         self.currentViewController.presentViewController(activityViewController, animated: true, completion: nil)
+
+        activityViewController.completionWithItemsHandler = { activityType, completed, returnedItems, activityError in
+
+            guard completed && (activityError == nil) else {
+                return
+            }
+            
+            self.tracker.trackShare(article, activityType: activityType)
+        }
     }
     
     private func createArticlesViewModel() -> ArticlesViewModel {
@@ -125,15 +136,15 @@ class ScreenFlow: NSObject, ArticleDetailsPresenter, SettingsPresenter, SearchPr
     
     private func createArticleDetailsViewModel(article article: Article) -> ArticleDetailsViewModel {
         
-        return ArticleDetailsViewModel(settings: self.settings, article: article, imageGateway: self.imageCache, articleDetailsFetcher: self.contentProvider, favouriteMaker: self.contentProvider, articleDetailsDismisser: self, articleSharer: self, topOffsetEditor: self.contentProvider, lastReadArticleMaker: self.contentProvider)
+        return ArticleDetailsViewModel(settings: self.settings, article: article, imageGateway: self.imageCache, articleDetailsFetcher: self.contentProvider, favouriteMaker: self.contentProvider, articleDetailsDismisser: self, articleSharer: self, topOffsetEditor: self.contentProvider, lastReadArticleMaker: self.contentProvider, tracker: self.tracker)
     }
     
     private func createSearchViewModel() -> SearchViewModel {
         
-        return SearchViewModel(settings: self.settings, imageGateway: self.imageCache, articleStorage: self.contentProvider, favouriteArticleStorage: self.contentProvider, articleDetailsPresenter: self, dismisser: self)
+        return SearchViewModel(settings: self.settings, imageGateway: self.imageCache, articleStorage: self.contentProvider, favouriteArticleStorage: self.contentProvider, articleDetailsPresenter: self, dismisser: self, tracker: self.tracker)
     }
     
     private func createSettingsViewModel() -> SettingsViewModel {
-        return SettingsViewModel(settings: self.settings, dismisser: self, imageCleaner: self.imageCache, articleCleaner: self.contentProvider)
+        return SettingsViewModel(settings: self.settings, dismisser: self, imageCacheUtil: self.imageCache, tracker: self.tracker)
     }
 }

@@ -57,15 +57,6 @@ class CoreDataManager : FavouriteArticlesStorage, FavouriteMaker {
         }
     }
     
-    func deleteAllArticles() {
-        
-        let moArticles = self.requestManagedArticles(favorite: nil)
-        
-        for moArticle in moArticles {
-            self.context.deleteObject(moArticle)
-        }
-    }
-    
     func allArticlesCount() -> Int {
         return self.requestArticlesCount(favorite: nil)
     }

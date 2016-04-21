@@ -1,5 +1,5 @@
 //
-//  ImageCleaner.swift
+//  ImageCacheUtil.swift
 //  PetrMazepa
 //
 //  Created by Artem Stepanenko on 12/28/15.
@@ -8,6 +8,8 @@
 
 import Foundation
 
-protocol ImageCleaner {
+protocol ImageCacheUtil {
+    
+    var sizeInBytes: UInt64 { get }
     func clearCache()
 }

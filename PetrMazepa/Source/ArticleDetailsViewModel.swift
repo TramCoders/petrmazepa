@@ -23,6 +23,7 @@ class ArticleDetailsViewModel : ViewModel {
     private let articleSharer: ArticleSharer
     private let topOffsetEditor: TopOffsetEditor
     private let lastReadArticleMaker: LastReadArticleMaker
+    private let tracker: Tracker
     
     private let settings: ReadOnlySettings
     private let article: Article
@@ -46,7 +47,7 @@ class ArticleDetailsViewModel : ViewModel {
     
     var image: UIImage?
     
-    init(settings: ReadOnlySettings, article: Article, imageGateway: ImageGateway, articleDetailsFetcher: ArticleDetailsFetcher, favouriteMaker: FavouriteMaker, articleDetailsDismisser: ArticleDetailsDismisser, articleSharer: ArticleSharer, topOffsetEditor: TopOffsetEditor, lastReadArticleMaker: LastReadArticleMaker) {
+    init(settings: ReadOnlySettings, article: Article, imageGateway: ImageGateway, articleDetailsFetcher: ArticleDetailsFetcher, favouriteMaker: FavouriteMaker, articleDetailsDismisser: ArticleDetailsDismisser, articleSharer: ArticleSharer, topOffsetEditor: TopOffsetEditor, lastReadArticleMaker: LastReadArticleMaker, tracker: Tracker) {
 
         self.settings = settings
         self.article = article
@@ -57,6 +58,7 @@ class ArticleDetailsViewModel : ViewModel {
         self.articleSharer = articleSharer
         self.topOffsetEditor = topOffsetEditor
         self.lastReadArticleMaker = lastReadArticleMaker
+        self.tracker = tracker
     }
     
     func viewDidLayoutSubviews(screenSize size: CGSize) {
@@ -73,7 +75,7 @@ class ArticleDetailsViewModel : ViewModel {
         let bottomDirection: Bool
         
         if let _ = self.startOffset {
-            bottomDirection = offset - self.startOffset > 0.0
+            bottomDirection = (offset > 20.0) && (offset - self.startOffset > 0.0)
         } else {
             bottomDirection = true
         }
@@ -97,6 +99,8 @@ class ArticleDetailsViewModel : ViewModel {
         self.lastReadArticleMaker.setLastReadArticle(self.article)
         self.barsVisibile = true
         self.favouriteStateChanged!(favourite: self.article.favourite)
+        
+        self.tracker.textLoadingDidStart()
     }
     
     func viewDidAppear() {
@@ -106,6 +110,14 @@ class ArticleDetailsViewModel : ViewModel {
     override func viewWillDisappear() {
         
         super.viewWillDisappear()
+        self.topOffsetEditor.setTopOffset(self.article, offset: self.article.topOffset)
+    }
+    
+    func textDidLoad() {
+        self.tracker.trackArticleView(self.article)
+    }
+    
+    func applicationWillResignActive() {
         self.topOffsetEditor.setTopOffset(self.article, offset: self.article.topOffset)
     }
     
@@ -129,10 +141,9 @@ class ArticleDetailsViewModel : ViewModel {
         
         let favourite = !self.article.favourite
         self.favouriteMaker.makeFavourite(article: self.article, favourite: favourite)
-
-        if self.viewIsPresented {
-            self.favouriteStateChanged!(favourite: favourite)
-        }
+        self.favouriteStateChanged!(favourite: favourite)
+        
+        self.tracker.trackFavouriteChange(self.article)
     }
     
     func shareTapped() {

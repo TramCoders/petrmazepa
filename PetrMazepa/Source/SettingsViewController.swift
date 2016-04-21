@@ -12,6 +12,7 @@ class SettingsViewController: UITableViewController {
     
     @IBOutlet weak var offlineModeSwitch: UISwitch!
     @IBOutlet weak var onlyWifiImagesSwitch: UISwitch!
+    @IBOutlet weak var imagesSizeLabel: UILabel!
     
     var model: SettingsViewModel!
     
@@ -22,6 +23,9 @@ class SettingsViewController: UITableViewController {
         self.title = "Настройки"
         self.offlineModeSwitch.on = self.model.offlineMode
         self.onlyWifiImagesSwitch.on = self.model.onlyWifiImages
+        self.updateImagesSize()
+        
+        self.tableView.tableFooterView = UIView(frame: CGRectZero)
     }
     
     @IBAction func closeTapped(sender: AnyObject) {
@@ -35,13 +39,16 @@ class SettingsViewController: UITableViewController {
     @IBAction func onlyWifiImagesChanged(sender: UISwitch) {
         self.model.didSwitchOnlyWifiImages(enabled: sender.on)
     }
+    @IBAction func clearImagesTapped(sender: AnyObject) {
+
+        self.model.clearCacheTapped()
+        self.updateImagesSize()
+    }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        
-        if indexPath.row == 2 {     // clear cache
-            self.model.clearCacheTapped()
-        }
+    private func updateImagesSize() {
+
+        let size = Int64(self.model.imageCacheSize)
+        let sizeString = NSByteCountFormatter.stringFromByteCount(size, countStyle: .File)
+        self.imagesSizeLabel.text = sizeString
     }
 }

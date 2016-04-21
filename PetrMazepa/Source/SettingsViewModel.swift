@@ -12,15 +12,15 @@ class SettingsViewModel {
     
     private let settings: ReadWriteSettings
     private let dismisser: SettingsDismisser
-    private let imageCleaner: ImageCleaner
-    private let articleCleaner: ArticleCleaner
+    private let imageCacheUtil: ImageCacheUtil
+    private let tracker: Tracker
     
-    init(settings: ReadWriteSettings, dismisser: SettingsDismisser, imageCleaner: ImageCleaner, articleCleaner: ArticleCleaner) {
+    init(settings: ReadWriteSettings, dismisser: SettingsDismisser, imageCacheUtil: ImageCacheUtil, tracker: Tracker) {
 
         self.settings = settings
         self.dismisser = dismisser
-        self.imageCleaner = imageCleaner
-        self.articleCleaner = articleCleaner
+        self.imageCacheUtil = imageCacheUtil
+        self.tracker = tracker
     }
     
     var offlineMode: Bool {
@@ -31,21 +31,29 @@ class SettingsViewModel {
         return self.settings.onlyWifiImages
     }
     
+    var imageCacheSize: UInt64 {
+        return self.imageCacheUtil.sizeInBytes
+    }
+    
     func closeTapped() {
         self.dismisser.dismissSettings()
     }
     
     func didSwitchOfflineMode(enabled enabled: Bool) {
+
         self.settings.offlineMode = enabled
+        self.tracker.trackOfflineModeChange(enabled)
     }
     
     func didSwitchOnlyWifiImages(enabled enabled: Bool) {
+        
         self.settings.onlyWifiImages = enabled
+        self.tracker.trackOnlyWiFiImagesChange(enabled)
     }
     
     func clearCacheTapped() {
         
-        self.imageCleaner.clearCache()
-        self.articleCleaner.clearCache()
+        self.tracker.trackClearImages(self.imageCacheUtil.sizeInBytes)
+        self.imageCacheUtil.clearCache()
     }
 }
