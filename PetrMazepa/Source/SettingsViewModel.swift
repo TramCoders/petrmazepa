@@ -11,14 +11,14 @@ import Foundation
 class SettingsViewModel {
     
     private let settings: ReadWriteSettings
-    private let dismisser: SettingsDismisser
+    private let router: RouterNavigation
     private let imageCacheUtil: ImageCacheUtil
     private let tracker: Tracker
     
-    init(settings: ReadWriteSettings, dismisser: SettingsDismisser, imageCacheUtil: ImageCacheUtil, tracker: Tracker) {
+    init(settings: ReadWriteSettings, router: RouterNavigation, imageCacheUtil: ImageCacheUtil, tracker: Tracker) {
 
         self.settings = settings
-        self.dismisser = dismisser
+        self.router = router
         self.imageCacheUtil = imageCacheUtil
         self.tracker = tracker
     }
@@ -36,7 +36,7 @@ class SettingsViewModel {
     }
     
     func closeTapped() {
-        self.dismisser.dismissSettings()
+        self.router.dismissSettings()
     }
     
     func didSwitchOfflineMode(enabled enabled: Bool) {

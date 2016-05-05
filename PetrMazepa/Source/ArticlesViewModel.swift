@@ -25,9 +25,7 @@ class ArticlesViewModel : ViewModel {
     private let imageGateway: ImageGateway
     private let articlesFetcher: ArticlesFetcher
     private let articleStorage: ArticleStorage
-    private let articleDetailsPresenter: ArticleDetailsPresenter
-    private let settingsPresenter: SettingsPresenter
-    private let searchPresenter: SearchPresenter
+    private let router: RouterNavigation
     
     private var fetchedArticles = [Article]()
     
@@ -93,21 +91,19 @@ class ArticlesViewModel : ViewModel {
     var lastReadArticleVisible: Bool = true
     var navigationBarVisible: Bool = true
     
-    required init(settings: ReadOnlySettings, articleStorage: ArticleStorage, imageGateway: ImageGateway, articlesFetcher: ArticlesFetcher, articleDetailsPresenter: ArticleDetailsPresenter, settingsPresenter: SettingsPresenter, searchPresenter: SearchPresenter) {
+    required init(settings: ReadOnlySettings, articleStorage: ArticleStorage, imageGateway: ImageGateway, articlesFetcher: ArticlesFetcher, router: RouterNavigation) {
 
         self.settings = settings
         self.articleStorage = articleStorage
         self.imageGateway = imageGateway
         self.articlesFetcher = articlesFetcher
-        self.articleDetailsPresenter = articleDetailsPresenter
-        self.settingsPresenter = settingsPresenter
-        self.searchPresenter = searchPresenter
+        self.router = router
     }
     
     func articleTapped(index index: Int) {
         
         let article = self.articleAtIndex(index)
-        self.articleDetailsPresenter.presentArticleDetails(article)
+        self.router.presentArticleDetails(article)
     }
     
     func viewDidLoad(screenSize size: CGSize) {
@@ -248,11 +244,11 @@ class ArticlesViewModel : ViewModel {
     }
     
     func searchTapped() {
-        self.searchPresenter.presentSearch()
+        self.router.presentSearch()
     }
     
     func settingsTapped() {
-        self.settingsPresenter.presentSettings()
+        self.router.presentSettings()
     }
     
     func lastReadArticleTapped() {
@@ -261,7 +257,7 @@ class ArticlesViewModel : ViewModel {
             return
         }
         
-        self.articleDetailsPresenter.presentArticleDetails(article)
+        self.router.presentArticleDetails(article)
     }
     
     func cancelActionTapped() {
@@ -274,7 +270,7 @@ class ArticlesViewModel : ViewModel {
     }
     
     func switchOffActionTapped() {
-        self.settingsPresenter.presentSettings()
+        self.router.presentSettings()
     }
     
     private func updateBarsVisible(visible: Bool) {

@@ -16,11 +16,10 @@ class ArticleDetailsViewModel : ViewModel {
     var barsVisibilityChanged: ((visible: Bool) -> Void)?
     var errorOccurred: ((error: NSError?) -> Void)?
     
-    private let articleDetailsDismisser: ArticleDetailsDismisser
     private let articleDetailsFetcher: ArticleDetailsFetcher
     private let imageGateway: ImageGateway
     private let favouriteMaker: FavouriteMaker
-    private let articleSharer: ArticleSharer
+    private let router: RouterNavigation
     private let topOffsetEditor: TopOffsetEditor
     private let lastReadArticleMaker: LastReadArticleMaker
     private let tracker: Tracker
@@ -47,15 +46,14 @@ class ArticleDetailsViewModel : ViewModel {
     
     var image: UIImage?
     
-    init(settings: ReadOnlySettings, article: Article, imageGateway: ImageGateway, articleDetailsFetcher: ArticleDetailsFetcher, favouriteMaker: FavouriteMaker, articleDetailsDismisser: ArticleDetailsDismisser, articleSharer: ArticleSharer, topOffsetEditor: TopOffsetEditor, lastReadArticleMaker: LastReadArticleMaker, tracker: Tracker) {
+    init(settings: ReadOnlySettings, article: Article, imageGateway: ImageGateway, articleDetailsFetcher: ArticleDetailsFetcher, favouriteMaker: FavouriteMaker, router: RouterNavigation, topOffsetEditor: TopOffsetEditor, lastReadArticleMaker: LastReadArticleMaker, tracker: Tracker) {
 
         self.settings = settings
         self.article = article
         self.imageGateway = imageGateway
         self.articleDetailsFetcher = articleDetailsFetcher
         self.favouriteMaker = favouriteMaker
-        self.articleDetailsDismisser = articleDetailsDismisser
-        self.articleSharer = articleSharer
+        self.router = router
         self.topOffsetEditor = topOffsetEditor
         self.lastReadArticleMaker = lastReadArticleMaker
         self.tracker = tracker
@@ -122,7 +120,7 @@ class ArticleDetailsViewModel : ViewModel {
     }
     
     func closeActionTapped() {
-        self.articleDetailsDismisser.dismissArticleDetails()
+        self.router.dismissArticleDetails()
     }
     
     func retryActionTapped() {
@@ -130,7 +128,7 @@ class ArticleDetailsViewModel : ViewModel {
     }
     
     func backTapped() {
-        self.articleDetailsDismisser.dismissArticleDetails()
+        self.router.dismissArticleDetails()
     }
     
     func favouriteTapped() {
@@ -147,7 +145,7 @@ class ArticleDetailsViewModel : ViewModel {
     }
     
     func shareTapped() {
-        self.articleSharer.shareArticle(self.article)
+        self.router.shareArticle(self.article)
     }
     
     private func loadContent() {

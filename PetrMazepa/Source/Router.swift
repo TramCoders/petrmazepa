@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Router: NSObject, ArticleDetailsPresenter, SettingsPresenter, SearchPresenter, ArticleDetailsDismisser, SettingsDismisser, SearchDismisser, ArticleSharer {
+class Router: NSObject, RouterNavigation {
     
     private let window: UIWindow
     private let storyboard: UIStoryboard
@@ -99,7 +99,7 @@ class Router: NSObject, ArticleDetailsPresenter, SettingsPresenter, SearchPresen
         
         let navigationController = self.storyboard.instantiateViewControllerWithIdentifier("SearchNav") as! UINavigationController
         let searchViewController = navigationController.topViewController as! SearchViewController
-        searchViewController.model = self.createSearchViewModel()
+        searchViewController.model = self.createSearchViewModel(view: searchViewController)
         self.currentNavigationController.presentViewController(navigationController, animated: true, completion: nil)
         self.currentNavigationController = navigationController
     }
@@ -131,20 +131,20 @@ class Router: NSObject, ArticleDetailsPresenter, SettingsPresenter, SearchPresen
     
     private func createArticlesViewModel() -> ArticlesViewModel {
         
-        return ArticlesViewModel(settings: self.settings, articleStorage: self.contentProvider, imageGateway: self.imageCache, articlesFetcher: self.contentProvider, articleDetailsPresenter: self, settingsPresenter: self, searchPresenter: self)
+        return ArticlesViewModel(settings: self.settings, articleStorage: self.contentProvider, imageGateway: self.imageCache, articlesFetcher: self.contentProvider, router: self)
     }
     
     private func createArticleDetailsViewModel(article article: Article) -> ArticleDetailsViewModel {
         
-        return ArticleDetailsViewModel(settings: self.settings, article: article, imageGateway: self.imageCache, articleDetailsFetcher: self.contentProvider, favouriteMaker: self.contentProvider, articleDetailsDismisser: self, articleSharer: self, topOffsetEditor: self.contentProvider, lastReadArticleMaker: self.contentProvider, tracker: self.tracker)
+        return ArticleDetailsViewModel(settings: self.settings, article: article, imageGateway: self.imageCache, articleDetailsFetcher: self.contentProvider, favouriteMaker: self.contentProvider, router: self, topOffsetEditor: self.contentProvider, lastReadArticleMaker: self.contentProvider, tracker: self.tracker)
     }
     
-    private func createSearchViewModel() -> SearchViewModel {
+    private func createSearchViewModel(view view: SearchView) -> SearchViewModel {
         
-        return SearchViewModel(settings: self.settings, imageGateway: self.imageCache, articleStorage: self.contentProvider, favouriteArticleStorage: self.contentProvider, articleDetailsPresenter: self, dismisser: self, tracker: self.tracker)
+        return SearchViewModel(view: view, settings: self.settings, imageGateway: self.imageCache, articleStorage: self.contentProvider, favouriteArticleStorage: self.contentProvider, router: self, tracker: self.tracker)
     }
     
     private func createSettingsViewModel() -> SettingsViewModel {
-        return SettingsViewModel(settings: self.settings, dismisser: self, imageCacheUtil: self.imageCache, tracker: self.tracker)
+        return SettingsViewModel(settings: self.settings, router: self, imageCacheUtil: self.imageCache, tracker: self.tracker)
     }
 }

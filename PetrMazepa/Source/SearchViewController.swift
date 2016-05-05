@@ -8,7 +8,9 @@
 
 import UIKit
 
-class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate {
+class SearchViewController: UIViewController, SearchView, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate {
+
+    var model: SearchViewModel!
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var bottomTableContraint: NSLayoutConstraint!
@@ -16,12 +18,6 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
     
     private var showKeyboardHandler: NSObjectProtocol?
     private var hideKeyboardHandler: NSObjectProtocol?
-    
-    var model: SearchViewModel! {
-        didSet {
-            self.model.articlesChanged = self.articlesChangedHandler()
-        }
-    }
     
     override func viewDidLoad() {
         
@@ -93,6 +89,9 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
         return 80.0
     }
     
+    func reloadArticles() {
+        self.tableView.reloadData()
+    }
     
     private func startHandlingKeyboardAppearance() {
         
@@ -144,12 +143,6 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
             
             NSNotificationCenter.defaultCenter().removeObserver(notNilHideKeyboardHandler)
             self.hideKeyboardHandler = nil
-        }
-    }
-    
-    private func articlesChangedHandler() -> (() -> Void) {
-        return {
-            self.tableView.reloadData()
         }
     }
     
