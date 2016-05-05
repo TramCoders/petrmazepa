@@ -1,5 +1,5 @@
 //
-//  ScreenFlow.swift
+//  Router.swift
 //  PetrMazepa
 //
 //  Created by Artem Stepanenko on 8/6/15.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ScreenFlow: NSObject, ArticleDetailsPresenter, SettingsPresenter, SearchPresenter, ArticleDetailsDismisser, SettingsDismisser, SearchDismisser, ArticleSharer {
+class Router: NSObject, ArticleDetailsPresenter, SettingsPresenter, SearchPresenter, ArticleDetailsDismisser, SettingsDismisser, SearchDismisser, ArticleSharer {
     
     private let window: UIWindow
     private let storyboard: UIStoryboard
