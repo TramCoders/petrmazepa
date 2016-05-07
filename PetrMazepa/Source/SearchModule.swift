@@ -1,13 +1,14 @@
 //
-//  SearchView.swift
+//  SearchModule.swift
 //  PetrMazepa
 //
-//  Created by Artem Stepanenko on 5/5/16.
+//  Created by Artem Stepanenko on 5/7/16.
 //  Copyright © 2016 TramCoders. All rights reserved.
 //
 
 import Foundation
 
-protocol SearchView: class {
+protocol ISearchView: class {
     func reloadArticles()
 }
+

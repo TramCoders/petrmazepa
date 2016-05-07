@@ -1,5 +1,5 @@
 //
-//  RouterNavigation.swift
+//  IRouter.swift
 //  PetrMazepa
 //
 //  Created by Artem Stepanenko on 5/6/16.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol RouterNavigation {
+protocol IRouter {
     
     func presentArticles()
     func presentArticleDetails(article: Article)

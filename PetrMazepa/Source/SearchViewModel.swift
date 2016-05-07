@@ -17,21 +17,25 @@ enum SearchFilter {
 
 class SearchViewModel : ViewModel {
     
-    private weak var view: SearchView?
+    private weak var view: ISearchView?
     
     private var query = ""
     private var allArticles: [Article]
     private var filteredArticles: [Article]
     private(set) var filter = SearchFilter.None
     
+    var articlesCount: Int {
+        return self.filteredArticles.count
+    }
+    
     private let settings: ReadOnlySettings
     private let imageGateway: ImageGateway
     private let articleStorage: ArticleStorage
     private let favouriteArticleStorage: FavouriteArticlesStorage
-    private let router: RouterNavigation
+    private let router: IRouter
     private let tracker: Tracker
     
-    required init(view: SearchView, settings: ReadOnlySettings, imageGateway: ImageGateway, articleStorage: ArticleStorage, favouriteArticleStorage: FavouriteArticlesStorage, router: RouterNavigation, tracker: Tracker) {
+    required init(view: ISearchView, settings: ReadOnlySettings, imageGateway: ImageGateway, articleStorage: ArticleStorage, favouriteArticleStorage: FavouriteArticlesStorage, router: IRouter, tracker: Tracker) {
         
         self.view = view
         self.settings = settings
@@ -70,10 +74,6 @@ class SearchViewModel : ViewModel {
         
         let article = self.findArticle(indexPath: indexPath)
         self.router.presentArticleDetails(article)
-    }
-    
-    func articlesCount() -> Int {
-        return self.filteredArticles.count
     }
     
     func searchedArticleModel(indexPath indexPath: NSIndexPath) -> SimpleArticleCellModel {

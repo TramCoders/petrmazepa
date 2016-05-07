@@ -19,7 +19,7 @@ class ArticleDetailsViewModel : ViewModel {
     private let articleDetailsFetcher: ArticleDetailsFetcher
     private let imageGateway: ImageGateway
     private let favouriteMaker: FavouriteMaker
-    private let router: RouterNavigation
+    private let router: IRouter
     private let topOffsetEditor: TopOffsetEditor
     private let lastReadArticleMaker: LastReadArticleMaker
     private let tracker: Tracker
@@ -46,7 +46,7 @@ class ArticleDetailsViewModel : ViewModel {
     
     var image: UIImage?
     
-    init(settings: ReadOnlySettings, article: Article, imageGateway: ImageGateway, articleDetailsFetcher: ArticleDetailsFetcher, favouriteMaker: FavouriteMaker, router: RouterNavigation, topOffsetEditor: TopOffsetEditor, lastReadArticleMaker: LastReadArticleMaker, tracker: Tracker) {
+    init(settings: ReadOnlySettings, article: Article, imageGateway: ImageGateway, articleDetailsFetcher: ArticleDetailsFetcher, favouriteMaker: FavouriteMaker, router: IRouter, topOffsetEditor: TopOffsetEditor, lastReadArticleMaker: LastReadArticleMaker, tracker: Tracker) {
 
         self.settings = settings
         self.article = article

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SearchViewController: UIViewController, SearchView, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate {
+class SearchViewController: UIViewController, ISearchView, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate {
 
     var model: SearchViewModel!
     
@@ -67,7 +67,7 @@ class SearchViewController: UIViewController, SearchView, UISearchBarDelegate, U
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.model.articlesCount()
+        return self.model.articlesCount
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {

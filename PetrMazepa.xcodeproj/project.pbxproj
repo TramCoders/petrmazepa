@@ -57,8 +57,8 @@
 		ACA41A6F1BBD921000550857 /* ArticleImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA41A6E1BBD921000550857 /* ArticleImageCell.swift */; };
 		ACA41A791BBEC3B800550857 /* ArticleTextCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ACA41A771BBEC3B800550857 /* ArticleTextCell.xib */; };
 		ACA41A7B1BBEC3EB00550857 /* ArticleTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA41A7A1BBEC3EB00550857 /* ArticleTextCell.swift */; };
-		ACAC27331CDBF81E000D27CE /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAC27321CDBF81E000D27CE /* SearchView.swift */; };
-		ACAC27351CDBFBE6000D27CE /* RouterNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAC27341CDBFBE6000D27CE /* RouterNavigation.swift */; };
+		ACAC27351CDBFBE6000D27CE /* IRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAC27341CDBFBE6000D27CE /* IRouter.swift */; };
+		ACAC27371CDE9653000D27CE /* SearchModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAC27361CDE9653000D27CE /* SearchModule.swift */; };
 		ACAF975E1B5C04A200CB53B1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ACAF975C1B5C04A200CB53B1 /* Main.storyboard */; };
 		ACAF97601B5C04A200CB53B1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACAF975F1B5C04A200CB53B1 /* Images.xcassets */; };
 		ACAF97631B5C04A200CB53B1 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = ACAF97611B5C04A200CB53B1 /* LaunchScreen.xib */; };
@@ -152,8 +152,8 @@
 		ACA41A6E1BBD921000550857 /* ArticleImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ArticleImageCell.swift; path = Source/ArticleImageCell.swift; sourceTree = "<group>"; };
 		ACA41A781BBEC3B800550857 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ArticleTextCell.xib; sourceTree = "<group>"; };
 		ACA41A7A1BBEC3EB00550857 /* ArticleTextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ArticleTextCell.swift; path = Source/ArticleTextCell.swift; sourceTree = "<group>"; };
-		ACAC27321CDBF81E000D27CE /* SearchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchView.swift; path = Source/SearchView.swift; sourceTree = "<group>"; };
-		ACAC27341CDBFBE6000D27CE /* RouterNavigation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RouterNavigation.swift; path = Source/RouterNavigation.swift; sourceTree = "<group>"; };
+		ACAC27341CDBFBE6000D27CE /* IRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IRouter.swift; path = Source/IRouter.swift; sourceTree = "<group>"; };
+		ACAC27361CDE9653000D27CE /* SearchModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchModule.swift; path = Source/SearchModule.swift; sourceTree = "<group>"; };
 		ACAF97531B5C04A200CB53B1 /* PetrMazepa.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PetrMazepa.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACAF97571B5C04A200CB53B1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ACAF975D1B5C04A200CB53B1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -366,7 +366,7 @@
 				AC6B3ED61B8E3E08005BA7F1 /* SearchViewController.swift */,
 				AC6B3ED81B8E3E42005BA7F1 /* SearchViewModel.swift */,
 				AC05D45E1BF29C3D0049CAC6 /* SimpleArticleCellModel.swift */,
-				ACAC27321CDBF81E000D27CE /* SearchView.swift */,
+				ACAC27361CDE9653000D27CE /* SearchModule.swift */,
 			);
 			name = Search;
 			sourceTree = "<group>";
@@ -576,7 +576,7 @@
 			isa = PBXGroup;
 			children = (
 				5EC711EB1B8CD2B200C84AE7 /* Router.swift */,
-				ACAC27341CDBFBE6000D27CE /* RouterNavigation.swift */,
+				ACAC27341CDBFBE6000D27CE /* IRouter.swift */,
 			);
 			name = Router;
 			sourceTree = "<group>";
@@ -860,12 +860,13 @@
 				AC5C89421CA7BFFE0051BA01 /* Tracker.swift in Sources */,
 				AC05D4631BF29D530049CAC6 /* ImageCellModel.swift in Sources */,
 				AC5934DF1C10F572006F4894 /* ArticleDetailsLayout.swift in Sources */,
-				ACAC27351CDBFBE6000D27CE /* RouterNavigation.swift in Sources */,
+				ACAC27351CDBFBE6000D27CE /* IRouter.swift in Sources */,
 				AC0BD0CE1BB70BCE00876B76 /* ContentProvider.swift in Sources */,
 				ACF1FDD31BF8B63600BEC0B2 /* MOArticleDetails+CoreDataProperties.swift in Sources */,
 				ACBA69881C020A7A00A93C6D /* ReadWriteSettings.swift in Sources */,
 				AC576D5B1CAB119D0024F5A2 /* Scheduler.swift in Sources */,
 				AC6B3ED91B8E3E42005BA7F1 /* SearchViewModel.swift in Sources */,
+				ACAC27371CDE9653000D27CE /* SearchModule.swift in Sources */,
 				ACBA69851C0209F500A93C6D /* ReadOnlySettings.swift in Sources */,
 				AC926B761B9B48260078F333 /* SearchedArticleCell.swift in Sources */,
 				AC8F42361BC0677500E3CAF7 /* ArticleStorage.swift in Sources */,
@@ -876,7 +877,6 @@
 				AC05D45B1BF141560049CAC6 /* ImageGateway.swift in Sources */,
 				12AD97921C5810B500B92AA5 /* LastReadArticleMaker.swift in Sources */,
 				ACA41A531BB8489B00550857 /* InMemoryImageStorage.swift in Sources */,
-				ACAC27331CDBF81E000D27CE /* SearchView.swift in Sources */,
 				ACA41A571BB84AFD00550857 /* ImageStorage.swift in Sources */,
 				AC3625A61BF7F124000A51DD /* PetrMazepa.xcdatamodeld in Sources */,
 				ACA41A611BB8558500550857 /* ImageDownloader.swift in Sources */,

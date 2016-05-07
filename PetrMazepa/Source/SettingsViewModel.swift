@@ -11,11 +11,11 @@ import Foundation
 class SettingsViewModel {
     
     private let settings: ReadWriteSettings
-    private let router: RouterNavigation
+    private let router: IRouter
     private let imageCacheUtil: ImageCacheUtil
     private let tracker: Tracker
     
-    init(settings: ReadWriteSettings, router: RouterNavigation, imageCacheUtil: ImageCacheUtil, tracker: Tracker) {
+    init(settings: ReadWriteSettings, router: IRouter, imageCacheUtil: ImageCacheUtil, tracker: Tracker) {
 
         self.settings = settings
         self.router = router

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Router: NSObject, RouterNavigation {
+class Router: NSObject, IRouter {
     
     private let window: UIWindow
     private let storyboard: UIStoryboard
@@ -139,7 +139,7 @@ class Router: NSObject, RouterNavigation {
         return ArticleDetailsViewModel(settings: self.settings, article: article, imageGateway: self.imageCache, articleDetailsFetcher: self.contentProvider, favouriteMaker: self.contentProvider, router: self, topOffsetEditor: self.contentProvider, lastReadArticleMaker: self.contentProvider, tracker: self.tracker)
     }
     
-    private func createSearchViewModel(view view: SearchView) -> SearchViewModel {
+    private func createSearchViewModel(view view: ISearchView) -> SearchViewModel {
         
         return SearchViewModel(view: view, settings: self.settings, imageGateway: self.imageCache, articleStorage: self.contentProvider, favouriteArticleStorage: self.contentProvider, router: self, tracker: self.tracker)
     }
