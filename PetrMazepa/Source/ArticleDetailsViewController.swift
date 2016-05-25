@@ -69,7 +69,7 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
         self.navigationController?.setNavigationBarHidden(true, animated: true)
         self.model.viewWillAppear()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationWillResignActive"), name:UIApplicationWillResignActiveNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(self.applicationWillResignActive), name:UIApplicationWillResignActiveNotification, object: nil)
     }
     
     override func viewWillDisappear(animated: Bool) {

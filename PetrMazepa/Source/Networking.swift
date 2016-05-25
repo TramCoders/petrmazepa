@@ -21,11 +21,11 @@ class ActivityIndicator {
     }
     
     func increment() {
-        self.activities++
+        self.activities+=1
     }
     
     func decrement() {
-        self.activities--
+        self.activities-=1
     }
 }
 
