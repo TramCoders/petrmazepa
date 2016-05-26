@@ -1,0 +1,16 @@
+# whitelist
+
+language: objective-c
+cache: cocoapods
+osx_image: xcode7.3
+
+# #allows to build only from master and develop
+# branches:
+#   only:
+#     - master
+#     - develop
+
+xcode_workspace: PetrMazepa.xcworkspace
+
+script: 
+- ./fastlane/travis_pr.sh
