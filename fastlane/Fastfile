@@ -6,6 +6,9 @@ platform :ios do
 
   desc "Run all the tests"
   lane :test do
-    scan(device: "iPhone 6s (9.2)")
+    scan({ 
+    	scheme: "PetrMazepa", 
+    	device: "iPhone 6s (9.2)" 
+    	})
   end
 end
