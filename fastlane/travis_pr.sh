@@ -1,4 +1,4 @@
 if [[ "$TRAVIS_PULL_REQUEST" != "false" ]]; then
-	fastlane test
+	fastlane ios test
 	exit $?
 fi
