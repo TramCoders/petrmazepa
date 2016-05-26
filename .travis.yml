@@ -15,4 +15,7 @@ before_install:
 - gem update fastlane --no-ri --no-rdoc	--no-document
 
 script: 
-- ./fastlane/travis_pr.sh
+- ./travis/travis_launch_fastlane_test_on_pr.sh
+
+after_success:
+- ./travis/travis_after_sucess.sh

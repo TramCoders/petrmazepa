@@ -1,14 +1,32 @@
 fastlane_version "1.85.0"
 
+ENV["SLACK_URL"] ||= "https://hooks.slack.com/services/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"
+
 default_platform :ios
 
 platform :ios do
 
-  desc "Run all the tests"
+  desc "Runs all the tests"
   lane :test do
     scan({ 
+    	workspace: "PetrMazepa.xcworkspace",
     	scheme: "PetrMazepa", 
-    	device: "iPhone 6s (9.2)" 
+    	device: "iPhone 6s (9.2)",
+    	clean: true,
+    	code_coverage: true,
+    	sdk: "iphonesimulator",
+    	slack_only_on_failure: true
     	})
   end
+
+  desc "Calculates test coverage and sends to Slack. Test should be runned before it"
+  lane :report_test_coverage do
+  	xcov({
+    	workspace: "PetrMazepa.xcworkspace",
+    	scheme: "PetrMazepa", 
+    	output_directory: "xcov_output",
+    	slack_url: ENV["SLACK_URL"]
+  	})
+  end
+  
 end
