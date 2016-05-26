@@ -1,3 +1,3 @@
-if [ "{$TRAVIS_BRANCH}" == "develop" ]; then
+#if [ "{$TRAVIS_BRANCH}" == "develop" ]; then
 	fastlane ios report_test_coverage
-fi
+#fi
