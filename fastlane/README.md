@@ -10,7 +10,12 @@ sudo gem install fastlane
 ```
 fastlane ios test
 ```
-Run all the tests
+Runs all the tests
+### ios report_test_coverage
+```
+fastlane ios report_test_coverage
+```
+Calculates test coverage and sends to Slack. Test should be runned before it
 
 ----
 
