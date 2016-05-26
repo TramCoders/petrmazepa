@@ -32,8 +32,9 @@ platform :ios do
   desc "Notifies appropriate Slack channel when tests fails"
   lane :report_tests_failed do 
       slack(
-        message: "Test Failed",
-        success: false
+        message: “Failed”,
+        success: false,
+        default_payloads: [:git_branch, :git_author]
       )
   end 
   
