@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<testsuites tests='6' failures='0'>
+  <testsuite name='PetrMazepa.InMemoryImageStorageSpec' tests='6' failures='0'>
+    <testcase classname='PetrMazepa.InMemoryImageStorageSpec' name='a_load_method__when_an_image_is_specified_only_with_a_URL__returns_an_image_if_exists' time='0.026'/>
+    <testcase classname='PetrMazepa.InMemoryImageStorageSpec' name='a_load_method__when_an_image_is_specified_only_with_a_URL__returns_nil_if_doesn_t_exist' time='0.002'/>
+    <testcase classname='PetrMazepa.InMemoryImageStorageSpec' name='a_load_method__when_an_image_is_specified_with_a_URL_and_size__returns_an_image_if_exists' time='0.001'/>
+    <testcase classname='PetrMazepa.InMemoryImageStorageSpec' name='a_load_method__when_an_image_is_specified_with_a_URL_and_size__returns_nil_if_an_existing_image_has_a_different_size' time='0.001'/>
+    <testcase classname='PetrMazepa.InMemoryImageStorageSpec' name='a_load_method__when_an_image_is_specified_with_a_URL_and_size__returns_nil_if_an_existing_image_doesn_t_have_a_size' time='0.001'/>
+    <testcase classname='PetrMazepa.InMemoryImageStorageSpec' name='a_clear_method__removes_all_images' time='0.001'/>
+  </testsuite>
+</testsuites>
