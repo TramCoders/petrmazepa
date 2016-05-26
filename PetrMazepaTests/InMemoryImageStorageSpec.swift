@@ -35,8 +35,7 @@ class InMemoryImageStorageSpec: QuickSpec {
                 it("returns an image if exists") {
 
                     let returnedImage = storage.loadImage(spec: imageSpec)
-//                    expect(returnedImage).toNot(beNil())
-					expect(returnedImage).to(beNil())
+                    expect(returnedImage).toNot(beNil())
                 }
                 
                 it("returns nil if doesn't exist") {

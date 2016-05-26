@@ -34,7 +34,6 @@ platform :ios do
       slack(
         message: “Failed”,
         success: false,
-        default_payloads: [:git_branch, :git_author]
       )
   end 
   
