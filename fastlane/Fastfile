@@ -1,6 +1,6 @@
 fastlane_version "1.85.0"
 
-ENV["SLACK_URL"] ||= "https://hooks.slack.com/services/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"
+ENV["SLACK_URL"] ||= "https://hooks.slack.com/services/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"
 
 default_platform :ios
 
@@ -28,5 +28,13 @@ platform :ios do
     	slack_url: ENV["SLACK_URL"]
   	})
   end
+
+  desc "Notifies appropriate Slack channel when tests fails"
+  lane :report_tests_failed do 
+      slack(
+        message: "Test Failed",
+        success: false
+      )
+  end 
   
 end

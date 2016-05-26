@@ -19,3 +19,6 @@ script:
 
 after_success:
 - ./fastlane/travis_scripts/travis_after_sucess.sh
+
+after_failure:
+- ./fastlane/travis_scripts/travis_after_tests_failed.sh
