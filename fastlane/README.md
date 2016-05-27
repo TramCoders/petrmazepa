@@ -16,6 +16,16 @@ Runs all the tests
 fastlane ios report_test_coverage
 ```
 Calculates test coverage and sends to Slack. Test should be runned before it
+### ios report_pr_test_passed
+```
+fastlane ios report_pr_test_passed
+```
+
+### ios report_pr_tests_failed
+```
+fastlane ios report_pr_tests_failed
+```
+
 
 ----
 

@@ -29,12 +29,33 @@ platform :ios do
   	})
   end
 
-  desc "Notifies appropriate Slack channel when tests fails"
-  lane :report_tests_failed do 
+  lane :report_pr_test_passed do
+  if ENV["SLACK_URL"]
+    slack(
+      message: "Pull Request could be merged without conflicts",
+      success: true,
+      default_payloads: [:test_result, :git_branch]
+    )
+    end  
+  end
+
+  lane :report_pr_tests_failed do
+    if ENV["SLACK_URL"]
       slack(
-        message: “Failed”,
+        message: "Pull Request could NOT be merged",
         success: false,
+        default_payloads: [:test_result, :git_branch]
       )
-  end 
-  
+    end
+  end  
+
+  error do |lane, exception|
+    if ENV["SLACK_URL"]
+      slack(
+        message: exception.to_s,
+        success: false
+      )
+    end
+  end
+
 end
