@@ -10,7 +10,7 @@ import Foundation
 
 protocol ImageStorage {
     
-    typealias ImageObject
+    associatedtype ImageObject
     func saveImage(spec spec: ImageSpec, image: ImageObject)
     func loadImage(spec spec: ImageSpec) -> ImageObject?
     func clear()

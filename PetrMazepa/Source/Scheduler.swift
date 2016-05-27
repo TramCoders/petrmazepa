@@ -50,7 +50,7 @@ class Scheduler: NSObject, FireCanceler {
     }
     
     private func schedule() {
-        self.timer = NSTimer.scheduledTimerWithTimeInterval(self.interval, target: self, selector: Selector("fire"), userInfo: nil, repeats: false)
+        self.timer = NSTimer.scheduledTimerWithTimeInterval(self.interval, target: self, selector: #selector(self.fire), userInfo: nil, repeats: false)
     }
     
     private func removeFromPool() {

@@ -1,14 +1,13 @@
-platform :ios, '8.0'
-use_frameworks!
+platform :ios, '9.0'
 
-pod 'Fabric'
-pod 'Crashlytics'
-
-def testing_pods
-    pod 'Quick'
-    pod 'Nimble'
+target 'PetrMazepa' do
+	use_frameworks!
+	pod 'Fabric'
+	pod 'Crashlytics'
 end
 
-target 'PetrMazepaTests', :exclusive => true do
-  testing_pods
+target 'PetrMazepaTests' do
+	use_frameworks!
+    pod 'Quick'
+    pod 'Nimble'
 end
