@@ -11,14 +11,14 @@ import Foundation
 protocol ImageStorage {
     
     associatedtype ImageObject
-    func saveImage(spec spec: ImageSpec, image: ImageObject)
-    func loadImage(spec spec: ImageSpec) -> ImageObject?
+    func saveImage(withSpec spec: ImageSpec, image: ImageObject)
+    func loadImage(withSpec spec: ImageSpec) -> ImageObject?
     func clear()
 }
 
 extension ImageStorage {
 
-    func key(spec spec: ImageSpec) -> String {
+    func key(forSpec spec: ImageSpec) -> String {
         
         if let size = spec.size {
             return spec.url.URLByAppendingPathComponent("\(size.width)").URLByAppendingPathComponent("\(size.height)").absoluteString
