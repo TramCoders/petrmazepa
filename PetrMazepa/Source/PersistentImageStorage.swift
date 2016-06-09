@@ -18,15 +18,19 @@ class PersistentImageStorage {
     }()
 
     private let fileManager: NSFileManager
+    private let tracker: Tracker
 
     init() {
 
         fileManager = NSFileManager.defaultManager()
+        tracker = Tracker()
         if !fileManager.fileExistsAtPath(cacheFolderPath) {
             do {
                 try fileManager.createDirectoryAtPath(cacheFolderPath, withIntermediateDirectories: true, attributes: nil)
             } catch {
-                // TODO: handle
+                let description = (error as NSError).extensiveLocalizedDescription ?? "Unable to create folder at path \(cacheFolderPath)"
+                tracker.trackException(withDescription: description)
+                fatalError(description)
             }
         }
     }
@@ -37,17 +41,17 @@ extension PersistentImageStorage: ImageStorage {
 
     typealias ImageObject = NSData
 
-    func clear() {      // not the best implementation
+    func clear() {
 
         guard let imageNames = try? fileManager.contentsOfDirectoryAtPath(cacheFolderPath) else {
             return
         }
-        imageNames.forEach {
-            imageName in
+        imageNames.forEach { imageName in
             do {
                 try fileManager.removeItemAtPath("\(cacheFolderPath)/\(imageName)")
             } catch {
-                assertionFailure("Unable to remove from cache folder file with name \(imageName)")
+                let description = (error as NSError).extensiveLocalizedDescription ?? "Unable to remove from cache folder file with name \(imageName)"
+                tracker.trackException(withDescription: description)
             }
         }
     }

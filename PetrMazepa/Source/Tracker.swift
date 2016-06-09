@@ -24,11 +24,11 @@ class Tracker: NSObject {
     
     func trackArticleView(article: Article) {
         
-        guard let lodingStarted = self.textLoadingStarted else {
+        guard let loadingStarted = self.textLoadingStarted else {
             return
         }
         
-        let loadingTime = NSDate().timeIntervalSinceDate(lodingStarted)
+        let loadingTime = NSDate().timeIntervalSinceDate(loadingStarted)
         self.textLoadingStarted = nil
         
         Answers.logContentViewWithName(article.title, contentType: Tracker.contentType, contentId: article.id, customAttributes: [ "Loading time": NSNumber(double: loadingTime) ])
@@ -66,8 +66,20 @@ class Tracker: NSObject {
     func trackClearImages(sizeInBytes: UInt64) {
         Answers.logCustomEventWithName("Clear Images", customAttributes: [ "Size in bytes" : NSNumber(unsignedLongLong: sizeInBytes) ])
     }
+
+    func trackException(withDescription description: String, file: String = #file, function: String = #function, line: Int = #line) {
+        Answers.logCustomEventWithName(description, customAttributes: [ "File" : file, "Function" : function, "Line" : "\(line)" ])
+    }
     
     private static func stringFromBool(flag: Bool) -> String {
         return flag ? Tracker.yes : Tracker.no
+    }
+}
+
+extension NSError {
+    public var extensiveLocalizedDescription: String? {
+        get {
+            return self.userInfo[NSLocalizedDescriptionKey] as? String
+        }
     }
 }
