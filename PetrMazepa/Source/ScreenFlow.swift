@@ -52,7 +52,7 @@ class ScreenFlow: NSObject, ArticleDetailsPresenter, SettingsPresenter, SearchPr
     }
     
     func save() {
-        self.coreData.saveContext()
+        self.coreData.context.saveOrRollback()
     }
     
     func presentArticles() {

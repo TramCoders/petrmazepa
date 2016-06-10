@@ -9,9 +9,30 @@
 import Foundation
 import CoreData
 
-@objc(MOArticle)
-class MOArticle: NSManagedObject {
+private enum Keys: String {
+    case DateAdded = "addedAt"
+}
 
-// Insert code here to add functionality to your managed object subclass
+class MOArticle: ManagedObject {
 
+    static func insertIntoContext(context: NSManagedObjectContext, article: Article) -> MOArticle {
+        let moArticle: MOArticle = context.insertObject()
+        moArticle.id = article.id
+        moArticle.title = article.title
+        moArticle.thumbPath = article.thumbPath
+        moArticle.favourite = article.favourite
+        moArticle.topOffset = article.topOffset
+        moArticle.addedAt = NSDate()
+        return moArticle
+    }
+}
+
+extension MOArticle: ManagedObjectType {
+    static var entityName: String {
+        return "MOArticle"
+    }
+    
+    static var defaultSortDescriptors: [NSSortDescriptor] {
+        return [NSSortDescriptor.init(key: Keys.DateAdded.rawValue , ascending: false)]
+    }
 }

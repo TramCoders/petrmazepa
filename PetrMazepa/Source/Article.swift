@@ -8,14 +8,19 @@
 
 import Foundation
 
-class Article : NSObject {
+protocol DeserializableFromHTML {
+    associatedtype ReturnType
+    static func deserialize(fromData data: NSData) -> ReturnType?
+}
+
+final class Article {
     
     let id: String
     let title: String
     let thumbPath: String
     var saved: Bool
     var favourite: Bool
-    var topOffset: Float
+    var topOffset: Double
     
     var thumbUrl: NSURL? {
         
@@ -29,7 +34,7 @@ class Article : NSObject {
         self.init(id: id, title: title, thumbPath: thumbPath, saved: false, favourite: false, topOffset: 0.0)
     }
     
-    init(id: String, title: String, thumbPath: String, saved: Bool, favourite: Bool, topOffset: Float) {
+    init(id: String, title: String, thumbPath: String, saved: Bool, favourite: Bool, topOffset: Double) {
         
         self.id = id
         self.title = title
@@ -37,5 +42,68 @@ class Article : NSObject {
         self.saved = saved
         self.favourite = favourite
         self.topOffset = topOffset
+    }
+    
+}
+
+extension Article: Hashable {
+    
+    var hashValue: Int {
+        return self.id.hashValue
+    }
+}
+
+func ==(lhs: Article, rhs: Article) -> Bool {
+    return lhs.id == rhs.id
+}
+
+extension Article: DeserializableFromHTML {
+    
+    static func deserialize(fromData data: NSData) -> [Article]? {
+        let helper = TFHpple(data: data, isXML: false)
+        let elements = helper.searchWithXPathQuery("//div[@class='row articles']/div")
+        var articles = [Article]()
+        
+        for element in elements {
+            guard let element = element as? TFHppleElement else {
+                continue
+            }
+            
+            if let article = convertElement(element) {
+                articles.append(article)
+            }
+        }
+        return articles
+    }
+    
+    private static func convertElement(element: TFHppleElement) -> Article? {
+        guard
+            let aElement = element.searchWithXPathQuery("//a").first as? TFHppleElement,
+            let href = aElement.attributes["href"] as? String else {
+                return nil
+        }
+        
+        let imgElement = element.firstChildWithTagName("img")
+        
+        guard
+            let identifier = identifierFromHref(href),
+            let imgTitle = imgElement.attributes["title"] as? String,
+            let thumbPath = imgElement.attributes["data-original"] as? String else {
+                return nil
+        }
+        
+        return Article(id: identifier, title: imgTitle, thumbPath: thumbPath)
+    }
+    
+    private static func identifierFromHref(href: String) -> String? {
+        guard href.isEmpty == false else {
+            return nil
+        }
+        
+        let components = href[href.startIndex.advancedBy(1)..<href.endIndex].componentsSeparatedByString(".")
+        guard components.count == 2 else {
+            return nil
+        }
+        return components.first
     }
 }
