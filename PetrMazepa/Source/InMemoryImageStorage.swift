@@ -17,15 +17,15 @@ class InMemoryImageStorage: ImageStorage {
         self.images.removeAllObjects()
     }
     
-    func saveImage(spec spec: ImageSpec, image data: UIImage) {
+    func saveImage(withSpec spec: ImageSpec, image data: UIImage) {
         
-        let key = self.key(spec: spec)
+        let key = self.key(forSpec: spec)
         self.images.setObject(data, forKey: key)
     }
     
-    func loadImage(spec spec: ImageSpec) -> UIImage? {
+    func loadImage(withSpec spec: ImageSpec) -> UIImage? {
         
-        let key = self.key(spec: spec)
+        let key = self.key(forSpec: spec)
         return self.images.objectForKey(key) as? UIImage
     }
 }

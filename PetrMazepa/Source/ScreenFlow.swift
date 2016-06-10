@@ -125,7 +125,7 @@ class ScreenFlow: NSObject, ArticleDetailsPresenter, SettingsPresenter, SearchPr
                 return
             }
             
-            self.tracker.trackShare(article, activityType: activityType)
+            Tracker.trackShare(article, activityType: activityType)
         }
     }
     
@@ -145,6 +145,6 @@ class ScreenFlow: NSObject, ArticleDetailsPresenter, SettingsPresenter, SearchPr
     }
     
     private func createSettingsViewModel() -> SettingsViewModel {
-        return SettingsViewModel(settings: self.settings, dismisser: self, imageCacheUtil: self.imageCache, tracker: self.tracker)
+        return SettingsViewModel(settings: self.settings, dismisser: self, imageCacheUtil: self.imageCache)
     }
 }

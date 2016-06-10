@@ -29,19 +29,19 @@ class InMemoryImageStorageSpec: QuickSpec {
                 beforeEach {
                     
                     imageSpec = ImageSpec(url: self.someUrl())
-                    storage.saveImage(spec: imageSpec, image: image)
+                    storage.saveImage(withSpec: imageSpec, image: image)
                 }
                 
                 it("returns an image if exists") {
 
-                    let returnedImage = storage.loadImage(spec: imageSpec)
+                    let returnedImage = storage.loadImage(withSpec: imageSpec)
                     expect(returnedImage).toNot(beNil())
                 }
                 
                 it("returns nil if doesn't exist") {
 
                     let anotherImageSpec = ImageSpec(url: self.anotherUrl())
-                    let returnedImage = storage.loadImage(spec: anotherImageSpec)
+                    let returnedImage = storage.loadImage(withSpec: anotherImageSpec)
                     expect(returnedImage).to(beNil())
                 }
             }
@@ -53,26 +53,26 @@ class InMemoryImageStorageSpec: QuickSpec {
                 beforeEach {
                     
                     imageSpec = ImageSpec(url: self.someUrl(), size: self.someSize())
-                    storage.saveImage(spec: imageSpec, image: image)
+                    storage.saveImage(withSpec: imageSpec, image: image)
                 }
                 
                 it("returns an image if exists") {
                     
-                    let returnedImage = storage.loadImage(spec: imageSpec)
+                    let returnedImage = storage.loadImage(withSpec: imageSpec)
                     expect(returnedImage).toNot(beNil())
                 }
                 
                 it("returns nil if an existing image has a different size") {
 
                     let anotherImageSpec = ImageSpec(url: self.someUrl(), size: self.anotherSize())
-                    let returnedImage = storage.loadImage(spec: anotherImageSpec)
+                    let returnedImage = storage.loadImage(withSpec: anotherImageSpec)
                     expect(returnedImage).to(beNil())
                 }
                 
                 it("returns nil if an existing image doesn't have a size") {
                     
                     let anotherImageSpec = ImageSpec(url: self.someUrl())
-                    let returnedImage = storage.loadImage(spec: anotherImageSpec)
+                    let returnedImage = storage.loadImage(withSpec: anotherImageSpec)
                     expect(returnedImage).to(beNil())
                 }
             }
@@ -83,13 +83,13 @@ class InMemoryImageStorageSpec: QuickSpec {
             beforeEach {
                 
                 imageSpec = ImageSpec(url: self.someUrl())
-                storage.saveImage(spec: imageSpec, image: image)
+                storage.saveImage(withSpec: imageSpec, image: image)
             }
             
             it("removes all images") {
                 
                 storage.clear()
-                let returnedImage = storage.loadImage(spec: imageSpec)
+                let returnedImage = storage.loadImage(withSpec: imageSpec)
                 expect(returnedImage).to(beNil())
             }
         }
