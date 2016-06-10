@@ -33,11 +33,7 @@ class Tracker: NSObject {
         
         Answers.logContentViewWithName(article.title, contentType: Tracker.contentType, contentId: article.id, customAttributes: [ "Loading time": NSNumber(double: loadingTime) ])
     }
-    
-    func trackShare(article: Article, activityType: String?) {
-        Answers.logShareWithMethod(activityType, contentName: article.title, contentType: Tracker.contentType, contentId: article.id, customAttributes: nil)
-    }
-    
+
     func trackSearch(searchQuery: String) {
         
         if let canceler = self.canceler {
@@ -50,24 +46,28 @@ class Tracker: NSObject {
             self.canceler = nil
         }
     }
-    
-    func trackFavouriteChange(article: Article) {
+
+    static func trackShare(article: Article, activityType: String?) {
+        Answers.logShareWithMethod(activityType, contentName: article.title, contentType: Tracker.contentType, contentId: article.id, customAttributes: nil)
+    }
+
+    static func trackFavouriteChange(article: Article) {
         Answers.logCustomEventWithName("Favorite Article", customAttributes: [ "Article ID" : article.id, "Article name" : article.title, "Favorite" : Tracker.stringFromBool(article.favourite) ])
     }
     
-    func trackOfflineModeChange(enabled: Bool) {
+    static func trackOfflineModeChange(enabled: Bool) {
         Answers.logCustomEventWithName("Offline Mode", customAttributes: [ "Enabled" : Tracker.stringFromBool(enabled) ])
     }
     
-    func trackOnlyWiFiImagesChange(enabled: Bool) {
+    static func trackOnlyWiFiImagesChange(enabled: Bool) {
         Answers.logCustomEventWithName("Only Wi-Fi Images", customAttributes: [ "Enabled" : Tracker.stringFromBool(enabled) ])
     }
     
-    func trackClearImages(sizeInBytes: UInt64) {
+    static func trackClearImages(sizeInBytes: UInt64) {
         Answers.logCustomEventWithName("Clear Images", customAttributes: [ "Size in bytes" : NSNumber(unsignedLongLong: sizeInBytes) ])
     }
 
-    func trackException(withDescription description: String, file: String = #file, function: String = #function, line: Int = #line) {
+    static func trackException(withDescription description: String, file: String = #file, function: String = #function, line: Int = #line) {
         Answers.logCustomEventWithName(description, customAttributes: [ "File" : file, "Function" : function, "Line" : "\(line)" ])
     }
     
