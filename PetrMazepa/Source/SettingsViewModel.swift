@@ -54,4 +54,8 @@ class SettingsViewModel {
         Tracker.trackClearImages(self.imageCacheUtil.sizeInBytes)
         self.imageCacheUtil.clearCache()
     }
+    
+    func icon8Tapped() {
+        // TODO:
+    }
 }

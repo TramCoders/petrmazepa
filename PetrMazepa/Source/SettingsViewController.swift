@@ -39,10 +39,15 @@ class SettingsViewController: UITableViewController {
     @IBAction func onlyWifiImagesChanged(sender: UISwitch) {
         self.model.didSwitchOnlyWifiImages(enabled: sender.on)
     }
+    
     @IBAction func clearImagesTapped(sender: AnyObject) {
 
         self.model.clearCacheTapped()
         self.updateImagesSize()
+    }
+    
+    @IBAction func icon8Tapped(sender: AnyObject) {
+        self.model.icon8Tapped()
     }
     
     private func updateImagesSize() {
