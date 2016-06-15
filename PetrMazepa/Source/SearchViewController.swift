@@ -10,7 +10,7 @@ import UIKit
 
 class SearchViewController: UIViewController, ISearchView, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate {
 
-    var model: SearchViewModel!
+    var model: ISearchViewModel!
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var bottomTableContraint: NSLayoutConstraint!
@@ -115,7 +115,7 @@ class SearchViewController: UIViewController, ISearchView, UISearchBarDelegate, 
     
     private func startHandlingHideKeyboard() {
         
-        self.hideKeyboardHandler = NSNotificationCenter.defaultCenter().addObserverForName(UIKeyboardWillHideNotification, object: nil, queue: nil) { (note: NSNotification) -> Void in
+        self.hideKeyboardHandler = NSNotificationCenter.defaultCenter().addObserverForName(UIKeyboardWillHideNotification, object: nil, queue: nil) { _ in
             
             self.bottomTableContraint.constant = 0.0
             self.view.layoutIfNeeded()

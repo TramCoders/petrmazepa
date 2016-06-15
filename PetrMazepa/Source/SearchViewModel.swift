@@ -15,7 +15,7 @@ enum SearchFilter {
     case Favorite
 }
 
-class SearchViewModel : ViewModel {
+class SearchViewModel : ViewModel, ISearchViewModel {
     
     private weak var view: ISearchView?
     

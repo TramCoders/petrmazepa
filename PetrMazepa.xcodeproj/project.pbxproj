@@ -279,7 +279,6 @@
 			children = (
 				AC6B3ED81B8E3E42005BA7F1 /* SearchViewModel.swift */,
 				AC05D45E1BF29C3D0049CAC6 /* SimpleArticleCellModel.swift */,
-				ACAC27361CDE9653000D27CE /* SearchModule.swift */,
 			);
 			name = ViewModel;
 			sourceTree = "<group>";
@@ -426,6 +425,7 @@
 		AC6B3ED51B8E3DE8005BA7F1 /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				ACAC27361CDE9653000D27CE /* SearchModule.swift */,
 				12811A551D11E5220020D45A /* ViewModel */,
 				12811A541D11E5160020D45A /* View */,
 			);
