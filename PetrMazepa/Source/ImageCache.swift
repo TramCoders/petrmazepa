@@ -38,7 +38,7 @@ class ImageCache : ImageGateway, ImageCacheUtil {
     func requestImage(spec spec: ImageSpec, allowRemote: Bool, onlyWifi: Bool, completion: ImageHandler) {
         
         // search for the image in the in-memory storage
-        if let image = self.inMemoryImageStorage.loadImage(spec: spec) {
+        if let image = self.inMemoryImageStorage.loadImage(withSpec: spec) {
             
             completion(image: image, error: nil, fromCache: true)
             return
@@ -47,7 +47,7 @@ class ImageCache : ImageGateway, ImageCacheUtil {
         // search for the image in the persistent
         let urlSpec = ImageSpec(url: spec.url)
         
-        if let imageData = self.persistentImageStorage.loadImage(spec: urlSpec) {
+        if let imageData = self.persistentImageStorage.loadImage(withSpec: urlSpec) {
             
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
 
@@ -96,8 +96,8 @@ class ImageCache : ImageGateway, ImageCacheUtil {
             resizedImage = image
         }
         
-        self.persistentImageStorage.saveImage(spec: ImageSpec(url: spec.url), image: data)
-        self.inMemoryImageStorage.saveImage(spec: spec, image: resizedImage)
+        self.persistentImageStorage.saveImage(withSpec: ImageSpec(url: spec.url), image: data)
+        self.inMemoryImageStorage.saveImage(withSpec: spec, image: resizedImage)
         
         return (image: image, resizedImage: resizedImage)
     }

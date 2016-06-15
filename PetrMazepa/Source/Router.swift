@@ -125,7 +125,7 @@ class Router: NSObject, IRouter {
                 return
             }
             
-            self.tracker.trackShare(article, activityType: activityType)
+            Tracker.trackShare(article, activityType: activityType)
         }
     }
     

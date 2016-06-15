@@ -141,7 +141,7 @@ class ArticleDetailsViewModel : ViewModel {
         self.favouriteMaker.makeFavourite(article: self.article, favourite: favourite)
         self.favouriteStateChanged!(favourite: favourite)
         
-        self.tracker.trackFavouriteChange(self.article)
+        Tracker.trackFavouriteChange(self.article)
     }
     
     func shareTapped() {

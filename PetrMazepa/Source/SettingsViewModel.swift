@@ -20,7 +20,7 @@ class SettingsViewModel {
         self.settings = settings
         self.router = router
         self.imageCacheUtil = imageCacheUtil
-        self.tracker = tracker
+        self.tracker = tracker;
     }
     
     var offlineMode: Bool {
@@ -42,18 +42,18 @@ class SettingsViewModel {
     func didSwitchOfflineMode(enabled enabled: Bool) {
 
         self.settings.offlineMode = enabled
-        self.tracker.trackOfflineModeChange(enabled)
+        Tracker.trackOfflineModeChange(enabled)
     }
     
     func didSwitchOnlyWifiImages(enabled enabled: Bool) {
         
         self.settings.onlyWifiImages = enabled
-        self.tracker.trackOnlyWiFiImagesChange(enabled)
+        Tracker.trackOnlyWiFiImagesChange(enabled)
     }
     
     func clearCacheTapped() {
         
-        self.tracker.trackClearImages(self.imageCacheUtil.sizeInBytes)
+        Tracker.trackClearImages(self.imageCacheUtil.sizeInBytes)
         self.imageCacheUtil.clearCache()
     }
 }
