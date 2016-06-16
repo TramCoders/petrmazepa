@@ -69,7 +69,7 @@ class Router: NSObject, IRouter {
     func presentArticleDetails(article: Article) {
         
         let viewController = self.storyboard.instantiateViewControllerWithIdentifier("Details") as! ArticleDetailsViewController
-        viewController.model = self.createArticleDetailsViewModel(article: article)
+        viewController.model = self.createArticleDetailsViewModel(view: viewController, article: article)
         self.currentNavigationController.pushViewController(viewController, animated: true)
         self.currentViewController = viewController
     }
@@ -134,9 +134,9 @@ class Router: NSObject, IRouter {
         return ArticlesViewModel(settings: self.settings, articleStorage: self.contentProvider, imageGateway: self.imageCache, articlesFetcher: self.contentProvider, router: self)
     }
     
-    private func createArticleDetailsViewModel(article article: Article) -> ArticleDetailsViewModel {
+    private func createArticleDetailsViewModel(view view: IArticleDetailsView, article: Article) -> ArticleDetailsViewModel {
         
-        return ArticleDetailsViewModel(settings: self.settings, article: article, imageGateway: self.imageCache, articleDetailsFetcher: self.contentProvider, favouriteMaker: self.contentProvider, router: self, topOffsetEditor: self.contentProvider, lastReadArticleMaker: self.contentProvider, tracker: self.tracker)
+        return ArticleDetailsViewModel(view: view, settings: self.settings, article: article, imageGateway: self.imageCache, articleDetailsFetcher: self.contentProvider, favouriteMaker: self.contentProvider, router: self, topOffsetEditor: self.contentProvider, lastReadArticleMaker: self.contentProvider, tracker: self.tracker)
     }
     
     private func createSearchViewModel(view view: ISearchView) -> SearchViewModel {
