@@ -58,7 +58,7 @@ class Router: NSObject, IRouter {
     func presentArticles() {
         
         let articlesViewController = self.currentNavigationController.topViewController as! ArticlesViewController
-        articlesViewController.model = self.createArticlesViewModel()
+        articlesViewController.model = self.createArticlesViewModel(view: articlesViewController)
 
         self.window.rootViewController = self.currentNavigationController
         self.window.makeKeyAndVisible()
@@ -129,9 +129,9 @@ class Router: NSObject, IRouter {
         }
     }
     
-    private func createArticlesViewModel() -> ArticlesViewModel {
+    private func createArticlesViewModel(view view: IArticlesView) -> ArticlesViewModel {
         
-        return ArticlesViewModel(settings: self.settings, articleStorage: self.contentProvider, imageGateway: self.imageCache, articlesFetcher: self.contentProvider, router: self)
+        return ArticlesViewModel(view: view, settings: self.settings, articleStorage: self.contentProvider, imageGateway: self.imageCache, articlesFetcher: self.contentProvider, router: self)
     }
     
     private func createArticleDetailsViewModel(view view: IArticleDetailsView, article: Article) -> ArticleDetailsViewModel {
