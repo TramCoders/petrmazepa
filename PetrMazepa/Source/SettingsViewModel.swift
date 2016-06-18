@@ -8,15 +8,18 @@
 
 import Foundation
 
-class SettingsViewModel {
+class SettingsViewModel: ISettingsViewModel {
+    
+    private var view: ISettingsView?
     
     private let settings: ReadWriteSettings
     private let router: IRouter
     private let imageCacheUtil: ImageCacheUtil
     private let tracker: Tracker
     
-    init(settings: ReadWriteSettings, router: IRouter, imageCacheUtil: ImageCacheUtil, tracker: Tracker) {
+    init(view: ISettingsView, settings: ReadWriteSettings, router: IRouter, imageCacheUtil: ImageCacheUtil, tracker: Tracker) {
 
+        self.view = view
         self.settings = settings
         self.router = router
         self.imageCacheUtil = imageCacheUtil

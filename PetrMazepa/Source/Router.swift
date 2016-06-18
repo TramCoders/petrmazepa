@@ -84,7 +84,7 @@ class Router: NSObject, IRouter {
         
         let navigationController = self.storyboard.instantiateViewControllerWithIdentifier("SettingsNav") as! UINavigationController
         let settingsViewController = navigationController.topViewController as! SettingsViewController
-        settingsViewController.model = self.createSettingsViewModel()
+        settingsViewController.model = self.createSettingsViewModel(view: settingsViewController)
         self.currentNavigationController.presentViewController(navigationController, animated: true, completion: nil)
         self.currentNavigationController = navigationController
     }
@@ -144,7 +144,7 @@ class Router: NSObject, IRouter {
         return SearchViewModel(view: view, settings: self.settings, imageGateway: self.imageCache, articleStorage: self.contentProvider, favouriteArticleStorage: self.contentProvider, router: self, tracker: self.tracker)
     }
     
-    private func createSettingsViewModel() -> SettingsViewModel {
-        return SettingsViewModel(settings: self.settings, router: self, imageCacheUtil: self.imageCache, tracker: self.tracker)
+    private func createSettingsViewModel(view view: ISettingsView) -> SettingsViewModel {
+        return SettingsViewModel(view: view, settings: self.settings, router: self, imageCacheUtil: self.imageCache, tracker: self.tracker)
     }
 }

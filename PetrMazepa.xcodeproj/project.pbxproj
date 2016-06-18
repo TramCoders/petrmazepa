@@ -15,6 +15,7 @@
 		123FCFEA1C4F8E520097D767 /* LastReadArticleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 123FCFE91C4F8E520097D767 /* LastReadArticleView.swift */; };
 		1243FD7E1D13683F00493F85 /* ArticleDetailsModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1243FD7D1D13683F00493F85 /* ArticleDetailsModule.swift */; };
 		12AD97921C5810B500B92AA5 /* LastReadArticleMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12AD97911C5810B500B92AA5 /* LastReadArticleMaker.swift */; };
+		12CCCA0D1D159BE4008E774A /* SettingsModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12CCCA0C1D159BE4008E774A /* SettingsModule.swift */; };
 		5EC711EF1B8CD2B200C84AE7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC711E61B8CD2B200C84AE7 /* AppDelegate.swift */; };
 		5EC711F21B8CD2B200C84AE7 /* ArticlesViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC711E91B8CD2B200C84AE7 /* ArticlesViewLayout.swift */; };
 		5EC711F41B8CD2B200C84AE7 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC711EB1B8CD2B200C84AE7 /* Router.swift */; };
@@ -109,6 +110,7 @@
 		123FCFE91C4F8E520097D767 /* LastReadArticleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LastReadArticleView.swift; path = Source/LastReadArticleView.swift; sourceTree = "<group>"; };
 		1243FD7D1D13683F00493F85 /* ArticleDetailsModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ArticleDetailsModule.swift; path = Source/ArticleDetailsModule.swift; sourceTree = "<group>"; };
 		12AD97911C5810B500B92AA5 /* LastReadArticleMaker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LastReadArticleMaker.swift; path = Source/LastReadArticleMaker.swift; sourceTree = "<group>"; };
+		12CCCA0C1D159BE4008E774A /* SettingsModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsModule.swift; path = Source/SettingsModule.swift; sourceTree = "<group>"; };
 		5EC711E61B8CD2B200C84AE7 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = Source/AppDelegate.swift; sourceTree = "<group>"; };
 		5EC711E91B8CD2B200C84AE7 /* ArticlesViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ArticlesViewLayout.swift; path = Source/ArticlesViewLayout.swift; sourceTree = "<group>"; };
 		5EC711EB1B8CD2B200C84AE7 /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Router.swift; path = Source/Router.swift; sourceTree = "<group>"; };
@@ -436,6 +438,7 @@
 		ACA032811BDF6A4900AA01C8 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				12CCCA0C1D159BE4008E774A /* SettingsModule.swift */,
 				12811A571D11E53B0020D45A /* ViewModel */,
 				12811A561D11E5360020D45A /* View */,
 			);
@@ -950,6 +953,7 @@
 				ACBA698E1C02160600A93C6D /* RemoteArticleDetailsFetcher.swift in Sources */,
 				ACA41A6F1BBD921000550857 /* ArticleImageCell.swift in Sources */,
 				AC820FB11C301FBC004F0825 /* TopOffsetEditor.swift in Sources */,
+				12CCCA0D1D159BE4008E774A /* SettingsModule.swift in Sources */,
 				ACEF099A1BC14584000F00B7 /* ArticlesParser.m in Sources */,
 				ACA41A7B1BBEC3EB00550857 /* ArticleTextCell.swift in Sources */,
 				ACE7D0C81BF9C2FA00116C93 /* NSManagedObject+EntityName.swift in Sources */,
