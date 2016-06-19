@@ -16,7 +16,7 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
         case Text
     }
     
-    var model: ArticleDetailsViewModel! {
+    var model: ArticleContentViewModel! {
         didSet {
 
             self.model.favouriteStateChanged = self.favouriteStateChangedHandler()

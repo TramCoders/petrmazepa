@@ -1,5 +1,5 @@
 //
-//  RemoteArticleDetailsFetcher.swift
+//  RemoteArticleContentFetcher.swift
 //  PetrMazepa
 //
 //  Created by Artem Stepanenko on 11/22/15.
@@ -8,8 +8,8 @@
 
 import Foundation
 
-typealias ArticleDetailsFetchHandler = (ArticleDetails?, NSError?) -> ()
+typealias ArticleContentFetchHandler = (ArticleContent?, NSError?) -> ()
 
-protocol RemoteArticleDetailsFetcher {
-    func fetchArticleDetails(article article: Article, completion: ArticleDetailsFetchHandler)
+protocol RemoteArticleContentFetcher {
+    func fetchArticleContent(forCaption caption: ArticleCaption, completion: ArticleContentFetchHandler)
 }

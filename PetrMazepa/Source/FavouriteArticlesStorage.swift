@@ -9,5 +9,5 @@
 import Foundation
 
 protocol FavouriteArticlesStorage {
-    func favouriteArticles() -> [Article]
+    func favouriteArticles() -> [ArticleCaption]
 }

@@ -12,9 +12,9 @@ class ImageCellModel {
     
     private let imageGateway: ImageGateway
     private let settings: ReadOnlySettings
-    let article: Article
+    let article: ArticleCaption
     
-    init(settings: ReadOnlySettings, article: Article, imageGateway: ImageGateway) {
+    init(settings: ReadOnlySettings, article: ArticleCaption, imageGateway: ImageGateway) {
         
         self.settings = settings
         self.article = article

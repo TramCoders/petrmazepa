@@ -10,9 +10,9 @@ import Foundation
 
 protocol ArticleStorage {
 
-    var lastReadArticle: Article? { get }
+    var lastReadArticle: ArticleCaption? { get }
     
-    func allArticles() -> [Article]
+    func allArticles() -> [ArticleCaption]
     func allArticlesCount() -> Int
-    func updateArticles(articles: [Article]) -> [Article]
+    func updateArticles(articles: [ArticleCaption]) -> [ArticleCaption]
 }

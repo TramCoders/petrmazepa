@@ -1,5 +1,5 @@
 //
-//  ArticleDetailsViewModel.swift
+//  ArticleContentViewModel.swift
 //  PetrMazepa
 //
 //  Created by Artem Stepanenko on 10/2/15.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ArticleDetailsViewModel : ViewModel {
+class ArticleContentViewModel : ViewModel {
     
     var imageLoaded: ((image: UIImage?) -> Void)?
     var textLoaded: ((htmlText: String?) -> Void)?
@@ -16,8 +16,8 @@ class ArticleDetailsViewModel : ViewModel {
     var barsVisibilityChanged: ((visible: Bool) -> Void)?
     var errorOccurred: ((error: NSError?) -> Void)?
     
-    private let articleDetailsDismisser: ArticleDetailsDismisser
-    private let articleDetailsFetcher: ArticleDetailsFetcher
+    private let articleContentDismisser: ArticleContentDismisser
+    private let articleContentFetcher: ArticleContentFetcher
     private let imageGateway: ImageGateway
     private let favouriteMaker: FavouriteMaker
     private let articleSharer: ArticleSharer
@@ -26,35 +26,35 @@ class ArticleDetailsViewModel : ViewModel {
     private let tracker: Tracker
     
     private let settings: ReadOnlySettings
-    private let article: Article
-    private var articleDetails: ArticleDetails?
+    private var articleCaption: ArticleCaption
+    private var articleContent: ArticleContent?
     private var screenSize: CGSize!
     private var startOffset: CGFloat!
     
     var barsVisibile: Bool = true
 
     var topOffset: CGFloat {
-        return CGFloat(self.article.topOffset)
+        return CGFloat(self.articleCaption.topOffset)
     }
     
     var favourite: Bool {
-        return self.article.favourite
+        return self.articleCaption.favourite
     }
     
     var htmlText: String? {
-        return self.articleDetails?.htmlText
+        return self.articleContent?.htmlText
     }
     
     var image: UIImage?
     
-    init(settings: ReadOnlySettings, article: Article, imageGateway: ImageGateway, articleDetailsFetcher: ArticleDetailsFetcher, favouriteMaker: FavouriteMaker, articleDetailsDismisser: ArticleDetailsDismisser, articleSharer: ArticleSharer, topOffsetEditor: TopOffsetEditor, lastReadArticleMaker: LastReadArticleMaker, tracker: Tracker) {
+    init(settings: ReadOnlySettings, article: ArticleCaption, imageGateway: ImageGateway, articleContentFetcher: ArticleContentFetcher, favouriteMaker: FavouriteMaker, articleContentDismisser: ArticleContentDismisser, articleSharer: ArticleSharer, topOffsetEditor: TopOffsetEditor, lastReadArticleMaker: LastReadArticleMaker, tracker: Tracker) {
 
         self.settings = settings
-        self.article = article
+        self.articleCaption = article
         self.imageGateway = imageGateway
-        self.articleDetailsFetcher = articleDetailsFetcher
+        self.articleContentFetcher = articleContentFetcher
         self.favouriteMaker = favouriteMaker
-        self.articleDetailsDismisser = articleDetailsDismisser
+        self.articleContentDismisser = articleContentDismisser
         self.articleSharer = articleSharer
         self.topOffsetEditor = topOffsetEditor
         self.lastReadArticleMaker = lastReadArticleMaker
@@ -71,7 +71,7 @@ class ArticleDetailsViewModel : ViewModel {
     
     func scrollViewDidScroll(offset offset: CGFloat, contentHeight: CGFloat) {
         
-        self.article.topOffset = Float(offset)
+        self.articleCaption.topOffset = Float(offset)
         let bottomDirection: Bool
         
         if let _ = self.startOffset {
@@ -96,9 +96,9 @@ class ArticleDetailsViewModel : ViewModel {
     override func viewWillAppear() {
 
         super.viewWillAppear()
-        self.lastReadArticleMaker.setLastReadArticle(self.article)
+        self.lastReadArticleMaker.setLastReadArticle(self.articleCaption)
         self.barsVisibile = true
-        self.favouriteStateChanged!(favourite: self.article.favourite)
+        self.favouriteStateChanged!(favourite: self.articleCaption.favourite)
         
         self.tracker.textLoadingDidStart()
     }
@@ -110,19 +110,19 @@ class ArticleDetailsViewModel : ViewModel {
     override func viewWillDisappear() {
         
         super.viewWillDisappear()
-        self.topOffsetEditor.setTopOffset(self.article, offset: self.article.topOffset)
+        self.topOffsetEditor.setTopOffset(self.articleCaption, offset: self.articleCaption.topOffset)
     }
     
     func textDidLoad() {
-        self.tracker.trackArticleView(self.article)
+        self.tracker.trackArticleView(self.articleCaption)
     }
     
     func applicationWillResignActive() {
-        self.topOffsetEditor.setTopOffset(self.article, offset: self.article.topOffset)
+        self.topOffsetEditor.setTopOffset(self.articleCaption, offset: self.articleCaption.topOffset)
     }
     
     func closeActionTapped() {
-        self.articleDetailsDismisser.dismissArticleDetails()
+        self.articleContentDismisser.dismissArticleContent()
     }
     
     func retryActionTapped() {
@@ -130,26 +130,26 @@ class ArticleDetailsViewModel : ViewModel {
     }
     
     func backTapped() {
-        self.articleDetailsDismisser.dismissArticleDetails()
+        self.articleContentDismisser.dismissArticleContent()
     }
     
     func favouriteTapped() {
      
-        guard let _ = self.articleDetails else {
+        guard let _ = self.articleContent else {
             return
         }
         
-        let favourite = !self.article.favourite
-        self.favouriteMaker.makeFavourite(article: self.article, favourite: favourite)
+        let favourite = !self.articleCaption.favourite
+        self.favouriteMaker.makeFavourite(article: self.articleCaption, favourite: favourite)
         self.favouriteStateChanged!(favourite: favourite)
         
-        Tracker.trackFavouriteChange(self.article)
+        Tracker.trackFavouriteChange(self.articleCaption)
     }
     
     func shareTapped() {
-        self.articleSharer.shareArticle(self.article)
+        self.articleSharer.shareArticle(withCaption: self.articleCaption)
     }
-    
+
     private func loadContent() {
         
         self.loadHtmlText()
@@ -164,9 +164,9 @@ class ArticleDetailsViewModel : ViewModel {
     
     private func loadHtmlText() {
         
-        self.articleDetailsFetcher.fetchArticleDetails(article: self.article, allowRemote: !self.settings.offlineMode) { details, error in
+        self.articleContentFetcher.fetchArticleContent(forCaption: self.articleCaption, allowRemote: !self.settings.offlineMode) { details, error in
             
-            self.articleDetails = details
+            self.articleContent = details
             
             guard self.viewIsPresented else {
                 return
@@ -192,7 +192,7 @@ class ArticleDetailsViewModel : ViewModel {
     
     private func loadImage() {
         
-        let spec = ImageSpec(url:self.article.thumbUrl!, size: self.screenSize)
+        let spec = ImageSpec(url:self.articleCaption.thumbUrl!, size: self.screenSize)
         self.imageGateway.requestImage(spec: spec, allowRemote: !self.settings.offlineMode, onlyWifi: self.settings.onlyWifiImages) { image, _, _ in
             
             self.image = image

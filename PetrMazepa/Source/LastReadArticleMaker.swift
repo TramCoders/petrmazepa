@@ -9,5 +9,5 @@
 import Foundation
 
 protocol LastReadArticleMaker {
-    func setLastReadArticle(article: Article)
+    func setLastReadArticle(article: ArticleCaption)
 }

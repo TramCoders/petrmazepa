@@ -9,16 +9,16 @@
 import UIKit
 import CoreData
 
-class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher, ArticleDetailsFetcher, FavouriteMaker, TopOffsetEditor, LastReadArticleMaker {
+class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher, ArticleContentFetcher, FavouriteMaker, TopOffsetEditor, LastReadArticleMaker {
     
     private static let lastReadArticleKey = "LastReadArticle"
     
     private let networking: Networking
     private let coreData: CoreDataManager
     
-    var lastReadArticle: Article?
+    var lastReadArticle: ArticleCaption?
     
-    func setLastReadArticle(article: Article) {
+    func setLastReadArticle(article: ArticleCaption) {
 
         self.lastReadArticle = article
         
@@ -33,11 +33,11 @@ class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher
         self.setupLastReadArticle()
     }
     
-    func allArticles() -> [Article] {
+    func allArticles() -> [ArticleCaption] {
         return self.coreData.allArticles()
     }
     
-    func updateArticles(articles: [Article]) -> [Article] {
+    func updateArticles(articles: [ArticleCaption]) -> [ArticleCaption] {
         return self.coreData.updateArticles(articles)
     }
     
@@ -45,21 +45,23 @@ class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher
         return self.coreData.allArticlesCount()
     }
     
-    func favouriteArticles() -> [Article] {
+    func favouriteArticles() -> [ArticleCaption] {
         return self.coreData.favouriteArticles()
     }
     
-    func makeFavourite(article article: Article, favourite: Bool) {
+    func makeFavourite(article article: ArticleCaption, favourite: Bool) {
 
-        article.favourite = favourite
-        self.coreData.makeFavourite(article: article, favourite: favourite)
+        var copiedArticle = article
+        copiedArticle.favourite = favourite
+        self.coreData.makeFavourite(article: copiedArticle, favourite: favourite)
         self.coreData.saveContext()
     }
     
-    func setTopOffset(article: Article, offset: Float) {
-        
-        article.topOffset = offset
-        self.coreData.setTopOffset(article, offset: offset)
+    func setTopOffset(article: ArticleCaption, offset: Float) {
+
+        var copiedArticle = article
+        copiedArticle.topOffset = offset
+        self.coreData.setTopOffset(copiedArticle, offset: offset)
         self.coreData.saveContext()
     }
     
@@ -78,33 +80,33 @@ class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher
             }
         }
     }
-    
-    func fetchArticleDetails(article article: Article, completion: ArticleDetailsFetchHandler) {
-        self.fetchArticleDetails(article: article, allowRemote: true, completion: completion)
+
+    func fetchArticleContent(forCaption caption: ArticleCaption, completion: ArticleContentFetchHandler) {
+        self.fetchArticleContent(forCaption: caption, allowRemote: true, completion: completion)
     }
-    
-    func fetchArticleDetails(article article: Article, allowRemote: Bool, completion: ArticleDetailsFetchHandler) {
-        
-        if let details = self.coreData.detailsFromArticles(article) {
-            
+
+    func fetchArticleContent(forCaption caption: ArticleCaption, allowRemote: Bool, completion: ArticleContentFetchHandler) {
+        if let details = self.coreData.detailsFromArticles(caption) {
+
             completion(details, nil)
             return
         }
-        
+
         guard allowRemote == true else {
-            
+
             completion(nil, nil)
             return
         }
-        
-        self.networking.fetchArticleDetails(article: article) { details, error in
-            
+
+        self.networking.fetchArticleContent(forCaption: caption) { details, error in
+
             if let notNilDetails = details {
-                
-                self.coreData.saveArticleDetails(notNilDetails, article: article)
+
+                var copiedAritcleCaption = caption
+                self.coreData.saveArticleDetails(notNilDetails, article: copiedAritcleCaption)
                 self.coreData.saveContext()
-                article.saved = true
-                
+                copiedAritcleCaption.saved = true
+
                 completion(notNilDetails, error)
 
             } else {
@@ -112,7 +114,7 @@ class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher
             }
         }
     }
-    
+
     private func setupLastReadArticle() {
         
         if let articleId = NSUserDefaults.standardUserDefaults().objectForKey(ContentProvider.lastReadArticleKey) as? String {

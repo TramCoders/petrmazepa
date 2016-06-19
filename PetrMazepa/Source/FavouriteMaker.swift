@@ -9,5 +9,5 @@
 import Foundation
 
 protocol FavouriteMaker {
-    func makeFavourite(article article: Article, favourite: Bool)
+    func makeFavourite(article article: ArticleCaption, favourite: Bool)
 }

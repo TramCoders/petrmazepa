@@ -9,5 +9,5 @@
 import Foundation
 
 protocol ArticleSharer {
-    func shareArticle(article: Article)
+    func shareArticle(withCaption caption: ArticleCaption)
 }
