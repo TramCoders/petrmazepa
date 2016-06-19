@@ -29,7 +29,7 @@ class ActivityIndicator {
     }
 }
 
-class Networking: ImageDownloader, ArticlesFetcher, RemoteArticleDetailsFetcher {
+class Networking: ImageDownloader, ArticlesFetcher, RemoteArticleContentFetcher {
     
     private let session: NSURLSession
     
@@ -38,10 +38,7 @@ class Networking: ImageDownloader, ArticlesFetcher, RemoteArticleDetailsFetcher 
     
     private let activityIndicator = ActivityIndicator()
     private let baseUrl = "http://petrimazepa.com"
-    
-    private let articlesParser = ArticlesParser()
-    private let articleDetailsParser = ArticleDetailsParser()
-    
+
     init() {
         
         // normal session
@@ -78,45 +75,37 @@ class Networking: ImageDownloader, ArticlesFetcher, RemoteArticleDetailsFetcher 
                 completion(articles: nil, error: error)
                 return
             }
-            
-            let articles = self.articlesParser.parse(notNilData) as! [Article]
+
+            let articles = ArticleCaption.deserialize(fromData: notNilData)
             completion(articles: articles, error: nil)
             
         }.resume()
     }
-    
-    func fetchArticleDetails(article article: Article, completion: ArticleDetailsFetchHandler) {
-        
-        guard let url = self.articleDetailsUrl(articleId: article.id) else {
+
+    func fetchArticleContent(forCaption caption: ArticleCaption, completion: ArticleContentFetchHandler) {
+
+        guard let url = self.articleDetailsUrl(articleId: caption.id) else {
 
             completion(nil, nil)
             return
         }
-        
+
         self.activityIndicator.increment()
-        
+
         self.session.dataTaskWithURL(url) { (data: NSData?, response: NSURLResponse?, error: NSError?) -> () in
-            
+
             self.activityIndicator.decrement()
-            
-            guard let notNilData = data else {
-                
-                completion(nil, error)
-                return
+
+            guard
+                let notNilData = data where error == nil else {
+                    completion(nil, error)
+                    return
             }
-            
-            if error != nil {
-                
-                completion(nil, error)
-                return
-            }
-            
-            let details = self.articleDetailsParser.parse(notNilData)
-            completion(details, nil)
-            
-        }.resume()
+            completion(ArticleContent.deserialize(fromData: notNilData), nil)
+
+            }.resume()
     }
-    
+
     func downloadImage(url: NSURL, completion: ImageDownloadHandler) {
         self.downloadImage(url, onlyWifi: false, completion: completion)
     }

@@ -61,19 +61,19 @@ class CoreDataManager : FavouriteArticlesStorage, FavouriteMaker {
         return self.requestArticlesCount(favorite: nil)
     }
     
-    func allArticles() -> [Article] {
+    func allArticles() -> [ArticleCaption] {
         return self.requestArticles(favorite: nil)
     }
     
-    func notFavoriteArticles() -> [Article] {
+    func notFavoriteArticles() -> [ArticleCaption] {
         return self.requestArticles(favorite: false)
     }
     
-    func favouriteArticles() -> [Article] {
+    func favouriteArticles() -> [ArticleCaption] {
         return self.requestArticles(favorite: true)
     }
     
-    func detailsFromArticles(article: Article) -> ArticleDetails? {
+    func detailsFromArticles(article: ArticleCaption) -> ArticleContent? {
         
         let request = NSFetchRequest(entityName: MOArticleDetails.entityName)
         request.predicate = NSPredicate(format: "self.article.id = %@", article.id)
@@ -89,7 +89,7 @@ class CoreDataManager : FavouriteArticlesStorage, FavouriteMaker {
         return nil
     }
     
-    func makeFavourite(article article: Article, favourite: Bool) {
+    func makeFavourite(article article: ArticleCaption, favourite: Bool) {
         
         if let moArticle = self.managedObjectFromArticle(article) {
             moArticle.favourite = favourite
@@ -98,10 +98,10 @@ class CoreDataManager : FavouriteArticlesStorage, FavouriteMaker {
         }
     }
     
-    func saveArticles(articles: [Article]) -> [Article] {
+    func saveArticles(articles: [ArticleCaption]) -> [ArticleCaption] {
         
         let existingArticles = self.allArticles()
-        var savedArticles = [Article]()
+        var savedArticles = [ArticleCaption]()
         
         for article in articles {
 
@@ -118,10 +118,10 @@ class CoreDataManager : FavouriteArticlesStorage, FavouriteMaker {
         return savedArticles
     }
     
-    func updateArticles(articles: [Article]) -> [Article] {
+    func updateArticles(articles: [ArticleCaption]) -> [ArticleCaption] {
         
         let existingArticles = self.allArticles()
-        var updatedArticles = [Article]()
+        var updatedArticles = [ArticleCaption]()
         
         for article in articles {
 
@@ -135,7 +135,7 @@ class CoreDataManager : FavouriteArticlesStorage, FavouriteMaker {
         return updatedArticles
     }
     
-    func saveArticle(article: Article) {
+    func saveArticle(article: ArticleCaption) {
         
         let moArticle = NSEntityDescription.insertNewObjectForEntityForName(MOArticle.entityName, inManagedObjectContext: self.context) as! MOArticle
         moArticle.id = article.id
@@ -145,17 +145,17 @@ class CoreDataManager : FavouriteArticlesStorage, FavouriteMaker {
         moArticle.topOffset = article.topOffset
     }
     
-    func saveArticleDetails(details: ArticleDetails, article: Article) {
+    func saveArticleDetails(details: ArticleContent, article: ArticleCaption) {
         
         if let moArticle = self.managedObjectFromArticle(article) {
             
-            let moDetails = self.saveArticleDetails(details)
+            let moDetails = saveArticleDetails(details)
             moArticle.details = moDetails
             moDetails.article = moArticle
         }
     }
     
-    private func find(article: Article, inArticles articles: [Article]) -> Article? {
+    private func find(article: ArticleCaption, inArticles articles: [ArticleCaption]) -> ArticleCaption? {
         
         for anArticle in articles {
             if anArticle.id == article.id {
@@ -166,7 +166,7 @@ class CoreDataManager : FavouriteArticlesStorage, FavouriteMaker {
         return nil
     }
     
-    private func requestArticles(favorite favorite: Bool?) -> [Article] {
+    private func requestArticles(favorite favorite: Bool?) -> [ArticleCaption] {
         return self.requestManagedArticles(favorite: favorite).map({ self.articleFromManagedObject($0) })
     }
     
@@ -197,14 +197,14 @@ class CoreDataManager : FavouriteArticlesStorage, FavouriteMaker {
         return self.context.countForFetchRequest(request, error: &error)
     }
     
-    private func saveArticleDetails(details: ArticleDetails) -> MOArticleDetails {
+    private func saveArticleDetails(details: ArticleContent) -> MOArticleDetails {
         
         let moDetails = NSEntityDescription.insertNewObjectForEntityForName(MOArticleDetails.entityName, inManagedObjectContext: self.context) as! MOArticleDetails
         moDetails.htmlText = details.htmlText
         return moDetails
     }
     
-    private func makeArticleFavourite(article article: Article) {
+    private func makeArticleFavourite(article article: ArticleCaption) {
         
         if let moArticle = self.managedObjectFromArticle(article) {
             moArticle.favourite = true
@@ -213,7 +213,7 @@ class CoreDataManager : FavouriteArticlesStorage, FavouriteMaker {
         }
     }
     
-    private func makeArticleNotFavourite(article article: Article) {
+    private func makeArticleNotFavourite(article article: ArticleCaption) {
         
         if let moArticle = self.managedObjectFromArticle(article) {
             moArticle.favourite = false
@@ -222,7 +222,7 @@ class CoreDataManager : FavouriteArticlesStorage, FavouriteMaker {
         }
     }
     
-    func setTopOffset(article: Article, offset: Float) {
+    func setTopOffset(article: ArticleCaption, offset: Float) {
         
         if let moArticle = self.managedObjectFromArticle(article) {
             moArticle.topOffset = offset
@@ -231,7 +231,7 @@ class CoreDataManager : FavouriteArticlesStorage, FavouriteMaker {
         }
     }
     
-    private func managedObjectFromArticle(article: Article) -> MOArticle? {
+    private func managedObjectFromArticle(article: ArticleCaption) -> MOArticle? {
         
         let request = NSFetchRequest(entityName: MOArticle.entityName)
         request.predicate = NSPredicate(format: "id = %@", article.id)
@@ -243,11 +243,11 @@ class CoreDataManager : FavouriteArticlesStorage, FavouriteMaker {
         }
     }
     
-    private func articleFromManagedObject(moArticle: MOArticle) -> Article {
-        return Article(id: moArticle.id!, title: moArticle.title!, thumbPath: moArticle.thumbPath!, saved: moArticle.details != nil, favourite: moArticle.favourite!.boolValue, topOffset: moArticle.topOffset!.floatValue)
+    private func articleFromManagedObject(moArticle: MOArticle) -> ArticleCaption {
+        return ArticleCaption(id: moArticle.id!, title: moArticle.title!, thumbPath: moArticle.thumbPath!, saved: moArticle.details != nil, favourite: moArticle.favourite!.boolValue, topOffset: moArticle.topOffset!.floatValue)
     }
     
-    private func detailsFromManagedObject(moDetails: MOArticleDetails) -> ArticleDetails {
-        return ArticleDetails(htmlText: moDetails.htmlText!)
+    private func detailsFromManagedObject(moDetails: MOArticleDetails) -> ArticleContent {
+        return ArticleContent(htmlText: moDetails.htmlText!)
     }
 }

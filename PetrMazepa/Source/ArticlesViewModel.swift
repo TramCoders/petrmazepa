@@ -25,11 +25,11 @@ class ArticlesViewModel : ViewModel {
     private let imageGateway: ImageGateway
     private let articlesFetcher: ArticlesFetcher
     private let articleStorage: ArticleStorage
-    private let articleDetailsPresenter: ArticleDetailsPresenter
+    private let articleContentPresenter: ArticleContentPresenter
     private let settingsPresenter: SettingsPresenter
     private let searchPresenter: SearchPresenter
     
-    private var fetchedArticles = [Article]()
+    private var fetchedArticles = [ArticleCaption]()
     
     private var screenSize: CGSize?
     private var thumbSize: CGSize?
@@ -42,7 +42,7 @@ class ArticlesViewModel : ViewModel {
         return self.lastReadArticle == nil ? false : true
     }
     
-    private var lastReadArticle: Article? {
+    private var lastReadArticle: ArticleCaption? {
         return self.articleStorage.lastReadArticle
     }
     
@@ -93,21 +93,21 @@ class ArticlesViewModel : ViewModel {
     var lastReadArticleVisible: Bool = true
     var navigationBarVisible: Bool = true
     
-    required init(settings: ReadOnlySettings, articleStorage: ArticleStorage, imageGateway: ImageGateway, articlesFetcher: ArticlesFetcher, articleDetailsPresenter: ArticleDetailsPresenter, settingsPresenter: SettingsPresenter, searchPresenter: SearchPresenter) {
+    required init(settings: ReadOnlySettings, articleStorage: ArticleStorage, imageGateway: ImageGateway, articlesFetcher: ArticlesFetcher, articleContentPresenter: ArticleContentPresenter, settingsPresenter: SettingsPresenter, searchPresenter: SearchPresenter) {
 
         self.settings = settings
         self.articleStorage = articleStorage
         self.imageGateway = imageGateway
         self.articlesFetcher = articlesFetcher
-        self.articleDetailsPresenter = articleDetailsPresenter
+        self.articleContentPresenter = articleContentPresenter
         self.settingsPresenter = settingsPresenter
         self.searchPresenter = searchPresenter
     }
     
     func articleTapped(index index: Int) {
         
-        let article = self.articleAtIndex(index)
-        self.articleDetailsPresenter.presentArticleDetails(article)
+        let articleCaption = self.articleAtIndex(index)
+        self.articleContentPresenter.presentArticleContent(forCaption: articleCaption)
     }
     
     func viewDidLoad(screenSize size: CGSize) {
@@ -257,11 +257,11 @@ class ArticlesViewModel : ViewModel {
     
     func lastReadArticleTapped() {
         
-        guard let article = self.articleStorage.lastReadArticle else {
+        guard let articleCaption = self.articleStorage.lastReadArticle else {
             return
         }
         
-        self.articleDetailsPresenter.presentArticleDetails(article)
+        self.articleContentPresenter.presentArticleContent(forCaption: articleCaption)
     }
     
     func cancelActionTapped() {
@@ -292,7 +292,7 @@ class ArticlesViewModel : ViewModel {
         }
     }
     
-    private func articleAtIndex(index: Int) -> Article {
+    private func articleAtIndex(index: Int) -> ArticleCaption {
         
         if self.fetchedArticles.count > 0 {
             return self.fetchedArticles[index]

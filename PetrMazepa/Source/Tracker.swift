@@ -22,7 +22,7 @@ class Tracker: NSObject {
         self.textLoadingStarted = NSDate()
     }
     
-    func trackArticleView(article: Article) {
+    func trackArticleView(article: ArticleCaption) {
         
         guard let loadingStarted = self.textLoadingStarted else {
             return
@@ -47,11 +47,11 @@ class Tracker: NSObject {
         }
     }
 
-    static func trackShare(article: Article, activityType: String?) {
+    static func trackShare(article: ArticleCaption, activityType: String?) {
         Answers.logShareWithMethod(activityType, contentName: article.title, contentType: Tracker.contentType, contentId: article.id, customAttributes: nil)
     }
 
-    static func trackFavouriteChange(article: Article) {
+    static func trackFavouriteChange(article: ArticleCaption) {
         Answers.logCustomEventWithName("Favorite Article", customAttributes: [ "Article ID" : article.id, "Article name" : article.title, "Favorite" : Tracker.stringFromBool(article.favourite) ])
     }
     

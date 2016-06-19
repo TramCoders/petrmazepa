@@ -8,80 +8,21 @@
 
 import Foundation
 
-protocol Serializable {
-    static func deserialize(fromData data: NSData) -> [Self]?
+struct ArticleContent {
+    let htmlText: String
 }
 
-struct ArticleCaption {
+extension ArticleContent: DeserializableFromHTML {
 
-    let id: String
-    let title: String
-    let thumbPath: String
-    var saved: Bool = false
-    var favourite: Bool = false
-    var topOffset: Float = 0.0
-
-    var thumbUrl: NSURL? {
-        get {
-            let urlString = "http://petrimazepa.com\(self.thumbPath)"
-            return NSURL(string: urlString)
-        }
-    }
-
-    init(id: String, title: String, thumbPath: String) {
-        self.id = id
-        self.title = title
-        self.thumbPath = thumbPath
-    }
-}
-
-extension ArticleCaption: Serializable {
-
-    static func deserialize(fromData data: NSData) -> [ArticleCaption]? {
-        let helper = TFHpple(data: data, isXML: false)
-        let elements = helper.searchWithXPathQuery("//div[@class='row articles']/div")
-        var articles = [ArticleCaption]()
-
-        for element in elements {
-            guard let element = element as? TFHppleElement else {
-                continue
-            }
-
-            if let article = convertElement(element) {
-                articles.append(article)
-            }
-        }
-        return articles
-    }
-
-    private static func convertElement(element: TFHppleElement) -> ArticleCaption? {
-        guard
-            let aElement = element.searchWithXPathQuery("//a").first as? TFHppleElement,
-            let href = aElement.attributes["href"] as? String else {
-            return nil
-        }
-
-        let imgElement = element.firstChildWithTagName("img")
+    static func deserialize(fromData data: NSData) -> ArticleContent? {
+        let hpple = TFHpple(data: data, isXML: false)
 
         guard
-            let identifier = identifierFromHref(href),
-            let imgTitle = imgElement.attributes["title"] as? String,
-            let thumbPath = imgElement.attributes["data-original"] as? String else {
+            let htmlTextElement = hpple.searchWithXPathQuery("//div[@class='mainContent']").first as? TFHppleElement else {
             return nil
         }
 
-        return ArticleCaption(id: identifier, title: imgTitle, thumbPath: thumbPath)
-    }
-
-    private static func identifierFromHref(href: String) -> String? {
-        guard href.isEmpty == false else {
-            return nil
-        }
-
-        let components = href[href.startIndex.advancedBy(1)..<href.endIndex].componentsSeparatedByString(".")
-        guard components.count == 2 else {
-            return nil
-        }
-        return components.first
+        let htmlText = htmlTextElement.raw.stringByReplacingOccurrencesOfString("width=\"788\"", withString: "width=\"100%%\"")
+        return ArticleContent(htmlText: htmlText)
     }
 }

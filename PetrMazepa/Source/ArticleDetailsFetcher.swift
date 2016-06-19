@@ -1,5 +1,5 @@
 //
-//  ArticleDetailsFetcher.swift
+//  ArticleContentFetcher.swift
 //  PetrMazepa
 //
 //  Created by Artem Stepanenko on 10/4/15.
@@ -8,6 +8,6 @@
 
 import UIKit
 
-protocol ArticleDetailsFetcher : RemoteArticleDetailsFetcher {
-    func fetchArticleDetails(article article: Article, allowRemote: Bool, completion: ArticleDetailsFetchHandler)
+protocol ArticleContentFetcher : RemoteArticleContentFetcher {
+    func fetchArticleContent(forCaption caption: ArticleCaption, allowRemote: Bool, completion: ArticleContentFetchHandler)
 }

@@ -1,5 +1,5 @@
 //
-//  ArticleDetailsPresenter.swift
+//  ArticleContentDismisser.swift
 //  PetrMazepa
 //
 //  Created by Artem Stepanenko on 10/4/15.
@@ -8,6 +8,6 @@
 
 import Foundation
 
-protocol ArticleDetailsPresenter {
-    func presentArticleDetails(article: Article)
+protocol ArticleContentDismisser {
+    func dismissArticleContent()
 }

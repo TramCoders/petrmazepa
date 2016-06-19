@@ -20,25 +20,25 @@ class SearchViewModel : ViewModel {
     var articlesChanged: (() -> Void)?
     
     private var query = ""
-    private var allArticles: [Article]
-    private var filteredArticles: [Article]
+    private var allArticles: [ArticleCaption]
+    private var filteredArticles: [ArticleCaption]
     private(set) var filter = SearchFilter.None
     
     private let settings: ReadOnlySettings
     private let imageGateway: ImageGateway
     private let articleStorage: ArticleStorage
     private let favouriteArticleStorage: FavouriteArticlesStorage
-    private let articleDetailsPresenter: ArticleDetailsPresenter
+    private let articleContentPresenter: ArticleContentPresenter
     private let dismisser: SearchDismisser
     private let tracker: Tracker
     
-    required init(settings: ReadOnlySettings, imageGateway: ImageGateway, articleStorage: ArticleStorage, favouriteArticleStorage: FavouriteArticlesStorage, articleDetailsPresenter: ArticleDetailsPresenter, dismisser: SearchDismisser, tracker: Tracker) {
+    required init(settings: ReadOnlySettings, imageGateway: ImageGateway, articleStorage: ArticleStorage, favouriteArticleStorage: FavouriteArticlesStorage, articleContentPresenter: ArticleContentPresenter, dismisser: SearchDismisser, tracker: Tracker) {
         
         self.settings = settings
         self.imageGateway = imageGateway
         self.articleStorage = articleStorage
         self.favouriteArticleStorage = favouriteArticleStorage
-        self.articleDetailsPresenter = articleDetailsPresenter
+        self.articleContentPresenter = articleContentPresenter
         self.dismisser = dismisser
         self.tracker = tracker
         
@@ -69,8 +69,8 @@ class SearchViewModel : ViewModel {
     
     func articleTapped(indexPath: NSIndexPath) {
         
-        let article = self.findArticle(indexPath: indexPath)
-        self.articleDetailsPresenter.presentArticleDetails(article)
+        let articleCaption = self.findArticle(indexPath: indexPath)
+        self.articleContentPresenter.presentArticleContent(forCaption: articleCaption)
     }
     
     func articlesCount() -> Int {
@@ -96,27 +96,27 @@ class SearchViewModel : ViewModel {
         self.filteredArticles = self.allArticles.filter(self.currentFilter())
     }
     
-    private func articles(articles: [Article], withoutArticles: [Article]) -> [Article] {
+    private func articles(articles: [ArticleCaption], withoutArticles: [ArticleCaption]) -> [ArticleCaption] {
         
         let withoutIds = withoutArticles.map({ $0.id })
         return articles.filter({ withoutIds.contains($0.id) == false })
     }
     
-    private func findArticle(indexPath indexPath: NSIndexPath) -> Article {
+    private func findArticle(indexPath indexPath: NSIndexPath) -> ArticleCaption {
         return self.filteredArticles[indexPath.row]
     }
     
-    private func sortedArticles(articles: [Article]) -> [Article] {
+    private func sortedArticles(articles: [ArticleCaption]) -> [ArticleCaption] {
         return articles.sort { $0.title < $1.title }
     }
     
-    private func currentFilter() -> ((Article) -> Bool) {
+    private func currentFilter() -> ((ArticleCaption) -> Bool) {
         return { article in
             return self.checkType(article) && self.checkTitle(article)
         }
     }
     
-    private func checkType(article: Article) -> Bool {
+    private func checkType(article: ArticleCaption) -> Bool {
         
         switch self.filter {
         case .None: return true
@@ -125,7 +125,7 @@ class SearchViewModel : ViewModel {
         }
     }
     
-    private func checkTitle(article: Article) -> Bool {
+    private func checkTitle(article: ArticleCaption) -> Bool {
         
         if self.query == "" {
             return true

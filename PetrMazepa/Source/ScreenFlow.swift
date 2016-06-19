@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ScreenFlow: NSObject, ArticleDetailsPresenter, SettingsPresenter, SearchPresenter, ArticleDetailsDismisser, SettingsDismisser, SearchDismisser, ArticleSharer {
+class ScreenFlow: NSObject, ArticleContentPresenter, SettingsPresenter, SearchPresenter, ArticleContentDismisser, SettingsDismisser, SearchDismisser, ArticleSharer {
     
     private let window: UIWindow
     private let storyboard: UIStoryboard
@@ -66,15 +66,15 @@ class ScreenFlow: NSObject, ArticleDetailsPresenter, SettingsPresenter, SearchPr
         self.currentViewController = articlesViewController
     }
     
-    func presentArticleDetails(article: Article) {
+    func presentArticleContent(forCaption caption: ArticleCaption) {
         
         let viewController = self.storyboard.instantiateViewControllerWithIdentifier("Details") as! ArticleDetailsViewController
-        viewController.model = self.createArticleDetailsViewModel(article: article)
+        viewController.model = self.createArticleContentViewModel(article: caption)
         self.currentNavigationController.pushViewController(viewController, animated: true)
         self.currentViewController = viewController
     }
     
-    func dismissArticleDetails() {
+    func dismissArticleContent() {
 
         self.currentNavigationController.popViewControllerAnimated(true)
         self.currentViewController = self.currentNavigationController.topViewController!
@@ -110,9 +110,9 @@ class ScreenFlow: NSObject, ArticleDetailsPresenter, SettingsPresenter, SearchPr
         self.currentNavigationController = self.mainNavigationController
     }
     
-    func shareArticle(article: Article) {
+    func shareArticle(withCaption caption: ArticleCaption) {
 
-        guard let url = self.networking.articleDetailsUrl(articleId: article.id) else {
+        guard let url = self.networking.articleDetailsUrl(articleId: caption.id) else {
             return
         }
         
@@ -125,23 +125,23 @@ class ScreenFlow: NSObject, ArticleDetailsPresenter, SettingsPresenter, SearchPr
                 return
             }
             
-            Tracker.trackShare(article, activityType: activityType)
+            Tracker.trackShare(caption, activityType: activityType)
         }
     }
     
     private func createArticlesViewModel() -> ArticlesViewModel {
         
-        return ArticlesViewModel(settings: self.settings, articleStorage: self.contentProvider, imageGateway: self.imageCache, articlesFetcher: self.contentProvider, articleDetailsPresenter: self, settingsPresenter: self, searchPresenter: self)
+        return ArticlesViewModel(settings: self.settings, articleStorage: self.contentProvider, imageGateway: self.imageCache, articlesFetcher: self.contentProvider, articleContentPresenter: self, settingsPresenter: self, searchPresenter: self)
     }
     
-    private func createArticleDetailsViewModel(article article: Article) -> ArticleDetailsViewModel {
+    private func createArticleContentViewModel(article article: ArticleCaption) -> ArticleContentViewModel {
         
-        return ArticleDetailsViewModel(settings: self.settings, article: article, imageGateway: self.imageCache, articleDetailsFetcher: self.contentProvider, favouriteMaker: self.contentProvider, articleDetailsDismisser: self, articleSharer: self, topOffsetEditor: self.contentProvider, lastReadArticleMaker: self.contentProvider, tracker: self.tracker)
+        return ArticleContentViewModel(settings: self.settings, article: article, imageGateway: self.imageCache, articleContentFetcher: self.contentProvider, favouriteMaker: self.contentProvider, articleContentDismisser: self, articleSharer: self, topOffsetEditor: self.contentProvider, lastReadArticleMaker: self.contentProvider, tracker: self.tracker)
     }
     
     private func createSearchViewModel() -> SearchViewModel {
         
-        return SearchViewModel(settings: self.settings, imageGateway: self.imageCache, articleStorage: self.contentProvider, favouriteArticleStorage: self.contentProvider, articleDetailsPresenter: self, dismisser: self, tracker: self.tracker)
+        return SearchViewModel(settings: self.settings, imageGateway: self.imageCache, articleStorage: self.contentProvider, favouriteArticleStorage: self.contentProvider, articleContentPresenter: self, dismisser: self, tracker: self.tracker)
     }
     
     private func createSettingsViewModel() -> SettingsViewModel {
