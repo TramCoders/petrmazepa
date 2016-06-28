@@ -26,7 +26,7 @@ class CoreDataManager {
     }
 
     private lazy var storeURL: NSURL = {
-        return NSURL.documentsURL.URLByAppendingPathComponent("PetrMazepa.pim")
+        return NSURL.documentsDirectoryURL.URLByAppendingPathComponent("PetrMazepa.pim")
     }()
 
     lazy var context: NSManagedObjectContext = {
@@ -45,7 +45,7 @@ class CoreDataManager {
         return self.requestArticles(favorite: false)
     }
     
-    func detailsFromArticles(article: Article) -> ArticleDetails? {
+    func detailsFromArticle(article: Article) -> ArticleDetails? {
 
         guard let details = MOArticleDetails.findOrFetchInContext(context, matchingPredicate: NSPredicate(format: "self.article.id = %@", article.id)) else {
             return nil

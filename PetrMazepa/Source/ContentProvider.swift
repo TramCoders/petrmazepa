@@ -83,7 +83,7 @@ class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher
     
     func fetchArticleDetails(article article: Article, allowRemote: Bool, completion: ArticleDetailsFetchHandler) {
         
-        if let details = self.coreData.detailsFromArticles(article) {
+        if let details = self.coreData.detailsFromArticle(article) {
             
             completion(details, nil)
             return

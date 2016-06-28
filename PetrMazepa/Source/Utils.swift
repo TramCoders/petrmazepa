@@ -11,11 +11,11 @@ import Foundation
 
 extension NSURL {
     
-    static func temporaryURL() -> NSURL {
+    static func cachesURL() -> NSURL {
         return try! NSFileManager.defaultManager().URLForDirectory(NSSearchPathDirectory.CachesDirectory, inDomain: .UserDomainMask, appropriateForURL: nil, create: true).URLByAppendingPathComponent(NSUUID().UUIDString)
     }
     
-    static var documentsURL: NSURL {
+    static var documentsDirectoryURL: NSURL {
         return try! NSFileManager.defaultManager().URLForDirectory(.DocumentDirectory, inDomain: .UserDomainMask, appropriateForURL: nil, create: true)
     }
     

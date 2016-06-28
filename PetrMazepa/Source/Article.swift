@@ -79,14 +79,14 @@ extension Article: DeserializableFromHTML {
     private static func convertElement(element: TFHppleElement) -> Article? {
         guard
             let aElement = element.searchWithXPathQuery("//a").first as? TFHppleElement,
-            let href = aElement.attributes["href"] as? String else {
+            let href = aElement.attributes["href"] as? String,
+            let identifier = identifierFromHref(href) else {
                 return nil
         }
         
         let imgElement = element.firstChildWithTagName("img")
         
         guard
-            let identifier = identifierFromHref(href),
             let imgTitle = imgElement.attributes["title"] as? String,
             let thumbPath = imgElement.attributes["data-original"] as? String else {
                 return nil
