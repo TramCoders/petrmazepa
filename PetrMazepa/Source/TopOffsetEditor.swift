@@ -9,5 +9,5 @@
 import Foundation
 
 protocol TopOffsetEditor {
-    func setTopOffset(article: Article, offset: Float)
+    func setTopOffset(article: Article, offset: Double)
 }

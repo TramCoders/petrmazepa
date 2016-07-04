@@ -9,95 +9,50 @@
 import UIKit
 import CoreData
 
-class CoreDataManager : FavouriteArticlesStorage, FavouriteMaker {
+class CoreDataManager {
     
-    private lazy var documentsPath: NSURL = {
-        
-        let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
-        return urls.last!
-    }()
+    func createMainContext() -> NSManagedObjectContext {
     
-    private lazy var model: NSManagedObjectModel = {
-
-        let modelUrl = NSBundle.mainBundle().URLForResource("PetrMazepa", withExtension: "momd")!
-        return NSManagedObjectModel(contentsOfURL: modelUrl)!
-    }()
-    
-    private lazy var coordinator: NSPersistentStoreCoordinator = {
-
-        let coordinator = NSPersistentStoreCoordinator(managedObjectModel: self.model)
-        let url = self.documentsPath.URLByAppendingPathComponent("PetrMazepa")
-        
-        do {
-            try coordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: url, options: nil)
-        } catch {
-            abort()
+        let bundles = [NSBundle(forClass: MOArticle.self)]
+        guard let model = NSManagedObjectModel.mergedModelFromBundles(bundles) else {
+            fatalError("Managed Object Model is not found")
         }
-        
-        return coordinator
-    }()
-    
-    lazy var context: NSManagedObjectContext = {
-
-        let coordinator = self.coordinator
-        var context = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
-        context.persistentStoreCoordinator = coordinator
+        let storeCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
+        try! storeCoordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: storeURL, options: nil)
+        let context = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
+        context.persistentStoreCoordinator = storeCoordinator
+        context.undoManager = nil
         return context
-    }()
-    
-    func saveContext() {
-        
-        if self.context.hasChanges {
-            
-            do {
-                try self.context.save()
-            } catch {
-                print("Failed to save changes")
-            }
-        }
     }
-    
+
+    private lazy var storeURL: NSURL = {
+        return NSURL.documentsDirectoryURL.URLByAppendingPathComponent("PetrMazepa.pim")
+    }()
+
+    lazy var context: NSManagedObjectContext = {
+        return self.createMainContext()
+    }()
+
     func allArticlesCount() -> Int {
-        return self.requestArticlesCount(favorite: nil)
+        return self.requestArticlesCount()
     }
     
     func allArticles() -> [Article] {
-        return self.requestArticles(favorite: nil)
+        return self.requestArticles()
     }
     
     func notFavoriteArticles() -> [Article] {
         return self.requestArticles(favorite: false)
     }
     
-    func favouriteArticles() -> [Article] {
-        return self.requestArticles(favorite: true)
-    }
-    
-    func detailsFromArticles(article: Article) -> ArticleDetails? {
-        
-        let request = NSFetchRequest(entityName: MOArticleDetails.entityName)
-        request.predicate = NSPredicate(format: "self.article.id = %@", article.id)
-        
-        do {
-            if let moArticleDetails = try self.context.executeFetchRequest(request).last as? MOArticleDetails {
-                return self.detailsFromManagedObject(moArticleDetails)
-            }
-        } catch {
-            // TODO:
+    func detailsFromArticle(article: Article) -> ArticleDetails? {
+
+        guard let details = MOArticleDetails.findOrFetchInContext(context, matchingPredicate: NSPredicate(format: "self.article.id = %@", article.id)) else {
+            return nil
         }
-        
-        return nil
+        return detailsFromManagedObject(details)
     }
-    
-    func makeFavourite(article article: Article, favourite: Bool) {
-        
-        if let moArticle = self.managedObjectFromArticle(article) {
-            moArticle.favourite = favourite
-        } else {
-            // TODO:
-        }
-    }
-    
+
     func saveArticles(articles: [Article]) -> [Article] {
         
         let existingArticles = self.allArticles()
@@ -119,7 +74,6 @@ class CoreDataManager : FavouriteArticlesStorage, FavouriteMaker {
     }
     
     func updateArticles(articles: [Article]) -> [Article] {
-        
         let existingArticles = self.allArticles()
         var updatedArticles = [Article]()
         
@@ -136,13 +90,7 @@ class CoreDataManager : FavouriteArticlesStorage, FavouriteMaker {
     }
     
     func saveArticle(article: Article) {
-        
-        let moArticle = NSEntityDescription.insertNewObjectForEntityForName(MOArticle.entityName, inManagedObjectContext: self.context) as! MOArticle
-        moArticle.id = article.id
-        moArticle.title = article.title
-        moArticle.thumbPath = article.thumbPath
-        moArticle.favourite = article.favourite
-        moArticle.topOffset = article.topOffset
+        MOArticle.insertIntoContext(self.context, article: article)
     }
     
     func saveArticleDetails(details: ArticleDetails, article: Article) {
@@ -166,88 +114,97 @@ class CoreDataManager : FavouriteArticlesStorage, FavouriteMaker {
         return nil
     }
     
-    private func requestArticles(favorite favorite: Bool?) -> [Article] {
-        return self.requestManagedArticles(favorite: favorite).map({ self.articleFromManagedObject($0) })
+    func setTopOffset(article: Article, offset: Double) {
+        self.managedObjectFromArticle(article)?.topOffset = offset
     }
-    
-    private func requestManagedArticles(favorite favorite: Bool?) -> [MOArticle] {
-        
-        let request = NSFetchRequest(entityName: MOArticle.entityName)
-        
-        if let notNilFavorite = favorite {
-            request.predicate = NSPredicate(format: "favourite = %@", notNilFavorite)
-        }
-        
-        do {
-            return try self.context.executeFetchRequest(request) as! [MOArticle]
-        } catch {
-            return []
-        }
-    }
-    
-    private func requestArticlesCount(favorite favorite: Bool?) -> Int {
-        
-        let request = NSFetchRequest(entityName: MOArticle.entityName)
-        
-        if let notNilFavorite = favorite {
-            request.predicate = NSPredicate(format: "favourite = %@", notNilFavorite)
-        }
-        
-        var error: NSError?
-        return self.context.countForFetchRequest(request, error: &error)
-    }
-    
+
     private func saveArticleDetails(details: ArticleDetails) -> MOArticleDetails {
-        
-        let moDetails = NSEntityDescription.insertNewObjectForEntityForName(MOArticleDetails.entityName, inManagedObjectContext: self.context) as! MOArticleDetails
-        moDetails.htmlText = details.htmlText
-        return moDetails
-    }
-    
-    private func makeArticleFavourite(article article: Article) {
-        
-        if let moArticle = self.managedObjectFromArticle(article) {
-            moArticle.favourite = true
-        } else {
-            // TODO:
-        }
-    }
-    
-    private func makeArticleNotFavourite(article article: Article) {
-        
-        if let moArticle = self.managedObjectFromArticle(article) {
-            moArticle.favourite = false
-        } else {
-            // TODO:
-        }
-    }
-    
-    func setTopOffset(article: Article, offset: Float) {
-        
-        if let moArticle = self.managedObjectFromArticle(article) {
-            moArticle.topOffset = offset
-        } else {
-            // TODO:
-        }
+        return MOArticleDetails.insertIntoContext(context, details: details)
     }
     
     private func managedObjectFromArticle(article: Article) -> MOArticle? {
-        
-        let request = NSFetchRequest(entityName: MOArticle.entityName)
-        request.predicate = NSPredicate(format: "id = %@", article.id)
-        
-        do {
-            return try self.context.executeFetchRequest(request).last as? MOArticle
-        } catch {
-            return nil
-        }
+        return MOArticle.findOrFetchInContext(context, matchingPredicate: NSPredicate(format: "id = %@", article.id))
     }
     
     private func articleFromManagedObject(moArticle: MOArticle) -> Article {
-        return Article(id: moArticle.id!, title: moArticle.title!, thumbPath: moArticle.thumbPath!, saved: moArticle.details != nil, favourite: moArticle.favourite!.boolValue, topOffset: moArticle.topOffset!.floatValue)
+        return Article(id: moArticle.id, title: moArticle.title!, thumbPath: moArticle.thumbPath!, saved: moArticle.details != nil, favourite: moArticle.favourite!.boolValue, topOffset: moArticle.topOffset.doubleValue)
     }
     
     private func detailsFromManagedObject(moDetails: MOArticleDetails) -> ArticleDetails {
         return ArticleDetails(htmlText: moDetails.htmlText!)
+    }
+}
+
+//MARK: FavouriteArticlesStorage
+extension CoreDataManager: FavouriteArticlesStorage {
+
+    func favouriteArticles() -> [Article] {
+        return self.requestArticles(favorite: true)
+    }
+}
+
+//MARK: FavouriteMaker
+extension CoreDataManager: FavouriteMaker {
+
+    func makeFavourite(article article: Article, favourite: Bool) {
+        self.managedObjectFromArticle(article)?.favourite = favourite
+    }
+}
+
+//MARK: Fetching
+private extension CoreDataManager {
+
+    private func requestArticles(favorite favorite: Bool? = nil) -> [Article] {
+        return self.requestManagedArticles(favorite: favorite).map({ self.articleFromManagedObject($0) })
+    }
+
+    private func requestManagedArticles(favorite favorite: Bool?) -> [MOArticle] {
+
+        return MOArticle.fetchInContext(context) { fetchRequest in
+            if let notNilFavorite = favorite {
+                fetchRequest.predicate = NSPredicate(format: "favourite = %@", notNilFavorite)
+            }
+            fetchRequest.sortDescriptors = MOArticle.defaultSortDescriptors
+        }
+    }
+
+    private func requestArticlesCount(favorite favorite: Bool? = nil) -> Int {
+    
+        return MOArticle.countInContext(context) { fetchRequest in
+            if let notNilFavorite = favorite {
+                fetchRequest.predicate = NSPredicate(format: "favourite = %@", notNilFavorite)
+            }
+        }
+    }
+}
+
+public extension NSManagedObjectContext {
+
+    func insertObject<A: ManagedObject where A: ManagedObjectType>() -> A {
+
+        guard let object = NSEntityDescription.insertNewObjectForEntityForName(A.entityName, inManagedObjectContext: self) as? A else {
+            Tracker.trackException(withDescription: "Wrong object type")
+            fatalError()
+        }
+        return object
+    }
+
+    func saveOrRollback() -> Bool {
+
+        do {
+            try save()
+            return true
+        } catch {
+            Tracker.trackException(withDescription: "Failed to save changes in ctx")
+            rollback()
+            return false
+        }
+    }
+
+    func performChanges(block: () -> ()) {
+        performBlock { 
+            block()
+            self.saveOrRollback()
+        }
     }
 }
