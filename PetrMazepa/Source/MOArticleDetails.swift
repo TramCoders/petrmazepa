@@ -9,10 +9,8 @@
 import Foundation
 import CoreData
 
-@objc(MOArticleDetails)
 final class MOArticleDetails: ManagedObject {
 
-// Insert code here to add functionality to your managed object subclass
     static func insertIntoContext(context: NSManagedObjectContext, details: ArticleDetails) -> MOArticleDetails {
     
         let moDetails: MOArticleDetails = context.insertObject()

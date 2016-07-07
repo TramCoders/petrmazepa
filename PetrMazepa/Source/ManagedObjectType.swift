@@ -9,8 +9,7 @@
 import Foundation
 import CoreData
 
-public class ManagedObject: NSManagedObject {
-}
+public class ManagedObject: NSManagedObject {}
 
 public protocol ManagedObjectType: class {
     static var entityName: String { get }
@@ -70,16 +69,6 @@ public extension ManagedObjectType where Self: ManagedObject {
     }
 }
 
-extension SequenceType {
-
-    func findElement(match: Generator.Element -> Bool) -> Generator.Element? {
-        for element in self where match(element) {
-            return element
-        }
-        return nil
-    }
-}
-
 extension CollectionType where Generator.Element: ManagedObject {
     
     public func fetchFaultedObjects() {
@@ -99,5 +88,17 @@ extension CollectionType where Generator.Element: ManagedObject {
         request.returnsObjectsAsFaults = false
         request.predicate = NSPredicate(format: "self in %", faults)
         try! context.executeRequest(request)
+    }
+}
+
+public extension NSManagedObjectContext {
+    
+    func insertObject<A: ManagedObject where A: ManagedObjectType>() -> A {
+        
+        guard let object = NSEntityDescription.insertNewObjectForEntityForName(A.entityName, inManagedObjectContext: self) as? A else {
+            Tracker.trackException(withDescription: "Wrong object type")
+            fatalError()
+        }
+        return object
     }
 }
