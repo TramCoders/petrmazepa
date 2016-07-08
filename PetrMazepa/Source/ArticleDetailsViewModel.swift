@@ -74,7 +74,7 @@ class ArticleDetailsViewModel : ViewModel, IArticleDetailsViewModel {
     
     func scrollViewDidScroll(offset offset: CGFloat, contentHeight: CGFloat) {
         
-        self.article.topOffset = Float(offset)
+        self.article.topOffset = Double(offset.native)
         let bottomDirection: Bool
         
         if let _ = self.startOffset {
