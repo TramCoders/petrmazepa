@@ -119,13 +119,13 @@ class Router: NSObject, IRouter {
         let activityViewController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
         self.currentViewController.presentViewController(activityViewController, animated: true, completion: nil)
 
-        activityViewController.completionWithItemsHandler = { activityType, completed, returnedItems, activityError in
+        activityViewController.completionWithItemsHandler = { [weak self] activityType, completed, returnedItems, activityError in
 
             guard completed && (activityError == nil) else {
                 return
             }
             
-            Tracker.trackShare(article, activityType: activityType)
+            self?.tracker.trackShare(article, activityType: activityType)
         }
     }
     

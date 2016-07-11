@@ -10,6 +10,8 @@ import Foundation
 
 class PersistentImageStorage {
 
+    private let tracker: ITracker
+    
     private let cacheFolderPath: String = {
 
         let paths = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true) as [String]
@@ -19,15 +21,17 @@ class PersistentImageStorage {
 
     private let fileManager: NSFileManager
 
-    init() {
+    init(tracker: ITracker) {
 
+        self.tracker = tracker
+        
         fileManager = NSFileManager.defaultManager()
         if !fileManager.fileExistsAtPath(cacheFolderPath) {
             do {
                 try fileManager.createDirectoryAtPath(cacheFolderPath, withIntermediateDirectories: true, attributes: nil)
             } catch {
                 let description = (error as NSError).extensiveLocalizedDescription ?? "Unable to create folder at path \(cacheFolderPath)"
-                Tracker.trackException(withDescription: description)
+                tracker.trackException(withDescription: description)
                 fatalError(description)
             }
         }
