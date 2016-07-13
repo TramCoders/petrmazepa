@@ -41,7 +41,7 @@ class Router: NSObject, IRouter {
         self.tracker = Tracker()
         
         let inMemoryImageStorage = InMemoryImageStorage()
-        let persistentImageStorage = PersistentImageStorage()
+        let persistentImageStorage = PersistentImageStorage(tracker: tracker)
         self.imageCache = ImageCache(inMemoryImageStorage: inMemoryImageStorage, persistentImageStorage: persistentImageStorage, downloader: self.networking)
         
         super.init()

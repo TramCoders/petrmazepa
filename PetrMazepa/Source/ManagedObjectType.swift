@@ -53,7 +53,7 @@ public extension ManagedObjectType where Self: ManagedObject {
         var error: NSError?
         let result = context.countForFetchRequest(request, error:&error)
         if result == NSNotFound {
-            Tracker.trackException(withDescription: "Failed to execute count request, error:\(error)")
+//            Tracker.trackException(withDescription: "Failed to execute count request, error:\(error)")    // FIXME: must be tracked
             fatalError()
         }
         return result
@@ -63,7 +63,7 @@ public extension ManagedObjectType where Self: ManagedObject {
         let request = NSFetchRequest(entityName: Self.entityName)
         configuration(request)
         guard let result = try! context.executeFetchRequest(request) as? [Self] else {
-            Tracker.trackException(withDescription: "Wrong entity type fetched")
+//            Tracker.trackException(withDescription: "Wrong entity type fetched")    // FIXME: must be tracked
             fatalError()
         }
         return result
