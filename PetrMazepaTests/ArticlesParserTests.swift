@@ -6,8 +6,11 @@
 //  Copyright (c) 2015 TramCoders. All rights reserved.
 //
 
+// TODO: should be adopted to the new interfaces
+
 //import UIKit
 //import XCTest
+//@testable import PetrMazepa
 //
 //class ArticlesParserTests: XCTestCase {
 //

@@ -14,7 +14,12 @@
 		122D4CA31C73689300EB5300 /* ImageSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 122D4CA11C73689300EB5300 /* ImageSpec.swift */; };
 		1232F2871D330916008EFB93 /* ITracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1232F2861D330916008EFB93 /* ITracker.swift */; };
 		123FCFEA1C4F8E520097D767 /* LastReadArticleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 123FCFE91C4F8E520097D767 /* LastReadArticleView.swift */; };
+		126012B81D36CDF300FDFB57 /* ImageCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACEE368B1BB8045900E7F63D /* ImageCacheTests.swift */; };
+		126012BB1D36CEBE00FDFB57 /* Mocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 126012BA1D36CEBE00FDFB57 /* Mocks.swift */; };
 		12AD97921C5810B500B92AA5 /* LastReadArticleMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12AD97911C5810B500B92AA5 /* LastReadArticleMaker.swift */; };
+		12C3697B1D36C9B4008988EE /* SettingsViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C3697A1D36C9B4008988EE /* SettingsViewModelSpec.swift */; };
+		12C3697C1D36CCFE008988EE /* ArticlesParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACEF098F1BC1336A000F00B7 /* ArticlesParserTests.swift */; };
+		12C3697D1D36CD50008988EE /* NetworkingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0BD0D71BB74EF400876B76 /* NetworkingTests.swift */; };
 		12F5A5491D302F7C0006A144 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F5A5431D302F7C0006A144 /* Router.swift */; };
 		12F5A54A1D302F7C0006A144 /* ArticleDetailsModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F5A5441D302F7C0006A144 /* ArticleDetailsModule.swift */; };
 		12F5A54B1D302F7C0006A144 /* ArticlesModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F5A5451D302F7C0006A144 /* ArticlesModule.swift */; };
@@ -108,7 +113,9 @@
 		122D4CA11C73689300EB5300 /* ImageSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageSpec.swift; path = Source/ImageSpec.swift; sourceTree = "<group>"; };
 		1232F2861D330916008EFB93 /* ITracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ITracker.swift; path = Source/ITracker.swift; sourceTree = "<group>"; };
 		123FCFE91C4F8E520097D767 /* LastReadArticleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LastReadArticleView.swift; path = Source/LastReadArticleView.swift; sourceTree = "<group>"; };
+		126012BA1D36CEBE00FDFB57 /* Mocks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Mocks.swift; path = Source/Mocks.swift; sourceTree = "<group>"; };
 		12AD97911C5810B500B92AA5 /* LastReadArticleMaker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LastReadArticleMaker.swift; path = Source/LastReadArticleMaker.swift; sourceTree = "<group>"; };
+		12C3697A1D36C9B4008988EE /* SettingsViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsViewModelSpec.swift; path = Source/SettingsViewModelSpec.swift; sourceTree = "<group>"; };
 		12F5A5431D302F7C0006A144 /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Router.swift; path = Source/Router.swift; sourceTree = "<group>"; };
 		12F5A5441D302F7C0006A144 /* ArticleDetailsModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ArticleDetailsModule.swift; path = Source/ArticleDetailsModule.swift; sourceTree = "<group>"; };
 		12F5A5451D302F7C0006A144 /* ArticlesModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ArticlesModule.swift; path = Source/ArticlesModule.swift; sourceTree = "<group>"; };
@@ -336,6 +343,15 @@
 			name = ViewModel;
 			sourceTree = "<group>";
 		};
+		126012B91D36CE9600FDFB57 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				12C3697A1D36C9B4008988EE /* SettingsViewModelSpec.swift */,
+				126012BA1D36CEBE00FDFB57 /* Mocks.swift */,
+			);
+			name = ViewModels;
+			sourceTree = "<group>";
+		};
 		5EC712091B8CD39E00C84AE7 /* 3rdParty */ = {
 			isa = PBXGroup;
 			children = (
@@ -496,6 +512,7 @@
 		ACAF976B1B5C04A300CB53B1 /* PetrMazepaTests */ = {
 			isa = PBXGroup;
 			children = (
+				126012B91D36CE9600FDFB57 /* ViewModels */,
 				ACC6D6641B73EF510099131D /* HTML */,
 				ACEF098F1BC1336A000F00B7 /* ArticlesParserTests.swift */,
 				AC0BD0D71BB74EF400876B76 /* NetworkingTests.swift */,
@@ -1006,8 +1023,13 @@
 				AC0837141C6A9D60005A85C5 /* InMemoryImageStorageSpec.swift in Sources */,
 				122D4C9F1C73684600EB5300 /* ImageStorage.swift in Sources */,
 				122D4CA31C73689300EB5300 /* ImageSpec.swift in Sources */,
+				12C3697D1D36CD50008988EE /* NetworkingTests.swift in Sources */,
 				AC576D5C1CAB119D0024F5A2 /* Scheduler.swift in Sources */,
+				12C3697C1D36CCFE008988EE /* ArticlesParserTests.swift in Sources */,
 				122D4C9E1C73683700EB5300 /* InMemoryImageStorage.swift in Sources */,
+				126012B81D36CDF300FDFB57 /* ImageCacheTests.swift in Sources */,
+				12C3697B1D36C9B4008988EE /* SettingsViewModelSpec.swift in Sources */,
+				126012BB1D36CEBE00FDFB57 /* Mocks.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1135,7 +1157,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_MODULE_NAME = PetrMazepa;
+				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE = "23461f63-4a78-4933-a714-342194965eb8";
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "PetrMazepa/PetrMazepa-Bridging-Header.h";
@@ -1181,7 +1203,7 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_MODULE_NAME = PetrMazepa;
+				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE = "c48996bd-05b9-4197-9dd2-1b2a7e532c2b";
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "PetrMazepa/PetrMazepa-Bridging-Header.h";
@@ -1257,6 +1279,7 @@
 				INFOPLIST_FILE = PetrMazepaTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.tramcoders.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PetrMazepa.app/PetrMazepa";
@@ -1277,6 +1300,7 @@
 				INFOPLIST_FILE = PetrMazepaTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.tramcoders.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PetrMazepa.app/PetrMazepa";

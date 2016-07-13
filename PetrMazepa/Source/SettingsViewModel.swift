@@ -15,9 +15,9 @@ class SettingsViewModel: ISettingsViewModel {
     private let settings: ReadWriteSettings
     private let router: IRouter
     private let imageCacheUtil: ImageCacheUtil
-    private let tracker: Tracker
+    private let tracker: ITracker
     
-    init(view: ISettingsView, settings: ReadWriteSettings, router: IRouter, imageCacheUtil: ImageCacheUtil, tracker: Tracker) {
+    init(view: ISettingsView, settings: ReadWriteSettings, router: IRouter, imageCacheUtil: ImageCacheUtil, tracker: ITracker) {
 
         self.view = view
         self.settings = settings
