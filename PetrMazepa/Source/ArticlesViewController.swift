@@ -122,7 +122,7 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
         self.model.didScroll(contentOffset: contentOffset, distanceToBottom: distance)
     }
     
-    private func indexPaths(range range: Range<Int>) -> [NSIndexPath] {
+    private func indexPaths(fromRange range: Range<Int>) -> [NSIndexPath] {
         return range.map({ NSIndexPath(forItem: $0, inSection: 0) })
     }
 }
@@ -200,7 +200,7 @@ extension ArticlesViewController: ArticlesViewProtocol {
     func articlesInserted(inRange range: Range<Int>) {
         
         self.layout.insertArticles(range.count)
-        let insertedIndexPaths = self.indexPaths(range: range)
+        let insertedIndexPaths = self.indexPaths(fromRange: range)
         
         if range.startIndex == 0 {
             self.collectionView.reloadData()
