@@ -184,7 +184,7 @@ extension ArticlesViewController: ArticlesViewProtocol {
         self.navigationController?.setNavigationBarHidden(!visible, animated: animated)
     }
     
-    func lastReadArticleVisibilityChanged(visible visible: Bool, animated: Bool) {
+    func lastReadArticleVisibilityChanged(toVisible visible: Bool, animated: Bool) {
         
         self.bottomLastReadConstraint.constant = visible ? 0.0 : -self.heightLastReadConstraint.constant
         

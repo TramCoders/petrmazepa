@@ -16,7 +16,7 @@ protocol ArticlesViewProtocol {
     func articlesInserted(inRange range: Range<Int>)
     func allArticlesDeleted()
     func articlesUpdated(newCount newCount: Int)
-    func lastReadArticleVisibilityChanged(visible visible: Bool, animated: Bool)
+    func lastReadArticleVisibilityChanged(toVisible visible: Bool, animated: Bool)
     func navigationBarVisibilityChanged(visible visible: Bool, animated: Bool)
     func loadingInOfflineModeFailed()
     func errorOccurred()

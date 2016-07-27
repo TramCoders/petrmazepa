@@ -272,7 +272,7 @@ class ArticlesViewModel : ViewModel, ArticlesViewModelProtocol {
             if self.lastReadArticleExists {
                 
                 self.lastReadArticleVisible = visible
-                self.view.lastReadArticleVisibilityChanged(visible: visible, animated: true)
+                self.view.lastReadArticleVisibilityChanged(toVisible: visible, animated: true)
             }
             
             self.navigationBarVisible = visible
