@@ -129,22 +129,22 @@ class Router: NSObject, IRouter {
         }
     }
     
-    private func createArticlesViewModel(view view: IArticlesView) -> ArticlesViewModel {
+    private func createArticlesViewModel(view view: ArticlesViewProtocol) -> ArticlesViewModel {
         
         return ArticlesViewModel(view: view, settings: self.settings, articleStorage: self.contentProvider, imageGateway: self.imageCache, articlesFetcher: self.contentProvider, router: self)
     }
     
-    private func createArticleDetailsViewModel(view view: IArticleDetailsView, article: Article) -> ArticleDetailsViewModel {
+    private func createArticleDetailsViewModel(view view: ArticleDetailsViewProtocol, article: Article) -> ArticleDetailsViewModel {
         
         return ArticleDetailsViewModel(view: view, settings: self.settings, article: article, imageGateway: self.imageCache, articleDetailsFetcher: self.contentProvider, favouriteMaker: self.contentProvider, router: self, topOffsetEditor: self.contentProvider, lastReadArticleMaker: self.contentProvider, tracker: self.tracker)
     }
     
-    private func createSearchViewModel(view view: ISearchView) -> SearchViewModel {
+    private func createSearchViewModel(view view: SearchViewProtocol) -> SearchViewModel {
         
         return SearchViewModel(view: view, settings: self.settings, imageGateway: self.imageCache, articleStorage: self.contentProvider, favouriteArticleStorage: self.contentProvider, router: self, tracker: self.tracker)
     }
     
-    private func createSettingsViewModel(view view: ISettingsView) -> SettingsViewModel {
+    private func createSettingsViewModel(view view: SettingsViewProtocol) -> SettingsViewModel {
         return SettingsViewModel(view: view, settings: self.settings, router: self, imageCacheUtil: self.imageCache, tracker: self.tracker)
     }
 }

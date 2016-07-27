@@ -8,9 +8,9 @@
 
 import UIKit
 
-class ArticleDetailsViewModel : ViewModel, IArticleDetailsViewModel {
+class ArticleDetailsViewModel : ViewModel, ArticleDetailsViewModelProtocol {
     
-    var view: IArticleDetailsView?
+    var view: ArticleDetailsViewProtocol
     
     private let articleDetailsFetcher: ArticleDetailsFetcher
     private let imageGateway: ImageGateway
@@ -50,7 +50,7 @@ class ArticleDetailsViewModel : ViewModel, IArticleDetailsViewModel {
     
     private(set) var image: UIImage?
     
-    init(view: IArticleDetailsView, settings: ReadOnlySettings, article: Article, imageGateway: ImageGateway, articleDetailsFetcher: ArticleDetailsFetcher, favouriteMaker: FavouriteMaker, router: IRouter, topOffsetEditor: TopOffsetEditor, lastReadArticleMaker: LastReadArticleMaker, tracker: Tracker) {
+    init(view: ArticleDetailsViewProtocol, settings: ReadOnlySettings, article: Article, imageGateway: ImageGateway, articleDetailsFetcher: ArticleDetailsFetcher, favouriteMaker: FavouriteMaker, router: IRouter, topOffsetEditor: TopOffsetEditor, lastReadArticleMaker: LastReadArticleMaker, tracker: Tracker) {
 
         self.view = view
         self.settings = settings
@@ -101,7 +101,7 @@ class ArticleDetailsViewModel : ViewModel, IArticleDetailsViewModel {
         super.viewWillAppear()
         self.lastReadArticleMaker.setLastReadArticle(self.article)
         self.barsVisibile = true
-        self.view?.updateFavouriteState(self.article.favourite)
+        self.view.updateFavouriteState(self.article.favourite)
         
         self.tracker.textLoadingDidStart()
     }
@@ -144,7 +144,7 @@ class ArticleDetailsViewModel : ViewModel, IArticleDetailsViewModel {
         
         let favourite = !self.article.favourite
         self.favouriteMaker.makeFavourite(article: self.article, favourite: favourite)
-        self.view?.updateFavouriteState(favourite)
+        self.view.updateFavouriteState(favourite)
         
         tracker.trackFavouriteChange(self.article)
     }
@@ -162,7 +162,7 @@ class ArticleDetailsViewModel : ViewModel, IArticleDetailsViewModel {
     private func updateBarsVisible(visible: Bool) {
 
         self.barsVisibile = visible
-        self.view?.updateBarsVisibility(visible)
+        self.view.updateBarsVisibility(visible)
     }
     
     private func loadHtmlText() {
@@ -178,14 +178,14 @@ class ArticleDetailsViewModel : ViewModel, IArticleDetailsViewModel {
             guard details != nil else {
                 
                 dispatch_async(dispatch_get_main_queue(), {
-                    self.view?.showError(error)
+                    self.view.showError(error)
                 })
                 
                 return
             }
             
             dispatch_async(dispatch_get_main_queue(), {
-                self.view?.reloadHtmlText()
+                self.view.reloadHtmlText()
             })
         }
     }
@@ -202,7 +202,7 @@ class ArticleDetailsViewModel : ViewModel, IArticleDetailsViewModel {
             }
             
             dispatch_async(dispatch_get_main_queue(), {
-                self.view?.reloadImage()
+                self.view.reloadImage()
             })
         }
     }

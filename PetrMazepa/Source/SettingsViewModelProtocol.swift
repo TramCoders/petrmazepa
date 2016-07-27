@@ -1,14 +1,14 @@
 //
-//  SettingsModule.swift
+//  SettingsViewModelProtocol.swift
 //  PetrMazepa
 //
-//  Created by Artem Stepanenko on 18/06/16.
+//  Created by Artem Stepanenko on 27/07/16.
 //  Copyright © 2016 TramCoders. All rights reserved.
 //
 
 import Foundation
 
-protocol ISettingsViewModel {
+protocol SettingsViewModelProtocol {
     
     var offlineMode: Bool { get }
     var onlyWifiImages: Bool { get }
@@ -18,8 +18,4 @@ protocol ISettingsViewModel {
     func didSwitchOnlyWifiImages(enabled enabled: Bool)
     func closeTapped()
     func clearCacheTapped()
-}
-
-protocol ISettingsView {
-    
 }

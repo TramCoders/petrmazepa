@@ -16,7 +16,7 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
         case Text
     }
     
-    var model: IArticleDetailsViewModel!
+    var model: ArticleDetailsViewModelProtocol!
     
     @IBOutlet weak var collectionView: UICollectionView!
     private weak var layout: ArticleDetailsLayout!
@@ -166,7 +166,7 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
     }
 }
 
-extension ArticleDetailsViewController: IArticleDetailsView {
+extension ArticleDetailsViewController: ArticleDetailsViewProtocol {
     
     func reloadImage() {
         self.imageCell.image = self.model.image

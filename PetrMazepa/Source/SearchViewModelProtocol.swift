@@ -1,19 +1,15 @@
 //
-//  SearchModule.swift
+//  SearchViewModelProtocol.swift
 //  PetrMazepa
 //
-//  Created by Artem Stepanenko on 5/7/16.
+//  Created by Artem Stepanenko on 27/07/16.
 //  Copyright © 2016 TramCoders. All rights reserved.
 //
 
 import Foundation
 
-protocol ISearchView: class {
-    func reloadArticles()
-}
-
-protocol ISearchViewModel: class {
-
+protocol SearchViewModelProtocol: class {
+    
     var filter: SearchFilter { get }
     var articlesCount: Int { get }
     

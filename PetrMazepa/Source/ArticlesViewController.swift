@@ -10,7 +10,7 @@ import UIKit
 
 class ArticlesViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
-    var model: IArticlesViewModel!
+    var model: ArticlesViewModelProtocol!
     
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var noArticlesView: UIView!
@@ -127,7 +127,7 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
     }
 }
 
-extension ArticlesViewController: IArticlesView {
+extension ArticlesViewController: ArticlesViewProtocol {
     
     func loadingInOfflineModeFailed() {
         // message

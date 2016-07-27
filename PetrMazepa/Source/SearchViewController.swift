@@ -8,9 +8,9 @@
 
 import UIKit
 
-class SearchViewController: UIViewController, ISearchView, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate {
+class SearchViewController: UIViewController, SearchViewProtocol, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate {
 
-    var model: ISearchViewModel!
+    var model: SearchViewModelProtocol!
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var bottomTableContraint: NSLayoutConstraint!

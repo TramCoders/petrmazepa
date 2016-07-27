@@ -8,9 +8,9 @@
 
 import UIKit
 
-class ArticlesViewModel : ViewModel, IArticlesViewModel {
+class ArticlesViewModel : ViewModel, ArticlesViewModelProtocol {
     
-    private var view: IArticlesView?
+    private var view: ArticlesViewProtocol
     
     private let settings: ReadOnlySettings
     private let imageGateway: ImageGateway
@@ -60,7 +60,7 @@ class ArticlesViewModel : ViewModel, IArticlesViewModel {
                 return
             }
             
-            self.view?.refreshingStateChanged(refreshing: self.refreshing)
+            self.view.refreshingStateChanged(refreshing: self.refreshing)
         }
     }
     
@@ -71,7 +71,7 @@ class ArticlesViewModel : ViewModel, IArticlesViewModel {
                 return
             }
             
-            self.view?.loadingMoreStateChanged(loadingMore: self.loadingMore)
+            self.view.loadingMoreStateChanged(loadingMore: self.loadingMore)
         }
     }
     
@@ -82,7 +82,7 @@ class ArticlesViewModel : ViewModel, IArticlesViewModel {
     var lastReadArticleVisible: Bool = true
     var navigationBarVisible: Bool = true
     
-    required init(view: IArticlesView, settings: ReadOnlySettings, articleStorage: ArticleStorage, imageGateway: ImageGateway, articlesFetcher: ArticlesFetcher, router: IRouter) {
+    required init(view: ArticlesViewProtocol, settings: ReadOnlySettings, articleStorage: ArticleStorage, imageGateway: ImageGateway, articlesFetcher: ArticlesFetcher, router: IRouter) {
 
         self.view = view
         self.settings = settings
@@ -116,13 +116,13 @@ class ArticlesViewModel : ViewModel, IArticlesViewModel {
         self.screenArticlesAmount = Int(ceil(size.height / (thumbWidth + 1))) * 2
         
         // no articles view
-        self.view?.noArticlesVisibilityChanged(visible: false)
+        self.view.noArticlesVisibilityChanged(visible: false)
         
         // articles
         let count = self.articlesCount
         
         if count > 0 {
-            self.view?.articlesInserted(range: 0..<count)
+            self.view.articlesInserted(range: 0..<count)
         }
     }
     
@@ -137,10 +137,10 @@ class ArticlesViewModel : ViewModel, IArticlesViewModel {
         
         if self.articlesCount == 0 {
             
-            self.view?.allArticlesDeleted()
+            self.view.allArticlesDeleted()
             
             if self.settings.offlineMode {
-                self.view?.noArticlesVisibilityChanged(visible: true)
+                self.view.noArticlesVisibilityChanged(visible: true)
             }
         }
         
@@ -148,7 +148,7 @@ class ArticlesViewModel : ViewModel, IArticlesViewModel {
             self.loadFirst()
         }
         
-        self.view?.articlesUpdated(newCount: self.articlesCount)
+        self.view.articlesUpdated(newCount: self.articlesCount)
 
         self.lastReadArticleVisible = self.lastReadArticleExists
         self.navigationBarVisible = true
@@ -210,10 +210,10 @@ class ArticlesViewModel : ViewModel, IArticlesViewModel {
         guard !self.settings.offlineMode else {
             
             self.loadingInOfflineModeHasShown = true
-            self.view?.loadingInOfflineModeFailed()
+            self.view.loadingInOfflineModeFailed()
             
             if self.articlesCount == 0 {
-                self.view?.noArticlesVisibilityChanged(visible: true)
+                self.view.noArticlesVisibilityChanged(visible: true)
             }
             
             return
@@ -258,7 +258,7 @@ class ArticlesViewModel : ViewModel, IArticlesViewModel {
             return
         }
         
-        self.view?.noArticlesVisibilityChanged(visible: true)
+        self.view.noArticlesVisibilityChanged(visible: true)
     }
     
     func switchOffActionTapped() {
@@ -272,11 +272,11 @@ class ArticlesViewModel : ViewModel, IArticlesViewModel {
             if self.lastReadArticleExists {
                 
                 self.lastReadArticleVisible = visible
-                self.view?.lastReadArticleVisibilityChanged(visible: visible, animated: true)
+                self.view.lastReadArticleVisibilityChanged(visible: visible, animated: true)
             }
             
             self.navigationBarVisible = visible
-            self.view?.navigationBarVisibilityChanged(visible: visible, animated: true)
+            self.view.navigationBarVisibilityChanged(visible: visible, animated: true)
         }
     }
     
@@ -322,7 +322,7 @@ class ArticlesViewModel : ViewModel, IArticlesViewModel {
             if !self.loadingInOfflineModeHasShown {
                 
                 self.loadingInOfflineModeHasShown = true
-                self.view?.loadingInOfflineModeFailed()
+                self.view.loadingInOfflineModeFailed()
             }
             
             return
@@ -346,7 +346,7 @@ class ArticlesViewModel : ViewModel, IArticlesViewModel {
                     if !self.errorOccurredHasShown {
                      
                         self.errorOccurredHasShown = true
-                        self.view?.errorOccurred()
+                        self.view.errorOccurred()
                     }
                     
                     return
@@ -358,7 +358,7 @@ class ArticlesViewModel : ViewModel, IArticlesViewModel {
                 
                 guard notNilNewArticles.count > 0 else {
                     
-                    self.view?.noArticlesVisibilityChanged(visible: true)
+                    self.view.noArticlesVisibilityChanged(visible: true)
                     return
                 }
                 
@@ -366,13 +366,13 @@ class ArticlesViewModel : ViewModel, IArticlesViewModel {
                 self.fetchedArticles.appendContentsOf(notNilNewArticles)
                 
                 if oldCount == 0 {                    
-                    self.view?.articlesUpdated(newCount: notNilNewArticles.count)
+                    self.view.articlesUpdated(newCount: notNilNewArticles.count)
 
                 } else {
                 
                     let newCount = self.fetchedArticles.count
-                    self.view?.noArticlesVisibilityChanged(visible: false)
-                    self.view?.articlesInserted(range: fromIndex..<newCount)
+                    self.view.noArticlesVisibilityChanged(visible: false)
+                    self.view.articlesInserted(range: fromIndex..<newCount)
                 }
             })
         }

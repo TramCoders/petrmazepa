@@ -15,9 +15,9 @@ enum SearchFilter {
     case Favorite
 }
 
-class SearchViewModel : ViewModel, ISearchViewModel {
+class SearchViewModel : ViewModel, SearchViewModelProtocol {
     
-    private weak var view: ISearchView?
+    private var view: SearchViewProtocol
     
     private var query = ""
     private var allArticles: [Article]
@@ -35,7 +35,7 @@ class SearchViewModel : ViewModel, ISearchViewModel {
     private let router: IRouter
     private let tracker: Tracker
     
-    required init(view: ISearchView, settings: ReadOnlySettings, imageGateway: ImageGateway, articleStorage: ArticleStorage, favouriteArticleStorage: FavouriteArticlesStorage, router: IRouter, tracker: Tracker) {
+    required init(view: SearchViewProtocol, settings: ReadOnlySettings, imageGateway: ImageGateway, articleStorage: ArticleStorage, favouriteArticleStorage: FavouriteArticlesStorage, router: IRouter, tracker: Tracker) {
         
         self.view = view
         self.settings = settings
@@ -66,7 +66,7 @@ class SearchViewModel : ViewModel, ISearchViewModel {
 
             self.filter = filter
             self.invalidateContent()
-            self.view?.reloadArticles()
+            self.view.reloadArticles()
         }
     }
     
@@ -86,7 +86,7 @@ class SearchViewModel : ViewModel, ISearchViewModel {
 
         self.query = query
         self.invalidateContent()
-        self.view?.reloadArticles()
+        self.view.reloadArticles()
         
         self.tracker.trackSearch(query)
     }

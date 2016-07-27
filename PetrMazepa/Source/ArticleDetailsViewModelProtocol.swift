@@ -1,23 +1,14 @@
 //
-//  ArticleDetailsModule.swift
+//  ArticleDetailsViewModelProtocol.swift
 //  PetrMazepa
 //
-//  Created by Artem Stepanenko on 17/06/16.
+//  Created by Artem Stepanenko on 27/07/16.
 //  Copyright © 2016 TramCoders. All rights reserved.
 //
 
 import UIKit
 
-protocol IArticleDetailsView: class {
-    
-    func reloadImage()
-    func reloadHtmlText()
-    func updateFavouriteState(favourite: Bool)
-    func updateBarsVisibility(visible: Bool)
-    func showError(error: NSError?)
-}
-
-protocol IArticleDetailsViewModel: class {
+protocol ArticleDetailsViewModelProtocol: class {
     
     var barsVisibile: Bool { get }
     var image: UIImage? { get }
