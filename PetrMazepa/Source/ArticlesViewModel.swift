@@ -122,7 +122,7 @@ class ArticlesViewModel : ViewModel, ArticlesViewModelProtocol {
         let count = self.articlesCount
         
         if count > 0 {
-            self.view.articlesInserted(range: 0..<count)
+            self.view.articlesInserted(inRange: 0..<count)
         }
     }
     
@@ -372,7 +372,7 @@ class ArticlesViewModel : ViewModel, ArticlesViewModelProtocol {
                 
                     let newCount = self.fetchedArticles.count
                     self.view.noArticlesVisibilityChanged(visible: false)
-                    self.view.articlesInserted(range: fromIndex..<newCount)
+                    self.view.articlesInserted(inRange: fromIndex..<newCount)
                 }
             })
         }

@@ -197,7 +197,7 @@ extension ArticlesViewController: ArticlesViewProtocol {
         }
     }
     
-    func articlesInserted(range range: Range<Int>) {
+    func articlesInserted(inRange range: Range<Int>) {
         
         self.layout.insertArticles(range.count)
         let insertedIndexPaths = self.indexPaths(range: range)

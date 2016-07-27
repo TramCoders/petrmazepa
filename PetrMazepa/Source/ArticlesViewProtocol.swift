@@ -13,7 +13,7 @@ protocol ArticlesViewProtocol {
     func refreshingStateChanged(refreshing refreshing: Bool)
     func loadingMoreStateChanged(loadingMore loadingMore: Bool)
     func noArticlesVisibilityChanged(visible visible: Bool)
-    func articlesInserted(range range: Range<Int>)
+    func articlesInserted(inRange range: Range<Int>)
     func allArticlesDeleted()
     func articlesUpdated(newCount newCount: Int)
     func lastReadArticleVisibilityChanged(visible visible: Bool, animated: Bool)
