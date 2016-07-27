@@ -1,5 +1,5 @@
 //
-//  IRouter.swift
+//  RouterProtocol.swift
 //  PetrMazepa
 //
 //  Created by Artem Stepanenko on 5/6/16.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol IRouter {
+protocol RouterProtocol {
     
     func presentArticles()
     func presentArticleDetails(article: Article)

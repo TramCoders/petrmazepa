@@ -16,7 +16,7 @@ class ArticlesViewModel : ViewModel, ArticlesViewModelProtocol {
     private let imageGateway: ImageGateway
     private let articlesFetcher: ArticlesFetcher
     private let articleStorage: ArticleStorage
-    private let router: IRouter
+    private let router: RouterProtocol
     
     private var fetchedArticles = [Article]()
     
@@ -82,7 +82,7 @@ class ArticlesViewModel : ViewModel, ArticlesViewModelProtocol {
     var lastReadArticleVisible: Bool = true
     var navigationBarVisible: Bool = true
     
-    required init(view: ArticlesViewProtocol, settings: ReadOnlySettings, articleStorage: ArticleStorage, imageGateway: ImageGateway, articlesFetcher: ArticlesFetcher, router: IRouter) {
+    required init(view: ArticlesViewProtocol, settings: ReadOnlySettings, articleStorage: ArticleStorage, imageGateway: ImageGateway, articlesFetcher: ArticlesFetcher, router: RouterProtocol) {
 
         self.view = view
         self.settings = settings

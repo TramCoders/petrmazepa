@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Router: NSObject, IRouter {
+class Router: NSObject, RouterProtocol {
     
     private let window: UIWindow
     private let storyboard: UIStoryboard

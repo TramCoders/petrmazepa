@@ -13,11 +13,11 @@ class SettingsViewModel: SettingsViewModelProtocol {
     private var view: SettingsViewProtocol
     
     private let settings: ReadWriteSettings
-    private let router: IRouter
+    private let router: RouterProtocol
     private let imageCacheUtil: ImageCacheUtil
     private let tracker: ITracker
     
-    init(view: SettingsViewProtocol, settings: ReadWriteSettings, router: IRouter, imageCacheUtil: ImageCacheUtil, tracker: ITracker) {
+    init(view: SettingsViewProtocol, settings: ReadWriteSettings, router: RouterProtocol, imageCacheUtil: ImageCacheUtil, tracker: ITracker) {
 
         self.view = view
         self.settings = settings

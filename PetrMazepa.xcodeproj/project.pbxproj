@@ -29,7 +29,7 @@
 		12C3697C1D36CCFE008988EE /* ArticlesParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACEF098F1BC1336A000F00B7 /* ArticlesParserTests.swift */; };
 		12C3697D1D36CD50008988EE /* NetworkingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0BD0D71BB74EF400876B76 /* NetworkingTests.swift */; };
 		12F5A5491D302F7C0006A144 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F5A5431D302F7C0006A144 /* Router.swift */; };
-		12F5A54C1D302F7C0006A144 /* IRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F5A5461D302F7C0006A144 /* IRouter.swift */; };
+		12F5A54C1D302F7C0006A144 /* RouterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F5A5461D302F7C0006A144 /* RouterProtocol.swift */; };
 		5E068A3F1D09A28E00E90ED2 /* ManagedObjectType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E068A3E1D09A28E00E90ED2 /* ManagedObjectType.swift */; };
 		5E5A31191D19620700FD116F /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E5A31181D19620700FD116F /* Utils.swift */; };
 		5EC711EF1B8CD2B200C84AE7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC711E61B8CD2B200C84AE7 /* AppDelegate.swift */; };
@@ -129,7 +129,7 @@
 		12AD97911C5810B500B92AA5 /* LastReadArticleMaker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LastReadArticleMaker.swift; path = Source/LastReadArticleMaker.swift; sourceTree = "<group>"; };
 		12C3697A1D36C9B4008988EE /* SettingsViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsViewModelSpec.swift; path = Source/SettingsViewModelSpec.swift; sourceTree = "<group>"; };
 		12F5A5431D302F7C0006A144 /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Router.swift; path = Source/Router.swift; sourceTree = "<group>"; };
-		12F5A5461D302F7C0006A144 /* IRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IRouter.swift; path = Source/IRouter.swift; sourceTree = "<group>"; };
+		12F5A5461D302F7C0006A144 /* RouterProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RouterProtocol.swift; path = Source/RouterProtocol.swift; sourceTree = "<group>"; };
 		2206556E6D4D568F785C3EE8 /* Pods-PetrMazepa.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PetrMazepa.release.xcconfig"; path = "Pods/Target Support Files/Pods-PetrMazepa/Pods-PetrMazepa.release.xcconfig"; sourceTree = "<group>"; };
 		2A52481B5075B6884529095B /* Pods-PetrMazepaTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PetrMazepaTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PetrMazepaTests/Pods-PetrMazepaTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5E068A3E1D09A28E00E90ED2 /* ManagedObjectType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ManagedObjectType.swift; path = Source/ManagedObjectType.swift; sourceTree = "<group>"; };
@@ -337,7 +337,7 @@
 			isa = PBXGroup;
 			children = (
 				12F5A5431D302F7C0006A144 /* Router.swift */,
-				12F5A5461D302F7C0006A144 /* IRouter.swift */,
+				12F5A5461D302F7C0006A144 /* RouterProtocol.swift */,
 			);
 			name = Router;
 			sourceTree = "<group>";
@@ -1036,7 +1036,7 @@
 				5E5A31191D19620700FD116F /* Utils.swift in Sources */,
 				ACA41A611BB8558500550857 /* ImageDownloader.swift in Sources */,
 				AC05D45F1BF29C3D0049CAC6 /* SimpleArticleCellModel.swift in Sources */,
-				12F5A54C1D302F7C0006A144 /* IRouter.swift in Sources */,
+				12F5A54C1D302F7C0006A144 /* RouterProtocol.swift in Sources */,
 				ACBBD5F91BC186340063FBD6 /* ArticleDetails.swift in Sources */,
 				ACEE36891BB801A900E7F63D /* ImageCache.swift in Sources */,
 				AC8F42341BBF24E200E3CAF7 /* ArticleDetailsViewModel.swift in Sources */,

@@ -32,10 +32,10 @@ class SearchViewModel : ViewModel, SearchViewModelProtocol {
     private let imageGateway: ImageGateway
     private let articleStorage: ArticleStorage
     private let favouriteArticleStorage: FavouriteArticlesStorage
-    private let router: IRouter
+    private let router: RouterProtocol
     private let tracker: Tracker
     
-    required init(view: SearchViewProtocol, settings: ReadOnlySettings, imageGateway: ImageGateway, articleStorage: ArticleStorage, favouriteArticleStorage: FavouriteArticlesStorage, router: IRouter, tracker: Tracker) {
+    required init(view: SearchViewProtocol, settings: ReadOnlySettings, imageGateway: ImageGateway, articleStorage: ArticleStorage, favouriteArticleStorage: FavouriteArticlesStorage, router: RouterProtocol, tracker: Tracker) {
         
         self.view = view
         self.settings = settings

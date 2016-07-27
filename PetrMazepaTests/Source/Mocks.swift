@@ -19,7 +19,7 @@ class MockedReadWriteSettings: ReadWriteSettings {
     var onlyWifiImages: Bool = false
 }
 
-class MockedRouter: IRouter {
+class MockedRouter: RouterProtocol {
     
     var isSettingsDismissed: Bool = false
     

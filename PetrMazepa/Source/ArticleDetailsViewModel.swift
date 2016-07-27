@@ -15,7 +15,7 @@ class ArticleDetailsViewModel : ViewModel, ArticleDetailsViewModelProtocol {
     private let articleDetailsFetcher: ArticleDetailsFetcher
     private let imageGateway: ImageGateway
     private let favouriteMaker: FavouriteMaker
-    private let router: IRouter
+    private let router: RouterProtocol
     private let topOffsetEditor: TopOffsetEditor
     private let lastReadArticleMaker: LastReadArticleMaker
     private let tracker: Tracker
@@ -50,7 +50,7 @@ class ArticleDetailsViewModel : ViewModel, ArticleDetailsViewModelProtocol {
     
     private(set) var image: UIImage?
     
-    init(view: ArticleDetailsViewProtocol, settings: ReadOnlySettings, article: Article, imageGateway: ImageGateway, articleDetailsFetcher: ArticleDetailsFetcher, favouriteMaker: FavouriteMaker, router: IRouter, topOffsetEditor: TopOffsetEditor, lastReadArticleMaker: LastReadArticleMaker, tracker: Tracker) {
+    init(view: ArticleDetailsViewProtocol, settings: ReadOnlySettings, article: Article, imageGateway: ImageGateway, articleDetailsFetcher: ArticleDetailsFetcher, favouriteMaker: FavouriteMaker, router: RouterProtocol, topOffsetEditor: TopOffsetEditor, lastReadArticleMaker: LastReadArticleMaker, tracker: Tracker) {
 
         self.view = view
         self.settings = settings
