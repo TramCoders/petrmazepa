@@ -10,7 +10,7 @@ import Foundation
 
 class PersistentImageStorage {
 
-    private let tracker: ITracker
+    private let tracker: TrackerProtocol
     
     private let cacheFolderPath: String = {
 
@@ -21,7 +21,7 @@ class PersistentImageStorage {
 
     private let fileManager: NSFileManager
 
-    init(tracker: ITracker) {
+    init(tracker: TrackerProtocol) {
 
         self.tracker = tracker
         

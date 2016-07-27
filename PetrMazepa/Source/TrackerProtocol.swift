@@ -1,5 +1,5 @@
 //
-//  ITracker.swift
+//  TrackerProtocol.swift
 //  PetrMazepa
 //
 //  Created by Artem Stepanenko on 11/07/16.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol ITracker {
+protocol TrackerProtocol {
     
     func textLoadingDidStart()
     func trackArticleView(article: Article)

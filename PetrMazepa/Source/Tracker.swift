@@ -9,7 +9,7 @@
 import UIKit
 import Crashlytics
 
-class Tracker: ITracker {
+class Tracker: TrackerProtocol {
     
     private static let yes = "yes"
     private static let no = "no"

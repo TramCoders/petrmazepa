@@ -14,21 +14,21 @@ class SettingsViewModelSpec: QuickSpec {
 
     var viewModel: SettingsViewModel!
     
-    var view: MockedSettingsView!
-    var router: MockedRouter!
-    var readWriteSettings: MockedReadWriteSettings!
-    var imageCacheUtil: MockedImageCacheUtil!
-    var tracker: MockedTracker!
+    var view: MockSettingsView!
+    var router: MockRouter!
+    var readWriteSettings: MockReadWriteSettings!
+    var imageCacheUtil: MockImageCacheUtil!
+    var tracker: MockTracker!
     
     override func spec() {
         
         beforeEach {
             
-            self.view = MockedSettingsView()
-            self.readWriteSettings = MockedReadWriteSettings()
-            self.router = MockedRouter()
-            self.imageCacheUtil = MockedImageCacheUtil()
-            self.tracker = MockedTracker()
+            self.view = MockSettingsView()
+            self.readWriteSettings = MockReadWriteSettings()
+            self.router = MockRouter()
+            self.imageCacheUtil = MockImageCacheUtil()
+            self.tracker = MockTracker()
             
             self.viewModel = SettingsViewModel(view: self.view, settings: self.readWriteSettings, router: self.router, imageCacheUtil: self.imageCacheUtil, tracker: self.tracker)
         }
@@ -56,19 +56,17 @@ class SettingsViewModelSpec: QuickSpec {
         }
         
         describe("a user turns on 'offline mode'") {
-            
-            self.viewModel.didSwitchOfflineMode(enabled: true)
-            
             it("changes 'offline mode' to true") {
+                
+                self.viewModel.didSwitchOfflineMode(enabled: true)
                 expect(self.viewModel.offlineMode).to(beTrue())
             }
         }
         
         describe("a user turns off 'offline mode'") {
-            
-            self.viewModel.didSwitchOfflineMode(enabled: false)
-            
             it("changes 'offline mode' to false") {
+                
+                self.viewModel.didSwitchOfflineMode(enabled: false)
                 expect(self.viewModel.offlineMode).to(beFalse())
             }
         }
