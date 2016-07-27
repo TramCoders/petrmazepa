@@ -10,7 +10,7 @@ import Foundation
 
 protocol ArticlesViewProtocol {
     
-    func refreshingStateChanged(refreshing refreshing: Bool)
+    func refreshingStateChanged(toRefreshing refreshing: Bool)
     func loadingMoreStateChanged(loadingMore loadingMore: Bool)
     func noArticlesVisibilityChanged(visible visible: Bool)
     func articlesInserted(inRange range: Range<Int>)

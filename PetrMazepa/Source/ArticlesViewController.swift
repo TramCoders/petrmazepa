@@ -222,7 +222,7 @@ extension ArticlesViewController: ArticlesViewProtocol {
         self.collectionView.reloadData()
     }
     
-    func refreshingStateChanged(refreshing refreshing: Bool) {
+    func refreshingStateChanged(toRefreshing refreshing: Bool) {
         // TODO:
     }
     

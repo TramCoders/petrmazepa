@@ -60,7 +60,7 @@ class ArticlesViewModel : ViewModel, ArticlesViewModelProtocol {
                 return
             }
             
-            self.view.refreshingStateChanged(refreshing: self.refreshing)
+            self.view.refreshingStateChanged(toRefreshing: self.refreshing)
         }
     }
     
