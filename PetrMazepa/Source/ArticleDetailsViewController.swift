@@ -193,15 +193,15 @@ extension ArticleDetailsViewController: ArticleDetailsViewProtocol {
         
         let alertController = UIAlertController(title: nil, message: "При получении статьи произошла ошибка", preferredStyle: .Alert)
         
-        let closeAction = UIAlertAction(title: "Закрыть", style: .Cancel, handler: { _ in
-            self.model.closeActionTapped()
+        let cancelAction = UIAlertAction(title: "Отмена", style: .Cancel, handler: { _ in
+            self.model.cancelActionTapped()
         })
         
         let retryAction = UIAlertAction(title: "Ещё раз", style: .Default, handler: { _ in
             self.model.retryActionTapped()
         })
         
-        alertController.addAction(closeAction)
+        alertController.addAction(cancelAction)
         alertController.addAction(retryAction)
         
         self.presentViewController(alertController, animated: true, completion: nil)

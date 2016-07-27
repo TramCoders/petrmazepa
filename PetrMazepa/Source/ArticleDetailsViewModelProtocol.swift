@@ -23,7 +23,7 @@ protocol ArticleDetailsViewModelProtocol: class {
     func backTapped()
     func favouriteTapped()
     func shareTapped()
-    func closeActionTapped()
+    func cancelActionTapped()
     func retryActionTapped()
     func scrollViewWillBeginDragging(offset offset: CGFloat)
     func scrollViewDidScroll(offset offset: CGFloat, contentHeight: CGFloat)

@@ -124,7 +124,7 @@ class ArticleDetailsViewModel : ViewModel, ArticleDetailsViewModelProtocol {
         self.topOffsetEditor.setTopOffset(self.article, offset: self.article.topOffset)
     }
     
-    func closeActionTapped() {
+    func cancelActionTapped() {
         self.router.dismissArticleDetails()
     }
     
