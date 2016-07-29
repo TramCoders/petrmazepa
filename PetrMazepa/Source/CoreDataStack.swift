@@ -28,9 +28,9 @@ public func setUpMainContext() -> NSManagedObjectContext {
 }
 
 
-public extension NSManagedObjectContext {
+extension NSManagedObjectContext {
         
-    func saveOrRollback() -> Bool {
+    private func saveOrRollback() -> Bool {
         
         do {
             try save()
@@ -42,6 +42,13 @@ public extension NSManagedObjectContext {
         }
     }
     
+    func performSaveOrRollback() {
+        
+        performBlock {
+            self.saveOrRollback()
+        }
+    }
+
     func performChanges(block: () -> ()) {
         
         performBlock {

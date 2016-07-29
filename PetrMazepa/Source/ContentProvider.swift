@@ -68,7 +68,7 @@ class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher
             if let notNilArticles = articles {
                 
                 let savedArticles = self.coreData.saveArticles(notNilArticles)
-                self.coreData.mainContext.saveOrRollback()
+                self.coreData.mainContext.performSaveOrRollback()
                 completion(articles: savedArticles, error: error)
                 
             } else {

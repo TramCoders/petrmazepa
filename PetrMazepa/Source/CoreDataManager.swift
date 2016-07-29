@@ -14,35 +14,9 @@ protocol ManagedObjectConvertable {
     init(_: ManagedObjectType)
 }
 
-//class PersistenceLayer {
-//    
-//    let mainContext: NSManagedObjectContext
-//    
-//    init() {
-//        mainContext = setUpMainContext()
-//    }
-//    
-//    
-//}
-//
-//private extension PersistenceLayer {
-//    
-//    private func requestManagedArticles(favorite favorite: Bool?) -> [MOArticle] {
-//        
-//        return MOArticle.fetchInContext(mainContext) { fetchRequest in
-//            if let notNilFavorite = favorite {
-//                fetchRequest.predicate = MOArticle.predicate(forFavourites: notNilFavorite)
-//            }
-//            fetchRequest.sortDescriptors = MOArticle.defaultSortDescriptors
-//        }
-//    }
-//}
-
 class CoreDataManager {
 
-    lazy var mainContext: NSManagedObjectContext = {
-        return setUpMainContext()
-    }()
+    let mainContext: NSManagedObjectContext = setUpMainContext()
     
     func allArticles() -> [Article] {
         return self.requestArticles()
@@ -72,7 +46,10 @@ class CoreDataManager {
 
             } else {
                 
-                self.saveArticle(article)
+                self.mainContext.performBlock({ [weak self] in
+                    self!.saveArticle(article)
+                })
+                
                 savedArticles.append(article)
             }
         }
