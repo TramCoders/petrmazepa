@@ -20,9 +20,11 @@ final class MOArticleDetails: ManagedObject {
 }
 
 extension MOArticleDetails: ManagedObjectType {
+    
     static var entityName: String {
         return "MOArticleDetails"
     }
+    
     static var defaultSortDescriptors: [NSSortDescriptor] {
         return []
     }

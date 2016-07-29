@@ -42,7 +42,7 @@ class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher
     }
     
     func allArticlesCount() -> Int {
-        return self.coreData.allArticlesCount()
+        return self.coreData.requestArticlesCount()
     }
     
     func favouriteArticles() -> [Article] {

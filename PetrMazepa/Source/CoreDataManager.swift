@@ -9,15 +9,40 @@
 import UIKit
 import CoreData
 
+protocol ManagedObjectConvertable {
+    associatedtype ManagedObjectType
+    init(_: ManagedObjectType)
+}
+
+//class PersistenceLayer {
+//    
+//    let mainContext: NSManagedObjectContext
+//    
+//    init() {
+//        mainContext = setUpMainContext()
+//    }
+//    
+//    
+//}
+//
+//private extension PersistenceLayer {
+//    
+//    private func requestManagedArticles(favorite favorite: Bool?) -> [MOArticle] {
+//        
+//        return MOArticle.fetchInContext(mainContext) { fetchRequest in
+//            if let notNilFavorite = favorite {
+//                fetchRequest.predicate = MOArticle.predicate(forFavourites: notNilFavorite)
+//            }
+//            fetchRequest.sortDescriptors = MOArticle.defaultSortDescriptors
+//        }
+//    }
+//}
+
 class CoreDataManager {
 
     lazy var mainContext: NSManagedObjectContext = {
         return setUpMainContext()
     }()
-    
-    func allArticlesCount() -> Int {
-        return self.requestArticlesCount()
-    }
     
     func allArticles() -> [Article] {
         return self.requestArticles()
@@ -31,7 +56,7 @@ class CoreDataManager {
         guard let details = managedObjectFromArticle(article)?.details else {
             return nil
         }
-        return detailsFromManagedObject(details)
+        return ArticleDetails(details)
     }
 
     func saveArticles(articles: [Article]) -> [Article] {
@@ -97,12 +122,13 @@ class CoreDataManager {
         return MOArticle.findOrFetchInContext(mainContext, matchingPredicate: MOArticle.predicate(byId: article.id))
     }
     
-    private func articleFromManagedObject(moArticle: MOArticle) -> Article {
-        return Article(id: moArticle.id!, title: moArticle.title!, thumbPath: moArticle.thumbPath!, saved: moArticle.details != nil, favourite: moArticle.favourite!.boolValue, topOffset: moArticle.topOffset!.doubleValue)
-    }
-    
-    private func detailsFromManagedObject(moDetails: MOArticleDetails) -> ArticleDetails {
-        return ArticleDetails(htmlText: moDetails.htmlText!)
+    func requestArticlesCount(favorite favorite: Bool? = nil) -> Int {
+        
+        return MOArticle.countInContext(mainContext) { fetchRequest in
+            if let notNilFavorite = favorite {
+                fetchRequest.predicate = MOArticle.predicate(forFavourites: notNilFavorite)
+            }
+        }
     }
 }
 
@@ -126,7 +152,7 @@ extension CoreDataManager: FavouriteMaker {
 private extension CoreDataManager {
 
     private func requestArticles(favorite favorite: Bool? = nil) -> [Article] {
-        return self.requestManagedArticles(favorite: favorite).map({ self.articleFromManagedObject($0) })
+        return self.requestManagedArticles(favorite: favorite).map({ Article($0) })
     }
 
     private func requestManagedArticles(favorite favorite: Bool?) -> [MOArticle] {
@@ -136,15 +162,6 @@ private extension CoreDataManager {
                 fetchRequest.predicate = MOArticle.predicate(forFavourites: notNilFavorite)
             }
             fetchRequest.sortDescriptors = MOArticle.defaultSortDescriptors
-        }
-    }
-
-    private func requestArticlesCount(favorite favorite: Bool? = nil) -> Int {
-    
-        return MOArticle.countInContext(mainContext) { fetchRequest in
-            if let notNilFavorite = favorite {
-                fetchRequest.predicate = MOArticle.predicate(forFavourites: notNilFavorite)
-            }
         }
     }
 }

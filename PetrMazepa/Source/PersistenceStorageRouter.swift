@@ -8,7 +8,17 @@
 
 import Foundation
 
-struct PersistenceStorageRouter {
+class PersistenceStorageRouter {
+    
+    func allArticlesCount() -> Int {
+        return coreDataManager.requestArticlesCount()
+    }
     
     
+    
+    private let coreDataManager: CoreDataManager
+    
+    init() {
+        coreDataManager = CoreDataManager()
+    }
 }

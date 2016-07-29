@@ -15,7 +15,7 @@ private enum Keys: String {
     case Favourite = "favourite"
 }
 
-class MOArticle: ManagedObject {
+final class MOArticle: ManagedObject {
 
     static func insertIntoContext(context: NSManagedObjectContext, article: Article) -> MOArticle {
         let moArticle: MOArticle = context.insertObject()
