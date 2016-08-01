@@ -96,7 +96,7 @@ public extension NSManagedObjectContext {
     func insertObject<A: ManagedObject where A: ManagedObjectType>() -> A {
         
         guard let object = NSEntityDescription.insertNewObjectForEntityForName(A.entityName, inManagedObjectContext: self) as? A else {
-            Tracker.trackException(withDescription: "Wrong object type")
+//            Tracker.trackException(withDescription: "Wrong object type")
             fatalError()
         }
         return object

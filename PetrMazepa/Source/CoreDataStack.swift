@@ -36,7 +36,7 @@ extension NSManagedObjectContext {
             try save()
             return true
         } catch {
-            Tracker.trackException(withDescription: "Failed to save changes in ctx")
+//            Tracker.trackException(withDescription: "Failed to save changes in ctx")
             rollback()
             return false
         }

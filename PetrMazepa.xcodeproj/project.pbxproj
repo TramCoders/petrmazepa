@@ -32,8 +32,8 @@
 		12F5A5491D302F7C0006A144 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F5A5431D302F7C0006A144 /* Router.swift */; };
 		12F5A54C1D302F7C0006A144 /* RouterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F5A5461D302F7C0006A144 /* RouterProtocol.swift */; };
 		5E068A3F1D09A28E00E90ED2 /* ManagedObjectType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E068A3E1D09A28E00E90ED2 /* ManagedObjectType.swift */; };
-		5E173ACE1D2E484900404FC8 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E173ACD1D2E484900404FC8 /* CoreDataStack.swift */; };
 		5E5A31191D19620700FD116F /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E5A31181D19620700FD116F /* Utils.swift */; };
+		5EABE8C31D4F62A800FD55CD /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EABE8C21D4F62A800FD55CD /* CoreDataStack.swift */; };
 		5EC711EF1B8CD2B200C84AE7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC711E61B8CD2B200C84AE7 /* AppDelegate.swift */; };
 		5EC711F21B8CD2B200C84AE7 /* ArticlesViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC711E91B8CD2B200C84AE7 /* ArticlesViewLayout.swift */; };
 		5EC712161B8CD42000C84AE7 /* ArticleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5EC712141B8CD42000C84AE7 /* ArticleCell.xib */; };
@@ -138,8 +138,8 @@
 		2206556E6D4D568F785C3EE8 /* Pods-PetrMazepa.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PetrMazepa.release.xcconfig"; path = "Pods/Target Support Files/Pods-PetrMazepa/Pods-PetrMazepa.release.xcconfig"; sourceTree = "<group>"; };
 		2A52481B5075B6884529095B /* Pods-PetrMazepaTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PetrMazepaTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PetrMazepaTests/Pods-PetrMazepaTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5E068A3E1D09A28E00E90ED2 /* ManagedObjectType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ManagedObjectType.swift; path = Source/ManagedObjectType.swift; sourceTree = "<group>"; };
-		5E173ACD1D2E484900404FC8 /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CoreDataStack.swift; path = Source/CoreDataStack.swift; sourceTree = "<group>"; };
 		5E5A31181D19620700FD116F /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Utils.swift; path = Source/Utils.swift; sourceTree = "<group>"; };
+		5EABE8C21D4F62A800FD55CD /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CoreDataStack.swift; path = Source/CoreDataStack.swift; sourceTree = "<group>"; };
 		5EC711E61B8CD2B200C84AE7 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = Source/AppDelegate.swift; sourceTree = "<group>"; };
 		5EC711E91B8CD2B200C84AE7 /* ArticlesViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ArticlesViewLayout.swift; path = Source/ArticlesViewLayout.swift; sourceTree = "<group>"; };
 		5EC712151B8CD42000C84AE7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ArticleCell.xib; sourceTree = "<group>"; };
@@ -482,6 +482,7 @@
 				ACF1FDAF1BF8B46C00BEC0B2 /* ManagedObject */,
 				AC3625A41BF7F124000A51DD /* PetrMazepa.xcdatamodeld */,
 				ACE7D0BF1BF9352500116C93 /* CoreDataManager.swift */,
+				5EABE8C21D4F62A800FD55CD /* CoreDataStack.swift */,
 			);
 			name = CoreData;
 			sourceTree = "<group>";
@@ -681,7 +682,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = ACAF97721B5C04A300CB53B1 /* Build configuration list for PBXNativeTarget "PetrMazepa" */;
 			buildPhases = (
-				591B1459922FCD14A860BA36 /* 📦 Check Pods Manifest.lock */,
+				591B1459922FCD14A860BA36 /* [CP] Check Pods Manifest.lock */,
 				0B46699BC94633CA2D862DA3 /* [CP] Check Pods Manifest.lock */,
 				ACAF974F1B5C04A200CB53B1 /* Sources */,
 				ACAF97501B5C04A200CB53B1 /* Frameworks */,
@@ -705,7 +706,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = ACAF97751B5C04A300CB53B1 /* Build configuration list for PBXNativeTarget "PetrMazepaTests" */;
 			buildPhases = (
-				9F27FE51B8175E6F5252EB3E /* 📦 Check Pods Manifest.lock */,
+				9F27FE51B8175E6F5252EB3E /* [CP] Check Pods Manifest.lock */,
 				EAB6C48A49BA0A5CE444A484 /* [CP] Check Pods Manifest.lock */,
 				ACAF97641B5C04A300CB53B1 /* Sources */,
 				ACAF97651B5C04A300CB53B1 /* Frameworks */,
@@ -840,14 +841,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PetrMazepa/Pods-PetrMazepa-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		591B1459922FCD14A860BA36 /* 📦 Check Pods Manifest.lock */ = {
+		591B1459922FCD14A860BA36 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -885,14 +886,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PetrMazepaTests/Pods-PetrMazepaTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		9F27FE51B8175E6F5252EB3E /* 📦 Check Pods Manifest.lock */ = {
+		9F27FE51B8175E6F5252EB3E /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1009,8 +1010,6 @@
 				ACBA696E1C01E91500A93C6D /* Settings.swift in Sources */,
 				ACA41A551BB849AF00550857 /* PersistentImageStorage.swift in Sources */,
 				AC0953371BED1A4E0035127E /* FavouriteArticlesStorage.swift in Sources */,
-				AC2D3FCF1C1797F300D227D0 /* SettingsPresenter.swift in Sources */,
-				5EC711F41B8CD2B200C84AE7 /* ScreenFlow.swift in Sources */,
 				ACEF098A1BC1318A000F00B7 /* TFHpple.m in Sources */,
 				ACF1FDD41BF8B63600BEC0B2 /* MOArticleDetails.swift in Sources */,
 				1256A31D1D491B6A007C77BF /* SearchViewProtocol.swift in Sources */,
@@ -1036,7 +1035,6 @@
 				5E068A3F1D09A28E00E90ED2 /* ManagedObjectType.swift in Sources */,
 				AC8F42361BC0677500E3CAF7 /* ArticleStorage.swift in Sources */,
 				123FCFEA1C4F8E520097D767 /* LastReadArticleView.swift in Sources */,
-				5E173ACE1D2E484900404FC8 /* CoreDataStack.swift in Sources */,
 				AC8E1FD91BE93D6B0017B58B /* ViewModel.swift in Sources */,
 				AC6B3ED71B8E3E08005BA7F1 /* SearchViewController.swift in Sources */,
 				ACA032831BDF6A6E00AA01C8 /* SettingsViewController.swift in Sources */,
@@ -1062,6 +1060,7 @@
 				ACA41A7B1BBEC3EB00550857 /* ArticleTextCell.swift in Sources */,
 				ACA41A661BBD549F00550857 /* ArticlesFetcher.swift in Sources */,
 				ACEF09951BC14534000F00B7 /* ArticleCell.swift in Sources */,
+				5EABE8C31D4F62A800FD55CD /* CoreDataStack.swift in Sources */,
 				ACF1FDD21BF8B63600BEC0B2 /* MOArticle.swift in Sources */,
 				ACEF098B1BC1318A000F00B7 /* TFHppleElement.m in Sources */,
 				1232F2871D330916008EFB93 /* TrackerProtocol.swift in Sources */,
