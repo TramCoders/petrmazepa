@@ -8,17 +8,22 @@
 
 import Foundation
 
-class SettingsViewModel {
+class SettingsViewModel: SettingsViewModelProtocol {
+    
+    private var view: SettingsViewProtocol
     
     private let settings: ReadWriteSettings
-    private let dismisser: SettingsDismisser
+    private let router: RouterProtocol
     private let imageCacheUtil: ImageCacheUtil
+    private let tracker: TrackerProtocol
+    
+    init(view: SettingsViewProtocol, settings: ReadWriteSettings, router: RouterProtocol, imageCacheUtil: ImageCacheUtil, tracker: TrackerProtocol) {
 
-    init(settings: ReadWriteSettings, dismisser: SettingsDismisser, imageCacheUtil: ImageCacheUtil) {
-
+        self.view = view
         self.settings = settings
-        self.dismisser = dismisser
+        self.router = router
         self.imageCacheUtil = imageCacheUtil
+        self.tracker = tracker;
     }
     
     var offlineMode: Bool {
@@ -34,24 +39,24 @@ class SettingsViewModel {
     }
     
     func closeTapped() {
-        self.dismisser.dismissSettings()
+        self.router.dismissSettings()
     }
     
     func didSwitchOfflineMode(enabled enabled: Bool) {
 
         self.settings.offlineMode = enabled
-        Tracker.trackOfflineModeChange(enabled)
+        tracker.trackOfflineModeChange(enabled)
     }
     
     func didSwitchOnlyWifiImages(enabled enabled: Bool) {
         
         self.settings.onlyWifiImages = enabled
-        Tracker.trackOnlyWiFiImagesChange(enabled)
+        tracker.trackOnlyWiFiImagesChange(enabled)
     }
     
     func clearCacheTapped() {
         
-        Tracker.trackClearImages(self.imageCacheUtil.sizeInBytes)
+        tracker.trackClearImages(self.imageCacheUtil.sizeInBytes)
         self.imageCacheUtil.clearCache()
     }
 }

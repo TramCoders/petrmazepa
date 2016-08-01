@@ -1,5 +1,5 @@
 //
-//  ScreenFlow.swift
+//  Router.swift
 //  PetrMazepa
 //
 //  Created by Artem Stepanenko on 8/6/15.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ScreenFlow: NSObject, ArticleDetailsPresenter, SettingsPresenter, SearchPresenter, ArticleDetailsDismisser, SettingsDismisser, SearchDismisser, ArticleSharer {
+class Router: NSObject, RouterProtocol {
     
     private let window: UIWindow
     private let storyboard: UIStoryboard
@@ -41,7 +41,7 @@ class ScreenFlow: NSObject, ArticleDetailsPresenter, SettingsPresenter, SearchPr
         self.tracker = Tracker()
         
         let inMemoryImageStorage = InMemoryImageStorage()
-        let persistentImageStorage = PersistentImageStorage()
+        let persistentImageStorage = PersistentImageStorage(tracker: tracker)
         self.imageCache = ImageCache(inMemoryImageStorage: inMemoryImageStorage, persistentImageStorage: persistentImageStorage, downloader: self.networking)
         
         super.init()
@@ -58,7 +58,7 @@ class ScreenFlow: NSObject, ArticleDetailsPresenter, SettingsPresenter, SearchPr
     func presentArticles() {
         
         let articlesViewController = self.currentNavigationController.topViewController as! ArticlesViewController
-        articlesViewController.model = self.createArticlesViewModel()
+        articlesViewController.model = self.createArticlesViewModel(view: articlesViewController)
 
         self.window.rootViewController = self.currentNavigationController
         self.window.makeKeyAndVisible()
@@ -69,7 +69,7 @@ class ScreenFlow: NSObject, ArticleDetailsPresenter, SettingsPresenter, SearchPr
     func presentArticleDetails(article: Article) {
         
         let viewController = self.storyboard.instantiateViewControllerWithIdentifier("Details") as! ArticleDetailsViewController
-        viewController.model = self.createArticleDetailsViewModel(article: article)
+        viewController.model = self.createArticleDetailsViewModel(view: viewController, article: article)
         self.currentNavigationController.pushViewController(viewController, animated: true)
         self.currentViewController = viewController
     }
@@ -84,7 +84,7 @@ class ScreenFlow: NSObject, ArticleDetailsPresenter, SettingsPresenter, SearchPr
         
         let navigationController = self.storyboard.instantiateViewControllerWithIdentifier("SettingsNav") as! UINavigationController
         let settingsViewController = navigationController.topViewController as! SettingsViewController
-        settingsViewController.model = self.createSettingsViewModel()
+        settingsViewController.model = self.createSettingsViewModel(view: settingsViewController)
         self.currentNavigationController.presentViewController(navigationController, animated: true, completion: nil)
         self.currentNavigationController = navigationController
     }
@@ -99,7 +99,7 @@ class ScreenFlow: NSObject, ArticleDetailsPresenter, SettingsPresenter, SearchPr
         
         let navigationController = self.storyboard.instantiateViewControllerWithIdentifier("SearchNav") as! UINavigationController
         let searchViewController = navigationController.topViewController as! SearchViewController
-        searchViewController.model = self.createSearchViewModel()
+        searchViewController.model = self.createSearchViewModel(view: searchViewController)
         self.currentNavigationController.presentViewController(navigationController, animated: true, completion: nil)
         self.currentNavigationController = navigationController
     }
@@ -119,32 +119,32 @@ class ScreenFlow: NSObject, ArticleDetailsPresenter, SettingsPresenter, SearchPr
         let activityViewController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
         self.currentViewController.presentViewController(activityViewController, animated: true, completion: nil)
 
-        activityViewController.completionWithItemsHandler = { activityType, completed, returnedItems, activityError in
+        activityViewController.completionWithItemsHandler = { [weak self] activityType, completed, returnedItems, activityError in
 
             guard completed && (activityError == nil) else {
                 return
             }
             
-            Tracker.trackShare(article, activityType: activityType)
+            self?.tracker.trackShare(article, activityType: activityType)
         }
     }
     
-    private func createArticlesViewModel() -> ArticlesViewModel {
+    private func createArticlesViewModel(view view: ArticlesViewProtocol) -> ArticlesViewModel {
         
-        return ArticlesViewModel(settings: self.settings, articleStorage: self.contentProvider, imageGateway: self.imageCache, articlesFetcher: self.contentProvider, articleDetailsPresenter: self, settingsPresenter: self, searchPresenter: self)
+        return ArticlesViewModel(view: view, settings: self.settings, articleStorage: self.contentProvider, imageGateway: self.imageCache, articlesFetcher: self.contentProvider, router: self)
     }
     
-    private func createArticleDetailsViewModel(article article: Article) -> ArticleDetailsViewModel {
+    private func createArticleDetailsViewModel(view view: ArticleDetailsViewProtocol, article: Article) -> ArticleDetailsViewModel {
         
-        return ArticleDetailsViewModel(settings: self.settings, article: article, imageGateway: self.imageCache, articleDetailsFetcher: self.contentProvider, favouriteMaker: self.contentProvider, articleDetailsDismisser: self, articleSharer: self, topOffsetEditor: self.contentProvider, lastReadArticleMaker: self.contentProvider, tracker: self.tracker)
+        return ArticleDetailsViewModel(view: view, settings: self.settings, article: article, imageGateway: self.imageCache, articleDetailsFetcher: self.contentProvider, favouriteMaker: self.contentProvider, router: self, topOffsetEditor: self.contentProvider, lastReadArticleMaker: self.contentProvider, tracker: self.tracker)
     }
     
-    private func createSearchViewModel() -> SearchViewModel {
+    private func createSearchViewModel(view view: SearchViewProtocol) -> SearchViewModel {
         
-        return SearchViewModel(settings: self.settings, imageGateway: self.imageCache, articleStorage: self.contentProvider, favouriteArticleStorage: self.contentProvider, articleDetailsPresenter: self, dismisser: self, tracker: self.tracker)
+        return SearchViewModel(view: view, settings: self.settings, imageGateway: self.imageCache, articleStorage: self.contentProvider, favouriteArticleStorage: self.contentProvider, router: self, tracker: self.tracker)
     }
     
-    private func createSettingsViewModel() -> SettingsViewModel {
-        return SettingsViewModel(settings: self.settings, dismisser: self, imageCacheUtil: self.imageCache)
+    private func createSettingsViewModel(view view: SettingsViewProtocol) -> SettingsViewModel {
+        return SettingsViewModel(view: view, settings: self.settings, router: self, imageCacheUtil: self.imageCache, tracker: self.tracker)
     }
 }

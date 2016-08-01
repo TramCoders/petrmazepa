@@ -6,7 +6,8 @@
 //  Copyright © 2015 TramCoders. All rights reserved.
 //
 
-import XCTest
+//import XCTest
+//@testable import PetrMazepa
 
 //func testImageUrl() -> NSURL {
 //    return NSURL.init(string: "http://petrimazepa.com/bundles/pim/images/thumbs/8c8d524c7d2adb60297aa511e03d7485.jpeg")!

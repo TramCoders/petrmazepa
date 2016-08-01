@@ -8,19 +8,14 @@
 
 import UIKit
 
-class ArticleDetailsViewModel : ViewModel {
+class ArticleDetailsViewModel : ViewModel, ArticleDetailsViewModelProtocol {
     
-    var imageLoaded: ((image: UIImage?) -> Void)?
-    var textLoaded: ((htmlText: String?) -> Void)?
-    var favouriteStateChanged: ((favourite: Bool) -> Void)?
-    var barsVisibilityChanged: ((visible: Bool) -> Void)?
-    var errorOccurred: ((error: NSError?) -> Void)?
+    var view: ArticleDetailsViewProtocol
     
-    private let articleDetailsDismisser: ArticleDetailsDismisser
     private let articleDetailsFetcher: ArticleDetailsFetcher
     private let imageGateway: ImageGateway
     private let favouriteMaker: FavouriteMaker
-    private let articleSharer: ArticleSharer
+    private let router: RouterProtocol
     private let topOffsetEditor: TopOffsetEditor
     private let lastReadArticleMaker: LastReadArticleMaker
     private let tracker: Tracker
@@ -31,7 +26,7 @@ class ArticleDetailsViewModel : ViewModel {
     private var screenSize: CGSize!
     private var startOffset: CGFloat!
     
-    var barsVisibile: Bool = true
+    private(set) var barsVisibile: Bool = true
 
     var topOffset: CGFloat {
         return CGFloat(self.article.topOffset)
@@ -42,20 +37,28 @@ class ArticleDetailsViewModel : ViewModel {
     }
     
     var htmlText: String? {
-        return self.articleDetails?.htmlText
+        
+        guard let notNilDetails = self.articleDetails else {
+            return nil
+        }
+        
+        let font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
+        let fontName = font.fontName
+        let fontSize = 4    // FIXME: font.pointSize
+        return "<font face='\(fontName)' size='\(fontSize)px'>\(notNilDetails.htmlText)"
     }
     
-    var image: UIImage?
+    private(set) var image: UIImage?
     
-    init(settings: ReadOnlySettings, article: Article, imageGateway: ImageGateway, articleDetailsFetcher: ArticleDetailsFetcher, favouriteMaker: FavouriteMaker, articleDetailsDismisser: ArticleDetailsDismisser, articleSharer: ArticleSharer, topOffsetEditor: TopOffsetEditor, lastReadArticleMaker: LastReadArticleMaker, tracker: Tracker) {
+    init(view: ArticleDetailsViewProtocol, settings: ReadOnlySettings, article: Article, imageGateway: ImageGateway, articleDetailsFetcher: ArticleDetailsFetcher, favouriteMaker: FavouriteMaker, router: RouterProtocol, topOffsetEditor: TopOffsetEditor, lastReadArticleMaker: LastReadArticleMaker, tracker: Tracker) {
 
+        self.view = view
         self.settings = settings
         self.article = article
         self.imageGateway = imageGateway
         self.articleDetailsFetcher = articleDetailsFetcher
         self.favouriteMaker = favouriteMaker
-        self.articleDetailsDismisser = articleDetailsDismisser
-        self.articleSharer = articleSharer
+        self.router = router
         self.topOffsetEditor = topOffsetEditor
         self.lastReadArticleMaker = lastReadArticleMaker
         self.tracker = tracker
@@ -71,7 +74,7 @@ class ArticleDetailsViewModel : ViewModel {
     
     func scrollViewDidScroll(offset offset: CGFloat, contentHeight: CGFloat) {
         
-        self.article.topOffset = offset.native
+        self.article.topOffset = Double(offset.native)
         let bottomDirection: Bool
         
         if let _ = self.startOffset {
@@ -98,7 +101,7 @@ class ArticleDetailsViewModel : ViewModel {
         super.viewWillAppear()
         self.lastReadArticleMaker.setLastReadArticle(self.article)
         self.barsVisibile = true
-        self.favouriteStateChanged!(favourite: self.article.favourite)
+        self.view.updateFavouriteState(self.article.favourite)
         
         self.tracker.textLoadingDidStart()
     }
@@ -121,8 +124,8 @@ class ArticleDetailsViewModel : ViewModel {
         self.topOffsetEditor.setTopOffset(self.article, offset: self.article.topOffset)
     }
     
-    func closeActionTapped() {
-        self.articleDetailsDismisser.dismissArticleDetails()
+    func cancelActionTapped() {
+        self.router.dismissArticleDetails()
     }
     
     func retryActionTapped() {
@@ -130,7 +133,7 @@ class ArticleDetailsViewModel : ViewModel {
     }
     
     func backTapped() {
-        self.articleDetailsDismisser.dismissArticleDetails()
+        self.router.dismissArticleDetails()
     }
     
     func favouriteTapped() {
@@ -141,13 +144,13 @@ class ArticleDetailsViewModel : ViewModel {
         
         let favourite = !self.article.favourite
         self.favouriteMaker.makeFavourite(article: self.article, favourite: favourite)
-        self.favouriteStateChanged!(favourite: favourite)
+        self.view.updateFavouriteState(favourite)
         
-        Tracker.trackFavouriteChange(self.article)
+        tracker.trackFavouriteChange(self.article)
     }
     
     func shareTapped() {
-        self.articleSharer.shareArticle(self.article)
+        self.router.shareArticle(self.article)
     }
     
     private func loadContent() {
@@ -159,7 +162,7 @@ class ArticleDetailsViewModel : ViewModel {
     private func updateBarsVisible(visible: Bool) {
 
         self.barsVisibile = visible
-        self.barsVisibilityChanged!(visible: visible)
+        self.view.updateBarsVisibility(visible)
     }
     
     private func loadHtmlText() {
@@ -172,21 +175,18 @@ class ArticleDetailsViewModel : ViewModel {
                 return
             }
             
-            if let notNilDetails = details {
-                
-                let font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
-                let fontName = font.fontName
-                let fontSize = 4    // FIXME: font.pointSize
-                let updatedHtmlText = "<font face='\(fontName)' size='\(fontSize)px'>\(notNilDetails.htmlText)"
+            guard details != nil else {
                 
                 dispatch_async(dispatch_get_main_queue(), {
-                    self.textLoaded!(htmlText: updatedHtmlText)
+                    self.view.showError(error)
                 })
-            } else {
-                dispatch_async(dispatch_get_main_queue(), {
-                    self.errorOccurred!(error: error)
-                })
+                
+                return
             }
+            
+            dispatch_async(dispatch_get_main_queue(), {
+                self.view.reloadHtmlText()
+            })
         }
     }
     
@@ -202,7 +202,7 @@ class ArticleDetailsViewModel : ViewModel {
             }
             
             dispatch_async(dispatch_get_main_queue(), {
-                self.imageLoaded!(image: image)
+                self.view.reloadImage()
             })
         }
     }

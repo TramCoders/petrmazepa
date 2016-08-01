@@ -183,7 +183,7 @@ public extension NSManagedObjectContext {
     func insertObject<A: ManagedObject where A: ManagedObjectType>() -> A {
 
         guard let object = NSEntityDescription.insertNewObjectForEntityForName(A.entityName, inManagedObjectContext: self) as? A else {
-            Tracker.trackException(withDescription: "Wrong object type")
+//            Tracker.trackException(withDescription: "Wrong object type")      // FIXME: must be tracked
             fatalError()
         }
         return object
@@ -195,7 +195,7 @@ public extension NSManagedObjectContext {
             try save()
             return true
         } catch {
-            Tracker.trackException(withDescription: "Failed to save changes in ctx")
+//            Tracker.trackException(withDescription: "Failed to save changes in ctx")    // FIXME: must be tracked
             rollback()
             return false
         }

@@ -8,6 +8,7 @@
 
 import Quick
 import Nimble
+@testable import PetrMazepa
 
 class InMemoryImageStorageSpec: QuickSpec {
     override func spec() {
@@ -23,9 +24,7 @@ class InMemoryImageStorageSpec: QuickSpec {
         }
         
         describe("a load method") {
-
             context("when an image is specified only with a URL") {
-                
                 beforeEach {
                     
                     imageSpec = ImageSpec(url: self.someUrl())
@@ -79,7 +78,6 @@ class InMemoryImageStorageSpec: QuickSpec {
         }
         
         describe("a clear method") {
-            
             beforeEach {
                 
                 imageSpec = ImageSpec(url: self.someUrl())

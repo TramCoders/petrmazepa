@@ -8,26 +8,15 @@
 
 import UIKit
 
-class ArticlesViewModel : ViewModel {
+class ArticlesViewModel : ViewModel, ArticlesViewModelProtocol {
     
-    var articlesInserted: ((range: Range<Int>) -> Void)?
-    var allArticlesDeleted: (() -> Void)?
-    var articlesUpdated: ((newCount: Int) -> Void)?
-    var loadingInOfflineModeFailed: (() -> Void)?
-    var errorOccurred: (() -> Void)?
-    var refreshingStateChanged: ((refreshing: Bool) -> Void)?
-    var loadingMoreStateChanged: ((loadingMore: Bool) -> Void)?
-    var noArticlesVisibleChanged: ((visible: Bool) -> Void)?
-    var lastReadArticleVisibleChanged: ((visible: Bool, animated: Bool) -> Void)?
-    var navigationBarVisibleChanged: ((visible: Bool, animated: Bool) -> Void)?
+    private var view: ArticlesViewProtocol
     
     private let settings: ReadOnlySettings
     private let imageGateway: ImageGateway
     private let articlesFetcher: ArticlesFetcher
     private let articleStorage: ArticleStorage
-    private let articleDetailsPresenter: ArticleDetailsPresenter
-    private let settingsPresenter: SettingsPresenter
-    private let searchPresenter: SearchPresenter
+    private let router: RouterProtocol
     
     private var fetchedArticles = [Article]()
     
@@ -71,7 +60,7 @@ class ArticlesViewModel : ViewModel {
                 return
             }
             
-            self.refreshingStateChanged!(refreshing: self.refreshing)
+            self.view.refreshingStateChanged(toRefreshing: self.refreshing)
         }
     }
     
@@ -82,7 +71,7 @@ class ArticlesViewModel : ViewModel {
                 return
             }
             
-            self.loadingMoreStateChanged!(loadingMore: self.loadingMore)
+            self.view.loadingMoreStateChanged(loadingMore: self.loadingMore)
         }
     }
     
@@ -93,21 +82,20 @@ class ArticlesViewModel : ViewModel {
     var lastReadArticleVisible: Bool = true
     var navigationBarVisible: Bool = true
     
-    required init(settings: ReadOnlySettings, articleStorage: ArticleStorage, imageGateway: ImageGateway, articlesFetcher: ArticlesFetcher, articleDetailsPresenter: ArticleDetailsPresenter, settingsPresenter: SettingsPresenter, searchPresenter: SearchPresenter) {
+    required init(view: ArticlesViewProtocol, settings: ReadOnlySettings, articleStorage: ArticleStorage, imageGateway: ImageGateway, articlesFetcher: ArticlesFetcher, router: RouterProtocol) {
 
+        self.view = view
         self.settings = settings
         self.articleStorage = articleStorage
         self.imageGateway = imageGateway
         self.articlesFetcher = articlesFetcher
-        self.articleDetailsPresenter = articleDetailsPresenter
-        self.settingsPresenter = settingsPresenter
-        self.searchPresenter = searchPresenter
+        self.router = router
     }
     
     func articleTapped(index index: Int) {
         
         let article = self.articleAtIndex(index)
-        self.articleDetailsPresenter.presentArticleDetails(article)
+        self.router.presentArticleDetails(article)
     }
     
     func viewDidLoad(screenSize size: CGSize) {
@@ -128,13 +116,13 @@ class ArticlesViewModel : ViewModel {
         self.screenArticlesAmount = Int(ceil(size.height / (thumbWidth + 1))) * 2
         
         // no articles view
-        self.noArticlesVisibleChanged!(visible: false)
+        self.view.noArticlesVisibilityChanged(visible: false)
         
         // articles
         let count = self.articlesCount
         
         if count > 0 {
-            self.articlesInserted!(range: 0..<count)
+            self.view.articlesInserted(inRange: 0..<count)
         }
     }
     
@@ -149,10 +137,10 @@ class ArticlesViewModel : ViewModel {
         
         if self.articlesCount == 0 {
             
-            self.allArticlesDeleted!()
+            self.view.allArticlesDeleted()
             
             if self.settings.offlineMode {
-                self.noArticlesVisibleChanged!(visible: true)
+                self.view.noArticlesVisibilityChanged(visible: true)
             }
         }
         
@@ -160,7 +148,7 @@ class ArticlesViewModel : ViewModel {
             self.loadFirst()
         }
         
-        self.articlesUpdated!(newCount: self.articlesCount)
+        self.view.articlesUpdated(newCount: self.articlesCount)
 
         self.lastReadArticleVisible = self.lastReadArticleExists
         self.navigationBarVisible = true
@@ -222,10 +210,10 @@ class ArticlesViewModel : ViewModel {
         guard !self.settings.offlineMode else {
             
             self.loadingInOfflineModeHasShown = true
-            self.loadingInOfflineModeFailed!()
+            self.view.loadingInOfflineModeFailed()
             
             if self.articlesCount == 0 {
-                self.noArticlesVisibleChanged!(visible: true)
+                self.view.noArticlesVisibilityChanged(visible: true)
             }
             
             return
@@ -248,11 +236,11 @@ class ArticlesViewModel : ViewModel {
     }
     
     func searchTapped() {
-        self.searchPresenter.presentSearch()
+        self.router.presentSearch()
     }
     
     func settingsTapped() {
-        self.settingsPresenter.presentSettings()
+        self.router.presentSettings()
     }
     
     func lastReadArticleTapped() {
@@ -261,7 +249,7 @@ class ArticlesViewModel : ViewModel {
             return
         }
         
-        self.articleDetailsPresenter.presentArticleDetails(article)
+        self.router.presentArticleDetails(article)
     }
     
     func cancelActionTapped() {
@@ -270,11 +258,11 @@ class ArticlesViewModel : ViewModel {
             return
         }
         
-        self.noArticlesVisibleChanged!(visible: true)
+        self.view.noArticlesVisibilityChanged(visible: true)
     }
     
     func switchOffActionTapped() {
-        self.settingsPresenter.presentSettings()
+        self.router.presentSettings()
     }
     
     private func updateBarsVisible(visible: Bool) {
@@ -284,11 +272,11 @@ class ArticlesViewModel : ViewModel {
             if self.lastReadArticleExists {
                 
                 self.lastReadArticleVisible = visible
-                self.lastReadArticleVisibleChanged!(visible: visible, animated: true)
+                self.view.lastReadArticleVisibilityChanged(toVisible: visible, animated: true)
             }
             
             self.navigationBarVisible = visible
-            self.navigationBarVisibleChanged!(visible: visible, animated: true)
+            self.view.navigationBarVisibilityChanged(visible: visible, animated: true)
         }
     }
     
@@ -334,7 +322,7 @@ class ArticlesViewModel : ViewModel {
             if !self.loadingInOfflineModeHasShown {
                 
                 self.loadingInOfflineModeHasShown = true
-                self.loadingInOfflineModeFailed!()
+                self.view.loadingInOfflineModeFailed()
             }
             
             return
@@ -358,7 +346,7 @@ class ArticlesViewModel : ViewModel {
                     if !self.errorOccurredHasShown {
                      
                         self.errorOccurredHasShown = true
-                        self.errorOccurred!()
+                        self.view.errorOccurred()
                     }
                     
                     return
@@ -370,7 +358,7 @@ class ArticlesViewModel : ViewModel {
                 
                 guard notNilNewArticles.count > 0 else {
                     
-                    self.noArticlesVisibleChanged!(visible: true)
+                    self.view.noArticlesVisibilityChanged(visible: true)
                     return
                 }
                 
@@ -378,13 +366,13 @@ class ArticlesViewModel : ViewModel {
                 self.fetchedArticles.appendContentsOf(notNilNewArticles)
                 
                 if oldCount == 0 {                    
-                    self.articlesUpdated!(newCount: notNilNewArticles.count)
+                    self.view.articlesUpdated(newCount: notNilNewArticles.count)
 
                 } else {
                 
                     let newCount = self.fetchedArticles.count
-                    self.noArticlesVisibleChanged!(visible: false)
-                    self.articlesInserted!(range: fromIndex..<newCount)
+                    self.view.noArticlesVisibilityChanged(visible: false)
+                    self.view.articlesInserted(inRange: fromIndex..<newCount)
                 }
             })
         }

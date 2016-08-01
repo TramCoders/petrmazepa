@@ -38,6 +38,14 @@
                BlueprintName = "PetrMazepaTests"
                ReferencedContainer = "container:PetrMazepa.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "InMemoryImageStorageSpec">
+               </Test>
+               <Test
+                  Identifier = "NetworkingTests">
+               </Test>
+            </SkippedTests>
          </TestableReference>
       </Testables>
       <MacroExpansion>

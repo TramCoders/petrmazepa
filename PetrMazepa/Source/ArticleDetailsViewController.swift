@@ -16,16 +16,7 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
         case Text
     }
     
-    var model: ArticleDetailsViewModel! {
-        didSet {
-
-            self.model.favouriteStateChanged = self.favouriteStateChangedHandler()
-            self.model.barsVisibilityChanged = self.barsVisibilityChangedHandler()
-            self.model.imageLoaded = self.imageLoadedHandler()
-            self.model.textLoaded = self.textLoadedHandler()
-            self.model.errorOccurred = self.errorOccurredHandler()
-        }
-    }
+    var model: ArticleDetailsViewModelProtocol!
     
     @IBOutlet weak var collectionView: UICollectionView!
     private weak var layout: ArticleDetailsLayout!
@@ -173,52 +164,46 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
     private func convertItem(item: Int) -> DetailsItem {
         return DetailsItem(rawValue: item)!
     }
+}
+
+extension ArticleDetailsViewController: ArticleDetailsViewProtocol {
     
-    private func favouriteStateChangedHandler() -> ((favourite: Bool) -> Void) {
-        return { favourite in
-            
-            let image = favourite ? UIImage(named: "favourite_icon") : UIImage(named: "unfavourite_icon")
-            self.favouriteButton.setImage(image, forState: UIControlState.Normal)
-        }
+    func reloadImage() {
+        self.imageCell.image = self.model.image
     }
     
-    private func barsVisibilityChangedHandler() -> ((visible: Bool) -> Void) {
-        return { _ in
-            UIView.animateWithDuration(0.2, animations: {
-                self.updateBars()
-            })
-        }
+    func reloadHtmlText() {
+        self.textCell.text = self.model.htmlText
     }
     
-    private func imageLoadedHandler() -> ((image: UIImage?) -> Void) {
-        return { image in
-            self.imageCell.image = image
-        }
+    func updateFavouriteState(favourite: Bool) {
+        
+        let image = favourite ? UIImage(named: "favourite_icon") : UIImage(named: "unfavourite_icon")
+        self.favouriteButton.setImage(image, forState: UIControlState.Normal)
     }
     
-    private func textLoadedHandler() -> ((htmlText: String?) -> Void) {
-        return { htmlText in
-            self.textCell.text = htmlText
-        }
+    func updateBarsVisibility(visible: Bool) {
+        
+        UIView.animateWithDuration(0.2, animations: {
+            self.updateBars()
+        })
     }
-    
-    private func errorOccurredHandler() -> ((error: NSError?) -> Void) {
-        return { _ in
-            
-            let alertController = UIAlertController(title: nil, message: "При получении статьи произошла ошибка", preferredStyle: .Alert)
-            
-            let closeAction = UIAlertAction(title: "Закрыть", style: .Cancel, handler: { _ in
-                self.model.closeActionTapped()
-            })
-            
-            let retryAction = UIAlertAction(title: "Ещё раз", style: .Default, handler: { _ in
-                self.model.retryActionTapped()
-            })
-            
-            alertController.addAction(closeAction)
-            alertController.addAction(retryAction)
-            
-            self.presentViewController(alertController, animated: true, completion: nil)
-        }
+ 
+    func showError(error: NSError?) {
+        
+        let alertController = UIAlertController(title: nil, message: "При получении статьи произошла ошибка", preferredStyle: .Alert)
+        
+        let cancelAction = UIAlertAction(title: "Отмена", style: .Cancel, handler: { _ in
+            self.model.cancelActionTapped()
+        })
+        
+        let retryAction = UIAlertAction(title: "Ещё раз", style: .Default, handler: { _ in
+            self.model.retryActionTapped()
+        })
+        
+        alertController.addAction(cancelAction)
+        alertController.addAction(retryAction)
+        
+        self.presentViewController(alertController, animated: true, completion: nil)
     }
 }

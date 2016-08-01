@@ -8,13 +8,13 @@
 
 import UIKit
 
-class SettingsViewController: UITableViewController {
+class SettingsViewController: UITableViewController, SettingsViewProtocol {
     
     @IBOutlet weak var offlineModeSwitch: UISwitch!
     @IBOutlet weak var onlyWifiImagesSwitch: UISwitch!
     @IBOutlet weak var imagesSizeLabel: UILabel!
     
-    var model: SettingsViewModel!
+    var model: SettingsViewModelProtocol!
     
     override func viewDidLoad() {
         
@@ -39,6 +39,7 @@ class SettingsViewController: UITableViewController {
     @IBAction func onlyWifiImagesChanged(sender: UISwitch) {
         self.model.didSwitchOnlyWifiImages(enabled: sender.on)
     }
+    
     @IBAction func clearImagesTapped(sender: AnyObject) {
 
         self.model.clearCacheTapped()
