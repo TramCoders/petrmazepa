@@ -8,13 +8,13 @@
 
 import UIKit
 
-class SettingsViewController: UITableViewController {
+class SettingsViewController: UITableViewController, SettingsViewProtocol {
     
     @IBOutlet weak var offlineModeSwitch: UISwitch!
     @IBOutlet weak var onlyWifiImagesSwitch: UISwitch!
     @IBOutlet weak var imagesSizeLabel: UILabel!
     
-    var model: SettingsViewModel!
+    var model: SettingsViewModelProtocol!
     
     override func viewDidLoad() {
         

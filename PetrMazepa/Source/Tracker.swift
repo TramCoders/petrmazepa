@@ -9,7 +9,7 @@
 import UIKit
 import Crashlytics
 
-class Tracker: NSObject {
+class Tracker: TrackerProtocol {
     
     private static let yes = "yes"
     private static let no = "no"
@@ -47,27 +47,27 @@ class Tracker: NSObject {
         }
     }
 
-    static func trackShare(article: Article, activityType: String?) {
+    func trackShare(article: Article, activityType: String?) {
         Answers.logShareWithMethod(activityType, contentName: article.title, contentType: Tracker.contentType, contentId: article.id, customAttributes: nil)
     }
 
-    static func trackFavouriteChange(article: Article) {
+    func trackFavouriteChange(article: Article) {
         Answers.logCustomEventWithName("Favorite Article", customAttributes: [ "Article ID" : article.id, "Article name" : article.title, "Favorite" : Tracker.stringFromBool(article.favourite) ])
     }
     
-    static func trackOfflineModeChange(enabled: Bool) {
+    func trackOfflineModeChange(enabled: Bool) {
         Answers.logCustomEventWithName("Offline Mode", customAttributes: [ "Enabled" : Tracker.stringFromBool(enabled) ])
     }
     
-    static func trackOnlyWiFiImagesChange(enabled: Bool) {
+    func trackOnlyWiFiImagesChange(enabled: Bool) {
         Answers.logCustomEventWithName("Only Wi-Fi Images", customAttributes: [ "Enabled" : Tracker.stringFromBool(enabled) ])
     }
     
-    static func trackClearImages(sizeInBytes: UInt64) {
+    func trackClearImages(sizeInBytes: UInt64) {
         Answers.logCustomEventWithName("Clear Images", customAttributes: [ "Size in bytes" : NSNumber(unsignedLongLong: sizeInBytes) ])
     }
 
-    static func trackException(withDescription description: String, file: String = #file, function: String = #function, line: Int = #line) {
+    func trackException(withDescription description: String, file: String = #file, function: String = #function, line: Int = #line) {
         Answers.logCustomEventWithName(description, customAttributes: [ "File" : file, "Function" : function, "Line" : "\(line)" ])
     }
     

@@ -14,16 +14,16 @@ import Crashlytics
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    private let screenFlow = ScreenFlow()
+    private let router = Router()
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
         Fabric.with([Crashlytics.self])
-        self.screenFlow.start()
+        self.router.start()
         return true
     }
     
     func applicationWillTerminate(application: UIApplication) {
-        self.screenFlow.save()
+        self.router.save()
     }
 }

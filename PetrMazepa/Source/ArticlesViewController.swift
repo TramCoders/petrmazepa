@@ -10,6 +10,8 @@ import UIKit
 
 class ArticlesViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
+    var model: ArticlesViewModelProtocol!
+    
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var noArticlesView: UIView!
     @IBOutlet weak var lastReadArticleView: LastReadArticleView!
@@ -23,23 +25,6 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
     
     @IBOutlet weak var heightSearchConstraint: NSLayoutConstraint!
     
-    var model: ArticlesViewModel! {
-
-        didSet {
-            
-            self.model.articlesInserted = self.articlesInsertedHandler()
-            self.model.articlesUpdated = self.articlesUpdatedHandler()
-            self.model.allArticlesDeleted = self.allArticlesDeletedHandler()
-            self.model.refreshingStateChanged = self.refreshingStateChangedHandler()
-            self.model.loadingMoreStateChanged = self.loadingMoreStateChangedHandler()
-            self.model.errorOccurred = self.errorOccurredHandler()
-            self.model.loadingInOfflineModeFailed = self.loadingInOfflineModeFailedHandler()
-            self.model.noArticlesVisibleChanged = self.noArticlesVisibleChangedHandler()
-            self.model.lastReadArticleVisibleChanged = self.lastReadArticleVisibleChangedHandler()
-            self.model.navigationBarVisibleChanged = self.navigationBarVisibleChangedHandler()
-        }
-    }
-
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return .Default
     }
@@ -137,136 +122,117 @@ class ArticlesViewController: UIViewController, UICollectionViewDelegate, UIColl
         self.model.didScroll(contentOffset: contentOffset, distanceToBottom: distance)
     }
     
-    private func articlesInsertedHandler() -> ((range: Range<Int>) -> Void) {
-
-        return { range in
-            
-            self.layout.insertArticles(range.count)
-            let insertedIndexPaths = self.indexPaths(range: range)
-            
-            if range.startIndex == 0 {
-                self.collectionView.reloadData()
-            } else {
-                self.collectionView.insertItemsAtIndexPaths(insertedIndexPaths)
-            }
-        }
-    }
-    
-    private func articlesUpdatedHandler() -> ((newCount: Int) -> Void) {
-        return { newCount in
-
-            self.layout.deleteAllArticles()
-            self.layout.insertArticles(newCount)
-            self.collectionView.reloadData()
-        }
-    }
-    
-    private func allArticlesDeletedHandler() -> (() -> Void) {
-        return {
-            
-            self.layout.deleteAllArticles()
-            self.collectionView.reloadData()
-        }
-    }
-    
-    private func refreshingStateChangedHandler() -> ((refreshing: Bool) -> Void) {
-        return { refreshing in
-            // TODO:
-        }
-    }
-    
-    private func loadingMoreStateChangedHandler() -> ((loadingMore: Bool) -> Void) {
-        return { loadingMore in
-            // TODO:
-        }
-    }
-    
-    private func noArticlesVisibleChangedHandler() -> ((visible: Bool) -> Void) {
-        return { visible in
-            
-            self.collectionView.hidden = visible
-            self.noArticlesView.hidden = !visible
-        }
-    }
-    
-    private func lastReadArticleVisibleChangedHandler() -> ((visible: Bool, animated: Bool) -> Void) {
-        return { visible, animated in
-
-            self.bottomLastReadConstraint.constant = visible ? 0.0 : -self.heightLastReadConstraint.constant
-            
-            if animated {
-                UIView.animateWithDuration(0.2, animations: {
-                    self.view.layoutIfNeeded()
-                })
-            } else {
-                self.view.layoutIfNeeded()
-            }
-        }
-    }
-    
-    private func navigationBarVisibleChangedHandler() -> ((visible: Bool, animated: Bool) -> Void) {
-        return { visible, animated in
-            self.navigationController?.setNavigationBarHidden(!visible, animated: animated)
-        }
-    }
-    
-    private func errorOccurredHandler() -> (() -> Void) {
-        return {
-            
-            // message
-            let message = NSLocalizedString("ArticlesLoadingFailed_message", comment: "")
-            let alertController = UIAlertController(title: nil, message: message, preferredStyle: .Alert)
-            
-            // retry
-            let retry = NSLocalizedString("Retry", comment: "")
-            
-            let retryAction = UIAlertAction(title: retry, style: .Default, handler: { _ in
-                self.model.retryActionTapped()
-            })
-            
-            // cancel
-            let cancel = NSLocalizedString("Cancel", comment: "")
-            
-            let cancelAction = UIAlertAction(title: cancel, style: .Default, handler: { _ in
-                self.model.cancelActionTapped()
-            })
-            
-            alertController.addAction(cancelAction)
-            alertController.addAction(retryAction)
-            
-            self.presentViewController(alertController, animated: true, completion: nil)
-        }
-    }
-    
-    private func loadingInOfflineModeFailedHandler() -> (() -> Void)? {
-        return {
-            
-            // message
-            let message = NSLocalizedString("ArticlesOfflineLoadingFailed_message", comment: "")
-            let alertController = UIAlertController(title: nil, message: message, preferredStyle: .Alert)
-            
-            // retry
-            let switchOff = NSLocalizedString("SwitchOff", comment: "")
-            
-            let switchOffAction = UIAlertAction(title: switchOff, style: .Default, handler: { _ in
-                self.model.switchOffActionTapped()
-            })
-            
-            // cancel
-            let cancel = NSLocalizedString("Cancel", comment: "")
-            
-            let cancelAction = UIAlertAction(title: cancel, style: .Default, handler: { _ in
-                self.model.cancelActionTapped()
-            })
-            
-            alertController.addAction(cancelAction)
-            alertController.addAction(switchOffAction)
-            
-            self.presentViewController(alertController, animated: true, completion: nil)
-        }
-    }
-    
-    private func indexPaths(range range: Range<Int>) -> [NSIndexPath] {
+    private func indexPaths(fromRange range: Range<Int>) -> [NSIndexPath] {
         return range.map({ NSIndexPath(forItem: $0, inSection: 0) })
+    }
+}
+
+extension ArticlesViewController: ArticlesViewProtocol {
+    
+    func loadingInOfflineModeFailed() {
+        // message
+        let message = NSLocalizedString("ArticlesOfflineLoadingFailed_message", comment: "")
+        let alertController = UIAlertController(title: nil, message: message, preferredStyle: .Alert)
+        
+        // retry
+        let switchOff = NSLocalizedString("SwitchOff", comment: "")
+        
+        let switchOffAction = UIAlertAction(title: switchOff, style: .Default, handler: { _ in
+            self.model.switchOffActionTapped()
+        })
+        
+        // cancel
+        let cancel = NSLocalizedString("Cancel", comment: "")
+        
+        let cancelAction = UIAlertAction(title: cancel, style: .Default, handler: { _ in
+            self.model.cancelActionTapped()
+        })
+        
+        alertController.addAction(cancelAction)
+        alertController.addAction(switchOffAction)
+        
+        self.presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+    func errorOccurred() {
+        
+        // message
+        let message = NSLocalizedString("ArticlesLoadingFailed_message", comment: "")
+        let alertController = UIAlertController(title: nil, message: message, preferredStyle: .Alert)
+        
+        // retry
+        let retry = NSLocalizedString("Retry", comment: "")
+        
+        let retryAction = UIAlertAction(title: retry, style: .Default, handler: { _ in
+            self.model.retryActionTapped()
+        })
+        
+        // cancel
+        let cancel = NSLocalizedString("Cancel", comment: "")
+        
+        let cancelAction = UIAlertAction(title: cancel, style: .Default, handler: { _ in
+            self.model.cancelActionTapped()
+        })
+        
+        alertController.addAction(cancelAction)
+        alertController.addAction(retryAction)
+        
+        self.presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+    func navigationBarVisibilityChanged(visible visible: Bool, animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(!visible, animated: animated)
+    }
+    
+    func lastReadArticleVisibilityChanged(toVisible visible: Bool, animated: Bool) {
+        
+        self.bottomLastReadConstraint.constant = visible ? 0.0 : -self.heightLastReadConstraint.constant
+        
+        if animated {
+            UIView.animateWithDuration(0.2, animations: {
+                self.view.layoutIfNeeded()
+            })
+        } else {
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    func articlesInserted(inRange range: Range<Int>) {
+        
+        self.layout.insertArticles(range.count)
+        let insertedIndexPaths = self.indexPaths(fromRange: range)
+        
+        if range.startIndex == 0 {
+            self.collectionView.reloadData()
+        } else {
+            self.collectionView.insertItemsAtIndexPaths(insertedIndexPaths)
+        }
+    }
+    
+    func articlesUpdated(newCount newCount: Int) {
+        
+        self.layout.deleteAllArticles()
+        self.layout.insertArticles(newCount)
+        self.collectionView.reloadData()
+    }
+    
+    func allArticlesDeleted() {
+        
+        self.layout.deleteAllArticles()
+        self.collectionView.reloadData()
+    }
+    
+    func refreshingStateChanged(toRefreshing refreshing: Bool) {
+        // TODO:
+    }
+    
+    func loadingMoreStateChanged(loadingMore loadingMore: Bool) {
+        // TODO:
+    }
+    
+    func noArticlesVisibilityChanged(visible visible: Bool) {
+        
+        self.collectionView.hidden = visible
+        self.noArticlesView.hidden = !visible
     }
 }

@@ -39,9 +39,6 @@ class Networking: ImageDownloader, ArticlesFetcher, RemoteArticleDetailsFetcher 
     private let activityIndicator = ActivityIndicator()
     private let baseUrl = "http://petrimazepa.com"
     
-    private let articlesParser = ArticlesParser()
-    private let articleDetailsParser = ArticleDetailsParser()
-    
     init() {
         
         // normal session
@@ -79,8 +76,7 @@ class Networking: ImageDownloader, ArticlesFetcher, RemoteArticleDetailsFetcher 
                 return
             }
             
-            let articles = self.articlesParser.parse(notNilData) as! [Article]
-            completion(articles: articles, error: nil)
+            completion(articles: Article.deserialize(fromData: notNilData), error: nil)
             
         }.resume()
     }
@@ -111,8 +107,7 @@ class Networking: ImageDownloader, ArticlesFetcher, RemoteArticleDetailsFetcher 
                 return
             }
             
-            let details = self.articleDetailsParser.parse(notNilData)
-            completion(details, nil)
+            completion(ArticleDetails.deserialize(fromData: notNilData), nil)
             
         }.resume()
     }

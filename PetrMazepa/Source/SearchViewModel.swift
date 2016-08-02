@@ -15,31 +15,34 @@ enum SearchFilter {
     case Favorite
 }
 
-class SearchViewModel : ViewModel {
+class SearchViewModel : ViewModel, SearchViewModelProtocol {
     
-    var articlesChanged: (() -> Void)?
+    private var view: SearchViewProtocol
     
     private var query = ""
     private var allArticles: [Article]
     private var filteredArticles: [Article]
     private(set) var filter = SearchFilter.None
     
+    var articlesCount: Int {
+        return self.filteredArticles.count
+    }
+    
     private let settings: ReadOnlySettings
     private let imageGateway: ImageGateway
     private let articleStorage: ArticleStorage
     private let favouriteArticleStorage: FavouriteArticlesStorage
-    private let articleDetailsPresenter: ArticleDetailsPresenter
-    private let dismisser: SearchDismisser
+    private let router: RouterProtocol
     private let tracker: Tracker
     
-    required init(settings: ReadOnlySettings, imageGateway: ImageGateway, articleStorage: ArticleStorage, favouriteArticleStorage: FavouriteArticlesStorage, articleDetailsPresenter: ArticleDetailsPresenter, dismisser: SearchDismisser, tracker: Tracker) {
+    required init(view: SearchViewProtocol, settings: ReadOnlySettings, imageGateway: ImageGateway, articleStorage: ArticleStorage, favouriteArticleStorage: FavouriteArticlesStorage, router: RouterProtocol, tracker: Tracker) {
         
+        self.view = view
         self.settings = settings
         self.imageGateway = imageGateway
         self.articleStorage = articleStorage
         self.favouriteArticleStorage = favouriteArticleStorage
-        self.articleDetailsPresenter = articleDetailsPresenter
-        self.dismisser = dismisser
+        self.router = router
         self.tracker = tracker
         
         self.allArticles = []
@@ -54,7 +57,7 @@ class SearchViewModel : ViewModel {
     }
     
     func closeTapped() {
-        self.dismisser.dismissSearch()
+        self.router.dismissSearch()
     }
     
     func filterTapped(filter: SearchFilter) {
@@ -63,18 +66,14 @@ class SearchViewModel : ViewModel {
 
             self.filter = filter
             self.invalidateContent()
-            self.articlesChanged!()
+            self.view.reloadArticles()
         }
     }
     
     func articleTapped(indexPath: NSIndexPath) {
         
         let article = self.findArticle(indexPath: indexPath)
-        self.articleDetailsPresenter.presentArticleDetails(article)
-    }
-    
-    func articlesCount() -> Int {
-        return self.filteredArticles.count
+        self.router.presentArticleDetails(article)
     }
     
     func searchedArticleModel(indexPath indexPath: NSIndexPath) -> SimpleArticleCellModel {
@@ -87,7 +86,7 @@ class SearchViewModel : ViewModel {
 
         self.query = query
         self.invalidateContent()
-        self.articlesChanged!()
+        self.view.reloadArticles()
         
         self.tracker.trackSearch(query)
     }
