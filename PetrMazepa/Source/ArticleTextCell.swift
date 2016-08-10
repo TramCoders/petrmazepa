@@ -11,7 +11,7 @@ import UIKit
 protocol ArticleTextCellDelegate: class {
 
     func articleTextCellDidLoad(sender cell: ArticleTextCell, height: CGFloat)
-    func articleTextCellDidTapLink(sender cell: ArticleTextCell, url: NSURL?)
+    func articleTextCellDidTapLink(url: NSURL)
 }
 
 class ArticleTextCell: UICollectionViewCell, UIWebViewDelegate {
@@ -54,7 +54,11 @@ class ArticleTextCell: UICollectionViewCell, UIWebViewDelegate {
         
         if navigationType == .LinkClicked {
             
-            self.delegate?.articleTextCellDidTapLink(sender: self, url: request.URL)
+            guard let url = request.URL else {
+                return true
+            }
+            
+            self.delegate?.articleTextCellDidTapLink(url)
             return false
             
         } else {

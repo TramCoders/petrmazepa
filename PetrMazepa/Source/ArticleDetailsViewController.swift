@@ -145,12 +145,7 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
         }
     }
     
-    func articleTextCellDidTapLink(sender cell: ArticleTextCell, url: NSURL?) {
-        
-        guard let url = url else {
-            return
-        }
-        
+    func articleTextCellDidTapLink(url: NSURL) {
         model.urlTapped(url)
     }
     
