@@ -17,6 +17,13 @@ final class ArticleDetails {
     }
 }
 
+extension ArticleDetails: ManagedObjectConvertable {
+    
+    convenience init(_ object: MOArticleDetails) {
+        self.init(htmlText: object.htmlText!)
+    }
+}
+
 extension ArticleDetails: DeserializableFromHTML {
     
     static func deserialize(fromData data: NSData) -> ArticleDetails? {

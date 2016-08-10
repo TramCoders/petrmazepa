@@ -44,6 +44,14 @@ final class Article {
         self.topOffset = topOffset
     }
     
+    
+}
+
+extension Article: ManagedObjectConvertable {
+    
+    convenience init(_ object: MOArticle) {
+        self.init(id: object.id!, title: object.title!, thumbPath: object.thumbPath!, saved: object.details != nil, favourite: object.favourite!.boolValue, topOffset: object.topOffset!.doubleValue)
+    }
 }
 
 extension Article: Hashable {

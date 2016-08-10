@@ -35,3 +35,14 @@ extension CollectionType where Generator.Element: Hashable {
         }
     }
 }
+
+
+extension SequenceType {
+    
+    func findElement(match: Generator.Element -> Bool) -> Generator.Element? {
+        for element in self where match(element) {
+            return element
+        }
+        return nil
+    }
+}

@@ -42,7 +42,7 @@ class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher
     }
     
     func allArticlesCount() -> Int {
-        return self.coreData.allArticlesCount()
+        return self.coreData.requestArticlesCount()
     }
     
     func favouriteArticles() -> [Article] {
@@ -52,13 +52,13 @@ class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher
     func makeFavourite(article article: Article, favourite: Bool) {
 
         article.favourite = favourite
-        self.coreData.context.performChanges({ self.coreData.makeFavourite(article: article, favourite: favourite) })
+        self.coreData.mainContext.performChanges({ self.coreData.makeFavourite(article: article, favourite: favourite) })
     }
     
     func setTopOffset(article: Article, offset: Double) {
         
         article.topOffset = offset
-        self.coreData.context.performChanges({ self.coreData.setTopOffset(article, offset: offset) })
+        self.coreData.mainContext.performChanges({ self.coreData.setTopOffset(article, offset: offset) })
     }
     
     func fetchArticles(fromIndex fromIndex: Int, count: Int, completion: ArticlesFetchHandler) {
@@ -68,7 +68,7 @@ class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher
             if let notNilArticles = articles {
                 
                 let savedArticles = self.coreData.saveArticles(notNilArticles)
-                self.coreData.context.saveOrRollback()
+                self.coreData.mainContext.performSaveOrRollback()
                 completion(articles: savedArticles, error: error)
                 
             } else {
@@ -99,7 +99,7 @@ class ContentProvider: ArticleStorage, FavouriteArticlesStorage, ArticlesFetcher
             
             if let notNilDetails = details {
 
-                self.coreData.context.performChanges({ self.coreData.saveArticleDetails(notNilDetails, article: article) })
+                self.coreData.mainContext.performChanges({ self.coreData.saveArticleDetails(notNilDetails, article: article) })
                 article.saved = true                
                 completion(notNilDetails, error)
 

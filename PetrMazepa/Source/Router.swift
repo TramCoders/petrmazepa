@@ -53,7 +53,7 @@ class Router: NSObject, RouterProtocol {
     }
     
     func save() {
-        self.coreData.context.saveOrRollback()
+        self.coreData.mainContext.performSaveOrRollback()
     }
     
     func presentArticles() {
