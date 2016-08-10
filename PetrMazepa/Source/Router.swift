@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SafariServices
 
 class Router: NSObject, RouterProtocol {
     
@@ -131,15 +132,21 @@ class Router: NSObject, RouterProtocol {
     
     func openURL(url: NSURL) {
         
-        let application = UIApplication.sharedApplication()
-        
-        guard application.canOpenURL(url) else {
+        if let _ = NSClassFromString("SFSafariViewController") {
             
-            // TODO: track
-            return
-        }
+            let safariViewController = SFSafariViewController(URL: url)
+            self.currentNavigationController.presentViewController(safariViewController, animated: true, completion: nil)
         
-        UIApplication.sharedApplication().openURL(url)
+        } else {
+        
+            let application = UIApplication.sharedApplication()
+            
+            if application.canOpenURL(url) {
+                UIApplication.sharedApplication().openURL(url)
+            } else {
+                // TODO: track
+            }
+        }
     }
     
     private func createArticlesViewModel(view view: ArticlesViewProtocol) -> ArticlesViewModel {
