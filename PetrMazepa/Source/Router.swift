@@ -132,21 +132,8 @@ class Router: NSObject, RouterProtocol {
     
     func openURL(url: NSURL) {
         
-        if let _ = NSClassFromString("SFSafariViewController") {
-            
-            let safariViewController = SFSafariViewController(URL: url)
-            self.currentNavigationController.presentViewController(safariViewController, animated: true, completion: nil)
-        
-        } else {
-        
-            let application = UIApplication.sharedApplication()
-            
-            if application.canOpenURL(url) {
-                UIApplication.sharedApplication().openURL(url)
-            } else {
-                // TODO: track
-            }
-        }
+        let safariViewController = SFSafariViewController(URL: url)
+        self.currentNavigationController.presentViewController(safariViewController, animated: true, completion: nil)
     }
     
     private func createArticlesViewModel(view view: ArticlesViewProtocol) -> ArticlesViewModel {
