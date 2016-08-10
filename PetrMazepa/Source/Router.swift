@@ -129,7 +129,7 @@ class Router: NSObject, RouterProtocol {
         }
     }
     
-    func presentSafari(withURL url: NSURL) {
+    func openURL(url: NSURL) {
         
         let application = UIApplication.sharedApplication()
         

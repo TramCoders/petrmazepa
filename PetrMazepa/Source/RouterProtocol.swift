@@ -18,5 +18,5 @@ protocol RouterProtocol {
     func presentSearch()
     func dismissSearch()
     func shareArticle(article: Article)
-    func presentSafari(withURL url: NSURL)
+    func openURL(url: NSURL)
 }

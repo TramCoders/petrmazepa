@@ -66,6 +66,6 @@ class SettingsViewModel: SettingsViewModelProtocol {
             return
         }
         
-        router.presentSafari(withURL: url)
+        router.openURL(url)
     }
 }
