@@ -28,4 +28,5 @@ protocol ArticleDetailsViewModelProtocol: class {
     func scrollViewWillBeginDragging(offset offset: CGFloat)
     func scrollViewDidScroll(offset offset: CGFloat, contentHeight: CGFloat)
     func textDidLoad()
+    func urlTapped(url: NSURL)
 }

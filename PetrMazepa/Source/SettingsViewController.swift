@@ -46,6 +46,10 @@ class SettingsViewController: UITableViewController, SettingsViewProtocol {
         self.updateImagesSize()
     }
     
+    @IBAction func icon8Tapped(sender: AnyObject) {
+        self.model.icon8Tapped()
+    }
+    
     private func updateImagesSize() {
 
         let size = Int64(self.model.imageCacheSize)

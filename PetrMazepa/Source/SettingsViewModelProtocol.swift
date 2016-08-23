@@ -18,4 +18,5 @@ protocol SettingsViewModelProtocol {
     func didSwitchOnlyWifiImages(enabled enabled: Bool)
     func closeTapped()
     func clearCacheTapped()
+    func icon8Tapped()
 }

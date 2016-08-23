@@ -59,4 +59,13 @@ class SettingsViewModel: SettingsViewModelProtocol {
         tracker.trackClearImages(self.imageCacheUtil.sizeInBytes)
         self.imageCacheUtil.clearCache()
     }
+    
+    func icon8Tapped() {
+        
+        guard let url = NSURL(string: "https://icons8.com/") else {
+            return
+        }
+        
+        router.openURL(url)
+    }
 }

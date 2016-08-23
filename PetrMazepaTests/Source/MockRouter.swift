@@ -21,4 +21,5 @@ class MockRouter: RouterProtocol {
     func presentSearch() {}
     func dismissSearch() {}
     func shareArticle(article: Article) {}
+    func openURL(url: NSURL) {}
 }

@@ -143,31 +143,35 @@ class ArticleDetailsViewModel : ViewModel, ArticleDetailsViewModelProtocol {
         }
         
         let favourite = !self.article.favourite
-        self.favouriteMaker.makeFavourite(article: self.article, favourite: favourite)
-        self.view.updateFavouriteState(favourite)
+        favouriteMaker.makeFavourite(article: self.article, favourite: favourite)
+        view.updateFavouriteState(favourite)
         
         tracker.trackFavouriteChange(self.article)
     }
     
     func shareTapped() {
-        self.router.shareArticle(self.article)
+        router.shareArticle(self.article)
+    }
+    
+    func urlTapped(url: NSURL) {
+        router.openURL(url)
     }
     
     private func loadContent() {
         
-        self.loadHtmlText()
-        self.loadImage()
+        loadHtmlText()
+        loadImage()
     }
     
     private func updateBarsVisible(visible: Bool) {
 
-        self.barsVisibile = visible
-        self.view.updateBarsVisibility(visible)
+        barsVisibile = visible
+        view.updateBarsVisibility(visible)
     }
     
     private func loadHtmlText() {
         
-        self.articleDetailsFetcher.fetchArticleDetails(article: self.article, allowRemote: !self.settings.offlineMode) { details, error in
+        articleDetailsFetcher.fetchArticleDetails(article: self.article, allowRemote: !self.settings.offlineMode) { details, error in
             
             self.articleDetails = details
             

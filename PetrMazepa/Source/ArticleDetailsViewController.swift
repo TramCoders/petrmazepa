@@ -145,11 +145,8 @@ class ArticleDetailsViewController: UIViewController, UICollectionViewDataSource
         }
     }
     
-    func articleTextCellDidTapLink(sender cell: ArticleTextCell, url: NSURL?) {
-        
-        if let url = url {
-            UIApplication.sharedApplication().openURL(url)
-        }
+    func articleTextCellDidTapLink(url: NSURL) {
+        model.urlTapped(url)
     }
     
     private func updateBars() {

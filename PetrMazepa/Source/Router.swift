@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SafariServices
 
 class Router: NSObject, RouterProtocol {
     
@@ -127,6 +128,12 @@ class Router: NSObject, RouterProtocol {
             
             self?.tracker.trackShare(article, activityType: activityType)
         }
+    }
+    
+    func openURL(url: NSURL) {
+        
+        let safariViewController = SFSafariViewController(URL: url)
+        self.currentNavigationController.presentViewController(safariViewController, animated: true, completion: nil)
     }
     
     private func createArticlesViewModel(view view: ArticlesViewProtocol) -> ArticlesViewModel {
