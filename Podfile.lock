@@ -1,5 +1,5 @@
 PODS:
-  - Crashlytics (3.7.1):
+  - Crashlytics (3.8.1):
     - Fabric (~> 1.6.3)
   - Fabric (1.6.7)
   - Nimble (4.0.1)
@@ -12,11 +12,11 @@ DEPENDENCIES:
   - Quick
 
 SPEC CHECKSUMS:
-  Crashlytics: 3cdd4c9655be68032a0cf0379e0fb5ef6af22cad
+  Crashlytics: 4391d8df0b125345e9f209c5db6e7f40a6a8435d
   Fabric: caf7580c725e64db144f610ac65cd60956911dc7
   Nimble: 0f3c8b8b084cda391209c3c5efbb48bedeeb920a
   Quick: 18d057bc66451eedd5d1c8dc99ba2a5db6e60226
 
-PODFILE CHECKSUM: 1ed47932799aa493724b685a36380c4095995318
+PODFILE CHECKSUM: 8ee7df1263945d53d63f3af4ea8ca39bb59fd5e7
 
 COCOAPODS: 1.0.1

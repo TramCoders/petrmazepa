@@ -102,16 +102,6 @@
 		CCCD0477426D33505E85CDB1 /* Pods_PetrMazepaTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B589AE0230C34E17E5CF4B82 /* Pods_PetrMazepaTests.framework */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		ACAF97691B5C04A300CB53B1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = ACAF974B1B5C04A200CB53B1 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = ACAF97521B5C04A200CB53B1;
-			remoteInfo = PetrMazepa;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
 		0AFB2375B4EC497656248814 /* Pods_PetrMazepa.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PetrMazepa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		122D4C9C1C73464E00EB5300 /* TestImages.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = TestImages.xcassets; sourceTree = "<group>"; };
@@ -131,18 +121,31 @@
 		1256A32E1D49227C007C77BF /* MockRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MockRouter.swift; path = Source/MockRouter.swift; sourceTree = "<group>"; };
 		1256A3301D49229E007C77BF /* MockImageCacheUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MockImageCacheUtil.swift; path = Source/MockImageCacheUtil.swift; sourceTree = "<group>"; };
 		1256A3321D4922C0007C77BF /* MockTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MockTracker.swift; path = Source/MockTracker.swift; sourceTree = "<group>"; };
+		1282AE7C1D8B0DC50089E4F7 /* PetrMazepa copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "PetrMazepa copy-Info.plist"; path = "/Users/artemstepanenko/petr/pim/PetrMazepa copy-Info.plist"; sourceTree = "<absolute>"; };
 		12AD97911C5810B500B92AA5 /* LastReadArticleMaker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LastReadArticleMaker.swift; path = Source/LastReadArticleMaker.swift; sourceTree = "<group>"; };
 		12C3697A1D36C9B4008988EE /* SettingsViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsViewModelSpec.swift; path = Source/SettingsViewModelSpec.swift; sourceTree = "<group>"; };
 		12F5A5431D302F7C0006A144 /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Router.swift; path = Source/Router.swift; sourceTree = "<group>"; };
 		12F5A5461D302F7C0006A144 /* RouterProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RouterProtocol.swift; path = Source/RouterProtocol.swift; sourceTree = "<group>"; };
+		1B8F8684EB5E957639BFFD20 /* Pods-PetrMazepa.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PetrMazepa.staging.xcconfig"; path = "Pods/Target Support Files/Pods-PetrMazepa/Pods-PetrMazepa.staging.xcconfig"; sourceTree = "<group>"; };
 		2206556E6D4D568F785C3EE8 /* Pods-PetrMazepa.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PetrMazepa.release.xcconfig"; path = "Pods/Target Support Files/Pods-PetrMazepa/Pods-PetrMazepa.release.xcconfig"; sourceTree = "<group>"; };
 		2A52481B5075B6884529095B /* Pods-PetrMazepaTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PetrMazepaTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PetrMazepaTests/Pods-PetrMazepaTests.debug.xcconfig"; sourceTree = "<group>"; };
+		3E61FE34684F607A91A9DAED /* Pods-PetrMazepaTests.staging-dev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PetrMazepaTests.staging-dev.xcconfig"; path = "Pods/Target Support Files/Pods-PetrMazepaTests/Pods-PetrMazepaTests.staging-dev.xcconfig"; sourceTree = "<group>"; };
+		591B160261850B0D84A89F88 /* Pods-PetrMazepa.production-appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PetrMazepa.production-appstore.xcconfig"; path = "Pods/Target Support Files/Pods-PetrMazepa/Pods-PetrMazepa.production-appstore.xcconfig"; sourceTree = "<group>"; };
 		5E068A3E1D09A28E00E90ED2 /* ManagedObjectType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ManagedObjectType.swift; path = Source/ManagedObjectType.swift; sourceTree = "<group>"; };
 		5E5A31181D19620700FD116F /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Utils.swift; path = Source/Utils.swift; sourceTree = "<group>"; };
 		5EABE8C21D4F62A800FD55CD /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CoreDataStack.swift; path = Source/CoreDataStack.swift; sourceTree = "<group>"; };
 		5EC711E61B8CD2B200C84AE7 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = Source/AppDelegate.swift; sourceTree = "<group>"; };
 		5EC711E91B8CD2B200C84AE7 /* ArticlesViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ArticlesViewLayout.swift; path = Source/ArticlesViewLayout.swift; sourceTree = "<group>"; };
 		5EC712151B8CD42000C84AE7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ArticleCell.xib; sourceTree = "<group>"; };
+		60483CF8539205FA8FE6D3DA /* Pods-PetrMazepaTests.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PetrMazepaTests.staging.xcconfig"; path = "Pods/Target Support Files/Pods-PetrMazepaTests/Pods-PetrMazepaTests.staging.xcconfig"; sourceTree = "<group>"; };
+		65E3704AAE10A18030A63F87 /* Pods-PetrMazepaTests.production-appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PetrMazepaTests.production-appstore.xcconfig"; path = "Pods/Target Support Files/Pods-PetrMazepaTests/Pods-PetrMazepaTests.production-appstore.xcconfig"; sourceTree = "<group>"; };
+		6765B4FC487DF53C5A77C1FB /* Pods-PetrMazepa-staging.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PetrMazepa-staging.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PetrMazepa-staging/Pods-PetrMazepa-staging.debug.xcconfig"; sourceTree = "<group>"; };
+		6A555A1492F2928BB1EED30B /* Pods-PetrMazepa.staging-adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PetrMazepa.staging-adhoc.xcconfig"; path = "Pods/Target Support Files/Pods-PetrMazepa/Pods-PetrMazepa.staging-adhoc.xcconfig"; sourceTree = "<group>"; };
+		6A58715D1322133B77B5FAA8 /* Pods-PetrMazepa.production-dev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PetrMazepa.production-dev.xcconfig"; path = "Pods/Target Support Files/Pods-PetrMazepa/Pods-PetrMazepa.production-dev.xcconfig"; sourceTree = "<group>"; };
+		75EF318D9F4D4B1FC82E5E9D /* Pods-PetrMazepa.production-adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PetrMazepa.production-adhoc.xcconfig"; path = "Pods/Target Support Files/Pods-PetrMazepa/Pods-PetrMazepa.production-adhoc.xcconfig"; sourceTree = "<group>"; };
+		85A7B8B9CE85A3096E76C5EA /* Pods-PetrMazepa-staging.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PetrMazepa-staging.release.xcconfig"; path = "Pods/Target Support Files/Pods-PetrMazepa-staging/Pods-PetrMazepa-staging.release.xcconfig"; sourceTree = "<group>"; };
+		92D108F9FB0DCDC2B754D226 /* Pods-PetrMazepaTests.production-dev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PetrMazepaTests.production-dev.xcconfig"; path = "Pods/Target Support Files/Pods-PetrMazepaTests/Pods-PetrMazepaTests.production-dev.xcconfig"; sourceTree = "<group>"; };
+		A6775AE30C97F78378454508 /* Pods-PetrMazepaTests.staging-adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PetrMazepaTests.staging-adhoc.xcconfig"; path = "Pods/Target Support Files/Pods-PetrMazepaTests/Pods-PetrMazepaTests.staging-adhoc.xcconfig"; sourceTree = "<group>"; };
 		AC05D4571BF133E90049CAC6 /* ArticleCellModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ArticleCellModel.swift; path = Source/ArticleCellModel.swift; sourceTree = "<group>"; };
 		AC05D45A1BF141560049CAC6 /* ImageGateway.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageGateway.swift; path = Source/ImageGateway.swift; sourceTree = "<group>"; };
 		AC05D45E1BF29C3D0049CAC6 /* SimpleArticleCellModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SimpleArticleCellModel.swift; path = Source/SimpleArticleCellModel.swift; sourceTree = "<group>"; };
@@ -179,7 +182,7 @@
 		ACA41A6E1BBD921000550857 /* ArticleImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ArticleImageCell.swift; path = Source/ArticleImageCell.swift; sourceTree = "<group>"; };
 		ACA41A781BBEC3B800550857 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ArticleTextCell.xib; sourceTree = "<group>"; };
 		ACA41A7A1BBEC3EB00550857 /* ArticleTextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ArticleTextCell.swift; path = Source/ArticleTextCell.swift; sourceTree = "<group>"; };
-		ACAF97531B5C04A200CB53B1 /* PetrMazepa.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PetrMazepa.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		ACAF97531B5C04A200CB53B1 /* ПиМ Демо.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ПиМ Демо.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACAF97571B5C04A200CB53B1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ACAF975D1B5C04A200CB53B1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		ACAF975F1B5C04A200CB53B1 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -214,6 +217,9 @@
 		B589AE0230C34E17E5CF4B82 /* Pods_PetrMazepaTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PetrMazepaTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1BA1070B414F72FD93CDA81 /* Pods-PetrMazepaTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PetrMazepaTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PetrMazepaTests/Pods-PetrMazepaTests.release.xcconfig"; sourceTree = "<group>"; };
 		C2A768A5ED2FB07EEF9E76AF /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D7324EF67DD24E0C47496C9F /* Pods_PetrMazepa_staging.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PetrMazepa_staging.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDCB190D05CEB9FBC3B3A2D2 /* Pods-PetrMazepaTests.production-adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PetrMazepaTests.production-adhoc.xcconfig"; path = "Pods/Target Support Files/Pods-PetrMazepaTests/Pods-PetrMazepaTests.production-adhoc.xcconfig"; sourceTree = "<group>"; };
+		E69403D48E9ACFBC8569DFEC /* Pods-PetrMazepa.staging-dev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PetrMazepa.staging-dev.xcconfig"; path = "Pods/Target Support Files/Pods-PetrMazepa/Pods-PetrMazepa.staging-dev.xcconfig"; sourceTree = "<group>"; };
 		F3AD2D9E18384B216BA79C89 /* Pods-PetrMazepa.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PetrMazepa.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PetrMazepa/Pods-PetrMazepa.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -430,6 +436,7 @@
 				C2A768A5ED2FB07EEF9E76AF /* Pods.framework */,
 				0AFB2375B4EC497656248814 /* Pods_PetrMazepa.framework */,
 				B589AE0230C34E17E5CF4B82 /* Pods_PetrMazepaTests.framework */,
+				D7324EF67DD24E0C47496C9F /* Pods_PetrMazepa_staging.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -522,13 +529,14 @@
 				ACAF97541B5C04A200CB53B1 /* Products */,
 				8BA931C6A4AE95EA04BCB296 /* Frameworks */,
 				ED5D3B4A4239C87DC041E123 /* Pods */,
+				1282AE7C1D8B0DC50089E4F7 /* PetrMazepa copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
 		ACAF97541B5C04A200CB53B1 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				ACAF97531B5C04A200CB53B1 /* PetrMazepa.app */,
+				ACAF97531B5C04A200CB53B1 /* ПиМ Демо.app */,
 				ACAF97681B5C04A300CB53B1 /* PetrMazepaTests.xctest */,
 			);
 			name = Products;
@@ -671,6 +679,20 @@
 				2206556E6D4D568F785C3EE8 /* Pods-PetrMazepa.release.xcconfig */,
 				2A52481B5075B6884529095B /* Pods-PetrMazepaTests.debug.xcconfig */,
 				C1BA1070B414F72FD93CDA81 /* Pods-PetrMazepaTests.release.xcconfig */,
+				6765B4FC487DF53C5A77C1FB /* Pods-PetrMazepa-staging.debug.xcconfig */,
+				85A7B8B9CE85A3096E76C5EA /* Pods-PetrMazepa-staging.release.xcconfig */,
+				1B8F8684EB5E957639BFFD20 /* Pods-PetrMazepa.staging.xcconfig */,
+				60483CF8539205FA8FE6D3DA /* Pods-PetrMazepaTests.staging.xcconfig */,
+				E69403D48E9ACFBC8569DFEC /* Pods-PetrMazepa.staging-dev.xcconfig */,
+				6A555A1492F2928BB1EED30B /* Pods-PetrMazepa.staging-adhoc.xcconfig */,
+				6A58715D1322133B77B5FAA8 /* Pods-PetrMazepa.production-dev.xcconfig */,
+				75EF318D9F4D4B1FC82E5E9D /* Pods-PetrMazepa.production-adhoc.xcconfig */,
+				591B160261850B0D84A89F88 /* Pods-PetrMazepa.production-appstore.xcconfig */,
+				3E61FE34684F607A91A9DAED /* Pods-PetrMazepaTests.staging-dev.xcconfig */,
+				A6775AE30C97F78378454508 /* Pods-PetrMazepaTests.staging-adhoc.xcconfig */,
+				92D108F9FB0DCDC2B754D226 /* Pods-PetrMazepaTests.production-dev.xcconfig */,
+				DDCB190D05CEB9FBC3B3A2D2 /* Pods-PetrMazepaTests.production-adhoc.xcconfig */,
+				65E3704AAE10A18030A63F87 /* Pods-PetrMazepaTests.production-appstore.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -682,6 +704,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = ACAF97721B5C04A300CB53B1 /* Build configuration list for PBXNativeTarget "PetrMazepa" */;
 			buildPhases = (
+				C686E67FA2D201B7750E7C1B /* [CP] Check Pods Manifest.lock */,
 				591B1459922FCD14A860BA36 /* [CP] Check Pods Manifest.lock */,
 				0B46699BC94633CA2D862DA3 /* [CP] Check Pods Manifest.lock */,
 				ACAF974F1B5C04A200CB53B1 /* Sources */,
@@ -699,13 +722,14 @@
 			);
 			name = PetrMazepa;
 			productName = PetrMazepa;
-			productReference = ACAF97531B5C04A200CB53B1 /* PetrMazepa.app */;
+			productReference = ACAF97531B5C04A200CB53B1 /* ПиМ Демо.app */;
 			productType = "com.apple.product-type.application";
 		};
 		ACAF97671B5C04A300CB53B1 /* PetrMazepaTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = ACAF97751B5C04A300CB53B1 /* Build configuration list for PBXNativeTarget "PetrMazepaTests" */;
 			buildPhases = (
+				08FF9547168A64EF680FE1EA /* [CP] Check Pods Manifest.lock */,
 				9F27FE51B8175E6F5252EB3E /* [CP] Check Pods Manifest.lock */,
 				EAB6C48A49BA0A5CE444A484 /* [CP] Check Pods Manifest.lock */,
 				ACAF97641B5C04A300CB53B1 /* Sources */,
@@ -719,7 +743,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				ACAF976A1B5C04A300CB53B1 /* PBXTargetDependency */,
 			);
 			name = PetrMazepaTests;
 			productName = PetrMazepaTests;
@@ -738,7 +761,7 @@
 				TargetAttributes = {
 					ACAF97521B5C04A200CB53B1 = {
 						CreatedOnToolsVersion = 6.1.1;
-						DevelopmentTeam = 75KKZBC9SU;
+						DevelopmentTeam = U8MGZRP5ZU;
 					};
 					ACAF97671B5C04A300CB53B1 = {
 						CreatedOnToolsVersion = 6.1.1;
@@ -796,6 +819,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		08FF9547168A64EF680FE1EA /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
 		0B46699BC94633CA2D862DA3 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -914,6 +952,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Fabric/run\" 45667d81741659d3144722e1521e63c8a4f6086f 29521fa46456599cf49a2a94c268f6ec4cef7519ea6e51398cd5829e14006d70";
+		};
+		C686E67FA2D201B7750E7C1B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
 		};
 		DC34545D1726D3DE03682AF9 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1087,14 +1140,6 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		ACAF976A1B5C04A300CB53B1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = ACAF97521B5C04A200CB53B1 /* PetrMazepa */;
-			targetProxy = ACAF97691B5C04A300CB53B1 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin PBXVariantGroup section */
 		5EC712141B8CD42000C84AE7 /* ArticleCell.xib */ = {
 			isa = PBXVariantGroup;
@@ -1163,7 +1208,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		ACAF97701B5C04A300CB53B1 /* Debug */ = {
+		12238EC11D8C67810027037A /* Staging-AdHoc */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1210,14 +1255,65 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)";
-				PROVISIONING_PROFILE = "23461f63-4a78-4933-a714-342194965eb8";
+				PRODUCT_NAME = "";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "PetrMazepa/PetrMazepa-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
-			name = Debug;
+			name = "Staging-AdHoc";
 		};
-		ACAF97711B5C04A300CB53B1 /* Release */ = {
+		12238EC21D8C67810027037A /* Staging-AdHoc */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6A555A1492F2928BB1EED30B /* Pods-PetrMazepa.staging-adhoc.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Artem Stepanenko (3AV6365E83)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Artem Stepanenko (3AV6365E83)";
+				DEFINES_MODULE = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SDKROOT)/usr/include/libxml2",
+				);
+				INFOPLIST_FILE = PetrMazepa/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.tramcoders.pim.staging;
+				PRODUCT_MODULE_NAME = PetrMazepa;
+				PRODUCT_NAME = "ПиМ Демо";
+				PROVISIONING_PROFILE = "44c8bccf-2aeb-4db3-9876-8493714508a6";
+				SWIFT_OBJC_BRIDGING_HEADER = "PetrMazepa/PetrMazepa-Bridging-Header.h";
+			};
+			name = "Staging-AdHoc";
+		};
+		12238EC31D8C67810027037A /* Staging-AdHoc */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A6775AE30C97F78378454508 /* Pods-PetrMazepaTests.staging-adhoc.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = PetrMazepaTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.tramcoders.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PetrMazepa.app/PetrMazepa";
+			};
+			name = "Staging-AdHoc";
+		};
+		12238EC41D8C679C0027037A /* Production-AdHoc */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1256,20 +1352,21 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)";
-				PROVISIONING_PROFILE = "c48996bd-05b9-4197-9dd2-1b2a7e532c2b";
+				PRODUCT_NAME = "";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "PetrMazepa/PetrMazepa-Bridging-Header.h";
 				VALIDATE_PRODUCT = YES;
 			};
-			name = Release;
+			name = "Production-AdHoc";
 		};
-		ACAF97731B5C04A300CB53B1 /* Debug */ = {
+		12238EC51D8C679C0027037A /* Production-AdHoc */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F3AD2D9E18384B216BA79C89 /* Pods-PetrMazepa.debug.xcconfig */;
+			baseConfigurationReference = 75EF318D9F4D4B1FC82E5E9D /* Pods-PetrMazepa.production-adhoc.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Artem Stepanenko (3AV6365E83)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Artem Stepanenko (3AV6365E83)";
 				DEFINES_MODULE = YES;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				HEADER_SEARCH_PATHS = (
@@ -1282,19 +1379,87 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tramcoders.pim;
 				PRODUCT_MODULE_NAME = PetrMazepa;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PRODUCT_NAME = "ПиМ";
+				PROVISIONING_PROFILE = "55659dbf-32c4-4ccc-9213-cd345eabb002";
 				SWIFT_OBJC_BRIDGING_HEADER = "PetrMazepa/PetrMazepa-Bridging-Header.h";
 			};
-			name = Debug;
+			name = "Production-AdHoc";
 		};
-		ACAF97741B5C04A300CB53B1 /* Release */ = {
+		12238EC61D8C679C0027037A /* Production-AdHoc */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2206556E6D4D568F785C3EE8 /* Pods-PetrMazepa.release.xcconfig */;
+			baseConfigurationReference = DDCB190D05CEB9FBC3B3A2D2 /* Pods-PetrMazepaTests.production-adhoc.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = PetrMazepaTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.tramcoders.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PetrMazepa.app/PetrMazepa";
+			};
+			name = "Production-AdHoc";
+		};
+		12238EC71D8C67AF0027037A /* Production-AppStore */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				COPY_PHASE_STRIP = YES;
+				DEFINES_MODULE = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SDKROOT)/usr/include/libxml2",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)";
+				PRODUCT_NAME = "";
+				PROVISIONING_PROFILE = "";
+				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "PetrMazepa/PetrMazepa-Bridging-Header.h";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Production-AppStore";
+		};
+		12238EC81D8C67AF0027037A /* Production-AppStore */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 591B160261850B0D84A89F88 /* Pods-PetrMazepa.production-appstore.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Artem Stepanenko (3AV6365E83)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Artem Stepanenko (3AV6365E83)";
 				DEFINES_MODULE = YES;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				HEADER_SEARCH_PATHS = (
@@ -1307,15 +1472,188 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tramcoders.pim;
 				PRODUCT_MODULE_NAME = PetrMazepa;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PRODUCT_NAME = "ПиМ";
+				PROVISIONING_PROFILE = "1e78b26b-2225-4cdb-af1b-61a6508793bc";
 				SWIFT_OBJC_BRIDGING_HEADER = "PetrMazepa/PetrMazepa-Bridging-Header.h";
 			};
-			name = Release;
+			name = "Production-AppStore";
 		};
-		ACAF97761B5C04A300CB53B1 /* Debug */ = {
+		12238EC91D8C67AF0027037A /* Production-AppStore */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2A52481B5075B6884529095B /* Pods-PetrMazepaTests.debug.xcconfig */;
+			baseConfigurationReference = 65E3704AAE10A18030A63F87 /* Pods-PetrMazepaTests.production-appstore.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = PetrMazepaTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.tramcoders.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PetrMazepa.app/PetrMazepa";
+			};
+			name = "Production-AppStore";
+		};
+		ACAF97701B5C04A300CB53B1 /* Staging-Dev */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEFINES_MODULE = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SDKROOT)/usr/include/libxml2",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)";
+				PRODUCT_NAME = "";
+				PROVISIONING_PROFILE = "";
+				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "PetrMazepa/PetrMazepa-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = "Staging-Dev";
+		};
+		ACAF97711B5C04A300CB53B1 /* Production-Dev */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				COPY_PHASE_STRIP = YES;
+				DEFINES_MODULE = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SDKROOT)/usr/include/libxml2",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)";
+				PRODUCT_NAME = "";
+				PROVISIONING_PROFILE = "";
+				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "PetrMazepa/PetrMazepa-Bridging-Header.h";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Production-Dev";
+		};
+		ACAF97731B5C04A300CB53B1 /* Staging-Dev */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E69403D48E9ACFBC8569DFEC /* Pods-PetrMazepa.staging-dev.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Artem Stepanenko (3AV6365E83)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Artem Stepanenko (3AV6365E83)";
+				DEFINES_MODULE = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SDKROOT)/usr/include/libxml2",
+				);
+				INFOPLIST_FILE = PetrMazepa/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.tramcoders.pim.staging;
+				PRODUCT_MODULE_NAME = PetrMazepa;
+				PRODUCT_NAME = "ПиМ Демо";
+				PROVISIONING_PROFILE = "4dcb2b4e-cde7-4472-b9db-bfd161844468";
+				SWIFT_OBJC_BRIDGING_HEADER = "PetrMazepa/PetrMazepa-Bridging-Header.h";
+			};
+			name = "Staging-Dev";
+		};
+		ACAF97741B5C04A300CB53B1 /* Production-Dev */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6A58715D1322133B77B5FAA8 /* Pods-PetrMazepa.production-dev.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Artem Stepanenko (3AV6365E83)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Artem Stepanenko (3AV6365E83)";
+				DEFINES_MODULE = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SDKROOT)/usr/include/libxml2",
+				);
+				INFOPLIST_FILE = PetrMazepa/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.tramcoders.pim;
+				PRODUCT_MODULE_NAME = PetrMazepa;
+				PRODUCT_NAME = "ПиМ";
+				PROVISIONING_PROFILE = "cbedf3b6-83d7-43af-bc72-ac8ed46453f0";
+				SWIFT_OBJC_BRIDGING_HEADER = "PetrMazepa/PetrMazepa-Bridging-Header.h";
+			};
+			name = "Production-Dev";
+		};
+		ACAF97761B5C04A300CB53B1 /* Staging-Dev */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3E61FE34684F607A91A9DAED /* Pods-PetrMazepaTests.staging-dev.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -1336,11 +1674,11 @@
 				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PetrMazepa.app/PetrMazepa";
 			};
-			name = Debug;
+			name = "Staging-Dev";
 		};
-		ACAF97771B5C04A300CB53B1 /* Release */ = {
+		ACAF97771B5C04A300CB53B1 /* Production-Dev */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C1BA1070B414F72FD93CDA81 /* Pods-PetrMazepaTests.release.xcconfig */;
+			baseConfigurationReference = 92D108F9FB0DCDC2B754D226 /* Pods-PetrMazepaTests.production-dev.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -1357,7 +1695,7 @@
 				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PetrMazepa.app/PetrMazepa";
 			};
-			name = Release;
+			name = "Production-Dev";
 		};
 /* End XCBuildConfiguration section */
 
@@ -1365,29 +1703,38 @@
 		ACAF974E1B5C04A200CB53B1 /* Build configuration list for PBXProject "PetrMazepa" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				ACAF97701B5C04A300CB53B1 /* Debug */,
-				ACAF97711B5C04A300CB53B1 /* Release */,
+				ACAF97701B5C04A300CB53B1 /* Staging-Dev */,
+				12238EC11D8C67810027037A /* Staging-AdHoc */,
+				ACAF97711B5C04A300CB53B1 /* Production-Dev */,
+				12238EC41D8C679C0027037A /* Production-AdHoc */,
+				12238EC71D8C67AF0027037A /* Production-AppStore */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = "Production-Dev";
 		};
 		ACAF97721B5C04A300CB53B1 /* Build configuration list for PBXNativeTarget "PetrMazepa" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				ACAF97731B5C04A300CB53B1 /* Debug */,
-				ACAF97741B5C04A300CB53B1 /* Release */,
+				ACAF97731B5C04A300CB53B1 /* Staging-Dev */,
+				12238EC21D8C67810027037A /* Staging-AdHoc */,
+				ACAF97741B5C04A300CB53B1 /* Production-Dev */,
+				12238EC51D8C679C0027037A /* Production-AdHoc */,
+				12238EC81D8C67AF0027037A /* Production-AppStore */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = "Production-Dev";
 		};
 		ACAF97751B5C04A300CB53B1 /* Build configuration list for PBXNativeTarget "PetrMazepaTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				ACAF97761B5C04A300CB53B1 /* Debug */,
-				ACAF97771B5C04A300CB53B1 /* Release */,
+				ACAF97761B5C04A300CB53B1 /* Staging-Dev */,
+				12238EC31D8C67810027037A /* Staging-AdHoc */,
+				ACAF97771B5C04A300CB53B1 /* Production-Dev */,
+				12238EC61D8C679C0027037A /* Production-AdHoc */,
+				12238EC91D8C67AF0027037A /* Production-AppStore */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = "Production-Dev";
 		};
 /* End XCConfigurationList section */
 

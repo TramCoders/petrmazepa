@@ -8,29 +8,10 @@
       <BuildActionEntries>
          <BuildActionEntry
             buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "ACAF97521B5C04A200CB53B1"
-               BuildableName = "PetrMazepa.app"
-               BlueprintName = "PetrMazepa"
-               ReferencedContainer = "container:PetrMazepa.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-      </BuildActionEntries>
-   </BuildAction>
-   <TestAction
-      buildConfiguration = "Debug"
-      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
-      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES"
-      codeCoverageEnabled = "YES">
-      <Testables>
-         <TestableReference
-            skipped = "NO">
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "ACAF97671B5C04A300CB53B1"
@@ -38,21 +19,35 @@
                BlueprintName = "PetrMazepaTests"
                ReferencedContainer = "container:PetrMazepa.xcodeproj">
             </BuildableReference>
-            <SkippedTests>
-               <Test
-                  Identifier = "InMemoryImageStorageSpec">
-               </Test>
-               <Test
-                  Identifier = "NetworkingTests">
-               </Test>
-            </SkippedTests>
-         </TestableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "ACAF97521B5C04A200CB53B1"
+               BuildableName = "&#x41f;&#x438;&#x41c;.app"
+               BlueprintName = "PetrMazepa"
+               ReferencedContainer = "container:PetrMazepa.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+      </BuildActionEntries>
+   </BuildAction>
+   <TestAction
+      buildConfiguration = "Staging-Dev"
+      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      shouldUseLaunchSchemeArgsEnv = "YES">
+      <Testables>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "ACAF97521B5C04A200CB53B1"
-            BuildableName = "PetrMazepa.app"
+            BuildableName = "&#x41f;&#x438;&#x41c;.app"
             BlueprintName = "PetrMazepa"
             ReferencedContainer = "container:PetrMazepa.xcodeproj">
          </BuildableReference>
@@ -61,7 +56,7 @@
       </AdditionalOptions>
    </TestAction>
    <LaunchAction
-      buildConfiguration = "Debug"
+      buildConfiguration = "Staging-Dev"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
@@ -75,7 +70,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "ACAF97521B5C04A200CB53B1"
-            BuildableName = "PetrMazepa.app"
+            BuildableName = "&#x41f;&#x438;&#x41c;.app"
             BlueprintName = "PetrMazepa"
             ReferencedContainer = "container:PetrMazepa.xcodeproj">
          </BuildableReference>
@@ -84,7 +79,7 @@
       </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
-      buildConfiguration = "Release"
+      buildConfiguration = "Staging-AdHoc"
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
@@ -94,17 +89,17 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "ACAF97521B5C04A200CB53B1"
-            BuildableName = "PetrMazepa.app"
+            BuildableName = "&#x41f;&#x438;&#x41c;.app"
             BlueprintName = "PetrMazepa"
             ReferencedContainer = "container:PetrMazepa.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
-      buildConfiguration = "Debug">
+      buildConfiguration = "Staging-Dev">
    </AnalyzeAction>
    <ArchiveAction
-      buildConfiguration = "Release"
+      buildConfiguration = "Staging-AdHoc"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>
