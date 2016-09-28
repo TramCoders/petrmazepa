@@ -1,6 +1,9 @@
 fastlane_version "1.85.0"
 
-ENV["SLACK_URL"] ||= "https://hooks.slack.com/services/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"
+SLACK_URL = "https://hooks.slack.com/services/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"
+WORKSPACE = "PetrMazepa.xcworkspace"
+SCHEME = "PetrMazepa-staging"
+DEVICE = "iPhone 6s (9.2)"
 
 default_platform :ios
 
@@ -9,9 +12,9 @@ platform :ios do
   desc "Runs all the tests"
   lane :test do
     scan({ 
-    	workspace: "PetrMazepa.xcworkspace",
-    	scheme: "PetrMazepa", 
-    	device: "iPhone 6s (9.2)",
+    	workspace: WORKSPACE,
+    	scheme: SCHEME, 
+    	device: DEVICE,
     	clean: true,
     	code_coverage: true,
     	sdk: "iphonesimulator",
@@ -22,15 +25,15 @@ platform :ios do
   desc "Calculates test coverage and sends to Slack. Test should be runned before it"
   lane :report_test_coverage do
   	xcov({
-    	workspace: "PetrMazepa.xcworkspace",
-    	scheme: "PetrMazepa", 
+    	workspace: WORKSPACE,
+    	scheme: SCHEME, 
     	output_directory: "xcov_output",
-    	slack_url: ENV["SLACK_URL"]
+    	slack_url: SLACK_URL
   	})
   end
 
   lane :report_pr_test_passed do
-  if ENV["SLACK_URL"]
+  if SLACK_URL
     slack(
       message: "Pull Request could be merged without conflicts",
       success: true,
@@ -40,7 +43,7 @@ platform :ios do
   end
 
   lane :report_pr_tests_failed do
-    if ENV["SLACK_URL"]
+    if SLACK_URL
       slack(
         message: "Pull Request could NOT be merged",
         success: false,
@@ -50,7 +53,7 @@ platform :ios do
   end  
 
   error do |lane, exception|
-    if ENV["SLACK_URL"]
+    if SLACK_URL
       slack(
         message: exception.to_s,
         success: false
